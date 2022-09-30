@@ -1,9 +1,13 @@
 import * as React from "react"
+import Header from "../components/Layouts/Header"
 import Layout from "../components/Layouts"
+import Navigation from "../components/Layouts/Navigation"
 
 const IndexPage = () => {
   return (
     <div>
+      <Header />
+      <Navigation />
       this is home page <br />
       <span>there is something in here</span>
     </div>
