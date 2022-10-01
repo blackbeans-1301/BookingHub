@@ -3,6 +3,8 @@ import Logo from "../../assets/images/logo.png";
 import textLogo from "../../assets/images/text-logo.png";
 import LoginModal from "../Items/LoginModal";
 // import Button from "../Items/Button";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false);
@@ -18,6 +20,7 @@ export default function Header() {
               console.log('click on login');
               setShowModal(true)}}
           >
+            <AccountCircleIcon /> {" "}
             Sign in
           </button>
         </div>
