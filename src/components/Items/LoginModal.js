@@ -12,8 +12,8 @@ export default function LoginModal({ isVisible, isClose }) {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center">
-      <form className="w-[600px] flex flex-col">
+    <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
+      <form className="w-[600px] flex flex-col z-20">
         {active === "signin" && (
           <div className="bg-white p-2 rounded flex flex-col m-2">
             <div className="flex justify-between m-2">

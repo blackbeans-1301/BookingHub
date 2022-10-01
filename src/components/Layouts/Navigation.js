@@ -10,11 +10,17 @@ import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined";
 import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined";
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
+import Logo from "../../assets/images/favicon.png";
 
 export default function Navigation() {
   const [open, setOpen] = useState(true);
 
   const menu = [
+    // {
+    //   title: "BookingHub",
+    //   icon: <img src={Logo} />
+    // },
+
     {
       title: "Sign In",
       icon: <AccountCircleIcon />,
@@ -70,12 +76,19 @@ export default function Navigation() {
         <MenuOutlinedIcon />
       </span>
 
+      <div className="flex items-center justify-center mt-6 mb-6">
+        <img className={`h-10 w-10 rounded-full duration-1000 ${open && "rotate-[360deg]"}`} src={Logo} />
+        <span className={`${!open && "hidden"} origin-left duration-200 ml-10 font-bold text-lg`}>
+              BookingHub
+            </span>
+      </div>
+
       <ul>
         {menu.map((menuItem, index) => (
           <li
             key={index}
             className={`text-colorText-300 text-sm flex items-center gap-x-10 cursor-pointer p-2 pt-4 pb-4 hover:bg-white rounded-md 
-            ${menuItem.gap ? "mt-12" : "mt-2"}`}
+            ${menuItem.gap ? "mt-6" : "mt-2"}`}
           >
             <span className={`ml-5 font-size-50`}>{menuItem.icon}</span>
             <span className={`${!open && "hidden"} origin-left duration-200`}>
