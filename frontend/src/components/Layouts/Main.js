@@ -111,7 +111,7 @@ export default function Main() {
             <input
               className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
               type="text"
-              aria-label="Choose the destination..."
+              placeholder="Find the destination..."
             />
           </div>
 
