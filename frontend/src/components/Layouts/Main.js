@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Header from "./Header";
 import LocalHotelIcon from "@material-ui/icons/LocalHotel";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
@@ -7,12 +7,13 @@ import "flatpickr/dist/themes/material_blue.css";
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
 import SearchIcon from "@material-ui/icons/Search";
 
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
 
 import { Component } from "react";
 import Slider from "react-slick";
+import { favoriteHotels } from "./data";
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date());
@@ -64,34 +65,39 @@ export default function Main() {
     setChild((prevCount) => prevCount + 1);
   };
 
-  const travels = [
-    {
-        img: "https://wttc.org/DesktopModules/MVC/NewsArticleList/images/141_20201013185512_Consumer%20Survey%20Finds%2070%20Percent%20of%20Travelers%20Plan%20to%20Holiday%20in%202021.jpg",
-        title: "How the least CO2 sorter works",
-        time: "Nov 12, 2020 - 4 mins"
-    },
-    {
-        img: "https://www.hospitalitynet.org/picture/153115031.jpg?t=1590753706",
-        title: "The most underrated destinations across the USA",
-        time: "Nov 12, 2020 - 4 mins"
-    },
-    {
-        img: "https://imageio.forbes.com/specials-images/imageserve/6319db4060eda108bfecf5f7/0x0.jpg?format=jpg&width=1200",
-        title: "title3",
-        time: "Nov 12, 2020 - 4 mins"
-    },
-    {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtnmawF2WrlYPOFHc7qnV_cp6BDnopoeX5H2qYP5BMjLh46ZLDQNW1Na-iLkLBOVT22PY&usqp=CAU",
-        title: "title4",
-        time: "Nov 12, 2020 - 4 mins"
-    },
-  ]
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3
+    slidesToScroll: 3,
+    initialSlide: 0,
+    // responsive: [
+    //   {
+    //     breakpoint: 1024,
+    //     settings: {
+    //       slidesToShow: 3,
+    //       slidesToScroll: 3,
+    //       infinite: true,
+    //       dots: true,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 600,
+    //     settings: {
+    //       slidesToShow: 2,
+    //       slidesToScroll: 2,
+    //       initialSlide: 2,
+    //     },
+    //   },
+    //   {
+    //     breakpoint: 480,
+    //     settings: {
+    //       slidesToShow: 1,
+    //       slidesToScroll: 1,
+    //     },
+    //   },
+    // ],
   };
 
   return (
@@ -99,13 +105,13 @@ export default function Main() {
       <Header />
       <div className="m-4">
         <div className="font-bold text-xl m-4 mb-4">Find the stay</div>
-        <div className="bg-light-primary p-2 flex">
+        <div className="drop-shadow-sm p-2 flex justify-center">
           <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
             <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
             <input
               className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
               type="text"
-              aria-label="Choose the destination..."
+              placeholder="Find the destination..."
             />
           </div>
 
@@ -215,27 +221,34 @@ export default function Main() {
             )}
           </div>
 
-          <button className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 hover:bg-primary hover:text-white">
-                <SearchIcon />
-                <span>Search</span>
+          <button className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200">
+            <SearchIcon />
+            <span>Search</span>
           </button>
         </div>
       </div>
 
-      {/* <div className="bg-light-primary m-4 w-screen">
-        <h2>Travel inspiration </h2>
-        <Slider {...settings} className="flex justify-around items-center">
-          {travels.map((item, index) => {
-            return (
-                <div key={index}>
-                    <img src={item.img} className="w-10 h-16 rounded-xl" />
-                    <h3 className="font-bold">{item.title}</h3>
-                    <p className="">{item.time}</p>
+      <Fragment>
+        <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
+          <div className="justify-between items-center h-96">
+            <Slider {...settings}>
+              {favoriteHotels.map((item) => (
+                <div>
+                  <div>
+                    <img src={item.image} alt={item.title} />
+                    <h2>{item.title}</h2>
+                  </div>
+
+                  <div>
+                    <h3>{item.rating}</h3>
+                    <p>{item.position}</p>
+                  </div>
                 </div>
-            )
-          })}
-        </Slider>
-      </div> */}
+              ))}
+            </Slider>
+          </div>
+        </div>
+      </Fragment>
     </div>
   );
 }
