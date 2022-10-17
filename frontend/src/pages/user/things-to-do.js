@@ -1,7 +1,7 @@
 import * as React from "react";
-import Navigation from "../components/Layouts/Navigation";
-import Main from "../components/Layouts/Main";
-import Header from "../components/Layouts/Header";
+import Navigation from "../../components/Layouts/Navigation";
+import Main from "../../components/Layouts/Main";
+import Header from "../../components/Layouts/Header";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import SearchIcon from "@material-ui/icons/Search";
 
@@ -35,8 +35,6 @@ const ThingsToDoPage = () => {
             </div>
           </div>
         </div>
-
-        
       </div>
     </div>
   );
