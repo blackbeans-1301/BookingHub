@@ -4,7 +4,7 @@ import textLogo from "../../assets/images/text-logo.png";
 import LoginModal from "../Items/LoginModal";
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-
+import DescriptionIcon from "@material-ui/icons/Description";
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false);
@@ -14,15 +14,25 @@ export default function Header() {
       <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
         <div className="flex justify-between items-center w-full h-full">
           <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
-          <button
-            className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
-            onClick={() => {
-              console.log('click on login');
-              setShowModal(true)}}
-          >
-            <AccountCircleIcon /> {" "}
-            Sign in
-          </button>
+          <div className="">
+            <button
+              className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
+              onClick={() => window.location = "http://localhost:8000/owner/main"
+              }
+            >
+              <DescriptionIcon /> List your place
+            </button>
+
+            <button
+              className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
+              onClick={() => {
+                console.log("click on login");
+                setShowModal(true);
+              }}
+            >
+              <AccountCircleIcon /> Sign in
+            </button>
+          </div>
         </div>
       </div>
 
