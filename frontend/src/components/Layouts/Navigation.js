@@ -34,6 +34,7 @@ export default function Navigation() {
     {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
+      link: "http://localhost:8000/stay"
     },
     {
       title: "Things to do",
@@ -89,6 +90,7 @@ export default function Navigation() {
             key={index}
             className={`text-colorText-300 text-sm flex items-center gap-x-10 cursor-pointer p-2 pt-4 pb-4 hover:bg-white rounded-md 
             ${menuItem.gap ? "mt-6" : "mt-2"}`}
+            onClick={() => window.location = menuItem.link}
           >
             <span className={`ml-5 font-size-50`}>{menuItem.icon}</span>
             <span className={`${!open && "hidden"} origin-left duration-200`}>

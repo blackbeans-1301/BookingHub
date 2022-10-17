@@ -12,8 +12,10 @@ import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
 
 import { Component } from "react";
-import Slider from "react-slick";
+// import Slider from "react-slick";
 import { favoriteHotels } from "./data";
+import Slider from "../Items/Slider";
+import dataSlider from "./dataSlider";
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date());
@@ -104,7 +106,7 @@ export default function Main() {
     <div className="flex-1 h-screen">
       <Header />
       <div className="m-4">
-        <div className="font-bold text-xl m-4 mb-4">Find the stay</div>
+        <div className="font-bold text-xl m-4 mb-4 text-colorText">Find the stay</div>
         <div className="drop-shadow-sm p-2 flex justify-center">
           <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
             <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
@@ -228,7 +230,7 @@ export default function Main() {
         </div>
       </div>
 
-      <Fragment>
+      {/* <Fragment>
         <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
           <div className="justify-between items-center h-96">
             <Slider {...settings}>
@@ -248,7 +250,13 @@ export default function Main() {
             </Slider>
           </div>
         </div>
-      </Fragment>
+      </Fragment> */}
+
+      {/* new slider */}
+      <div classNam="">
+        <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">Trending cities</h1>
+        <Slider dataSlider={dataSlider} />
+      </div>
     </div>
   );
 }
