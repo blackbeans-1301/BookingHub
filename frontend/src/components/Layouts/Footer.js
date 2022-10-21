@@ -44,7 +44,7 @@ export default function Footer() {
             <a href="#" className="block hover:text-colorText">
               Packages
             </a>
-            <a href="#" className="block hover:text-colorText">
+            <a href="http://localhost:8000/user/explore" className="block hover:text-colorText">
               Explore
             </a>
             <a href="#" className="block hover:text-colorText">

@@ -47,6 +47,7 @@ export default function Navigation() {
     {
       title: "Explore",
       icon: <LanguageOutlinedIcon />,
+      link: "http://localhost:8000/user/explore"
     },
     {
       title: "Travel Restrictions",
