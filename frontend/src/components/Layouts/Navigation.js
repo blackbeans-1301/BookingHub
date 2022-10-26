@@ -24,7 +24,7 @@ export default function Navigation() {
     {
       title: "Sign In",
       icon: <AccountCircleIcon />,
-    //   gap: true,
+      //   gap: true,
     },
     {
       title: "Flights",
@@ -34,7 +34,7 @@ export default function Navigation() {
     {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
-      link: "http://localhost:8000/stay"
+      link: "http://localhost:8000/stay",
     },
     {
       title: "Things to do",
@@ -47,6 +47,7 @@ export default function Navigation() {
     {
       title: "Explore",
       icon: <LanguageOutlinedIcon />,
+      link: "http://localhost:8000/user/explore"
     },
     {
       title: "Travel Restrictions",
@@ -59,46 +60,53 @@ export default function Navigation() {
   ];
 
   return (
-    <div className={`${open ? "w-72" : "w-20"} h-screen bg-primary relative`}>
-      {/* <img
-        src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Arrowleft.png"
-        className={`absolute cursor-pointer rounded-full -right-3 top-9 w-7 border-2 border-primary ${
-          !open && "rotate-180"
-        }`}
-        onClick={() => setOpen(!open)}
-      /> */}
-
-      <span
-        className={`cursor-pointer top-20 p-2 m-5 mt-20 border-2 border-primary hover:bg-white ${
-          !open && "rotate-180"
-        }`}
-        onClick={() => setOpen(!open)}
+    <div className="">
+      <div
+        className={`${
+          open ? "w-72" : "w-20"
+        } bg-primary relative fixed top-0 left-0 bottom-0 duration-1000 p-2 overflow-y-auto text-center shadow h-full`}
       >
-        <MenuOutlinedIcon />
-      </span>
+        <span
+          className={`cursor-pointer top-20 p-2 m-5 mt-20 border-2 border-primary hover:bg-white ${
+            !open && "rotate-180"
+          }`}
+          onClick={() => setOpen(!open)}
+        >
+          <MenuOutlinedIcon />
+        </span>
 
-      <div className="flex items-center justify-center mt-6 mb-6">
-        <img className={`h-10 w-10 rounded-full duration-1000 ${open && "rotate-[360deg]"}`} src={Logo} />
-        <span className={`${!open && "hidden"} origin-left duration-200 ml-10 font-bold text-lg`}>
-              BookingHub
-            </span>
-      </div>
-
-      <ul>
-        {menu.map((menuItem, index) => (
-          <li
-            key={index}
-            className={`text-colorText-300 text-sm flex items-center gap-x-10 cursor-pointer p-2 pt-4 pb-4 hover:bg-white rounded-md 
-            ${menuItem.gap ? "mt-6" : "mt-2"}`}
-            onClick={() => window.location = menuItem.link}
+        <div className="flex items-center justify-center mt-6 mb-6">
+          <img
+            className={`h-10 w-10 rounded-full duration-1000 ${
+              open && "rotate-[360deg]"
+            }`}
+            src={Logo}
+          />
+          <span
+            className={`${
+              !open && "hidden"
+            } origin-left duration-200 ml-10 font-bold text-lg`}
           >
-            <span className={`ml-5 font-size-50`}>{menuItem.icon}</span>
-            <span className={`${!open && "hidden"} origin-left duration-200`}>
-              {menuItem.title}
-            </span>
-          </li>
-        ))}
-      </ul>
+            BookingHub
+          </span>
+        </div>
+
+        <ul>
+          {menu.map((menuItem, index) => (
+            <li
+              key={index}
+              className={`text-colorText-300 text-sm flex items-center gap-x-10 cursor-pointer p-2 pt-4 pb-4 hover:bg-white rounded-md 
+          ${menuItem.gap ? "mt-6" : "mt-2"}`}
+              onClick={() => (window.location = menuItem.link)}
+            >
+              <span className={`ml-5 font-size-50`}>{menuItem.icon}</span>
+              <span className={`${!open && "hidden"} origin-left duration-200`}>
+                {menuItem.title}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

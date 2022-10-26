@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import Header from "./Header";
+import Footer from "./Footer";
 import LocalHotelIcon from "@material-ui/icons/LocalHotel";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import Flatpickr from "react-flatpickr";
@@ -103,134 +104,137 @@ export default function Main() {
   };
 
   return (
-    <div className="flex-1 h-screen">
-      <Header />
-      <div className="m-4">
-        <div className="font-bold text-xl m-4 mb-4 text-colorText">Find the stay</div>
-        <div className="drop-shadow-sm p-2 flex justify-center">
-          <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
-            <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-            <input
-              className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
-              type="text"
-              placeholder="Find the destination..."
-            />
+    <Fragment>
+      <div className="flex-1 h-screen">
+        <Header />
+        <div className="m-4">
+          <div className="font-bold text-xl m-4 mb-4 text-colorText">
+            Find the stay
           </div>
-
-          <div className="flex items-center ml-2">
-            <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 mr-1">
-              <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-              <Flatpickr
-                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
-                value={arrive}
-                onChange={(arrive) => {
-                  setArriveDay({ arrive });
-                }}
-                options={{
-                  altFormat: "d/m/Y",
-                  altInput: true,
-                }}
-                placeholder="Arrive day"
-              />
-            </div>
-
+          <div className="drop-shadow-sm p-2 flex justify-center">
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
-              <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-              <Flatpickr
+              <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
+              <input
                 className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
-                value={leave}
-                onChange={(leave) => {
-                  setLeaveDay({ leave });
-                }}
-                options={{
-                  altFormat: "d/m/Y",
-                  altInput: true,
-                }}
-                placeholder="Leave day"
+                type="text"
+                placeholder="Find the destination..."
               />
             </div>
-          </div>
 
-          <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 ml-2 cursor-pointer">
-            <PersonOutlineIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-            <input
-              className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
-              type="value"
-              value={`${room} rooms, ${adult + child} people`}
-              onClick={() => setOpen(!open)}
-              //   onBlur={() => setOpen(!open)}
-            />
-
-            {open && (
-              <div className="absolute bg-white w-100 top-12 border-cyan-100 rounded-md p-2 shadow-xl">
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Rooms</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={decreaseRoom}
-                    >
-                      -
-                    </span>
-                    <span className="px-2 text-center w-1">{room}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={increaseRoom}
-                    >
-                      +
-                    </span>
-                  </div>
-                </li>
-
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Adults</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={decreaseAdult}
-                    >
-                      -
-                    </span>
-                    <span className="px-2 text-center w-1">{adult}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={increaseAdult}
-                    >
-                      +
-                    </span>
-                  </div>
-                </li>
-
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Children</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={decreaseChild}
-                    >
-                      -
-                    </span>
-                    <span className="px-2 text-center w-1">{child}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
-                      onClick={increaseChild}
-                    >
-                      +
-                    </span>
-                  </div>
-                </li>
+            <div className="flex items-center ml-2">
+              <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 mr-1">
+                <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
+                <Flatpickr
+                  className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+                  value={arrive}
+                  onChange={(arrive) => {
+                    setArriveDay({ arrive });
+                  }}
+                  options={{
+                    altFormat: "d/m/Y",
+                    altInput: true,
+                  }}
+                  placeholder="Arrive day"
+                />
               </div>
-            )}
+
+              <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
+                <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
+                <Flatpickr
+                  className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+                  value={leave}
+                  onChange={(leave) => {
+                    setLeaveDay({ leave });
+                  }}
+                  options={{
+                    altFormat: "d/m/Y",
+                    altInput: true,
+                  }}
+                  placeholder="Leave day"
+                />
+              </div>
+            </div>
+
+            <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 ml-2 cursor-pointer">
+              <PersonOutlineIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
+              <input
+                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+                type="value"
+                value={`${room} rooms, ${adult + child} people`}
+                onClick={() => setOpen(!open)}
+                //   onBlur={() => setOpen(!open)}
+              />
+
+              {open && (
+                <div className="absolute bg-white w-100 top-12 border-cyan-100 rounded-md p-2 shadow-xl">
+                  <li className="flex justify-between px-2 mb-2">
+                    <p className="mr-20">Rooms</p>
+                    <div className="">
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={decreaseRoom}
+                      >
+                        -
+                      </span>
+                      <span className="px-2 text-center w-1">{room}</span>
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={increaseRoom}
+                      >
+                        +
+                      </span>
+                    </div>
+                  </li>
+
+                  <li className="flex justify-between px-2 mb-2">
+                    <p className="mr-20">Adults</p>
+                    <div className="">
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={decreaseAdult}
+                      >
+                        -
+                      </span>
+                      <span className="px-2 text-center w-1">{adult}</span>
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={increaseAdult}
+                      >
+                        +
+                      </span>
+                    </div>
+                  </li>
+
+                  <li className="flex justify-between px-2 mb-2">
+                    <p className="mr-20">Children</p>
+                    <div className="">
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={decreaseChild}
+                      >
+                        -
+                      </span>
+                      <span className="px-2 text-center w-1">{child}</span>
+                      <span
+                        className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                        onClick={increaseChild}
+                      >
+                        +
+                      </span>
+                    </div>
+                  </li>
+                </div>
+              )}
+            </div>
+
+            <button className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200">
+              <SearchIcon />
+              <span>Search</span>
+            </button>
           </div>
-
-          <button className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200">
-            <SearchIcon />
-            <span>Search</span>
-          </button>
         </div>
-      </div>
 
-      {/* <Fragment>
+        {/* <Fragment>
         <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
           <div className="justify-between items-center h-96">
             <Slider {...settings}>
@@ -252,11 +256,17 @@ export default function Main() {
         </div>
       </Fragment> */}
 
-      {/* new slider */}
-      <div classNam="">
-        <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">Trending cities</h1>
-        <Slider dataSlider={dataSlider} />
+        {/* new slider */}
+        <div className="">
+          <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">
+            Trending cities
+          </h1>
+          <Slider dataSlider={dataSlider} />
+        </div>
+
+        <Footer />
       </div>
-    </div>
+      {/* <Footer /> */}
+    </Fragment>
   );
 }
