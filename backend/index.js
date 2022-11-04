@@ -1,112 +1,43 @@
-const express = require("express");
-const mysql = require("mysql");
-const cors = require("cors");
-const bcrypt = require('bcrypt');
-const saltRound = 10;
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const express = require('express');
+const session = require("express-session");
+require('./authentication/auth.js');
 
 const app = express();
 
-app.use(express.json());
-app.use(
-    cors({
-        origin: ["http://localhost:8000"],
-        methods: ['GET', 'POST'],
-        credentials: true
-    })
-);
-
-app.use(cookieParser())
-app.use(bodyParser.urlencoded({
-    extended: true
-}))
-
 app.use(
     session({
-        key: "userId",
-        secret: "subscribe",
+        key: "user_sid",
+        secret: "somerandonstuffs",
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60 * 60 * 24,
+            expires: 600000,
         },
     })
 );
 
-const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "password",
-    database: "bookingHub"
+app.use(express.json());       // to support JSON-encoded bodies
+app.use(express.urlencoded({ extended: true })); // to support URL-encoded bodies
+
+
+var redirectToLoginPage = (req, res, next) => {
+    if (!req.user) {
+        res.redirect("/");
+    } else {
+        next();
+    }
+};
+
+app.get('/', (req, res) => {
+    res.send('HomePage <br> <a href="/login">Login</a>');
 });
 
-app.post('/register', (req, res) => {
-    const fullname = req.body.fullname;
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
+app.use(require('./authentication/authentication'));
 
-    bcrypt.hash(password, saltRound, (err, hash) => {
-        if (err) {
-            console.log('err', err);
-        }
+app.get('/dashboard', redirectToLoginPage, (req, res) => {
+    res.json(req.session.passport);
+});
 
-        db.query("INSERT INTO Accounts (fullname, username, email, password) VALUES (?, ?, ?, ?)", 
-        [fullname, username, email, hash], 
-        (err, result) => {
-            console.log('err', err);
-            // console.log('result', result);
-        })
-    })
-
-    
-    // console.log('res', res);
-})
-
-app.get("/login", (req, res) => {
-    if(req.session.user) {
-        res.send({
-            loggedIn: true,
-            user: req.session.user
-        })
-    } else {
-        res.send({
-            loggedIn: false
-        })
-    }
-})
-
-app.post('/login', (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-
-    db.query("SELECT * FROM Accounts WHERE username = ?;", 
-    username, 
-    (err, result) => {
-        if (err) {
-            res.send({err: err})
-        } 
-        
-        if (result.length > 0) {
-            bcrypt.compare(password, result[0].password, (error, response) => {
-                if (response) {
-                    req.session.user = result;
-                    console.log(req.session.user);
-                    res.send(result);
-                } else {
-                    res.send({message: "Wrong username/ password"})
-                }
-            })
-        } else {
-            res.send({message: "User doesn't exist"})
-        }
-        // console.log('result', result);
-    })
-    // console.log('res', res);
-})
-
-app.listen(3000, () => {
-  console.log("running backend");
+app.listen(8080, () => {
+    console.log(`App is listening on port 8080`);
 });
