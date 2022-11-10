@@ -27,7 +27,8 @@ let GetUserFromEmail = function (email) {
 }
 
 let checkPassword = function (results, password) {
-    return bcrypt.compareSync(password, results[0].password);
+    // return bcrypt.compareSync(password, results[0].password);
+    return password == results[0].password;
 }
 
 //save user's account with randomly generated id, hashed password

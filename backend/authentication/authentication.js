@@ -46,7 +46,7 @@ router.route('/login')
         }
 
         // save user's data in session memory
-        const user = { user_id: results[0].owner_id, user_email: email, user_name: results[0].username };
+        const user = { user_id: results[0].user_id, user_email: email, firstName: results[0].first_name, lastName: results[0].last_name, isOwner: results[0].is_owner };
         req.session.passport = { user };
 
         // send session data to client
@@ -58,8 +58,7 @@ router.route('/logout')
     .get((req, res) => {
         if (req.session.passport && req.cookies.user_sid) {
             res.clearCookie("user_sid");
-            res.status(200).jsonp("Logged out");
-            res.redirect("/");
+            res.status(200).jsonp({ message: "Logged out" });
         } else {
             res.status(401).redirect("/login");
         }
@@ -108,7 +107,7 @@ router.route('/delete')
         // verify user email
         let results = await database.GetUserFromEmail(email);
         if (!results) {
-            res.status(401).jsonp({ message: "Email doesn't exist" });
+            res.status(401).jsonp({ message: "User doesn't exist" });
             return;
         }
 
