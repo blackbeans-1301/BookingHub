@@ -57,8 +57,6 @@ router.route('/login')
 router.route('/logout')
     .get((req, res) => {
         if (req.session.passport && req.cookies.user_sid) {
-            console.log("Goodbye " + req.session.passport.user[0].username);
-
             res.clearCookie("user_sid");
             res.status(200).jsonp("Logged out");
             res.redirect("/");
@@ -73,24 +71,54 @@ router.route('/register')
     })
     .post(async (req, res) => {
         // get user data from req.body
-        const { email, password, phone_number, user_name } = req.body;
-        const users = [email, phone_number, user_name, password];
+        const { email, password, firstName, lastName, dob, gender, phone_number, isOwner } = req.body;
+        const users = [email, password, firstName, lastName, dob, GetCurrentDate(), gender, phone_number, isOwner];
 
-        // verify user data
+        // verify user email
         let results = await database.GetUserFromEmail(email);
+        console.log(results);
         if (results) {
-            res.status(401).jsonp("Email has already existed");
+            res.status(401).jsonp({ message: "Email has already existed" });
             return;
         }
 
         // save user's data in session memory
-        const user = { user_id: await database.createAccount(users), user_email: email, user_name: user_name };
+        const user = { user_id: await database.createAccount(users), user_email: email, firstName: firstName, lastName: lastName, isOwner: isOwner };
         req.session.passport = { user };
 
         // send session data to client
-        res.status(201).jsonp({ message: "Registerd", user });
+        res.status(201).jsonp({ message: "User registerd", user });
         return;
     })
+
+function GetCurrentDate() {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    today = yyyy + '-' + dd + '-' + mm;
+    return today;
+}
+
+router.route('/delete')
+    .delete(async (req, res) => {
+        // get user data from req.body
+        const { email } = req.query;
+
+        // verify user email
+        let results = await database.GetUserFromEmail(email);
+        if (!results) {
+            res.status(401).jsonp({ message: "Email doesn't exist" });
+            return;
+        }
+
+        await database.deleteAccount(email);
+
+        // send session data to client
+        res.status(200).jsonp({ message: "User deleted" });
+        return;
+    })
+
 
 //======================================= Google Auth
 router.route('/auth/google')
