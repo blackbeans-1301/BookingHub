@@ -26,6 +26,55 @@ let GetUserFromEmail = function (email) {
     });
 }
 
+let GetUserFromID = function (userID) {
+    return new Promise(function (resolve) {
+        const sqlScript = 'SELECT * FROM user WHERE user_id = ?';
+        mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
+            // If there is an issue with the query, output the error
+            if (error) throw error;
+
+            // If the account exists
+            if (results.length > 0) {
+                resolve(results);
+            } else {
+                resolve(null);
+            }
+        });
+    });
+}
+
+let GetUser = function (limit) {
+    return new Promise(function (resolve) {
+        let sqlScript = 'SELECT * FROM user LIMIT ?';
+
+        // if (query) {
+        //     sqlScript += " WHERE ?";
+        // }
+
+        // let queryValue = "";
+        // let count = 0;
+        // for (const property in userID) {
+        //     if (count > 0) {
+        //         queryValue += " &&";
+        //     }
+        //     queryValue += ` ${property} = "${userID[property]}"`;
+        //     count++;
+        // } &&
+
+        mysql_pool.query(sqlScript, [parseInt(limit)], function (error, results, fields) {
+            // If there is an issue with the query, output the error
+            if (error) throw error;
+
+            // If the account exists
+            if (results.length > 0) {
+                resolve(results);
+            } else {
+                resolve(null);
+            }
+        });
+    });
+}
+
 let checkPassword = function (results, password) {
     // return bcrypt.compareSync(password, results[0].password);
     return password == results[0].password;
@@ -52,11 +101,11 @@ let createAccount = function (users) {
     });
 }
 
-let deleteAccount = function (email) {
+let deleteAccount = function (userID) {
     return new Promise(function (resolve) {
-        const sqlScript = 'DELETE FROM user WHERE email = ?;';
+        const sqlScript = 'DELETE FROM user WHERE user_id = ?;';
 
-        mysql_pool.query(sqlScript, [email], function (error, results, fields) {
+        mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
             // If there is an issue with the query, output the error
             if (error) throw error;
 
@@ -65,4 +114,4 @@ let deleteAccount = function (email) {
     });
 }
 
-module.exports = { GetUserFromEmail, checkPassword, createAccount, deleteAccount }
+module.exports = { GetUser, GetUserFromEmail, GetUserFromID, checkPassword, createAccount, deleteAccount }

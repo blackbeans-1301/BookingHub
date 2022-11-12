@@ -3,7 +3,7 @@ const router = express.Router();
 const cookieParser = require("cookie-parser");
 const passport = require('passport');
 const database = require('../database');
-require('./auth.js');
+require('../authentication/auth.js');
 
 //login rồi thì không được truy cập
 var redirectToHomePageIfAlreadyLoggedIn = (req, res, next) => {
@@ -72,10 +72,10 @@ router.route('/register')
         // get user data from req.body
         const { email, password, firstName, lastName, dob, gender, phone_number, isOwner } = req.body;
         const users = [email, password, firstName, lastName, dob, GetCurrentDate(), gender, phone_number, isOwner];
+        console.log(GetCurrentDate())
 
         // verify user email
         let results = await database.GetUserFromEmail(email);
-        console.log(results);
         if (results) {
             res.status(401).jsonp({ message: "Email has already existed" });
             return;
@@ -95,26 +95,43 @@ function GetCurrentDate() {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
-    today = yyyy + '-' + dd + '-' + mm;
+    today = yyyy + '-' + mm + '-' + dd;
     return today;
 }
 
-router.route('/delete')
+router.route('/:id')
     .delete(async (req, res) => {
         // get user data from req.body
-        const { email } = req.query;
+        const { id } = req.params;
+        console.log(id)
 
         // verify user email
-        let results = await database.GetUserFromEmail(email);
+        let results = await database.GetUserFromID(id);
         if (!results) {
             res.status(401).jsonp({ message: "User doesn't exist" });
             return;
         }
 
-        await database.deleteAccount(email);
+        await database.deleteAccount(id);
 
         // send session data to client
         res.status(200).jsonp({ message: "User deleted" });
+        return;
+    })
+
+router.route('/')
+    .get(async (req, res) => {
+        const { limit } = req.query;
+
+        // verify user email
+        let results = await database.GetUser(limit);
+        if (!results) {
+            res.status(401).jsonp({ message: "User doesn't exist" });
+            return;
+        }
+
+        // send session data to client
+        res.status(200).jsonp({ results });
         return;
     })
 
