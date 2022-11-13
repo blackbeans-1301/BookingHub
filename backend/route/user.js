@@ -131,16 +131,12 @@ router.route('/:id')
 router.route('/')
     .get(async (req, res) => {
         try {
-            const { limit } = req.query;
-
-            // verify user email
-            let results = await database.GetUser(limit);
+            let results = await database.GetUser(req.query);
             if (!results) {
                 res.status(401).jsonp({ message: "No results found" });
                 return;
             }
 
-            // send session data to client
             res.status(200).jsonp({ results });
             return;
         }

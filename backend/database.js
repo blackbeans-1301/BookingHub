@@ -10,7 +10,7 @@ var mysql_pool = mysql.createPool({
 })
 
 let GetUserFromEmail = function (email) {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         const sqlScript = 'SELECT * FROM user WHERE email = ?';
         mysql_pool.query(sqlScript, [email], function (error, results, fields) {
             // If there is an issue with the query, output the error
@@ -27,7 +27,7 @@ let GetUserFromEmail = function (email) {
 }
 
 let GetUserFromID = function (userID) {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         const sqlScript = 'SELECT * FROM user WHERE user_id = ?';
         mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
             // If there is an issue with the query, output the error
@@ -43,10 +43,15 @@ let GetUserFromID = function (userID) {
     });
 }
 
-let GetUser = function (limit) {
-    return new Promise(function (resolve) {
-        let sqlScript = 'SELECT * FROM user LIMIT ?';
+let GetUser = function (queryObject) {
+    return new Promise(function (resolve, reject) {
+        const { limit, first_name, last_name, dob, member_since, gender, is_owner } = queryObject;
 
+        let sqlScript = 'SELECT * FROM user';
+
+        if (limit) {
+            sqlScript += " LIMIT ?"
+        }
         // if (query) {
         //     sqlScript += " WHERE ?";
         // }
@@ -64,6 +69,8 @@ let GetUser = function (limit) {
         mysql_pool.query(sqlScript, [parseInt(limit)], function (error, results, fields) {
             // If there is an issue with the query, output the error
             if (error) reject(error);
+
+            console.log(results)
 
             // If the account exists
             if (results.length > 0) {
@@ -103,7 +110,7 @@ let createAccount = function (users) {
 }
 
 let deleteAccount = function (userID) {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         const sqlScript = 'DELETE FROM user WHERE user_id = ?;';
 
         mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
