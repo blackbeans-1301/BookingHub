@@ -14,7 +14,7 @@ let GetUserFromEmail = function (email) {
         const sqlScript = 'SELECT * FROM user WHERE email = ?';
         mysql_pool.query(sqlScript, [email], function (error, results, fields) {
             // If there is an issue with the query, output the error
-            if (error) throw error;
+            if (error) reject(error);
 
             // If the account exists
             if (results.length > 0) {
@@ -31,7 +31,7 @@ let GetUserFromID = function (userID) {
         const sqlScript = 'SELECT * FROM user WHERE user_id = ?';
         mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
             // If there is an issue with the query, output the error
-            if (error) throw error;
+            if (error) reject(error);
 
             // If the account exists
             if (results.length > 0) {
@@ -63,7 +63,7 @@ let GetUser = function (limit) {
 
         mysql_pool.query(sqlScript, [parseInt(limit)], function (error, results, fields) {
             // If there is an issue with the query, output the error
-            if (error) throw error;
+            if (error) reject(error);
 
             // If the account exists
             if (results.length > 0) {
@@ -90,14 +90,15 @@ let createAccount = function (users) {
     const user_id = uuidv4();
     users.unshift(user_id);
 
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         const sqlScript = 'INSERT INTO user (user_id, email, password, first_name, last_name, date_of_birth, member_since, gender, phone_number, is_owner) VALUES (?)';
 
         mysql_pool.query(sqlScript, [users], function (error, results, fields) {
             // If there is an issue with the query, output the error
-            if (error) throw error;
+            if (error) reject(error);
+
+            resolve(user_id);
         });
-        resolve(user_id);
     });
 }
 
@@ -107,7 +108,7 @@ let deleteAccount = function (userID) {
 
         mysql_pool.query(sqlScript, [userID], function (error, results, fields) {
             // If there is an issue with the query, output the error
-            if (error) throw error;
+            if (error) reject(error);
 
             resolve(results);
         });
