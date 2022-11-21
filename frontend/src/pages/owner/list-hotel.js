@@ -1,7 +1,8 @@
 import * as React from "react";
-import Navigation from "../../components/Layouts/Navigation";
+import Navigation from "../../components/Layouts/LayoutComponent/Navigation";
 // import Main from "../components/Layouts/Main";
-import Header from "../../components/Layouts/Header";
+// import Header from "../../components/Layouts/Header";
+import Header from "../../components/Layouts/LayoutComponent/Header";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
