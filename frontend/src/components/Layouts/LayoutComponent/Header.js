@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
-import Logo from "../../assets/images/logo.png";
-import textLogo from "../../assets/images/text-logo.png";
-import LoginModal from "../Items/LoginModal";
+import Logo from "../../../assets/images/logo.png"
+import textLogo from "../../../assets/images/text-logo.png";
+import LoginModal from "../../Items/LoginModal";
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -16,16 +16,16 @@ export default function Header() {
           <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
           <div className="flex">
             <button
-              className="flex  rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
+              className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() =>
-                (window.location = "http://localhost:8000/user/profile")
+                (window.location = "http://localhost:8000/user/ProfilePage")
               }
             >
               <img
                 className="w-7 h-7 rounded-full mr-2"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPyGNr2qL63Sfugk2Z1-KBEwMGOfycBribew&usqp=CAU"
               />
-              Profile
+              <span className="hidden lg:flex">Profile</span>
             </button>
 
             <button
@@ -34,7 +34,9 @@ export default function Header() {
                 (window.location = "http://localhost:8000/owner/main")
               }
             >
-              <DescriptionIcon /> List your place
+              <DescriptionIcon /> 
+              <span className="hidden lg:inline">List your place</span>
+              
             </button>
 
             <button
@@ -44,7 +46,9 @@ export default function Header() {
                 setShowModal(true);
               }}
             >
-              <AccountCircleIcon /> Sign in
+              <AccountCircleIcon /> 
+              <span className="hidden lg:inline">Sign in</span>
+              
             </button>
           </div>
         </div>

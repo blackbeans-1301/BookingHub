@@ -26,7 +26,7 @@ export default function Slider({dataSlider}) {
   };
 
   return (
-    <div className="max-w-7xl h-96 mt-8 mb-0 mx-10 relative overflow-hidden shadow-lg rounded-2xl">
+    <div className="max-w-7xl h-96 mt-8 mb-0 mx-10 relative overflow-hidden shadow-lg rounded-2xl z-0">
       {dataSlider.map((obj, index) => {
         console.log('obj', obj);
         return (
@@ -36,7 +36,7 @@ export default function Slider({dataSlider}) {
           >
             <img
               src={dataSlider[sliderIndex].image}
-              className="h-80 w-full"
+              className="h-80 w-full z-0"
             />
             <h3 className="text-textColor font-bold mt-2.5 ml-2.5">{dataSlider[sliderIndex].title}</h3>
             <p className="ml-2.5 text-slate-400">{dataSlider[sliderIndex].subTitle}</p>

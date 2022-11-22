@@ -1,21 +1,29 @@
-import * as React from "react"
-import Header from "../components/Layouts/Header"
-import Layout from "../components/Layouts"
-import Navigation from "../components/Layouts/Navigation"
-import Main from "../components/Layouts/Main"
+import * as React from "react";
+import Header from "../components/Layouts/LayoutComponent/Header";
+import Layout from "../components/Layouts";
+// import Header from "../components/Layouts/Header"
+// import Layout from "../components/Layouts"
+import Navigation from "../components/Layouts/LayoutComponent/Navigation";
+import Main from "../components/Screens/Main";
 
 const IndexPage = () => {
   return (
-    <div className="flex">
-      {/* <Header /> */}
-      <Navigation />
-      <Main />
-      {/* this is home page <br />
-      <span>there is something in here</span> */}
-    </div>
-  )
-}
+    <Layout>
+        <Main />
+    </Layout>
+    // <div className="flex relative">
+    //   <div className="container">
+    //     {/* <Header /> */}
 
-export default IndexPage
+    //     <section className="flex">
+    //       <Navigation />
+    //       <Main />
+    //     </section>
+    //   </div>
+    // </div>
+  );
+};
 
-export const Head = () => <title>Home Page</title>
+export default IndexPage;
+
+export const Head = () => <title>Home Page</title>;
