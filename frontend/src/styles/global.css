@@ -13,3 +13,38 @@
     right: 0;
     width: calc(100% - 235px);
 }
+
+.nav{
+    width: 8%;
+    transition: width 0.5s;
+}
+
+.group {
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.nav:hover {
+    width: 15%;
+    
+}
+
+.nav:hover .group {
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 4px;
+}
+
+.content {
+    width: 92%;
+    transition: width 0.5s;
+}
+
+.nav:hover + div {
+    width: 85%;
+}
+
+.nav:hover .title {
+   display: block;
+}

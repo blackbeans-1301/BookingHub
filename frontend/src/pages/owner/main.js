@@ -2,15 +2,7 @@ import * as React from "react";
 import { Fragment } from "react";
 import { useState } from "react";
 import ChooseModal from "../../components/Items/ChooseModal";
-// import Navigation from "../../components/Layouts/Navigation";
-// import Navigation from "../components/Layouts/Navigation";
-// import Main from "../components/Layouts/Main";
-// import Header from "../components/Layouts/Header";
-// import Header from "../../components/Layouts/Header";
-import Header from "../../components/Layouts/LayoutComponent/Header";
 import OwnerHeader from "../../components/Layouts/OwnerHeader";
-// import CameraAltIcon from "@material-ui/icons/CameraAlt";
-// import SearchIcon from "@material-ui/icons/Search";
 
 const OwnerPage = () => {
   const [showModal, setShowModal] = useState(false);

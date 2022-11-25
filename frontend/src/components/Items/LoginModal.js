@@ -14,7 +14,7 @@ export default function LoginModal({ isVisible, isClose }) {
   useEffect(() => {
     axios({
       method: 'get',
-      url: 'http://localhost:3000/login',
+      url: 'http://localhost:8080/login',
     }).then((response) => {
       console.log("response", response);
       if (response.data.loggedIn == true) {
@@ -37,7 +37,7 @@ export default function LoginModal({ isVisible, isClose }) {
     console.log("login");
     axios({
       method: "post",
-      url: "http://localhost:3000/login",
+      url: "http://localhost:8080/login",
       data: {
         username: usernameLogin,
         password: passwordLogin,
@@ -58,7 +58,7 @@ export default function LoginModal({ isVisible, isClose }) {
 
     axios({
       method: "post",
-      url: "http://localhost:3000/register",
+      url: "http://localhost:8080/register",
       data: {
         fullname: fullname,
         username: username,

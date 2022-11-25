@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
-import { useState, useEffect } from "react";
 import CancelIcon from "@material-ui/icons/Cancel";
-import axios, { Axios } from "axios";
-// import jwt_decode from "jwt-decode";
+
 
 export default function ChooseModal({ isVisible, isClose }) {
   if (!isVisible) return null;
