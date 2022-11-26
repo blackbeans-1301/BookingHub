@@ -12,7 +12,7 @@ import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
 // import Logo from "../../assets/images/favicon.png";
 import Logo from "../../../assets/images/logo.png";
-import LoginModal from "../../Items/LoginModal";
+// import LoginModal from "../../Items/LoginModal";
 
 export default function Navigation() {
   const [open, setOpen] = useState(true);
@@ -140,7 +140,7 @@ export default function Navigation() {
           ))}
         </div>
       </div>
-      <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} />
+      {/* <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} /> */}
     </Fragment>
 
     // // {`${
