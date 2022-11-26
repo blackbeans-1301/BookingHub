@@ -7,7 +7,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
 import SearchIcon from "@material-ui/icons/Search";
-
+import Carousel from "react-elastic-carousel";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
@@ -17,6 +17,8 @@ import "slick-carousel/slick/slick-theme.css";
 // import { favoriteHotels } from "../Layouts/data";
 import Slider from "../Items/Slider";
 import dataSlider from "../Layouts/dataSlider";
+import CarouselItem from "../Items/CarouselItem";
+import Item from "../Items/Item";
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date());
@@ -67,6 +69,13 @@ export default function Main() {
   const increaseChild = () => {
     setChild((prevCount) => prevCount + 1);
   };
+
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 550, itemsToShow: 2 },
+    { width: 768, itemsToShow: 3 },
+    { width: 1200, itemsToShow: 4 },
+  ];
 
   const settings = {
     dots: true,
@@ -262,7 +271,17 @@ export default function Main() {
         <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">
           Trending cities
         </h1>
-        <Slider dataSlider={dataSlider} className="z-0"/>
+        <Slider dataSlider={dataSlider} className="z-0" />
+      </div>
+
+      <div className="flex flex-col">
+        <h1>test carousel</h1>
+        <Carousel breakPoints={breakPoints}>
+          {dataSlider.map((i) => {
+            console.log('title', i.title);
+            <CarouselItem>one</CarouselItem>
+          })}
+        </Carousel>
       </div>
     </div>
     //     <Footer />

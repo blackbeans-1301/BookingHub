@@ -2,6 +2,7 @@ import React, { Fragment, useState } from "react";
 import Logo from "../../../assets/images/logo.png"
 import textLogo from "../../../assets/images/text-logo.png";
 import LoginModal from "../../Items/LoginModal";
+import Login from "../../Items/Login"
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -54,7 +55,7 @@ export default function Header() {
         </div>
       </div>
 
-      <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} />
+      <Login isVisible={showModal} isClose={() => setShowModal(false)} />
     </Fragment>
   );
 }

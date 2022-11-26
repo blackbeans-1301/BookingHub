@@ -12,7 +12,7 @@ import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
 // import Logo from "../../assets/images/favicon.png";
 import Logo from "../../../assets/images/logo.png";
-import LoginModal from "../../Items/LoginModal";
+// import LoginModal from "../../Items/LoginModal";
 
 export default function Navigation() {
   const [open, setOpen] = useState(true);
@@ -68,20 +68,21 @@ export default function Navigation() {
   return (
     <Fragment>
       <div
-        className={`w-1/12 fixed bg-primary min-h-screen text-gray-100 px-2`}
+        className={`w-1/12 fixed bg-primary min-h-screen text-gray-100 px-2 nav`}
       >
-        {/* <div
-        className="py-3 flex justify-end mb-4"
-      >
-        <span  className="fixed top-4 left-2 p-1 rounded flex justify-end cursor-pointer hover:bg-white hover:text-colorText"
-        onClick={() => setOpen(!open)}>
-          <MenuOutlinedIcon />
-        </span>
-      </div> */}
         <img
           src={Logo}
           className="rounded-full w-20 flex items-center justify-center h-20 my-4 mx-auto"
         />
+
+        {/* <div className="py-3 mb-4 mt-20">
+          <span
+            className="fixed top-28 left-10 p-1 rounded flex justify-end cursor-pointer hover:bg-white hover:text-colorText"
+            onClick={() => setOpen(!open)}
+          >
+            <MenuOutlinedIcon />
+          </span>
+        </div> */}
 
         {/* <div
           className={`group flex items-center justify-center gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
@@ -104,23 +105,29 @@ export default function Navigation() {
           </h2>
         </div> */}
 
-        <div className="mt-4 flex flex-col gap-4 relative">
+        <div className="mt-10 flex flex-col w-full gap-4 relative">
           {menu.map((menuItem, index) => (
             <div
               key={index}
-              className={`group flex items-center justify-center gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
+              className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
                 ${menuItem.gap ? "mt-6" : "mt-2"}`}
               onClick={() => (window.location = menuItem.link)}
             >
               <span className={`material-icons md-48`}>{menuItem.icon}</span>
 
-              <h2
+              <span
+                className={`title font-semibold text-gray-900 px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+              >
+                {menuItem.title}
+              </span>
+
+              {/* <h2
                 className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
                              group-hover:block group-hover:px-2 group-hover:py-1 group-hover:duration-300 group-hover:w-fit 
                               `}
               >
                 {menuItem.title}
-              </h2>
+              </h2> */}
               {/* <span
                 style={{ transitionDelay: `${index + 3}00ms` }}
                 className={`${
@@ -133,7 +140,7 @@ export default function Navigation() {
           ))}
         </div>
       </div>
-      <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} />
+      {/* <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} /> */}
     </Fragment>
 
     // // {`${
