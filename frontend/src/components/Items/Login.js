@@ -1,31 +1,49 @@
 import * as yup from "yup";
 import React, { Fragment } from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CancelIcon from "@material-ui/icons/Cancel";
-import axios, { Axios } from "axios";
+// import axios, { Axios } from "axios";
 import { useFormik } from "formik";
 import FormControl from "@material-ui/core/FormControl";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { loginAPI } from "../../apis/loginApi";
+import { loginAPI, getInformation } from "../../apis/loginApi";
 import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../store/atoms/userState";
 import { tokenState } from "../../store/atoms/tokenState";
+import { LoadingButton } from "@mui/lab";
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Let enter a valid email")
+    .required("Enter your username"),
+  password: yup.string().required("Enter your password"),
+});
 
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const [active, setActive] = useState("signin");
   const setToken = useSetRecoilState(tokenState);
   const setUser = useSetRecoilState(userState);
-  
-  const validationSchema = yup.object({
-    user: yup.string().required("Enter your username"),
-    password: yup.string().required("Enter your password"),
-  });
-  const handleLogin = (value) => {
+
+  const handleLogin = (values) => {
     const getToken = async (postData) => {
       const response = await loginAPI(postData);
+      console.log('response', response);
+      
+      if (response.includes('Email')) {
+        console.log('invalid password or email')
+        toast.error("Login failed");
+      }
+      else {
+        localStorage.setItem('token', response.assessToken);
+
+        const getInfor = await getInformation(localStorage.getItem('token'));
+        console.log(getInfor);
+      }
+
       if (response?.UserLogin) {
         setToken({
           id: response.UserLogin.Id,
@@ -40,7 +58,15 @@ export default function Login({ isVisible, isClose }) {
       }
 
       setIsLoading(false);
-    }
+    };
+
+    const data = {
+      email: values.email,
+      password: values.password,
+      isOwner: 0,
+    };
+    setIsLoading(true);
+    getToken(data);
   };
 
   const formik = useFormik({
@@ -50,6 +76,7 @@ export default function Login({ isVisible, isClose }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      // console.log("value" + values);
       handleLogin(values);
     },
   });
@@ -150,12 +177,12 @@ export default function Login({ isVisible, isClose }) {
 
             <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
               <FormControl className="my-2">
-                <Typography variant="subtitle1">Username</Typography>
+                <Typography variant="subtitle1">Email</Typography>
                 <TextField
                   sx={{
                     height: "85px",
                   }}
-                  placeholder="Enter your username..."
+                  placeholder="Enter your email..."
                   name="email"
                   value={formik.values.email}
                   error={formik.touched.email && Boolean(formik.errors.email)}
@@ -198,14 +225,14 @@ export default function Login({ isVisible, isClose }) {
                 </span>
               </div>
 
-              <button
+              <LoadingButton
+                type="submit"
                 loading={isLoading}
                 variant="contained"
                 className="bg-sky-300 text-xl font-bold rounded-full mt-1 hover:bg-sky-500 hover:text-white py-2"
-                type="submit"
               >
                 Sign in
-              </button>
+              </LoadingButton>
             </form>
 
             <div className="mb-4 flex justify-center">
