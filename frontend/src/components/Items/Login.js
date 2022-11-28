@@ -13,6 +13,7 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../../store/atoms/userState";
 import { tokenState } from "../../store/atoms/tokenState";
 import { LoadingButton } from "@mui/lab";
+import ToastMessage from "./ToastMessage";
 
 const validationSchema = yup.object({
   email: yup
@@ -28,34 +29,47 @@ export default function Login({ isVisible, isClose }) {
   const setToken = useSetRecoilState(tokenState);
   const setUser = useSetRecoilState(userState);
 
+  const redirectFunc = () => {
+    window.location = "http://localhost:8000";
+  };
+
   const handleLogin = (values) => {
     const getToken = async (postData) => {
       const response = await loginAPI(postData);
-      console.log('response', response);
-      
-      if (response.includes('Email')) {
-        console.log('invalid password or email')
-        toast.error("Login failed");
-      }
-      else {
-        localStorage.setItem('token', response.assessToken);
+      console.log("response", response);
+      console.log("type", typeof response);
+      const type = typeof response;
+      if (type == "object") {
+        localStorage.setItem("token", response.assessToken);
 
-        const getInfor = await getInformation(localStorage.getItem('token'));
+        const getInfor = await getInformation(localStorage.getItem("token"));
+        toast.success("Login successfully");
         console.log(getInfor);
-      }
-
-      if (response?.UserLogin) {
-        setToken({
-          id: response.UserLogin.Id,
-          token: response.Token,
-          refreshToken: response.RefreshToken,
-          role: response.UserLogin.Role,
-        });
-
-        setUser(response.UserLogin);
+        setTimeout(redirectFunc, 3000);
       } else {
-        toast.error("Login failed");
+        console.log("login failed");
+        toast.error(response);
       }
+
+      // if (response.includes("Email")) {
+      //   console.log("invalid password or email");
+      //   toast.error("Login failed");
+      // } else {
+
+      // }
+
+      // if (response?.UserLogin) {
+      //   setToken({
+      //     id: response.UserLogin.Id,
+      //     token: response.Token,
+      //     refreshToken: response.RefreshToken,
+      //     role: response.UserLogin.Role,
+      //   });
+      //   toast.success("Login successfully");
+      //   setUser(response.UserLogin);
+      // } else {
+      //   toast.error("Login failed");
+      // }
 
       setIsLoading(false);
     };
@@ -86,6 +100,7 @@ export default function Login({ isVisible, isClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
       <div className="w-[600px] flex flex-col z-20">
+        <ToastMessage />
         {/* sign in modal */}
         {active === "signin" && (
           // <form className="bg-white p-2 rounded flex flex-col m-2"
