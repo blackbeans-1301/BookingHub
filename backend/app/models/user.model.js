@@ -43,7 +43,22 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BOOLEAN,
             allowNull: false
         },
+        imgURL: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: null
+        }
     });
+    User.associate = function (models) {
+        // // associations can be defined here
+        User.hasMany(models.hotel, {
+            foreignKey: 'user_id',
+            targetKey: 'hotel_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        });
+        
+    }
     return User;
 };
 
