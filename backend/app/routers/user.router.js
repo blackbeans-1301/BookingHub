@@ -1,4 +1,4 @@
-const router =  require("express").Router();
+const router = require("express").Router();
 const userControllers = require("../controllers/user.controller.js")
 
 // register an account:
@@ -21,16 +21,24 @@ router.get('/information', userControllers.authenticationJWT, userControllers.us
 // Authorization: Bearer {token}
 
 // update user's information
-router.put('/updateUser', userControllers.authenticationJWT, userControllers.updateUser);
-// PUT: /user/update_user
-// params: firstName, lastName, dob, gender, phone_number, isOwner.
+router.put('/update', userControllers.authenticationJWT, userControllers.updateUser);
+// PUT: /user/update
+// params: firstName, lastName, dob, gender, phone_number.
 // Authorization: Bearer {token}
 
 // update password
 // userControllers.authenticationJWT de xac thuc Token tu client gui ve roi cap nhat password bang userControllers.resetPassword
 router.put('/resetPassword', userControllers.authenticationJWT, userControllers.resetPassword)
-// PUT: /user/reset_password
+// PUT: /user/resetPassword
 // params: password, newPassword
 // Authorization: Bearer {token}
 
+router.put('/avatar', userControllers.authenticationJWT, userControllers.changeAvatar)
+// PUT: /user/avatar
+// params: imgURL
+// Authorization: Bearer {token}
+
+router.get('/avatar', userControllers.authenticationJWT, userControllers.getAvatar)
+// PUT: /user/avatar
+// Authorization: Bearer {token}
 module.exports = router

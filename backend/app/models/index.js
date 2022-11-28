@@ -18,11 +18,12 @@ db.sequelize = sequelize;
 // thuc hien viec tao table
 db.user = require("./user.model.js")(sequelize, DataTypes);
 db.hotel = require("./hotel.model.js")(sequelize, DataTypes);
+db.room = require("./room.model.js")(sequelize, DataTypes);
+db.image = require("./image.model.js")(sequelize, DataTypes);
 
-db.user.hasOne(db.hotel, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'CASCADE'
-});
-db.hotel.belongsTo(db.user);
+db.user.associate(db);
+db.hotel.associate(db);
+db.room.associate(db);
+db.image.associate(db);
 
 module.exports = db;

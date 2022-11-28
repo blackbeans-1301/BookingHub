@@ -56,8 +56,9 @@ exports.register = async (req, res) => {
         member_since: GetCurrentDate(),
         gender: gender,
         phone_number: phone_number,
-        isOwner: isOwner,
+        isOwner: isOwner
     }
+
     // tao user trong database
     User.create(user).then(data => {
         delete data.password;
@@ -84,7 +85,7 @@ exports.login = (req, res, next) => {
         
         // kiem tra co email hay khong
         if (!data.length) {
-            return res.status(400).send("Email or password is wrong")
+            return res.status(400).send({Message: "Email or password is wrong"})
         } else {
             // kiem tra password bang bcrypt
             if (bcrypt.compareSync(password, data[0].dataValues.password)) {
@@ -128,7 +129,7 @@ exports.authenticationJWT = (req, res, next) => {
                 req.bookingHub_user_infor = data;
                 next();
             } else {
-                return res.status(400).send({Message: `Information invalid or role invalid`})
+                return res.status(400).send({Message: `Token invalid or role invalid`})
             }
         })
     }
@@ -154,7 +155,7 @@ exports.userInfo = (req, res) => {
 exports.updateUser = (req, res) => {
     // req.bookingHub_user_infor lay tu middleware authenticationJWT
     const userData = req.bookingHub_user_infor[0].dataValues;
-    const {firstName, lastName, dob, gender, phone_number, isOwner} = req.body
+    const {firstName, lastName, dob, gender, phone_number} = req.body
     // update
     User.update({
         firstName: firstName,
@@ -162,14 +163,38 @@ exports.updateUser = (req, res) => {
         dob: dob,
         gender: gender,
         phone_number: phone_number,
-        isOwner: isOwner  
     },{
         where: {user_id: userData.user_id}
     }).then(data => {
-        console.log(data);
         res.send({Message: 'Updated successful'})
     }).catch(err => {
         return res.status(400).send({Message: err.message})
+    })
+}
+
+// avatar
+exports.changeAvatar = (req, res) => {
+    const userData = req.bookingHub_user_infor[0].dataValues;
+    User.update({
+        imgURL: req.body.imgURL
+    },{
+        where: {user_id: userData.user_id}
+    }).then(data => {
+        res.status(200).send({Message: 'Changed successful'})
+    }).catch(err => {
+        return res.status(500).send({Message: err.message})
+    })
+}
+
+exports.getAvatar = (req, res) => {
+    const userData = req.bookingHub_user_infor[0].dataValues;
+    User.findOne({
+        where: { user_id: userData.user_id }
+    }).then(data => {
+        //console.log(data);
+        res.status(200).send({imgURL: data.dataValues.imgURL});
+    }).catch(err => {
+        return res.status(500).send({Message: err.message})
     })
 }
 
