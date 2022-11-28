@@ -6,7 +6,7 @@ import Login from "../../Items/Login";
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
-import { getInformation } from "../../../apis/loginApi";
+import { getInformation } from "../../../apis/userApi";
 import { toast } from "react-toastify";
 
 export default function UserHeader() {

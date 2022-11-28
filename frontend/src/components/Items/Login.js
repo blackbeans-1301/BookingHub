@@ -7,20 +7,36 @@ import { useFormik } from "formik";
 import FormControl from "@material-ui/core/FormControl";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { loginAPI, getInformation } from "../../apis/loginApi";
+import { loginAPI, getInformation, registerAPI } from "../../apis/userApi";
 import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../store/atoms/userState";
 import { tokenState } from "../../store/atoms/tokenState";
 import { LoadingButton } from "@mui/lab";
 import ToastMessage from "./ToastMessage";
+import { parse, isDate } from "date-fns";
+import { date } from "yup";
 
+function parseDateString(value, originalValue) {
+  const parsedDate = isDate(originalValue)
+    ? originalValue
+    : parse(originalValue, "yyyy-MM-dd", new Date());
+
+  return parsedDate;
+}
+
+const today = new Date();
 const validationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
-    .required("Enter your username"),
+    .required("Enter your email"),
   password: yup.string().required("Enter your password"),
+  firstName: yup.string().required("Enter your firstName"),
+  lastName: yup.string().required("Enter your lastName"),
+  dob: date().transform(parseDateString).max(today).required("Enter your date of birth. Please enter a valid date."),
+  gender: yup.string().required("Enter your gender"),
+  phone_number: yup.string().required("Enter your phone number"),
 });
 
 export default function Login({ isVisible, isClose }) {
@@ -83,7 +99,69 @@ export default function Login({ isVisible, isClose }) {
     getToken(data);
   };
 
-  const formik = useFormik({
+  const loginFormik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // console.log("value" + values);
+      handleLogin(values);
+    },
+  });
+
+  const handleRegister = (values) => {
+    const signUp = async (postData) => {
+      const response = await registerAPI(postData);
+      console.log("response", response);
+      console.log("type", typeof response);
+      const type = typeof response;
+      if (type == "object") {
+        toast.success("Sign up successfully");
+        setActive("signin");
+      } else {
+        console.log("Sign up failed");
+        toast.error(response);
+      }
+
+      setIsLoading(false);
+    };
+
+    const data = {
+      email: values.email,
+      password: values.password,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      dob: values.dob, 
+      gender: values.gender,
+      phone_number: values.phone_number,
+      isOwner: 0,
+    };
+    setIsLoading(true);
+    signUp(data);
+  };
+
+  {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */}
+  const registerFormik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      dob: "", 
+      gender: "",
+      phone_number: "",
+      isOwner: 0,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      // console.log("value" + values);
+      handleRegister(values);
+    },
+  });
+
+  const forgotPassFormik = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -190,7 +268,10 @@ export default function Login({ isVisible, isClose }) {
               </button>
             </div>
 
-            <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
+            <form
+              className="flex flex-col m-4"
+              onSubmit={loginFormik.handleSubmit}
+            >
               <FormControl className="my-2">
                 <Typography variant="subtitle1">Email</Typography>
                 <TextField
@@ -199,10 +280,15 @@ export default function Login({ isVisible, isClose }) {
                   }}
                   placeholder="Enter your email..."
                   name="email"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.email && formik.errors.email}
+                  value={loginFormik.values.email}
+                  error={
+                    loginFormik.touched.email &&
+                    Boolean(loginFormik.errors.email)
+                  }
+                  onChange={loginFormik.handleChange}
+                  helperText={
+                    loginFormik.touched.email && loginFormik.errors.email
+                  }
                 />
               </FormControl>
 
@@ -215,12 +301,15 @@ export default function Login({ isVisible, isClose }) {
                   type="password"
                   placeholder="Enter your password..."
                   name="password"
-                  value={formik.values.password}
+                  value={loginFormik.values.password}
                   error={
-                    formik.touched.password && Boolean(formik.errors.password)
+                    loginFormik.touched.password &&
+                    Boolean(loginFormik.errors.password)
                   }
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.password && formik.errors.password}
+                  onChange={loginFormik.handleChange}
+                  helperText={
+                    loginFormik.touched.password && loginFormik.errors.password
+                  }
                 />
               </FormControl>
 
@@ -264,10 +353,12 @@ export default function Login({ isVisible, isClose }) {
         )}
 
         {/* show sign up modal */}
+
+        {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */}
         {active === "signup" && (
           <div className="bg-white p-2 rounded flex flex-col m-2">
-            <div className="flex justify-between m-2">
-              <h2 className="font-bold text-3xl text-colorText">Sign up</h2>
+            <div className="flex justify-between mx-2 my-1">
+              <h2 className="font-bold text-2xl text-colorText">Sign up</h2>
               <button
                 className="text-light-close text-xl place-self-end hover:text-close-color"
                 onClick={() => isClose()}
@@ -341,34 +432,47 @@ export default function Login({ isVisible, isClose }) {
             >
               Sign up
             </button> */}
-            <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
+            <form
+              className="flex flex-col m-4"
+              onSubmit={registerFormik.handleSubmit}
+            >
               <FormControl className="my-2">
-                <Typography variant="subtitle1">Username</Typography>
+                <Typography variant="subtitle1">Firstname</Typography>
                 <TextField
                   sx={{
                     height: "85px",
                   }}
-                  placeholder="Enter your username..."
-                  name="email"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.email && formik.errors.email}
+                  placeholder="Enter your firstname..."
+                  name="firstName"
+                  value={registerFormik.values.firstName}
+                  error={
+                    registerFormik.touched.firstName &&
+                    Boolean(registerFormik.errors.firstName)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.firstName && registerFormik.errors.firstName
+                  }
                 />
               </FormControl>
 
               <FormControl className="my-2">
-                <Typography variant="subtitle1">Fullname</Typography>
+                <Typography variant="subtitle1">Lastname</Typography>
                 <TextField
                   sx={{
                     height: "85px",
                   }}
-                  placeholder="Enter your fullname..."
-                  name="email"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.email && formik.errors.email}
+                  placeholder="Enter your lastname..."
+                  name="lastName"
+                  value={registerFormik.values.lastName}
+                  error={
+                    registerFormik.touched.lastName &&
+                    Boolean(registerFormik.errors.lastName)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.lastName && registerFormik.errors.lastName
+                  }
                 />
               </FormControl>
 
@@ -380,10 +484,75 @@ export default function Login({ isVisible, isClose }) {
                   }}
                   placeholder="Enter your email..."
                   name="email"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.email && formik.errors.email}
+                  value={registerFormik.values.email}
+                  error={
+                    registerFormik.touched.email &&
+                    Boolean(registerFormik.errors.email)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.email && registerFormik.errors.email
+                  }
+                />
+              </FormControl>
+
+              <FormControl className="my-2">
+                <Typography variant="subtitle1">Date of birth</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="yyyy-mm-dd"
+                  name="dob"
+                  value={registerFormik.values.dob}
+                  error={
+                    registerFormik.touched.dob &&
+                    Boolean(registerFormik.errors.dob)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.dob && registerFormik.errors.dob
+                  }
+                />
+              </FormControl>
+
+              <FormControl className="my-2">
+                <Typography variant="subtitle1">Gender</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="Enter your gender"
+                  name="gender"
+                  value={registerFormik.values.gender}
+                  error={
+                    registerFormik.touched.gender &&
+                    Boolean(registerFormik.errors.gender)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.gender && registerFormik.errors.gender
+                  }
+                />
+              </FormControl>
+
+              <FormControl className="my-2">
+                <Typography variant="subtitle1">Phone number</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="Enter your phone number..."
+                  name="phone_number"
+                  value={registerFormik.values.phone_number}
+                  error={
+                    registerFormik.touched.phone_number &&
+                    Boolean(registerFormik.errors.phone_number)
+                  }
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.phone_number && registerFormik.errors.phone_number
+                  }
                 />
               </FormControl>
 
@@ -396,12 +565,16 @@ export default function Login({ isVisible, isClose }) {
                   type="password"
                   placeholder="Enter your password..."
                   name="password"
-                  value={formik.values.password}
+                  value={registerFormik.values.password}
                   error={
-                    formik.touched.password && Boolean(formik.errors.password)
+                    registerFormik.touched.password &&
+                    Boolean(registerFormik.errors.password)
                   }
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.password && formik.errors.password}
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.password &&
+                    registerFormik.errors.password
+                  }
                 />
               </FormControl>
 
@@ -414,23 +587,27 @@ export default function Login({ isVisible, isClose }) {
                   type="password"
                   placeholder="Enter your password..."
                   name="password"
-                  value={formik.values.password}
+                  value={registerFormik.values.password}
                   error={
-                    formik.touched.password && Boolean(formik.errors.password)
+                    registerFormik.touched.password &&
+                    Boolean(registerFormik.errors.password)
                   }
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.password && formik.errors.password}
+                  onChange={registerFormik.handleChange}
+                  helperText={
+                    registerFormik.touched.password &&
+                    registerFormik.errors.password
+                  }
                 />
               </FormControl>
 
-              <button
+              <LoadingButton
                 loading={isLoading}
                 variant="contained"
-                className="bg-sky-300 text-xl font-bold rounded-full mt-1 hover:bg-sky-500 hover:text-white py-2"
+                className="bg-sky-300 text-xl font-bold rounded-full mt-4 hover:bg-sky-500 hover:text-white py-2"
                 type="submit"
               >
                 Sign up
-              </button>
+              </LoadingButton>
             </form>
             <div className="mb-4 flex justify-center">
               <span>You had an account ? </span>
@@ -470,7 +647,10 @@ export default function Login({ isVisible, isClose }) {
               </div>
             </div> */}
 
-            <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
+            <form
+              className="flex flex-col m-4"
+              onSubmit={forgotPassFormik.handleSubmit}
+            >
               <FormControl className="my-2">
                 <Typography variant="subtitle1">Email</Typography>
                 <TextField
@@ -479,10 +659,16 @@ export default function Login({ isVisible, isClose }) {
                   }}
                   placeholder="Enter your email..."
                   name="email"
-                  value={formik.values.email}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  onChange={formik.handleChange}
-                  helperText={formik.touched.email && formik.errors.email}
+                  value={forgotPassFormik.values.email}
+                  error={
+                    forgotPassFormik.touched.email &&
+                    Boolean(forgotPassFormik.errors.email)
+                  }
+                  onChange={forgotPassFormik.handleChange}
+                  helperText={
+                    forgotPassFormik.touched.email &&
+                    forgotPassFormik.errors.email
+                  }
                 />
               </FormControl>
 
