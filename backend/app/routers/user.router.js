@@ -1,44 +1,47 @@
 const router = require("express").Router();
-const userControllers = require("../controllers/user.controller.js")
+const userMiddleware = require("../middleware/user.middleware.js")
 
 // register an account:
 // userControllers.validatorRegister kiem tra email ton tai hay khong truoc, neu co thi response, 
 // neu khong thi => them user userControllers.register
-router.post('/register',userControllers.validatorRegister, userControllers.register); 
+router.post('/register', userMiddleware.register);
 // POST: /user/register 
 // params: email, password, firstName, lastName, dob, gender, phone_number, isOwner.
 
 // login an account
-router.post('/login', userControllers.login);
+router.post('/login', userMiddleware.login);
 // POST: /user/login 
 // params: email, password, isOwner. 
 
 // get user's information 
 // userControllers.authenticationJWT de xac thuc Token tu client gui ve roi gui thong tin user bang userControllers.userInfo
-router.get('/information', userControllers.authenticationJWT, userControllers.userInfo);
-// GET: /user/information
+router.get('/info', userMiddleware.authenticateJWT, userMiddleware.sendUserInfo);
+// GET: /user/info
 // params: khong can params 
 // Authorization: Bearer {token}
 
 // update user's information
-router.put('/update', userControllers.authenticationJWT, userControllers.updateUser);
+router.put('/update', userMiddleware.authenticateJWT, userMiddleware.updateUser);
 // PUT: /user/update
 // params: firstName, lastName, dob, gender, phone_number.
 // Authorization: Bearer {token}
 
+
+router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
+
 // update password
 // userControllers.authenticationJWT de xac thuc Token tu client gui ve roi cap nhat password bang userControllers.resetPassword
-router.put('/resetPassword', userControllers.authenticationJWT, userControllers.resetPassword)
+router.put('/resetPassword', userMiddleware.authenticateJWT, userMiddleware.resetPassword)
 // PUT: /user/resetPassword
 // params: password, newPassword
 // Authorization: Bearer {token}
 
-router.put('/avatar', userControllers.authenticationJWT, userControllers.changeAvatar)
+router.put('/avatar', userMiddleware.authenticateJWT, userMiddleware.updateAvatar)
 // PUT: /user/avatar
 // params: imgURL
 // Authorization: Bearer {token}
 
-router.get('/avatar', userControllers.authenticationJWT, userControllers.getAvatar)
+router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
 // PUT: /user/avatar
 // Authorization: Bearer {token}
 module.exports = router
