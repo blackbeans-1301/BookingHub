@@ -5,5 +5,6 @@ const userControllers = require("../controllers/user.controller.js");
 // Create a hotel
 router.post('/create', userControllers.authenticationJWT, hotelControllers.createHotel);
 
-// 
+// Get hotel infor
+router.get('/information', userControllers.authenticationJWT);
 module.exports = router

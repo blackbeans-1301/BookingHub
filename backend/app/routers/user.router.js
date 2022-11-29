@@ -41,4 +41,10 @@ router.put('/avatar', userControllers.authenticationJWT, userControllers.changeA
 router.get('/avatar', userControllers.authenticationJWT, userControllers.getAvatar)
 // PUT: /user/avatar
 // Authorization: Bearer {token}
+
+router.get('/forgetPass', userControllers.sendEmail)
+// GET: /user/forgetPass
+// params: email
+
+
 module.exports = router

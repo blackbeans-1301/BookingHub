@@ -3,7 +3,6 @@ require('dotenv').config();
 const db = require("../models/index.js")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { response } = require('express');
 const User = db.user;
 
 function GetCurrentDate() {
@@ -228,4 +227,16 @@ exports.resetPassword = (req, res) => {
     }).catch(err => {
         return res.status(400).send({Message: err.message})
     })
+}
+
+exports.emailtoDB = (req, res) => {
+    //TO DO: 
+    // tao ra mot cai code 6 ki tu
+    // update (sequenlize) code la code vua tao
+    // send code to email
+
+}
+
+exports.sendEmail = (req, res) => {
+    //TO DO: 
 }
