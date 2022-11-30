@@ -1,5 +1,15 @@
 const router = require("express").Router();
 const userMiddleware = require("../middleware/user.middleware.js")
+const passport = require('passport');
+require('../authentication/auth.js');
+
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback',
+    passport.authenticate('google', { session: false }),
+    function (req, res) {
+        //TODO: redirect to front end route
+    });
 
 // register an account:
 // userControllers.validatorRegister kiem tra email ton tai hay khong truoc, neu co thi response, 
