@@ -13,11 +13,12 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-    res.json({message:"N2H3 Sever!!!!!!!!"});
+    res.json({message:"H3L2 Sever!!!!!!!!"});
 });
 
 app.use("/user", require("./app/routers/user.router.js"))
 app.use("/hotel", require("./app/routers/hotel.router.js"))
+app.use("/room", require('./app/routers/room.router.js'))
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -26,5 +27,8 @@ app.listen(PORT, () => {
 
 // chay database
 const db = require("./app/models")
-// db.sequelize.sync({ alter: true });
-db.sequelize.sync();
+
+// db.sequelize.sync({ force: true });
+// db.sequelize.sync();
+db.sequelize.sync({ alter: true });
+

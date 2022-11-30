@@ -14,7 +14,17 @@ function GetCurrentDate() {
     return today;
 }
 
-// ma hoa mat khau roi day vao db
+
+function findUserWithEmail(email) {
+    return User.findAll({
+        where: {
+            email: email
+        }
+    })
+}
+
+// register 
+// kiem tra email da ton tai chua?
 exports.register = async (req, res) => {
     try {
         // lay thong tin body
@@ -57,19 +67,12 @@ exports.register = async (req, res) => {
     }
 }
 
-function findUserWithEmail(email) {
-    return User.findAll({
-        where: {
-            email: email
-        }
-    })
-}
-
+// login
 exports.login = async (req, res, next) => {
-    const { email, password, isOwner } = req.body;
+    const {email, password, isOwner} = req.body;
 
     //tim kiem email trong db
-    User.findAll({
+    User.findAll ({
         where: {
             email: email,
             isOwner: isOwner
@@ -77,7 +80,7 @@ exports.login = async (req, res, next) => {
     }).then(data => {
         // kiem tra co email hay khong
         if (!data.length) {
-            return res.status(401).send({ message: "Email or password is incorrect!" })
+            return res.status(401).send({message: "Email or password is incorrect!"})
         } else {
             // kiem tra password bang bcrypt
             if (bcrypt.compareSync(password, data[0].dataValues.password)) {
@@ -93,9 +96,7 @@ exports.login = async (req, res, next) => {
             }
             return res.status(401).send({ message: "Email or password is incorrect!" })
         }
-    }).catch(err => {
-        res.status(401).send({ message: "Failed to login", err })
-    })
+    }).catch(err => res.status(401).send({ message: "Failed to login", err }))
 }
 
 // authentication JWT
@@ -109,7 +110,6 @@ exports.authenticateJWT = (req, res, next) => {
 
     if (!token)
         return res.status(401).send({ message: "Unauthorized!" })
-
     try {
         // xac thuc token sync
         const decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -149,20 +149,21 @@ exports.sendUserInfo = (req, res) => {
 
 // update information
 exports.updateUser = (req, res) => {
-    // req.bookingHub_user_infor lay tu middleware authenticateJWT
+
+    // req.bookingHub_user_infor lay tu middleware authenticationJWT
     const userData = req.bookingHub_user_infor[0].dataValues;
-    const { firstName, lastName, dob, gender, phone_number } = req.body
+    const {firstName, lastName, dob, gender, phone_number} = req.body
 
-
+    // update
     User.update({
         firstName: firstName,
-        lastName: lastName,
+        lastName:  lastName,
         dob: dob,
         gender: gender,
         phone_number: phone_number,
-    }, {
-        where: { 
-            user_id: userData.user_id 
+    },{
+        where: {
+            user_id: userData.user_id
         }
     }).then(data => {
         res.status(200).send({ message: 'Updated successfully' })
@@ -185,6 +186,8 @@ exports.deleteUser = (req, res) => {
     return res.status(200).send({message: "Deleted successfully!"})
 }
 
+
+// avatar
 exports.updateAvatar = (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
 
@@ -219,6 +222,7 @@ exports.resetPassword = (req, res) => {
 
     // kiem tra mat khau cu dung khong
     if (!bcrypt.compareSync(req.body.password, userData.password)) {
+
         return res.status(400).send({ message: "Wrong old password" })
     }
 
@@ -226,7 +230,6 @@ exports.resetPassword = (req, res) => {
     if (req.body.password === req.body.newPassword) {
         return res.status(400).send({ message: "New password must be different from old password!" })
     }
-
     // ma hoa mat khau moi
     let salt = bcrypt.genSaltSync(10);
     let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt);
