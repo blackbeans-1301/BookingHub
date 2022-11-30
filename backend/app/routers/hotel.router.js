@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const hotelControllers = require("../controllers/hotel.controller.js");
-const userControllers = require("../controllers/user.controller.js");
+const hotelMiddleware = require("../middleware/hotel.middleware.js");
+const userMiddleware = require("../middleware/user.middleware.js");
 
 // Create a hotel
-router.post('/create', userControllers.authenticationJWT, hotelControllers.createHotel);
+router.post('/create', userMiddleware.authenticateJWT, hotelMiddleware.createHotel);
 
 // 
 module.exports = router
