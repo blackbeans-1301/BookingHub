@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import CancelIcon from "@material-ui/icons/Cancel";
 
-
 export default function ChooseModal({ isVisible, isClose }) {
   if (!isVisible) return null;
   return (
@@ -37,7 +36,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  (window.location = "http://localhost:8000/owner/create-hotel")
+                  (window.location = "http://localhost:8000/owner/CreateHotel")
                 }
               >
                 Select
@@ -53,7 +52,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  (window.location = "http://localhost:8000/owner/create-room")
+                  (window.location = "http://localhost:8000/owner/CreateRoom")
                 }
               >
                 Select
@@ -69,7 +68,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  (window.location = "http://localhost:8000/owner/list-hotel")
+                  (window.location = "http://localhost:8000/owner/ListHotel")
                 }
               >
                 Select

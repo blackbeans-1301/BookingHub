@@ -6,9 +6,9 @@ import Header from "../../components/Layouts/LayoutComponent/Header";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
-import InfoIcon from "@material-ui/icons/Info";
+import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import OwnerHeader from "../../components/Layouts/OwnerHeader";
+import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader";
 
 const ListOfRoomPage = () => {
   return (
@@ -36,7 +36,7 @@ const ListOfRoomPage = () => {
           </div>
 
           <h1 className="font-bold text-2xl mb-3 text-colorText mt-3">
-            List of hotels
+            List of stays
           </h1>
 
           <div class="container mx-auto px-4 sm:px-8">
@@ -49,10 +49,19 @@ const ListOfRoomPage = () => {
                         ID
                       </th>
                       <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Room
+                      </th>
+                      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Hotel name
                       </th>
                       <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Hotel owner
+                      </th>
+                      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Address
+                      </th>
+                      <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                        Room type
                       </th>
                       <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                         Price
@@ -74,6 +83,11 @@ const ListOfRoomPage = () => {
                         <p class="text-gray-900 whitespace-no-wrap">12345</p>
                       </td>
 
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
                       {/* column 3: hotel's name */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
@@ -81,11 +95,21 @@ const ListOfRoomPage = () => {
                         </p>
                       </td>
 
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
                       {/* column 5: address */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
                           Hoan Kiem, Hanoi, Vietnam
                         </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
                       </td>
 
                       {/* column 7: price */}
@@ -108,13 +132,6 @@ const ListOfRoomPage = () => {
                             type="button"
                             class="inline-block mx-px text-green-300 hover:text-green-500"
                           >
-                            <InfoIcon />
-                          </button>
-
-                          <button
-                            type="button"
-                            class="inline-block mx-px text-yellow-300 hover:text-yellow-500"
-                          >
                             <EditIcon />
                           </button>
 
@@ -132,20 +149,6 @@ const ListOfRoomPage = () => {
                             <MoreVertSharpIcon />
                           </button>
                         </div>
-                      </td>
-
-                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                          <button
-                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                            onClick={() =>
-                              (window.location =
-                                "http://localhost:8000/owner/list-room")
-                            }
-                          >
-                            List rooms
-                          </button>
-                        </p>
                       </td>
                     </tr>
 
@@ -155,6 +158,11 @@ const ListOfRoomPage = () => {
                         <p class="text-gray-900 whitespace-no-wrap">12345</p>
                       </td>
 
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
                       {/* column 3: hotel's name */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
@@ -162,11 +170,21 @@ const ListOfRoomPage = () => {
                         </p>
                       </td>
 
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
                       {/* column 5: address */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
                           Hoan Kiem, Hanoi, Vietnam
                         </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
                       </td>
 
                       {/* column 7: price */}
@@ -189,13 +207,6 @@ const ListOfRoomPage = () => {
                             type="button"
                             class="inline-block mx-px text-green-300 hover:text-green-500"
                           >
-                            <InfoIcon />
-                          </button>
-
-                          <button
-                            type="button"
-                            class="inline-block mx-px text-yellow-300 hover:text-yellow-500"
-                          >
                             <EditIcon />
                           </button>
 
@@ -213,20 +224,6 @@ const ListOfRoomPage = () => {
                             <MoreVertSharpIcon />
                           </button>
                         </div>
-                      </td>
-
-                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        <p class="text-gray-900 whitespace-no-wrap">
-                          <button
-                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                            onClick={() =>
-                              (window.location =
-                                "http://localhost:8000/owner/list-room")
-                            }
-                          >
-                            List rooms
-                          </button>
-                        </p>
                       </td>
                     </tr>
 
@@ -236,6 +233,11 @@ const ListOfRoomPage = () => {
                         <p class="text-gray-900 whitespace-no-wrap">12345</p>
                       </td>
 
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
                       {/* column 3: hotel's name */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
@@ -243,11 +245,21 @@ const ListOfRoomPage = () => {
                         </p>
                       </td>
 
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
                       {/* column 5: address */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
                           Hoan Kiem, Hanoi, Vietnam
                         </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
                       </td>
 
                       {/* column 7: price */}
@@ -270,12 +282,80 @@ const ListOfRoomPage = () => {
                             type="button"
                             class="inline-block mx-px text-green-300 hover:text-green-500"
                           >
-                            <InfoIcon />
+                            <EditIcon />
                           </button>
 
                           <button
                             type="button"
-                            class="inline-block mx-px text-yellow-300 hover:text-yellow-500"
+                            class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                          >
+                            <DeleteIcon />
+                          </button>
+
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                          >
+                            <MoreVertSharpIcon />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      {/* column 1: id */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">12345</p>
+                      </td>
+
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
+                      {/* column 3: hotel's name */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Peridot Grand Luxury Boutique Hotel
+                        </p>
+                      </td>
+
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
+                      {/* column 5: address */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Hoan Kiem, Hanoi, Vietnam
+                        </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
+                      </td>
+
+                      {/* column 7: price */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">$20,000</p>
+                        <p class="text-gray-600 whitespace-no-wrap">USD</p>
+                      </td>
+
+                      {/* column 8: posted date */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Sept 28, 2019
+                        </p>
+                      </td>
+
+                      {/* column 9: actions */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <div className="flex">
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-green-300 hover:text-green-500"
                           >
                             <EditIcon />
                           </button>
@@ -295,19 +375,155 @@ const ListOfRoomPage = () => {
                           </button>
                         </div>
                       </td>
+                    </tr>
 
+                    <tr>
+                      {/* column 1: id */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">12345</p>
+                      </td>
+
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
+                      {/* column 3: hotel's name */}
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p class="text-gray-900 whitespace-no-wrap">
-                          <button
-                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                            onClick={() =>
-                              (window.location =
-                                "http://localhost:8000/owner/list-room")
-                            }
-                          >
-                            List rooms
-                          </button>
+                          Peridot Grand Luxury Boutique Hotel
                         </p>
+                      </td>
+
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
+                      {/* column 5: address */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Hoan Kiem, Hanoi, Vietnam
+                        </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
+                      </td>
+
+                      {/* column 7: price */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">$20,000</p>
+                        <p class="text-gray-600 whitespace-no-wrap">USD</p>
+                      </td>
+
+                      {/* column 8: posted date */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Sept 28, 2019
+                        </p>
+                      </td>
+
+                      {/* column 9: actions */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <div className="flex">
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-green-300 hover:text-green-500"
+                          >
+                            <EditIcon />
+                          </button>
+
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                          >
+                            <DeleteIcon />
+                          </button>
+
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                          >
+                            <MoreVertSharpIcon />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      {/* column 1: id */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">12345</p>
+                      </td>
+
+                      {/* column 2: room */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">P.123</p>
+                      </td>
+
+                      {/* column 3: hotel's name */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Peridot Grand Luxury Boutique Hotel
+                        </p>
+                      </td>
+
+                      {/* column 4: hotel's owner */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Florence</p>
+                      </td>
+
+                      {/* column 5: address */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Hoan Kiem, Hanoi, Vietnam
+                        </p>
+                      </td>
+
+                      {/* column 6: room type */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">Single</p>
+                      </td>
+
+                      {/* column 7: price */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">$20,000</p>
+                        <p class="text-gray-600 whitespace-no-wrap">USD</p>
+                      </td>
+
+                      {/* column 8: posted date */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">
+                          Sept 28, 2019
+                        </p>
+                      </td>
+
+                      {/* column 9: actions */}
+                      <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <div className="flex">
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-green-300 hover:text-green-500"
+                          >
+                            <EditIcon />
+                          </button>
+
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                          >
+                            <DeleteIcon />
+                          </button>
+
+                          <button
+                            type="button"
+                            class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                          >
+                            <MoreVertSharpIcon />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   </tbody>

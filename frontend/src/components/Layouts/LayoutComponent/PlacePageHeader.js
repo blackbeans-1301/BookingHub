@@ -1,13 +1,10 @@
 import React, { Fragment, useState } from "react";
-import Logo from "../../assets/images/logo.png";
-import textLogo from "../../assets/images/text-logo.png";
-import LoginModal from "../Items/LoginModal";
-// import Button from "../Items/Button";
+import textLogo from "../../../assets/images/text-logo.png";
+import Login from "../../Items/Login";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import UndoIcon from "@material-ui/icons/Undo";
-import ChooseModal from "../Items/ChooseModal";
 
-export default function OwnerHeader() {
+export default function PlacePageHeader() {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -37,7 +34,7 @@ export default function OwnerHeader() {
         </div>
       </div>
 
-      <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} />
+      <Login isVisible={showModal} isClose={() => setShowModal(false)} />
     </Fragment>
   );
 }

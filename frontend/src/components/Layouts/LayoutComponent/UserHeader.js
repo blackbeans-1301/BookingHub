@@ -8,9 +8,11 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { getInformation } from "../../../apis/userApi";
 import { toast } from "react-toastify";
+import UserOption from "../../Items/UserOption";
 
 export default function UserHeader() {
   const [showModal, setShowModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
 
   const token = localStorage.getItem("token");
   console.log("token", typeof token);
@@ -27,7 +29,7 @@ export default function UserHeader() {
         console.log("fail", rejectedResult);
       }
     );
-    return JSON.stringify(Object.values(get)[1]);
+    return get;
   }
 
   console.log('getu', getUser())
@@ -48,9 +50,9 @@ export default function UserHeader() {
             </button>
 
             <button
-              className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
+              className="flex relative rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() =>
-                (window.location = "http://localhost:8000/user/ProfilePage")
+                setShowUserModal(true)
               }
             >
               <img
@@ -76,6 +78,8 @@ export default function UserHeader() {
       </div>
 
       <Login isVisible={showModal} isClose={() => setShowModal(false)} />
+      <UserOption isVisible={showUserModal} isClose={() => setShowUserModal(false)} />
+
     </Fragment>
   );
 }
