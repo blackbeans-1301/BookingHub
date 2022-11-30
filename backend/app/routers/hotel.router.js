@@ -17,4 +17,5 @@ router.get('/userHotels', userMiddleware.authenticateJWT, hotelMiddleware.getUse
 // get hotel's info (cai nay luon o duoi cung)
 router.get('/:hotel_id', hotelMiddleware.getInfoHotel)
 
+
 module.exports = router

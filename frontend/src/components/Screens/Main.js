@@ -84,32 +84,6 @@ export default function Main() {
     slidesToShow: 3,
     slidesToScroll: 3,
     initialSlide: 0,
-    // responsive: [
-    //   {
-    //     breakpoint: 1024,
-    //     settings: {
-    //       slidesToShow: 3,
-    //       slidesToScroll: 3,
-    //       infinite: true,
-    //       dots: true,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 600,
-    //     settings: {
-    //       slidesToShow: 2,
-    //       slidesToScroll: 2,
-    //       initialSlide: 2,
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 480,
-    //     settings: {
-    //       slidesToShow: 1,
-    //       slidesToScroll: 1,
-    //     },
-    //   },
-    // ],
   };
 
   return (
@@ -274,7 +248,7 @@ export default function Main() {
         <Slider dataSlider={dataSlider} className="z-0" />
       </div>
 
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <h1>test carousel</h1>
         <Carousel breakPoints={breakPoints}>
           {dataSlider.map((i) => {
@@ -282,7 +256,7 @@ export default function Main() {
             <CarouselItem>one</CarouselItem>
           })}
         </Carousel>
-      </div>
+      </div> */}
     </div>
     //     <Footer />
     //   </div>

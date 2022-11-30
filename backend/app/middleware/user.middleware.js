@@ -14,6 +14,7 @@ function GetCurrentDate() {
     return today;
 }
 
+
 function findUserWithEmail(email) {
     return User.findAll({
         where: {
@@ -21,6 +22,7 @@ function findUserWithEmail(email) {
         }
     })
 }
+
 // register 
 // kiem tra email da ton tai chua?
 exports.register = async (req, res) => {
@@ -65,8 +67,6 @@ exports.register = async (req, res) => {
     }
 }
 
-
-
 // login
 exports.login = async (req, res, next) => {
     const {email, password, isOwner} = req.body;
@@ -108,8 +108,8 @@ exports.authenticateJWT = (req, res, next) => {
     // cat chuoi "bearer" ra chi lay token
     const token = authHeader && authHeader.split(' ')[1];
 
-    if (!token) 
-        return res.status(400).send({message: "Unauthorized!"})
+    if (!token)
+        return res.status(401).send({ message: "Unauthorized!" })
     try {
         // xac thuc token sync
         const decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -131,13 +131,12 @@ exports.authenticateJWT = (req, res, next) => {
         })
     }
     catch (err) {
-        return res.status(401).send({message: "Unable to verify token!", err})
+        return res.status(401).send({ message: "Unable to verify token!", err })
     }
 }
 
-// get user's information
 exports.sendUserInfo = (req, res) => {
-    // req.bookingHub_user_infor lay tu middleware authenticationJWT
+    // req.bookingHub_user_infor lay tu middleware authenticateJWT
     const userData = req.bookingHub_user_infor[0].dataValues;
 
     // xoa bot properties khong gui di 
@@ -150,6 +149,7 @@ exports.sendUserInfo = (req, res) => {
 
 // update information
 exports.updateUser = (req, res) => {
+
     // req.bookingHub_user_infor lay tu middleware authenticationJWT
     const userData = req.bookingHub_user_infor[0].dataValues;
     const {firstName, lastName, dob, gender, phone_number} = req.body
@@ -186,14 +186,15 @@ exports.deleteUser = (req, res) => {
     return res.status(200).send({message: "Deleted successfully!"})
 }
 
+
 // avatar
 exports.updateAvatar = (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
 
     User.update({
         imgURL: req.body.imgURL
-    },{
-        where: {user_id: userData.user_id}
+    }, {
+        where: { user_id: userData.user_id }
     }).then(data => {
         res.status(200).send({ message: 'Updated successfully', imgURL: req.body.imgURL })
     }).catch(err => {
@@ -207,7 +208,7 @@ exports.getAvatar = (req, res) => {
     User.findOne({
         where: { user_id: userData.user_id }
     }).then(data => {
-        res.status(200).send({imgURL: data.dataValues.imgURL});
+        res.status(200).send({ imgURL: data.dataValues.imgURL });
     }).catch(err => {
         return res.status(400).send({ message: "Unable to get avatar!", err: err.message })
     })
@@ -216,30 +217,30 @@ exports.getAvatar = (req, res) => {
 
 // reset password
 exports.resetPassword = (req, res) => {
-    // req.bookingHub_user_infor lay tu middleware authenticationJWT
+    // req.bookingHub_user_infor lay tu middleware authenticateJWT
     const userData = req.bookingHub_user_infor[0].dataValues;
 
     // kiem tra mat khau cu dung khong
     if (!bcrypt.compareSync(req.body.password, userData.password)) {
-        return res.status(400).send({message: "Wrong old password"})
-    } 
-    
+
+        return res.status(400).send({ message: "Wrong old password" })
+    }
+
     // kiem tra mat khau moi co trung mat khau cu khong
     if (req.body.password === req.body.newPassword) {
-        return res.status(400).send({message: "New password must be difference old password"})
+        return res.status(400).send({ message: "New password must be different from old password!" })
     }
-    
     // ma hoa mat khau moi
     let salt = bcrypt.genSaltSync(10);
     let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt);
 
     // cap nhat mat khau moi vao db
     User.update({
-        password: newPasswordHash  
-    },{
-        where: {user_id: userData.user_id}
+        password: newPasswordHash
+    }, {
+        where: { user_id: userData.user_id }
     }).then(data => {
-        res.send({ message: 'Updated password successfully!' })
+        res.status(200).send({ message: 'Updated password successfully!' })
     }).catch(err => {
         return res.status(400).send({ message: "Unable to update password!", err: err.message })
     })

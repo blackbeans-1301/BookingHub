@@ -5,7 +5,6 @@ const Image = db.image;
 
 exports.createHotel = async (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
-    let isErr = false;
     if (!userData.isOwner) {
         return res.status(400).send({Message: "User isn't owner"});
     }

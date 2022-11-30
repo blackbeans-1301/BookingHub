@@ -27,6 +27,7 @@ router.post('/login', userMiddleware.login);
 // userMiddleware.authenticationJWT de xac thuc Token tu client gui ve roi gui thong tin user bang userMiddleware.userInfo
 router.get('/info', userMiddleware.authenticateJWT, userMiddleware.sendUserInfo);
 // GET: /user/information
+
 // params: khong can params 
 // Authorization: Bearer {token}
 
@@ -36,18 +37,25 @@ router.put('/update', userMiddleware.authenticateJWT, userMiddleware.updateUser)
 // params: firstName, lastName, dob, gender, phone_number.
 // Authorization: Bearer {token}
 
+
+router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
+
 // update password
+
 // userMiddleware.authenticationJWT de xac thuc Token tu client gui ve roi cap nhat password bang userMiddleware.resetPassword
+
 router.put('/resetPassword', userMiddleware.authenticateJWT, userMiddleware.resetPassword)
 // PUT: /user/resetPassword
 // params: password, newPassword
 // Authorization: Bearer {token}
+
 
 // change user's avatar URL
 router.put('/avatar', userMiddleware.authenticateJWT, userMiddleware.updateAvatar)
 // PUT: /user/avatar
 // params: imgURL
 // Authorization: Bearer {token}
+
 
 // get user's avatar URL
 router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
