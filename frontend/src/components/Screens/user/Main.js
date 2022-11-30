@@ -15,10 +15,10 @@ import "slick-carousel/slick/slick-theme.css";
 // import { Component } from "react";
 // import Slider from "react-slick";
 // import { favoriteHotels } from "../Layouts/data";
-import Slider from "../Items/Slider";
-import dataSlider from "../Layouts/dataSlider";
-import CarouselItem from "../Items/CarouselItem";
-import Item from "../Items/Item";
+import Slider from "../../Items/Slider";
+import dataSlider from "../../Layouts/dataSlider";
+import CarouselItem from "../../Items/CarouselItem";
+import Item from "../../Items/Item";
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date());

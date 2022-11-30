@@ -6,7 +6,7 @@ import {
   ChangeBooking,
   covid19,
   specialRequests,
-} from "../../assets/data/SupportData";
+} from "../../../assets/data/SupportData";
 
 export default function Support() {
   return (

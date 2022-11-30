@@ -1,6 +1,6 @@
 import * as React from "react";
 import Layout from "../../components/Layouts";
-import Explore from "../../components/Screens/Explore";
+import Explore from "../../components/Screens/user/Explore";
 
 const ExplorePage = () => {
   return (
