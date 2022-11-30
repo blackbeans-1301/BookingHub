@@ -33,18 +33,16 @@ router.put('/resetPassword', userControllers.authenticationJWT, userControllers.
 // params: password, newPassword
 // Authorization: Bearer {token}
 
+// change user's avatar URL
 router.put('/avatar', userControllers.authenticationJWT, userControllers.changeAvatar)
 // PUT: /user/avatar
 // params: imgURL
 // Authorization: Bearer {token}
 
+// get user's avatar URL
 router.get('/avatar', userControllers.authenticationJWT, userControllers.getAvatar)
 // PUT: /user/avatar
 // Authorization: Bearer {token}
 
-router.get('/forgetPass', userControllers.sendEmail)
-// GET: /user/forgetPass
-// params: email
-
-
+// TODO: delete a user
 module.exports = router

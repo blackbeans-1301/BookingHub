@@ -228,15 +228,3 @@ exports.resetPassword = (req, res) => {
         return res.status(400).send({Message: err.message})
     })
 }
-
-exports.emailtoDB = (req, res) => {
-    //TO DO: 
-    // tao ra mot cai code 6 ki tu
-    // update (sequenlize) code la code vua tao
-    // send code to email
-
-}
-
-exports.sendEmail = (req, res) => {
-    //TO DO: 
-}

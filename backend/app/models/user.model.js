@@ -57,7 +57,6 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         });
-        
     }
     return User;
 };
