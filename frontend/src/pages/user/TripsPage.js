@@ -1,6 +1,6 @@
 import * as React from "react";
 import Layout from "../../components/Layouts";
-import Trips from "../../components/Screens/Trips";
+import Trips from "../../components/Screens/user/Trips";
 
 const TripsPage = () => {
   return (

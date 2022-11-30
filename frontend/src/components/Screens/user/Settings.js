@@ -4,11 +4,11 @@ import { useFormik } from "formik";
 import FormControl from "@material-ui/core/FormControl";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { loginAPI, getInformation, registerAPI, resetPassword } from "../../apis/userApi";
+import { loginAPI, getInformation, registerAPI, resetPassword } from "../../../apis/userApi";
 import { toast } from "react-toastify";
 import { LoadingButton } from "@mui/lab";
 import { useState } from "react";
-import ToastMessage from "../Items/ToastMessage";
+import ToastMessage from "../../Items/ToastMessage";
 
 const validationSchema = yup.object({
   password: yup.string().required("Enter your password"),

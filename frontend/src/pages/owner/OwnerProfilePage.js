@@ -1,8 +1,8 @@
 import * as React from "react";
 import OwnerLayout from "../../components/Layouts/OwnerLayout";
-import OwnProfile from "../../components/Screens/OwnProfile";
+import OwnProfile from "../../components/Screens/owner/OwnProfile";
 
-const OwnerProfile = () => {
+const OwnerProfilePage = () => {
   return (
     <OwnerLayout>
       <OwnProfile />
@@ -10,4 +10,4 @@ const OwnerProfile = () => {
   );
 };
 
-export default OwnerProfile;
+export default OwnerProfilePage;

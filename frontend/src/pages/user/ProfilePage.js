@@ -1,6 +1,6 @@
 import * as React from "react";
 import Layout from "../../components/Layouts";
-import Profile from "../../components/Screens/Profile";
+import Profile from "../../components/Screens/user/Profile";
 
 const ProfilePage = () => {
  

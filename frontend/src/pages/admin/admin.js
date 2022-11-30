@@ -1,6 +1,6 @@
 import * as React from "react";
 import Navigation from "../../components/Layouts/LayoutComponent/Navigation";
-import Main from "../../components/Screens/Main";
+// import Main from "../../components/Screens/Main";
 // import Header from "../../components/Layouts/Header";
 import Header from "../../components/Layouts/LayoutComponent/Header";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
