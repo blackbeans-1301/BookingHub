@@ -1,3 +1,4 @@
+const { user } = require("../models/index.js");
 const db = require("../models/index.js");
 
 const Hotel = db.hotel;
@@ -5,7 +6,9 @@ const Image = db.image;
 
 exports.createHotel = async (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
+    let isErr = false;
     if (!userData.isOwner) {
+        isErr = true;
         return res.status(400).send({Message: "User isn't owner"});
     }
     const hotel = {
@@ -26,6 +29,7 @@ exports.createHotel = async (req, res) => {
         isErr = true;
         return res.status(500).send({Message: "An error occurred on the server side (create hotel)" + err})
     })
+
     if (!isErr) {
         let imgData = [];
         hotelInfo.Image = [];
