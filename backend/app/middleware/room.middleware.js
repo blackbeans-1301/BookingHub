@@ -11,28 +11,31 @@ exports.room_isBelongUser = (req, res, next) => {
     
     if (!userData.isOwner) {
         return res.status(400).send({Message: "User isn't owner"});
-    }
-    // kiem tra xem room co phai cua user khong
-    Hotel.findOne({
-        where: {
-            hotel_id: req.body.hotel_id,
-        },
-        attributes: ['hotel_id'],
-        include: [
-            {
-                model: User,
-                attributes: ["user_id"]
+    } else {
+        // kiem tra xem room co phai cua user khong
+        Hotel.findOne({
+            where: {
+                hotel_id: req.body.hotel_id,
+            },
+            attributes: ['hotel_id'],
+            include: [
+                {
+                    model: User,
+                    attributes: ["user_id"]
+                }
+            ]
+        }).then(data => {
+            if (data.dataValues.User.user_id !== userData.user_id) {
+                return res.status(400).send({Message: "Room doesn't belong to owner"})    
+            } else {
+                next();
             }
-        ]
-    }).then(data => {
-        if (data.dataValues.User.user_id !== userData.user_id) {
-            return res.status(400).send({Message: "Room doesn't belong to owner"})    
-        } else {
-            next();
-        }
-    }).catch(err => {
-        return res.status(500).send({Message: "Error on sever-side: " + err})
-    })
+        }).catch(err => {
+            return res.status(500).send({Message: "Error on sever-side: " + err})
+        })
+    }
+    
+    
 }
 
 // CREATE ROOM
@@ -41,45 +44,47 @@ exports.room_create = async (req, res) => {
     let isErr = false;
     if (!userData.isOwner) {
         return res.status(400).send({Message: "User isn't owner"});
-    }
-    const room = {
-        hotel_id: req.body.hotel_id,
-        room_name: req.body.room_name,
-        criteria: req.body.criteria,
-        price: req.body.price,
-        number_of_bed: req.body.number_of_bed,
-        status: 0,
-    }
-    let roomInfo = {}
-    await Room.create(room).then(data => {
-        roomInfo = data.dataValues
-    }).catch(err => {
-        isErr = true;
-        return res.status(500).send({Message: "An error occurred on the server side (create hotel)" + err})
-    })
-    if (!isErr) {
-        let imgData = [];
-        roomInfo.Image = [];
-        for (let i = 0 ; i < req.body.imgURL.length; i++)
-        {
-            imgData.push({
-                imgURL: req.body.imgURL[i],
-                room_id: roomInfo.room_id,
-                isHotelImage: 0
-            })
-            roomInfo.Image.push({
-                imgURL: req.body.imgURL[i]
-            })
+    } else {
+        const room = {
+            hotel_id: req.body.hotel_id,
+            room_name: req.body.room_name,
+            criteria: req.body.criteria,
+            price: req.body.price,
+            number_of_bed: req.body.number_of_bed,
+            status: 0,
         }
-        await Image.bulkCreate(imgData).then(data => {
+        let roomInfo = {}
+        await Room.create(room).then(data => {
+            roomInfo = data.dataValues
         }).catch(err => {
             isErr = true;
-            res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
-        });
+            return res.status(500).send({Message: "An error occurred on the server side (create hotel)" + err})
+        })
         if (!isErr) {
-            res.status(200).send(roomInfo);
+            let imgData = [];
+            roomInfo.Image = [];
+            for (let i = 0 ; i < req.body.imgURL.length; i++)
+            {
+                imgData.push({
+                    imgURL: req.body.imgURL[i],
+                    room_id: roomInfo.room_id,
+                    isHotelImage: 0
+                })
+                roomInfo.Image.push({
+                    imgURL: req.body.imgURL[i]
+                })
+            }
+            await Image.bulkCreate(imgData).then(data => {
+            }).catch(err => {
+                isErr = true;
+                res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
+            });
+            if (!isErr) {
+                res.status(200).send(roomInfo);
+            }   
         }   
-    }   
+    }
+    
 }
 
 // READ ROOM
