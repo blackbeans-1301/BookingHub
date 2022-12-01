@@ -31,20 +31,8 @@ import NatureIcon from "@material-ui/icons/Nature";
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
 import ChildCareIcon from "@material-ui/icons/ChildCare";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
-import TerrainIcon from "@material-ui/icons/Terrain";
-import TvIcon from "@material-ui/icons/Tv";
-import KingBedIcon from "@material-ui/icons/KingBed";
-import HttpsIcon from "@material-ui/icons/Https";
-import SportsCricketIcon from "@material-ui/icons/SportsCricket";
-import WeekendIcon from "@material-ui/icons/Weekend";
-import BathtubIcon from "@material-ui/icons/Bathtub";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import InfoIcon from "@material-ui/icons/Info";
-import API from "../../../pages/owner/service";
+
 import _ from "lodash";
-import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi";
 import { Field, useFormik, Form, Formik } from "formik";
 import FormControl from "@material-ui/core/FormControl";
 import Typography from "@material-ui/core/Typography";
@@ -82,10 +70,15 @@ const validationSchema = yup.object({
     })
     .required("This field is required"),
   room_name: yup.string().required("Enter your room's name"),
-//   type: yup.string().required("Enter your room's type"),
-number_of_bed: yup.number().integer().min(0).required("This field is required"),
+  type_of_room: yup.string().required("Enter your room's type"),
+  number_of_bed: yup
+    .number()
+    .integer()
+    .min(0)
+    .required("This field is required"),
   price: yup.number().min(0).required("This field is required"),
-//   description: yup.string().required("This field is required"),
+  criteria: yup.string(),
+  description: yup.string().required("This field is required"),
   imgURL: yup.array().required("Image field is required"),
 });
 
@@ -96,21 +89,18 @@ export default function CreateRoom() {
   const [isLoading, setIsLoading] = useState(false);
   const [acceptTnC, setAcceptTnC] = useState(false);
   const [criterias, setCriterias] = useState([]);
-  const [allHotels, setAllHotels] = useState([]);
+  const [allHotels, setAllHotels] = useState();
   const [province, setProvince] = useState("");
   const [images, setImages] = useState([]);
 
   let imagesURLs = [];
-  //   console.log("all", all);
-  //   const pr = all;
-  //   console.log("pr", pr);
 
   const ownerToken = localStorage.getItem("token");
-//   console.log("owner token", ownerToken);
+  //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken);
   }, []);
-  console.log('all hotels', allHotels);
+  console.log("all hotels", allHotels);
   console.log(criterias);
 
   // change criterias state
@@ -128,10 +118,6 @@ export default function CreateRoom() {
       );
     }
   };
-
-  //   const handleChangeProvince = (event) => {
-  //     setProvince(event.target.value);
-  //   };
 
   //   handle upload images
   const handleUpload = async (e) => {
@@ -156,15 +142,16 @@ export default function CreateRoom() {
         .then((res) => res.json())
         .then((res) => imagesURLs.push(res.url));
     }
-
     console.log("img urls", imagesURLs);
     formik.values.imgURL = imagesURLs;
 
     setUploading(false);
   };
 
+  const test = 'email:a@gmail.com'
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListRoomPage";
+    window.location = `http://localhost:8000/owner/ListRoomPage`;
+    // window.location = `http://localhost:8000/owner/${test}`;
   };
 
   const handleGetRoomInfor = (values) => {
@@ -176,23 +163,25 @@ export default function CreateRoom() {
       console.log("type", typeof response);
       const type = typeof response;
       if (type == "object") {
-        toast.success("Sign up successfully");
+        toast.success("Create a new room successfully");
         setTimeout(redirectFunc, 3000);
       } else {
-        console.log("Sign up failed");
+        console.log("Create a new room failed");
         toast.error(response);
       }
       setIsLoading(false);
-    }; 
+    };
 
     const hotelID = 0;
     formik.values.criteria = criterias.toString();
     const data = {
-      hotel_id: values.hotel.hotel_id,
-      room_name: values.hotel_name,
+      hotel: values.hotel,
+      room_name: values.room_name,
       criteria: values.criteria,
       number_of_bed: values.number_of_bed,
+      type_of_room: values.type_of_room,
       price: values.price,
+      description: values.description,
       imgURL: values.imgURL,
     };
     setIsLoading(true);
@@ -201,12 +190,13 @@ export default function CreateRoom() {
 
   const formik = useFormik({
     initialValues: {
-        hotel_id: "",
+        hotel: "",
         room_name: "",
         criteria: "",
-        price: "",
         number_of_bed: "",
-        // description: "",
+        type_of_room: "",
+        price: "",
+        description: "",
         imgURL: [],
     },
     validationSchema: validationSchema,
@@ -240,6 +230,7 @@ export default function CreateRoom() {
             </Select>
           </FormControl>
         </Box>
+
         <FormControl className="my-2">
           <Typography variant="subtitle1">Room's name</Typography>
           <TextField
@@ -255,20 +246,20 @@ export default function CreateRoom() {
           />
         </FormControl>
 
-        {/* <FormControl className="my-2">
+        <FormControl className="my-2">
           <Typography variant="subtitle1">Room's type</Typography>
           <TextField
             sx={{
               height: "85px",
             }}
             placeholder="Enter your hotel's type..."
-            name="type"
-            value={formik.values.type}
-            error={formik.touched.type && Boolean(formik.errors.type)}
+            name="type_of_room"
+            value={formik.values.type_of_room}
+            error={formik.touched.type_of_room && Boolean(formik.errors.type_of_room)}
             onChange={formik.handleChange}
-            helperText={formik.touched.type && formik.errors.type}
+            helperText={formik.touched.type_of_room && formik.errors.type_of_room}
           />
-        </FormControl> */}
+        </FormControl>
 
         <FormControl className="my-2">
           <Typography variant="subtitle1">Number of beds</Typography>
@@ -279,9 +270,14 @@ export default function CreateRoom() {
             placeholder="Enter the number of beds..."
             name="number_of_bed"
             value={formik.values.number_of_bed}
-            error={formik.touched.number_of_bed && Boolean(formik.errors.number_of_bed)}
+            error={
+              formik.touched.number_of_bed &&
+              Boolean(formik.errors.number_of_bed)
+            }
             onChange={formik.handleChange}
-            helperText={formik.touched.number_of_bed && formik.errors.number_of_bed}
+            helperText={
+              formik.touched.number_of_bed && formik.errors.number_of_bed
+            }
           />
         </FormControl>
 
@@ -300,7 +296,7 @@ export default function CreateRoom() {
           />
         </FormControl>
 
-        {/* <FormControl className="my-2">
+        <FormControl className="my-2">
           <Typography variant="subtitle1">Hotel's description</Typography>
           <TextareaAutosize
             sx={{
@@ -321,7 +317,8 @@ export default function CreateRoom() {
             onChange={formik.handleChange}
             helperText={formik.touched.description && formik.errors.description}
           />
-        </FormControl> */}
+        </FormControl>
+
         <FormLabel>Amenities (select criterias of your hotel)</FormLabel>
         <FormGroup>
           <div className="flex">

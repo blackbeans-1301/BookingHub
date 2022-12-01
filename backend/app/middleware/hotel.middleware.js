@@ -46,7 +46,7 @@ exports.createHotel = async (req, res) => {
             }
             await Image.bulkCreate(imgData).then(data => {
             }).catch(err => {
-                return res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
+                return res.status(500).send({message: "An error occurred on the server side (add image): " + err})
             });
             res.status(200).send(hotelInfo);
         }
@@ -56,7 +56,7 @@ exports.createHotel = async (req, res) => {
 exports.getUserHotels = (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
     if (!userData.isOwner) {
-        return res.status(400).send({Message: "User isn't owner"})
+        return res.status(400).send({message: "User isn't owner"})
     } else {
         Hotel.findAll({
             where: { 
@@ -74,7 +74,7 @@ exports.getUserHotels = (req, res) => {
         }).then(data => {
             res.status(200).send(data);
         }).catch(err => {
-            return res.status(500).send({Message: "err in sever-side (getUserHotels)" + err})
+            return res.status(500).send({message: "err in sever-side (getUserHotels)" + err})
         })
     }
 }
@@ -105,7 +105,7 @@ exports.updateHotel = async (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
     let isErr = false;
     if (!userData.isOwner) {
-        return res.status(400).send({Message: "User isn't owner"})
+        return res.status(400).send({message: "User isn't owner"})
     }
     await Hotel.update({
         name: req.body.name,
@@ -122,10 +122,10 @@ exports.updateHotel = async (req, res) => {
         //console.log(data);
         if (!data[0]) {
             isErr = true;
-            return res.status(400).send({Message: "Hotel is not exists"})
+            return res.status(400).send({message: "Hotel is not exists"})
         }
     }).catch(err => {
-        return res.status(500).send({Message: "An error occurred on the server side (update hotel)" + err.message})
+        return res.status(500).send({message: "An error occurred on the server side (update hotel)" + err.message})
     })
     if (!isErr) {
         await Image.destroy({
@@ -143,8 +143,8 @@ exports.updateHotel = async (req, res) => {
     
         await Image.bulkCreate(imgData).then(data => {
         }).catch(err => {
-            return res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
+            return res.status(500).send({message: "An error occurred on the server side (add image): " + err})
         })
-        res.status(200).send({Message: "Update successful"})
+        res.status(200).send({message: "Update successful"})
     } 
 }

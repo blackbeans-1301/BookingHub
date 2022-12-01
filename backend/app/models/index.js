@@ -22,10 +22,11 @@ db.user = require("./user.model.js")(sequelize, DataTypes);
 db.hotel = require("./hotel.model.js")(sequelize, DataTypes);
 db.room = require("./room.model.js")(sequelize, DataTypes);
 db.image = require("./image.model.js")(sequelize, DataTypes);
+db.reservation = require("./reservation.model.js")(sequelize, DataTypes);
 
 db.user.associate(db);
 db.hotel.associate(db);
 db.room.associate(db);
 db.image.associate(db);
-
+db.reservation.associate(db);
 module.exports = db;

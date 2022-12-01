@@ -13,36 +13,41 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         date_in: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            allowNull: false,
-        },
-        date_out: {
-            type: DataTypes.STRING,
+            type: DataTypes.DATEONLY,
             allowNull: false
         },
+        date_out: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        check_in: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        check_out: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
         number_of_rooms: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         status: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
+            type: DataTypes.STRING,
+            defaultValue: 'waiting',
+            allowNull: false,            
         }
     });
-    Room.associate = function (models) {
-        // associations can be defined here
-        Room.belongsTo(models.hotel, {
-            //as: 'roomhotel',
-            foreignKey: 'hotel_id',
-            onDelete: 'RESTRICT',
-            onUpdate: 'CASCADE'
-        });
-        Room.hasMany(models.image, {
-            foreignKey: 'room_id',
+    Reservation.associate = function (models) {
+        Reservation.belongsTo(models.user, {
+            foreignKey: 'user_id',
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         })
+        Reservation.belongsToMany(models.room, { 
+            through: 'occupied_room',
+            foreignKey: 'reservation_id'
+        });
     }
-    return Room;
+    return Reservation;
 };
