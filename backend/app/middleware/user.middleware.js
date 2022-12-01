@@ -38,7 +38,7 @@ exports.register = async (req, res) => {
             // ma hoa mat khau Sync
             var salt = bcrypt.genSaltSync(10);
             var passwordHash = bcrypt.hashSync(password, salt);
-            
+
             // tao thong tin cho user
             const userInfo = {
                 email: email,
@@ -53,7 +53,6 @@ exports.register = async (req, res) => {
             }
 
             User.create(userInfo).then(data => {
-                console.log(data)
                 delete data.dataValues.password;
                 delete data.dataValues.createdAt;
                 delete data.dataValues.updateAt;

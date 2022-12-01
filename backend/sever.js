@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 app.use("/user", require("./app/routers/user.router.js"))
 app.use("/hotel", require("./app/routers/hotel.router.js"))
 app.use("/room", require('./app/routers/room.router.js'))
+app.use("/reservation", require("./app/routers/reservation.router.js"))
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
