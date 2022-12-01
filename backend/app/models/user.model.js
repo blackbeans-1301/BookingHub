@@ -57,6 +57,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         });
+        User.hasMany(models.reservation, {
+            foreignKey: 'user_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
     }
     return User;
 };

@@ -9,7 +9,7 @@ router.post('/create', userMiddleware.authenticateJWT, hotelMiddleware.createHot
 router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.updateHotel);
 
 // get all user's hotels
-router.get('/userHotels', userMiddleware.authenticateJWT, hotelMiddleware.getUserHotels);
+router.get('/ownerHotels', userMiddleware.authenticateJWT, hotelMiddleware.getUserHotels);
 
 // TODO: find hotel
 // TODO: delete a hotel

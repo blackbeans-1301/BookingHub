@@ -10,7 +10,7 @@ exports.room_isBelongUser = (req, res, next) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
     
     if (!userData.isOwner) {
-        return res.status(400).send({Message: "User isn't owner"});
+        return res.status(400).send({message: "User isn't owner"});
     } else {
         // kiem tra xem room co phai cua user khong
         Hotel.findOne({
@@ -26,12 +26,12 @@ exports.room_isBelongUser = (req, res, next) => {
             ]
         }).then(data => {
             if (data.dataValues.User.user_id !== userData.user_id) {
-                return res.status(400).send({Message: "Room doesn't belong to owner"})    
+                return res.status(400).send({message: "Room doesn't belong to owner"})    
             } else {
                 next();
             }
         }).catch(err => {
-            return res.status(500).send({Message: "Error on sever-side: " + err})
+            return res.status(500).send({message: "Error on sever-side: " + err})
         })
     }
     
@@ -43,13 +43,15 @@ exports.room_create = async (req, res) => {
     const userData = req.bookingHub_user_infor[0].dataValues;
     let isErr = false;
     if (!userData.isOwner) {
-        return res.status(400).send({Message: "User isn't owner"});
+        return res.status(400).send({message: "User isn't owner"});
     } else {
         const room = {
-            hotel_id: req.body.hotel_id,
+            hotel_id: req.body.hotel.hotel_id,
             room_name: req.body.room_name,
             criteria: req.body.criteria,
             price: req.body.price,
+            description: req.body.description,
+            type_of_room: req.body.type_of_room,
             number_of_bed: req.body.number_of_bed,
             status: 0,
         }
@@ -58,7 +60,7 @@ exports.room_create = async (req, res) => {
             roomInfo = data.dataValues
         }).catch(err => {
             isErr = true;
-            return res.status(500).send({Message: "An error occurred on the server side (create hotel)" + err})
+            return res.status(500).send({message: "An error occurred on the server side (create hotel)" + err})
         })
         if (!isErr) {
             let imgData = [];
@@ -77,7 +79,7 @@ exports.room_create = async (req, res) => {
             await Image.bulkCreate(imgData).then(data => {
             }).catch(err => {
                 isErr = true;
-                res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
+                res.status(500).send({message: "An error occurred on the server side (add image): " + err})
             });
             if (!isErr) {
                 res.status(200).send(roomInfo);
@@ -105,7 +107,7 @@ exports.room_list = (req, res) => {
     }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
-        return res.status(500).send({Message: "err in sever-side (getUserHotels)" + err})
+        return res.status(500).send({message: "err in sever-side (getUserHotels)" + err})
     })
 }
 
@@ -127,7 +129,7 @@ exports.room_list_empty = (req, res) => {
     }).then(data => {
         res.status(200).send(data);
     }).catch(err => {
-        return res.status(500).send({Message: "err in sever-side (getUserHotels)" + err})
+        return res.status(500).send({message: "err in sever-side (getUserHotels)" + err})
     })
 }
 exports.room_info = (req, res) => {
@@ -147,7 +149,7 @@ exports.room_info = (req, res) => {
     }).then(data => {
         res.send(data);
     }).catch(err => {
-        return res.status(500).send({Message: "error" + err})
+        return res.status(500).send({message: "error" + err})
     })
 }
 // UPDATE ROOM
@@ -158,22 +160,23 @@ exports.room_update = async (req, res) => {
     await Room.update({
         room_name: req.body.room_name,
         criteria: req.body.criteria,
+        description: req.body.description,
         price: req.body.price,
         number_of_bed: req.body.number_of_bed
     },{
         where: {
             room_id: req.body.room_id,
-            hotel_id: req.body.hotel_id
+            hotel_id: req.body.hotel.hotel_id
         }
     }).then(data => {
         //console.log(data);
         if (!data[0]) {
             isErr = true;
-            return res.status(400).send({Message: "Room is not exists"})
+            return res.status(400).send({message: "Room is not exists"})
         }
     }).catch(err => {
         isErr = true;
-        return res.status(500).send({Message: "An error occurred on the server side (update hotel)" + err.message})
+        return res.status(500).send({message: "An error occurred on the server side (update hotel)" + err.message})
     })
     if (!isErr) {
         await Image.destroy({
@@ -191,10 +194,10 @@ exports.room_update = async (req, res) => {
         await Image.bulkCreate(imgData).then(data => {
         }).catch(err => {
             isErr = true;
-            return res.status(500).send({Message: "An error occurred on the server side (add image): " + err})
+            return res.status(500).send({message: "An error occurred on the server side (add image): " + err})
         })
         if (!isErr) {
-            res.status(200).send({Message: "Update successful"})
+            res.status(200).send({message: "Update successful"})
         }    
     } 
 }

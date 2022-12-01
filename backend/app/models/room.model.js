@@ -20,11 +20,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: false
         },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
         price: {
             type: DataTypes.FLOAT,
             allowNull: false
         },
         number_of_bed: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        type_of_room: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -46,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         })
+        Room.belongsToMany(models.reservation, { 
+            through: 'occupied_room',
+            foreignKey: 'room_id' 
+        }); 
     }
     return Room;
 };
