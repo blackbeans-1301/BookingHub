@@ -14,7 +14,6 @@ function GetCurrentDate() {
     return today;
 }
 
-
 function findUserWithEmail(email) {
     return User.findAll({
         where: {
@@ -35,33 +34,33 @@ exports.register = async (req, res) => {
         if (allUsersWithEnterdEmail.length > 0) {
             res.status(400).send({ message: "Email has already existed!" })
             return;
-        }
+        } else {
+            // ma hoa mat khau Sync
+            var salt = bcrypt.genSaltSync(10);
+            var passwordHash = bcrypt.hashSync(password, salt);
+            
+            // tao thong tin cho user
+            const userInfo = {
+                email: email,
+                password: passwordHash,
+                firstName: firstName,
+                lastName: lastName,
+                dob: dob,
+                member_since: GetCurrentDate(),
+                gender: gender,
+                phone_number: phone_number,
+                isOwner: isOwner
+            }
 
-        // ma hoa mat khau Sync
-        var salt = bcrypt.genSaltSync(10);
-        var passwordHash = bcrypt.hashSync(password, salt);
-
-        // tao thong tin cho user
-        const userInfo = {
-            email: email,
-            password: passwordHash,
-            firstName: firstName,
-            lastName: lastName,
-            dob: dob,
-            member_since: GetCurrentDate(),
-            gender: gender,
-            phone_number: phone_number,
-            isOwner: isOwner
-        }
-
-        User.create(userInfo).then(data => {
-            console.log(data)
-            delete data.dataValues.password;
-            delete data.dataValues.createdAt;
-            delete data.dataValues.updateAt;
+            User.create(userInfo).then(data => {
+                console.log(data)
+                delete data.dataValues.password;
+                delete data.dataValues.createdAt;
+                delete data.dataValues.updateAt;
     
-            res.status(201).send({ message: "Registered successfully!", user: data.dataValues })
-        })
+                res.status(201).send({ message: "Registered successfully!", user: data.dataValues })
+            })
+        }
     } catch (err) {
         res.status(400).send({ message: "Failed to create user", err })
     }
