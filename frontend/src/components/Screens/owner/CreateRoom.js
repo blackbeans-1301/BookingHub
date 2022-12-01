@@ -1,10 +1,12 @@
 import * as React from "react";
+import * as yup from "yup";
 import { useState } from "react";
+import { useEffect } from "react";
 import PoolIcon from "@material-ui/icons/Pool";
 import SpaIcon from "@material-ui/icons/Spa";
-import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
 import RestaurantIcon from "@material-ui/icons/Restaurant";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
+import FireplaceIcon from "@material-ui/icons/Fireplace";
 import RoomServiceIcon from "@material-ui/icons/RoomService";
 import WifiIcon from "@material-ui/icons/Wifi";
 import AcUnitIcon from "@material-ui/icons/AcUnit";
@@ -15,54 +17,838 @@ import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
 import KitchenIcon from "@material-ui/icons/Kitchen";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
-import TerrainIcon from "@material-ui/icons/Terrain";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import StorefrontIcon from "@material-ui/icons/Storefront";
-import TvIcon from "@material-ui/icons/Tv";
+import GolfCourseIcon from "@material-ui/icons/GolfCourse";
 import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
 import DeckIcon from "@material-ui/icons/Deck";
-import KingBedIcon from "@material-ui/icons/KingBed";
+import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill";
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
 import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
+import WavesIcon from "@material-ui/icons/Waves";
+import LocationCityIcon from "@material-ui/icons/LocationCity";
+import NatureIcon from "@material-ui/icons/Nature";
+import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
+import ChildCareIcon from "@material-ui/icons/ChildCare";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
+import GTranslateIcon from "@material-ui/icons/GTranslate";
+import TerrainIcon from "@material-ui/icons/Terrain";
+import TvIcon from "@material-ui/icons/Tv";
+import KingBedIcon from "@material-ui/icons/KingBed";
 import HttpsIcon from "@material-ui/icons/Https";
 import SportsCricketIcon from "@material-ui/icons/SportsCricket";
-import NatureIcon from "@material-ui/icons/Nature";
 import WeekendIcon from "@material-ui/icons/Weekend";
-import ChildCareIcon from "@material-ui/icons/ChildCare";
 import BathtubIcon from "@material-ui/icons/Bathtub";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import InfoIcon from "@material-ui/icons/Info";
-
-import API from "./service";
+import API from "../../../pages/owner/service";
 import _ from "lodash";
-import OwnerLayout from "../../components/Layouts/OwnerLayout";
+import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi";
+import { Field, useFormik, Form, Formik } from "formik";
+import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import { LoadingButton } from "@mui/lab";
+import { toast } from "react-toastify";
+import { Fragment } from "react";
+import {
+  Box,
+  FormControlLabel,
+  Checkbox,
+  FormLabel,
+  FormGroup,
+  TextareaAutosize,
+} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { IMAGE_CLOUD_API } from "../../../configs/api";
+import ToastMessage from "../../Items/ToastMessage";
+import { createRoomApi } from "../../../apis/roomApi";
+import { getAllHotels } from "../../../apis/hotelApi";
 
-export default function CreateHotelPage() {
+const validationSchema = yup.object({
+  hotel: yup
+    .object({
+      Images: yup.array(),
+      address: yup.string(),
+      criteria: yup.string(),
+      description: yup.string(),
+      hotel_id: yup.string(),
+      name: yup.string(),
+      province: yup.string(),
+      rating: yup.string(),
+    })
+    .required("This field is required"),
+  room_name: yup.string().required("Enter your room's name"),
+//   type: yup.string().required("Enter your room's type"),
+number_of_bed: yup.number().integer().min(0).required("This field is required"),
+  price: yup.number().min(0).required("This field is required"),
+//   description: yup.string().required("This field is required"),
+  imgURL: yup.array().required("Image field is required"),
+});
+
+export default function CreateRoom() {
   const [progress, setProgress] = useState(0);
   const [isUploading, setUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [acceptTnC, setAcceptTnC] = useState(false);
+  const [criterias, setCriterias] = useState([]);
+  const [allHotels, setAllHotels] = useState([]);
+  const [province, setProvince] = useState("");
+  const [images, setImages] = useState([]);
 
+  let imagesURLs = [];
+  //   console.log("all", all);
+  //   const pr = all;
+  //   console.log("pr", pr);
+
+  const ownerToken = localStorage.getItem("token");
+//   console.log("owner token", ownerToken);
+  useEffect(() => {
+    getAllHotels(setAllHotels, ownerToken);
+  }, []);
+  console.log('all hotels', allHotels);
+  console.log(criterias);
+
+  // change criterias state
+  const handleChange = (event) => {
+    setAcceptTnC(event.target.checked);
+  };
+
+  const handleCriteriaChange = (event) => {
+    const index = criterias.indexOf(event.target.value);
+    if (index === -1) {
+      setCriterias([...criterias, event.target.value]);
+    } else {
+      setCriterias(
+        criterias.filter((criteria) => criteria !== event.target.value)
+      );
+    }
+  };
+
+  //   const handleChangeProvince = (event) => {
+  //     setProvince(event.target.value);
+  //   };
+
+  //   handle upload images
   const handleUpload = async (e) => {
     let { files } = e.target;
+    console.log("files", files);
+
+    const uploadName = "jqlebxmc";
 
     let formData = new FormData();
+
     setUploadedImages([]);
-    _.forEach(e.target.files, (file) => {
-      formData.append("files", file);
-    });
+
     setUploading(true);
-    let { data } = await API.post("/images/multiple-upload", formData, {
-      onUploadProgress: ({ loaded, total }) => {
-        setProgress(((loaded / total) * 100).toFixed(2));
-      },
-    });
-    // setProgress(0);
-    setUploadedImages(data);
+    for (let i = 0; i < files.length; i++) {
+      let file = files[i];
+      formData.append("file", file);
+      formData.append("upload_preset", uploadName);
+      fetch(IMAGE_CLOUD_API, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((res) => imagesURLs.push(res.url));
+    }
+
+    console.log("img urls", imagesURLs);
+    formik.values.imgURL = imagesURLs;
+
     setUploading(false);
   };
 
+  const redirectFunc = () => {
+    window.location = "http://localhost:8000/owner/ListRoomPage";
+  };
+
+  const handleGetRoomInfor = (values) => {
+    const token = localStorage.getItem("token");
+    console.log("token", token);
+    const signUp = async (postData) => {
+      const response = await createRoomApi(postData, token);
+      console.log("response", response);
+      console.log("type", typeof response);
+      const type = typeof response;
+      if (type == "object") {
+        toast.success("Sign up successfully");
+        setTimeout(redirectFunc, 3000);
+      } else {
+        console.log("Sign up failed");
+        toast.error(response);
+      }
+      setIsLoading(false);
+    }; 
+
+    const hotelID = 0;
+    formik.values.criteria = criterias.toString();
+    const data = {
+      hotel_id: values.hotel.hotel_id,
+      room_name: values.hotel_name,
+      criteria: values.criteria,
+      number_of_bed: values.number_of_bed,
+      price: values.price,
+      imgURL: values.imgURL,
+    };
+    setIsLoading(true);
+    signUp(data);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+        hotel_id: "",
+        room_name: "",
+        criteria: "",
+        price: "",
+        number_of_bed: "",
+        // description: "",
+        imgURL: [],
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log("value", values);
+      handleGetRoomInfor(values);
+    },
+  });
+
   return (
-    <OwnerLayout>
-      <div>
+    <div>
+      <h1 className="font-bold text-2xl m-5">Create a new room</h1>
+      <ToastMessage />
+      <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Hotel's name</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={formik.values.hotel}
+              name="hotel"
+              label="Hotel's name"
+              onChange={formik.handleChange}
+              error={formik.touched.hotel && !!formik.errors.hotel}
+            >
+              {allHotels != undefined &&
+                allHotels.map((p) => {
+                  return <MenuItem value={p}>{p.name}</MenuItem>;
+                })}
+            </Select>
+          </FormControl>
+        </Box>
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Room's name</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter your room's name..."
+            name="room_name"
+            value={formik.values.room_name}
+            error={formik.touched.room_name && Boolean(formik.errors.room_name)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.room_name && formik.errors.room_name}
+          />
+        </FormControl>
+
+        {/* <FormControl className="my-2">
+          <Typography variant="subtitle1">Room's type</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter your hotel's type..."
+            name="type"
+            value={formik.values.type}
+            error={formik.touched.type && Boolean(formik.errors.type)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.type && formik.errors.type}
+          />
+        </FormControl> */}
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Number of beds</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter the number of beds..."
+            name="number_of_bed"
+            value={formik.values.number_of_bed}
+            error={formik.touched.number_of_bed && Boolean(formik.errors.number_of_bed)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.number_of_bed && formik.errors.number_of_bed}
+          />
+        </FormControl>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Price for a night</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter the price for a night..."
+            name="price"
+            value={formik.values.price}
+            error={formik.touched.price && Boolean(formik.errors.price)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.price && formik.errors.price}
+          />
+        </FormControl>
+
+        {/* <FormControl className="my-2">
+          <Typography variant="subtitle1">Hotel's description</Typography>
+          <TextareaAutosize
+            sx={{
+              height: "85px",
+            }}
+            style={{
+              border: "1px solid black",
+              padding: "4px",
+              paddingLeft: "6px",
+            }}
+            minRows={3}
+            placeholder="Enter your hotel's description..."
+            name="description"
+            value={formik.values.description}
+            error={
+              formik.touched.description && Boolean(formik.errors.description)
+            }
+            onChange={formik.handleChange}
+            helperText={formik.touched.description && formik.errors.description}
+          />
+        </FormControl> */}
+        <FormLabel>Amenities (select criterias of your hotel)</FormLabel>
+        <FormGroup>
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="fire-extinguisher"
+                  checked={criterias.includes("fire-extinguisher")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <FireplaceIcon /> Fire extinguisher
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="air-conditioned"
+                  checked={criterias.includes("air-conditioned")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <AcUnitIcon /> Air-conditioned
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="Elevator"
+                  checked={criterias.includes("Elevator")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <SwapVerticalCircleIcon /> Elevator
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="pet-allowed"
+                  checked={criterias.includes("pet-allowed")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <PetsIcon /> Pets allowed
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="outdoor-pool"
+                  checked={criterias.includes("outdoor-pool")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <PoolIcon /> Outdoor-pool
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="indoor-pool"
+                  checked={criterias.includes("indoor-pool")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <PoolIcon /> Indoor pool
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="spa"
+                  checked={criterias.includes("spa")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <SpaIcon /> Spa and wellness center
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="fitness"
+                  checked={criterias.includes("fitness")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <FitnessCenterIcon /> Fitness center
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="restaurant"
+                  checked={criterias.includes("restaurant")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <RestaurantIcon />
+                  Restaurant
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="bar"
+                  checked={criterias.includes("bar")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <RestaurantIcon /> Bar/ Lounge
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="room-service"
+                  checked={criterias.includes("room-service")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <RoomServiceIcon /> Room service
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="wifi"
+                  checked={criterias.includes("wifi")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <WifiIcon /> Free wifi
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="coffee-shop"
+                  checked={criterias.includes("coffee-shop")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <FreeBreakfastIcon /> Coffee shop
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="free-parking"
+                  checked={criterias.includes("free-parking")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <LocalParkingIcon /> Free parking
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="minibar"
+                  checked={criterias.includes("minibar")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <KitchenIcon /> Minibar
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="snack-bar"
+                  checked={criterias.includes("snack-bar")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <FastfoodIcon /> Snack bar
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="shop"
+                  checked={criterias.includes("shop")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <StorefrontIcon /> Shops on site
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="golf"
+                  checked={criterias.includes("golf")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <GolfCourseIcon /> Golf
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="ironing"
+                  checked={criterias.includes("ironing")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <LocalLaundryServiceIcon /> Ironing service
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="gift-shop"
+                  checked={criterias.includes("gift-shop")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <CardGiftcardIcon /> Gift shop
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="garden"
+                  checked={criterias.includes("garden")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <LocalFloristIcon /> Garden
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="terrace"
+                  checked={criterias.includes("terrace")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <DeckIcon /> Terrace/ Patio
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="atm"
+                  checked={criterias.includes("atm")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <LocalAtmIcon /> ATM on-site
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="car-rental"
+                  checked={criterias.includes("car-rental")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <DirectionsCarIcon /> Car rental
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="grill"
+                  checked={criterias.includes("grill")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <OutdoorGrillIcon /> Grill
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="lake-view"
+                  checked={criterias.includes("lake-view")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <WavesIcon /> Lake view
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="city-view"
+                  checked={criterias.includes("city-view")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <LocationCityIcon /> City view
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="playground"
+                  checked={criterias.includes("playground")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <NatureIcon /> Playground
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="buffet"
+                  checked={criterias.includes("buffet")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <RestaurantMenuIcon /> Buffet
+                </Fragment>
+              }
+            />
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="childcare"
+                  checked={criterias.includes("childcare")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <ChildCareIcon /> Babysitting or childcare
+                </Fragment>
+              }
+            />
+          </div>
+
+          <div className="flex">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  value="other"
+                  checked={criterias.includes("other")}
+                  onChange={handleCriteriaChange}
+                />
+              }
+              label={
+                <Fragment>
+                  <MoreHorizIcon /> Others
+                </Fragment>
+              }
+            />
+          </div>
+        </FormGroup>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Hotel's imgURL</Typography>
+          <input
+            type="file"
+            onChange={handleUpload}
+            // hidden
+            multiple
+            size="50"
+          />
+        </FormControl>
+
+        <LoadingButton
+          type="submit"
+          loading={isLoading}
+          variant="contained"
+          className="bg-sky-300 text-xl font-bold rounded-full mt-4 hover:bg-sky-500 hover:text-white py-2"
+        >
+          Send
+        </LoadingButton>
+      </form>
+    </div>
+  );
+}
+
+{
+  /* <div>
         <h1 className="font-bold text-2xl m-5">Create a new room</h1>
 
         <form>
@@ -89,7 +875,7 @@ export default function CreateHotelPage() {
               <p className="text-colorText w-40 h-4">Address</p>
               <input
                 type="text"
-                placeholder="Enter your hotel's address..."
+                placeholder="Enter your hotel's type..."
                 className="p-1 pl-2 flex-1 rounded-md"
               />
             </div>
@@ -1124,9 +1910,5 @@ export default function CreateHotelPage() {
             </div>
           </div>
         </form>
-      </div>
-    </OwnerLayout>
-  );
+</div> */
 }
-
-// export const Head = () => <title>Home Page</title>;

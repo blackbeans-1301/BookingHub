@@ -52,7 +52,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  (window.location = "http://localhost:8000/owner/CreateRoom")
+                  (window.location = "http://localhost:8000/owner/CreateRoomPage")
                 }
               >
                 Select
