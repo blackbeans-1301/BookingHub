@@ -108,7 +108,7 @@ export default function Login({ isVisible, isClose }) {
     const data = {
       email: values.email,
       password: values.password,
-      isOwner: 0,
+      isOwner: 1,
     };
     setIsLoading(true);
     getToken(data);
@@ -151,7 +151,7 @@ export default function Login({ isVisible, isClose }) {
       dob: values.dob, 
       gender: values.gender,
       phone_number: values.phone_number,
-      isOwner: 0,
+      isOwner: 1,
     };
     setIsLoading(true);
     signUp(data);
@@ -167,7 +167,7 @@ export default function Login({ isVisible, isClose }) {
       dob: "", 
       gender: "",
       phone_number: "",
-      isOwner: 0,
+      isOwner: 1,
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
