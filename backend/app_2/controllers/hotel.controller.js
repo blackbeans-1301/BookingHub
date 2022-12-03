@@ -22,7 +22,7 @@ exports.GetOwnerHotels = (hotelModel, imageModel, accountData) => {
             owner_id: accountData.owner_id
         },
         attributes: {
-            exclude: ['user_id', 'createdAt', 'updatedAt']
+            exclude: ['user_id']
         },
         include: [
             {
@@ -44,7 +44,7 @@ exports.GetHotelInfo = (req, hotelModel, imageModel) => {
             hotel_id: req.params.hotel_id
         },
         attributes: {
-            exclude: ['user_id', 'createdAt', 'updatedAt']
+            exclude: ['user_id']
         },
         include: [
             {
