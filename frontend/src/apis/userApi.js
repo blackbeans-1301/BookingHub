@@ -3,6 +3,7 @@ import qs from "qs";
 
 import {
   GET_USER_INFOR_URL,
+  GOOGLE_REGISTER_URL,
   LOGIN_URL,
   REGISTER_URL,
   RESET_PASSWORD_URL,
@@ -90,4 +91,8 @@ export const resetPassword = async (data, tokenStr) => {
     });
 
   return response;
+};
+
+export const googleRegister = async () => {
+  const res = axios.get(GOOGLE_REGISTER_URL).then((res) => console.log(res));
 };

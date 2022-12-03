@@ -34,7 +34,11 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import API from "../../../pages/owner/service";
 import _ from "lodash";
-import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi";
+import {
+  createHotelApi,
+  getAllProvinces,
+  getHotelById,
+} from "../../../apis/hotelApi";
 import { Field, useFormik, Form, Formik } from "formik";
 import FormControl from "@material-ui/core/FormControl";
 import Typography from "@material-ui/core/Typography";
@@ -65,7 +69,7 @@ const validationSchema = yup.object({
   imgURL: yup.array().required("Image field is required"),
 });
 
-export default function CreateHotel() {
+export default function UpdateHotel() {
   const [progress, setProgress] = useState(0);
   const [isUploading, setUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -75,7 +79,7 @@ export default function CreateHotel() {
   const [all, setAll] = useState();
   const [province, setProvince] = useState("");
   const [images, setImages] = useState([]);
-  const [imgFile, setImgFile] = useState();
+  const [hotelInfor, setHotelInfor] = useState();
 
   let imagesURLs = [];
   console.log("all", all);
@@ -83,6 +87,9 @@ export default function CreateHotel() {
   console.log("pr", pr);
 
   console.log(criterias);
+
+  const token = localStorage.getItem("token");
+  const hotelID = localStorage.getItem("hotelID");
 
   // change criterias state
   const handleChange = (event) => {
@@ -128,7 +135,7 @@ export default function CreateHotel() {
         .then((res) => imagesURLs.push(res.url));
     }
 
-    console.log('img urls', imagesURLs)
+    console.log("img urls", imagesURLs);
     formik.values.imgURL = imagesURLs;
 
     setUploading(false);
@@ -140,7 +147,7 @@ export default function CreateHotel() {
 
   const redirectFunc = () => {
     window.location = "http://localhost:8000/owner/ListHotelPage";
-  }
+  };
 
   const handleGetHotelInfor = (values) => {
     const token = localStorage.getItem("token");
@@ -172,14 +179,20 @@ export default function CreateHotel() {
     signUp(data);
   };
 
+  useEffect(() => {
+    getHotelById(hotelID, setHotelInfor, token);
+  }, []);
+
+  console.log("hotel infor", hotelInfor);
+
   const formik = useFormik({
     initialValues: {
-      name: "",
-      description: "",
-      address: "",
-      province: "",
-      criteria: "",
-      imgURL: [],
+      name: hotelInfor.name,
+      description: hotelInfor.description,
+      address: hotelInfor.address,
+      province: hotelInfor.province,
+      criteria: hotelInfor.criteria,
+      imgURL: hotelInfor.Images,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -190,7 +203,7 @@ export default function CreateHotel() {
 
   return (
     <div>
-      <h1 className="font-bold text-2xl m-5">Create a new hotel</h1>
+      <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1>
       <ToastMessage />
       <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
         <FormControl className="my-2">
@@ -247,12 +260,12 @@ export default function CreateHotel() {
           <Typography variant="subtitle1">Hotel's description</Typography>
           <TextareaAutosize
             sx={{
-              height: "85px"
+              height: "85px",
             }}
             style={{
               border: "1px solid black",
               padding: "4px",
-              paddingLeft: "6px"
+              paddingLeft: "6px",
             }}
             minRows={3}
             placeholder="Enter your hotel's description..."
@@ -786,7 +799,6 @@ export default function CreateHotel() {
           Send
         </LoadingButton>
       </form>
-      {}
     </div>
   );
 }

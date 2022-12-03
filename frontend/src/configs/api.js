@@ -20,6 +20,10 @@ export const UPDATE_USER_INFOR_URL = `${DOMAIN_URL}/user/updateUser`;
 
 export const RESET_PASSWORD_URL = `${DOMAIN_URL}/user/resetPassword`;
 
+// API for register with Google-------------------------------------
+
+export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`;
+
 // API for get provinces--------------------------------------------
 
 export const PROVINCE_OPEN_API = "https://provinces.open-api.vn/api/";
@@ -30,7 +34,11 @@ export const GET_PROVINCES_URL = `${PROVINCE_OPEN_API}/p`;
 
 export const CREATE_HOTEL_URL = `${DOMAIN_URL}/hotel/create`;
 
-export const GET_ALL_HOTELS_URL = `${DOMAIN_URL}/hotel/ownerHotel`
+export const GET_ALL_HOTELS_URL = `${DOMAIN_URL}/hotel/ownerHotels`;
+
+export const GET_HOTEL_BY_ID_URL = `${DOMAIN_URL}/hotel`;
+
+export const UPDATE_HOTEL_URL = `${DOMAIN_URL}/hotel/update`;
 
 // API for room------------------------------------------------
 

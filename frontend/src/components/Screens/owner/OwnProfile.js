@@ -45,6 +45,7 @@ export default function OwnProfile() {
             <EditIcon />
           </button>
         </div>
+        
         {/* <div className="flex mt-3">
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 w-5/6">
               <CameraAltIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
