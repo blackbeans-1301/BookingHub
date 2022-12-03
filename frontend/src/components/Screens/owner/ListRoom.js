@@ -1,21 +1,40 @@
 import * as React from "react";
-import Navigation from "../../components/Layouts/LayoutComponent/Navigation";
-// import Main from "../components/Layouts/Main";
-// import Header from "../../components/Layouts/Header";
-import Header from "../../components/Layouts/LayoutComponent/Header";
+import { useState, useEffect } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
 import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import OwnerHeader from "../../components/Layouts/OwnerHeader";
+import InfoRoomModal from "../../Items/InfoRoomModal";
+import { getAllRoomsApi } from "../../../apis/roomApi";
 
-const ListOfRoomPage = () => {
-  return (
-    <div className="flex">
-      <div className="flex-1 h-screen">
-        <OwnerHeader />
-
+export default function ListRoom() {
+    const [allRooms, setAllRooms] = useState();
+    const [showInfoModal, setShowInfoModal] = useState(false);
+    const [hotelDetail, setHotelDetail] = useState({
+      name: "",
+      address: "",
+      criteria: "",
+      Images: "",
+      description: "",
+      province: "",
+    });
+  
+    const token = localStorage.getItem("token");
+    const hotelID = localStorage.getItem("hotelID");
+    const data = {
+        hotelID: hotelID,
+    }
+    useEffect(() => {
+      getAllRoomsApi(setAllRooms, data, token);
+    }, []);
+    console.log("all hotels", allRooms);
+  
+    function directToUpdatePage(id) {
+      localStorage.setItem("hotelID", id);
+      window.location = "http://localhost:8000/owner/UpdateHotelPage";
+    }
+    return(
         <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
           <div className="flex mt-3">
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 w-5/6">
@@ -531,10 +550,13 @@ const ListOfRoomPage = () => {
               </div>
             </div>
           </div>
+          {showInfoModal && (
+        <InfoRoomModal
+          isVisible={showInfoModal}
+          isClose={() => setShowInfoModal(false)}
+          detail={hotelDetail}
+        />
+      )}
         </div>
-      </div>
-    </div>
-  );
-};
-
-export default ListOfRoomPage;
+    )
+}

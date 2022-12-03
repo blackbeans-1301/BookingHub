@@ -1,4 +1,5 @@
-import * as React from "react";
+import * as React from "react"
+import Reason from "../../Layouts/LayoutComponent/Reason"
 
 export default function Stay() {
   return (
@@ -7,6 +8,8 @@ export default function Stay() {
         this is the stay page
       </h1>
 
+      <Reason />
+
     </div>
-  );
+  )
 }

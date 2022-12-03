@@ -26,7 +26,15 @@ function parseDateString(value, originalValue) {
 }
 
 const today = new Date();
-const validationSchema = yup.object({
+const loginValidationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Let enter a valid email")
+    .required("Enter your email"),
+  password: yup.string().required("Enter your password"),
+});
+
+const registerValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
@@ -39,6 +47,13 @@ const validationSchema = yup.object({
   phone_number: yup.string().required("Enter your phone number"),
 });
 
+const forgotPassValidationSchema = yup.object({
+  email: yup
+    .string()
+    .email("Let enter a valid email")
+    .required("Enter your email"),
+  password: yup.string().required("Enter your password"),
+});
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false);
   const [active, setActive] = useState("signin");
@@ -93,18 +108,19 @@ export default function Login({ isVisible, isClose }) {
     const data = {
       email: values.email,
       password: values.password,
-      isOwner: 0,
+      isOwner: 1,
     };
     setIsLoading(true);
     getToken(data);
   };
 
+  
   const loginFormik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: loginValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
       handleLogin(values);
@@ -136,7 +152,7 @@ export default function Login({ isVisible, isClose }) {
       dob: values.dob, 
       gender: values.gender,
       phone_number: values.phone_number,
-      isOwner: 0,
+      isOwner: 1,
     };
     setIsLoading(true);
     signUp(data);
@@ -152,9 +168,9 @@ export default function Login({ isVisible, isClose }) {
       dob: "", 
       gender: "",
       phone_number: "",
-      isOwner: 0,
+      isOwner: 1,
     },
-    validationSchema: validationSchema,
+    validationSchema: registerValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
       handleRegister(values);
@@ -166,7 +182,7 @@ export default function Login({ isVisible, isClose }) {
       email: "",
       password: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
       handleLogin(values);

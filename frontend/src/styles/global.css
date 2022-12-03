@@ -2,49 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-.restWidth{
-    position: absolute;
-    right: 0;
-    width: calc(100% - 235px);
+@layer base {
+  * {
+    @apply box-border;
+  }
 }
 
-.restWidth-close{
-    position: absolute;
-    right: 0;
-    width: calc(100% - 235px);
+.restWidth {
+  position: absolute;
+  right: 0;
+  width: calc(100% - 235px);
 }
 
-.nav{
-    width: 8%;
-    transition: width 0.5s;
+.restWidth-close {
+  position: absolute;
+  right: 0;
+  width: calc(100% - 235px);
+}
+
+.nav {
+  width: 8%;
+  transition: width 0.5s;
 }
 
 .group {
-    justify-content: center;
-    align-items: center;
-    margin: auto;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .nav:hover {
-    width: 15%;
-    
+  width: 15%;
 }
 
 .nav:hover .group {
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-left: 4px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-left: 4px;
 }
 
 .content {
-    width: 92%;
-    transition: width 0.5s;
+  width: 92%;
+  transition: width 0.5s;
 }
 
 .nav:hover + div {
-    width: 85%;
+  width: 85%;
 }
 
 .nav:hover .title {
-   display: block;
+  display: block;
 }

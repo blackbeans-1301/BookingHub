@@ -1,6 +1,6 @@
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
 import React, { Fragment, useState } from "react";
-import CreateTripModal from "../Items/CreateTripModal";
+import CreateTripModal from "../../Items/CreateTripModal";
 
 export default function Trips() {
   const [showModal, setShowModal] = useState(false);
