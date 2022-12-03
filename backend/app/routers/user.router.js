@@ -9,6 +9,11 @@ router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     function (req, res) {
         //TODO: redirect to front end route
+        // res.send(req.user);
+
+        // setTimeout(
+            res.redirect("http://localhost:8000/")
+        // ), 1000);
     });
 
 // register an account:
