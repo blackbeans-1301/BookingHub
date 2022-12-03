@@ -63,7 +63,7 @@ exports.getUserHotels = (req, res) => {
                 user_id: userData.user_id 
             },
             attributes: {
-                exclude: ['user_id', 'createdAt', 'updatedAt']
+                exclude: ['user_id']
             },
             include: [
                 {
@@ -85,7 +85,7 @@ exports.getInfoHotel = (req, res) => {
             hotel_id: req.params.hotel_id
         },
         attributes: {
-            exclude: ['user_id', 'createdAt', 'updatedAt']
+            exclude: ['user_id']
         },
         include: [
             {

@@ -72,10 +72,10 @@ export default function ListHotel() {
                     Address
                   </th>
                   <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                    Price
+                    Created date
                   </th>
                   <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                    Posted date
+                    Updated date
                   </th>
                   <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Actions
@@ -110,18 +110,17 @@ export default function ListHotel() {
                           </p>
                         </td>
 
-                        {/* column 7: price */}
+                        {/* column 7: created date */}
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            $20,000
+                            {hotel.createdAt}
                           </p>
-                          <p class="text-gray-600 whitespace-no-wrap">USD</p>
                         </td>
 
-                        {/* column 8: posted date */}
+                        {/* column 8: updated date */}
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            Sept 28, 2019
+                            {hotel.updatedAt}
                           </p>
                         </td>
 

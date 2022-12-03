@@ -59,7 +59,7 @@ exports.GetRoomList = (req, roomModel, imageModel) => {
             hotel_id: req.body.hotel.hotel_id
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: []
         },
         include: [
             {
@@ -80,7 +80,7 @@ exports.GetRoomInfo = (req, roomModel, imageModel) => {
             room_id: req.params.room_id,
         },
         attributes: {
-            exclude: ['createdAt', 'updatedAt']
+            exclude: []
         },
         include: [
             {
