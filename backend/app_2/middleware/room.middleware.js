@@ -60,7 +60,7 @@ exports.room_create = async (req, res) => {
 
 // READ ROOM
 exports.room_list = async (req, res) => {
-    let roomData = await roomControllers.GetRoomList(req, Room, Image);
+    let roomData = await roomControllers.GetRoomList(req, Room, Image, Hotel);
     if (roomData.code === -2) {
         return res.status(400).send({ message: "Unable to get list room", err: roomData.err })
     }
@@ -68,7 +68,7 @@ exports.room_list = async (req, res) => {
 }
 
 exports.room_info = async (req, res) => {
-    let roomData = await roomControllers.GetRoomInfo(req, Room, Image)
+    let roomData = await roomControllers.GetRoomInfo(req, Room, Image, Hotel)
     if (roomData.code === -1) {
         return res.status(400).send({ message: "Room is not exist" })
     }
