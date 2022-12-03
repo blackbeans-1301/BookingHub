@@ -43,3 +43,5 @@ export const UPDATE_HOTEL_URL = `${DOMAIN_URL}/hotel/update`;
 // API for room------------------------------------------------
 
 export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`;
+
+export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`;
