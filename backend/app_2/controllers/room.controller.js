@@ -53,18 +53,19 @@ exports.RemoveImage = (req, model) => {
     })
 }
 
-exports.GetRoomList = (req, roomModel, imageModel) => {
+exports.GetRoomList = (req, roomModel, imageModel, hotelModel) => {
     return roomModel.findAll({
         where: {
             hotel_id: req.body.hotel.hotel_id
-        },
-        attributes: {
-            exclude: []
         },
         include: [
             {
                 model: imageModel,
                 attributes: ['imgURL']
+            },
+            {
+                model: hotelModel,
+                attributes: ['hotel_id', 'name', 'address' ]
             }
         ]
     }).then(data => {
@@ -74,18 +75,19 @@ exports.GetRoomList = (req, roomModel, imageModel) => {
     })
 }
 
-exports.GetRoomInfo = (req, roomModel, imageModel) => {
+exports.GetRoomInfo = (req, roomModel, imageModel, hotelModel) => {
     return roomModel.findOne({
         where: {
             room_id: req.params.room_id,
-        },
-        attributes: {
-            exclude: []
         },
         include: [
             {
                 model: imageModel,
                 attributes: ['imgURL']
+            },
+            {
+                model: hotelModel,
+                attributes: ['hotel_id', 'name', 'address' ]
             }
         ]
     }).then(data => {
