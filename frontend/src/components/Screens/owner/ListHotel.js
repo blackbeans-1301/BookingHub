@@ -159,10 +159,11 @@ export default function ListHotel() {
                           <p class="text-gray-900 whitespace-no-wrap">
                             <button
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                              onClick={() =>
-                                (window.location =
-                                  "http://localhost:8000/owner/ListRoomPage")
-                              }
+                              onClick={() => {
+                                localStorage.setItem("hotelID", hotel.hotel_id);
+                                window.location =
+                                  "http://localhost:8000/owner/ListRoomPage";
+                              }}
                             >
                               List rooms
                             </button>
