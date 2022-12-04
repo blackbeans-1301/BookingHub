@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL } from "../configs/api";
+import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api";
 
 export const createRoomApi = (data, tokenStr) => {
   const options = {
@@ -65,3 +65,23 @@ export const getAllRoomsApi = (setAllRooms, hotelData, tokenStr) => {
 
   return response;
 };
+
+export const updateRoomInfor = (data, tokenStr) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  };
+  const response = axios
+    .put(UPDATE_ROOM_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err);
+      return err.response.data.Message;
+    });
+
+  return response;
+}
