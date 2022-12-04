@@ -151,10 +151,10 @@ export default function CreateHotel() {
       console.log("type", typeof response);
       const type = typeof response;
       if (type == "object") {
-        toast.success("Sign up successfully");
+        toast.success("Create a new hotel successfully");
         setTimeout(redirectFunc, 3000);
       } else {
-        console.log("Sign up failed");
+        console.log("Create a new hotel failed");
         toast.error(response);
       }
       setIsLoading(false);
