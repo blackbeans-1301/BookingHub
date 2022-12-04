@@ -1,60 +1,60 @@
-import * as React from "react";
-import * as yup from "yup";
-import { useState } from "react";
-import { useEffect } from "react";
-import PoolIcon from "@material-ui/icons/Pool";
-import SpaIcon from "@material-ui/icons/Spa";
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
-import RestaurantIcon from "@material-ui/icons/Restaurant";
-import FireplaceIcon from "@material-ui/icons/Fireplace";
-import RoomServiceIcon from "@material-ui/icons/RoomService";
-import WifiIcon from "@material-ui/icons/Wifi";
-import AcUnitIcon from "@material-ui/icons/AcUnit";
-import LocalParkingIcon from "@material-ui/icons/LocalParking";
-import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle";
-import PetsIcon from "@material-ui/icons/Pets";
-import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
-import KitchenIcon from "@material-ui/icons/Kitchen";
-import FastfoodIcon from "@material-ui/icons/Fastfood";
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-import StorefrontIcon from "@material-ui/icons/Storefront";
-import GolfCourseIcon from "@material-ui/icons/GolfCourse";
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
-import DeckIcon from "@material-ui/icons/Deck";
-import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill";
-import LocalAtmIcon from "@material-ui/icons/LocalAtm";
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
-import WavesIcon from "@material-ui/icons/Waves";
-import LocationCityIcon from "@material-ui/icons/LocationCity";
-import NatureIcon from "@material-ui/icons/Nature";
-import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-import ChildCareIcon from "@material-ui/icons/ChildCare";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import CancelIcon from "@material-ui/icons/Cancel";
-import CheckIcon from "@material-ui/icons/Check";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import MapIcon from "@material-ui/icons/Map";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ImageIcon from "@material-ui/icons/Image";
-import ChatIcon from "@material-ui/icons/Chat";
-import HomeWorkIcon from "@material-ui/icons/HomeWork";
+import * as React from "react"
+import * as yup from "yup"
+import { useState } from "react"
+import { useEffect } from "react"
+import PoolIcon from "@material-ui/icons/Pool"
+import SpaIcon from "@material-ui/icons/Spa"
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter"
+import RestaurantIcon from "@material-ui/icons/Restaurant"
+import FireplaceIcon from "@material-ui/icons/Fireplace"
+import RoomServiceIcon from "@material-ui/icons/RoomService"
+import WifiIcon from "@material-ui/icons/Wifi"
+import AcUnitIcon from "@material-ui/icons/AcUnit"
+import LocalParkingIcon from "@material-ui/icons/LocalParking"
+import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle"
+import PetsIcon from "@material-ui/icons/Pets"
+import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast"
+import KitchenIcon from "@material-ui/icons/Kitchen"
+import FastfoodIcon from "@material-ui/icons/Fastfood"
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard"
+import StorefrontIcon from "@material-ui/icons/Storefront"
+import GolfCourseIcon from "@material-ui/icons/GolfCourse"
+import LocalFloristIcon from "@material-ui/icons/LocalFlorist"
+import DeckIcon from "@material-ui/icons/Deck"
+import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill"
+import LocalAtmIcon from "@material-ui/icons/LocalAtm"
+import DirectionsCarIcon from "@material-ui/icons/DirectionsCar"
+import WavesIcon from "@material-ui/icons/Waves"
+import LocationCityIcon from "@material-ui/icons/LocationCity"
+import NatureIcon from "@material-ui/icons/Nature"
+import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
+import ChildCareIcon from "@material-ui/icons/ChildCare"
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import CloudUploadIcon from "@material-ui/icons/CloudUpload"
+import CancelIcon from "@material-ui/icons/Cancel"
+import CheckIcon from "@material-ui/icons/Check"
+import AssignmentIcon from "@material-ui/icons/Assignment"
+import MapIcon from "@material-ui/icons/Map"
+import LocationOnIcon from "@material-ui/icons/LocationOn"
+import ImageIcon from "@material-ui/icons/Image"
+import ChatIcon from "@material-ui/icons/Chat"
+import HomeWorkIcon from "@material-ui/icons/HomeWork"
 
-import _, { defaultTo, set } from "lodash";
+import _, { defaultTo, set } from "lodash"
 import {
   createHotelApi,
   getAllProvinces,
   getHotelById,
   updateHotelInfor,
-} from "../../apis/hotelApi";
-import { Field, useFormik, Form, Formik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
-import { Fragment } from "react";
+} from "../../apis/hotelApi"
+import { Field, useFormik, Form, Formik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { LoadingButton } from "@mui/lab"
+import { toast } from "react-toastify"
+import { Fragment } from "react"
 import {
   Box,
   FormControlLabel,
@@ -62,13 +62,13 @@ import {
   FormLabel,
   FormGroup,
   TextareaAutosize,
-} from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { IMAGE_CLOUD_API } from "../../configs/api";
-import ToastMessage from "./ToastMessage";
-import PreviewImage from "./PreviewImage";
+} from "@mui/material"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
+import { IMAGE_CLOUD_API } from "../../configs/api"
+import ToastMessage from "./ToastMessage"
+import PreviewImage from "./PreviewImage"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
@@ -77,42 +77,40 @@ const validationSchema = yup.object({
   province: yup.string().required("Province is required"),
   criteria: yup.string(),
   imgURL: yup.array(),
-});
+})
 
 export default function InfoHotelModal({ isVisible, isClose, detail }) {
-  const [progress, setProgress] = useState(0);
-  const [isUploading, setUploading] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [acceptTnC, setAcceptTnC] = useState(false);
-  const [criterias, setCriterias] = useState([]);
-  const [all, setAll] = useState();
-  const [province, setProvince] = useState("");
-  const [images, setImages] = useState([]);
-  const [hotelInfor, setHotelInfor] = useState();
-  const [imgFile, setImgFile] = useState();
-  const [toggleState, setToggleState] = useState(1);
+  const [progress, setProgress] = useState(0)
+  const [isUploading, setUploading] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [acceptTnC, setAcceptTnC] = useState(false)
+  const [criterias, setCriterias] = useState([])
+  const [all, setAll] = useState()
+  const [province, setProvince] = useState("")
+  const [images, setImages] = useState([])
+  const [hotelInfor, setHotelInfor] = useState()
+  const [imgFile, setImgFile] = useState()
+  const [toggleState, setToggleState] = useState(1)
 
   const toggleTab = (index) => {
-    setToggleState(index);
-  };
+    setToggleState(index)
+  }
 
   //   const [detail, setDetail] = useState();
 
   useEffect(() => {
-    getAllProvinces(setAll);
-  }, []);
+    getAllProvinces(setAll)
+  }, [])
 
-  let imagesURLs = [];
+  let imagesURLs = []
   // console.log("all", all);
-  const pr = all;
+  const pr = all
   // console.log("pr", pr);
 
-  console.log(criterias);
 
-  console.log("detail from params", detail.hotel_id);
   // console.log("criteria from params", detail.criteria);
-  let checkedCriterias = detail.criteria.split(",");
+  let checkedCriterias = detail.criteria.split(",")
   // console.log("arr criteria", checkedCriterias);
 
   //   setCriterias(checkedCriterias);
@@ -121,77 +119,73 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // change criterias state
   const handleChange = (event) => {
-    setAcceptTnC(event.target.checked);
-  };
+    setAcceptTnC(event.target.checked)
+  }
 
   const handleCriteriaChange = (event) => {
-    const index = criterias.indexOf(event.target.value);
+    const index = criterias.indexOf(event.target.value)
     if (index === -1) {
-      setCriterias([...criterias, event.target.value]);
+      setCriterias([...criterias, event.target.value])
     } else {
       setCriterias(
         criterias.filter((criteria) => criteria !== event.target.value)
-      );
+      )
     }
-  };
+  }
 
   const handleChangeProvince = (event) => {
-    setProvince(event.target.value);
-  };
+    setProvince(event.target.value)
+  }
 
   //   handle upload images
   const handleUpload = async (e) => {
-    let { files } = e.target;
-    console.log("files", files);
+    let { files } = e.target
 
-    const uploadName = "jqlebxmc";
+    const uploadName = "jqlebxmc"
 
-    let formData = new FormData();
+    let formData = new FormData()
 
-    setUploadedImages([]);
+    setUploadedImages([])
 
-    setUploading(true);
+    setUploading(true)
     for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-      formData.append("file", file);
-      formData.append("upload_preset", uploadName);
+      let file = files[i]
+      formData.append("file", file)
+      formData.append("upload_preset", uploadName)
       const getImg = fetch(IMAGE_CLOUD_API, {
         method: "POST",
         body: formData,
-      });
-      setImgFile(getImg);
-      getImg.then((res) => res.json()).then((res) => imagesURLs.push(res.url));
+      })
+      setImgFile(getImg)
+      getImg.then((res) => res.json()).then((res) => imagesURLs.push(res.url))
     }
 
     // console.log("img urls", imagesURLs[0].imgURL);
-    formik.values.imgURL = imagesURLs;
+    formik.values.imgURL = imagesURLs
 
-    setUploading(false);
-  };
+    setUploading(false)
+  }
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage";
-  };
+    window.location = "http://localhost:8000/owner/ListHotelPage"
+  }
 
   const handleGetHotelInfor = (values) => {
-    const token = localStorage.getItem("token");
-    console.log("token", token);
+    const token = localStorage.getItem("token")
     const signUp = async (postData) => {
-      const response = await updateHotelInfor(postData, token);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await updateHotelInfor(postData, token)
+      const type = typeof response
       if (type == "object") {
-        toast.success("Update hotel details successfully");
-        setTimeout(redirectFunc, 3000);
+        toast.success("Update hotel details successfully")
+        setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Update hotel details failed");
-        toast.error(response);
+        console.log("Update hotel details failed")
+        toast.error(response)
       }
-      setIsLoading(false);
-    };
-    formik.values.criteria = criterias.toString();
+      setIsLoading(false)
+    }
+    formik.values.criteria = criterias.toString()
     const data = {
       hotel_id: detail.hotel_id,
       name: values.name,
@@ -200,10 +194,10 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       province: values.province,
       criteria: values.criteria,
       imgURL: values.imgURL,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -216,12 +210,11 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("value", values);
-      handleGetHotelInfor(values);
+      handleGetHotelInfor(values)
     },
-  });
+  })
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
@@ -343,7 +336,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                     </span>{" "}
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-                        return <img src={item.imgURL} className="m-2" />;
+                        return <img src={item.imgURL} className="m-2" />
                       })
                     ) : (
                       <div>This hotel has no images</div>
@@ -398,7 +391,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                       >
                         {pr != undefined &&
                           pr.map((p) => {
-                            return <MenuItem value={p.name}>{p.name}</MenuItem>;
+                            return <MenuItem value={p.name}>{p.name}</MenuItem>
                           })}
                       </Select>
                     </FormControl>
@@ -949,7 +942,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-                        return <img src={item.imgURL} className="m-2" />;
+                        return <img src={item.imgURL} className="m-2" />
                       })
                     ) : (
                       <div>This hotel has no images</div>
@@ -971,5 +964,5 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

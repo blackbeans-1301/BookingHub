@@ -1,13 +1,14 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { useState } from "react";
-import ChooseModal from "../../components/Items/ChooseModal";
-import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader";
-import OwnerLayout from "../../components/Layouts/OwnerLayout";
+import * as React from "react"
+import { Fragment } from "react"
+import { useState } from "react"
+import ChooseModal from "../../components/Items/ChooseModal"
+import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader"
+import OwnerLayout from "../../components/Layouts/OwnerLayout"
 // import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader";
 
 const OwnerPage = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  console.log("GET TOKEN FROM LOCAL STORAGE", localStorage.getItem("token"))
 
   return (
     <OwnerLayout>
@@ -18,6 +19,7 @@ const OwnerPage = () => {
         />
 
         <div className="p-4 shadow-lg bg-white w-96 h-48 top-48 left-32 absolute">
+
           <h1 className="text-textColor text-2xl font-bold">
             List your places
           </h1>
@@ -28,7 +30,7 @@ const OwnerPage = () => {
           <button
             className="flex justify-center rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
             onClick={() => {
-              setShowModal(true);
+              setShowModal(true)
             }}
           >
             List your place now
@@ -82,7 +84,7 @@ const OwnerPage = () => {
       </div>
       <ChooseModal isVisible={showModal} isClose={() => setShowModal(false)} />
     </OwnerLayout>
-  );
-};
+  )
+}
 
-export default OwnerPage;
+export default OwnerPage
