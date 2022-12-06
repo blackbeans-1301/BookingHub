@@ -5,6 +5,7 @@ import ReplyIcon from "@material-ui/icons/Reply";
 
 export default function UserOption({ isVisible, isClose }) {
   if (!isVisible) return null;
+  
   return (
     <div className="absolute top-16 right-2 z-10 flex flex-col bg-white rounded-xl shadow-2xl shadow-blue-200">
       <button

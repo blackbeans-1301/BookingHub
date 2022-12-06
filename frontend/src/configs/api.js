@@ -14,7 +14,7 @@ export const LOGIN_URL = `${DOMAIN_URL}/user/login`;
 
 export const REGISTER_URL = `${DOMAIN_URL}/user/register`;
 
-export const GET_USER_INFOR_URL = `${DOMAIN_URL}/user/information`;
+export const GET_USER_INFOR_URL = `${DOMAIN_URL}/user/info`;
 
 export const UPDATE_USER_INFOR_URL = `${DOMAIN_URL}/user/updateUser`;
 
@@ -26,7 +26,7 @@ export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`;
 
 // API for get provinces--------------------------------------------
 
-export const PROVINCE_OPEN_API = "https://provinces.open-api.vn/api/";
+export const PROVINCE_OPEN_API = "https://provinces.open-api.vn/api";
 
 export const GET_PROVINCES_URL = `${PROVINCE_OPEN_API}/p`;
 

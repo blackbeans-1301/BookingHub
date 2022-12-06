@@ -55,13 +55,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { IMAGE_CLOUD_API } from "../../../configs/api";
 import ToastMessage from "../../Items/ToastMessage";
+import { HotelCriterias } from "../../../assets/data/HotelCriteriaData";
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
   address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
   province: yup.string().required("Province is required"),
-  criteria: yup.string(),
+  criteria: yup.array(),
   imgURL: yup.array().required("Image field is required"),
 });
 
@@ -128,7 +129,7 @@ export default function CreateHotel() {
         .then((res) => imagesURLs.push(res.url));
     }
 
-    console.log('img urls', imagesURLs)
+    console.log("img urls", imagesURLs);
     formik.values.imgURL = imagesURLs;
 
     setUploading(false);
@@ -140,7 +141,7 @@ export default function CreateHotel() {
 
   const redirectFunc = () => {
     window.location = "http://localhost:8000/owner/ListHotelPage";
-  }
+  };
 
   const handleGetHotelInfor = (values) => {
     const token = localStorage.getItem("token");
@@ -178,7 +179,7 @@ export default function CreateHotel() {
       description: "",
       address: "",
       province: "",
-      criteria: "",
+      criteria: [],
       imgURL: [],
     },
     validationSchema: validationSchema,
@@ -221,8 +222,12 @@ export default function CreateHotel() {
               error={formik.touched.province && !!formik.errors.province}
             >
               {pr != undefined &&
-                pr.map((p) => {
-                  return <MenuItem value={p.name}>{p.name}</MenuItem>;
+                pr.map((p, index) => {
+                  return (
+                    <MenuItem key={index} value={p.name}>
+                      {p.name}
+                    </MenuItem>
+                  );
                 })}
             </Select>
           </FormControl>
@@ -247,12 +252,12 @@ export default function CreateHotel() {
           <Typography variant="subtitle1">Hotel's description</Typography>
           <TextareaAutosize
             sx={{
-              height: "85px"
+              height: "85px",
             }}
             style={{
               border: "1px solid black",
               padding: "4px",
-              paddingLeft: "6px"
+              paddingLeft: "6px",
             }}
             minRows={3}
             placeholder="Enter your hotel's description..."
@@ -262,12 +267,33 @@ export default function CreateHotel() {
               formik.touched.description && Boolean(formik.errors.description)
             }
             onChange={formik.handleChange}
-            helperText={formik.touched.description && formik.errors.description}
+            // helperText={formik.touched.description && formik.errors.description}
           />
         </FormControl>
         <FormLabel>Amenities (select criterias of your hotel)</FormLabel>
         <FormGroup>
-          <div className="flex">
+          {HotelCriterias.map((item, index) => {
+            return (
+              <FormControlLabel
+                key={index}
+                control={
+                  <Checkbox
+                    name="criteria"
+                    value={item.name}
+                    checked={criterias.includes(`${item.name}`)}
+                    onChange={handleCriteriaChange}
+                  />
+                }
+                label={
+                  <Fragment>
+                    {item.icon} {item.name}
+                  </Fragment>
+                }
+              />
+            );
+          })}
+
+          {/* <div className="flex">
             <FormControlLabel
               control={
                 <Checkbox
@@ -763,7 +789,7 @@ export default function CreateHotel() {
                 </Fragment>
               }
             />
-          </div>
+          </div> */}
         </FormGroup>
 
         <FormControl className="my-2">
