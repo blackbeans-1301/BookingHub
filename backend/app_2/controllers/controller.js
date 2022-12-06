@@ -71,6 +71,11 @@ exports.FindManyData = (model, condition) => {
     })
 }
 
+exports.DeleteData = (model, condition) => {
+    return model.destroy({
+        where: condition
+    })
+}
 
 exports.isBelongToOwner = (Reservation, Room, Hotel, Owner, condition1, condition2) => {
     return Reservation.findOne({
@@ -108,15 +113,3 @@ exports.isBelongToUser = (Reservation, condition) => {
     })
 }
 
-exports.HotelReservations = (Reservation, Room, condition) => {
-    return Reservation.findAll({
-        include: [{
-            model: Room,
-            where: condition
-        }]
-    }).then(data => {
-        return data;
-    }).catch(err => {
-        return {code: -2, err: err.message}
-    })
-}

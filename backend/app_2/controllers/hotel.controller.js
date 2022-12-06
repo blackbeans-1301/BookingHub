@@ -1,28 +1,8 @@
-
-exports.CreateHotel = (hotelModel, hotelInfo) => {
-    return hotelModel.create(hotelInfo).then(data => {
-        return data.dataValues
-    }).catch(err => {
-        return {code: -2, err: err.message}
-        //res.status(500).send({Message: "An error occurred on the server side (create hotel)" + err})
-    })
-}
-
-exports.CreateImage = (model, imgData) => {
-    return model.bulkCreate(imgData).then(data => {
-        return {code: 1}
-    }).catch(err => {
-        return {code: -2, err: err.message}
-    });
-}
-
-exports.GetOwnerHotels = (hotelModel, imageModel, accountData) => {
+exports.GetOwnerHotels = (hotelModel, imageModel, condition) => {
     return hotelModel.findAll({
-        where: {
-            owner_id: accountData.owner_id
-        },
+        where: condition,
         attributes: {
-            exclude: ['user_id']
+            exclude: ['owner_id']
         },
         include: [
             {
@@ -38,13 +18,11 @@ exports.GetOwnerHotels = (hotelModel, imageModel, accountData) => {
     })
 }
 
-exports.GetHotelInfo = (req, hotelModel, imageModel) => {
+exports.GetHotelInfo = (hotelModel, imageModel, condition) => {
     return hotelModel.findOne({
-        where: {
-            hotel_id: req.params.hotel_id
-        },
+        where: condition,
         attributes: {
-            exclude: ['user_id']
+            exclude: ['owner_id']
         },
         include: [
             {
@@ -56,39 +34,21 @@ exports.GetHotelInfo = (req, hotelModel, imageModel) => {
         if (data === null) {
             return {code: -1}
         }
+        return data.dataValues;
+    }).catch(err => {
+        return {code: -2, err: err.message}
+    })
+}
+
+exports.HotelReservations = (Reservation, Room, condition) => {
+    return Reservation.findAll({
+        include: [{
+            model: Room,
+            where: condition
+        }]
+    }).then(data => {
         return data;
     }).catch(err => {
         return {code: -2, err: err.message}
     })
 }
-
-exports.UpdateHotel = (req, hotelModel, accountData) => {
-    return hotelModel.update({
-        name: req.body.name,
-        criteria: req.body.criteria,
-        description: req.body.description,
-        address: req.body.address,
-        province: req.body.province,
-    }, {
-        where: {
-            owner_id: accountData.owner_id,
-            hotel_id: req.body.hotel_id
-        }
-    }).then(data => {
-        if (!data[0]) {
-            return {code: -1}
-        }
-        return {code: 1}
-    }).catch(err => {
-        return {code: -2, err: err.message}
-        
-    })
-}
-
-exports.RemoveImage = (req, model) => {
-    return model.destroy({
-        where: { hotel_id: req.body.hotel_id }
-    })
-}
-
-

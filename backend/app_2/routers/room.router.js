@@ -4,16 +4,16 @@ const userMiddleware = require("../middleware/user.middleware.js");
 const roomMiddleware = require("../middleware/room.middleware.js");
 
 // create room
-router.post('/create', userMiddleware.authenticateJWT, roomMiddleware.room_create);
+router.post('/create', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.createRoom);
 
 // update room
-router.put('/update', userMiddleware.authenticateJWT, roomMiddleware.room_isBelongAccount, roomMiddleware.room_update);
+router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.updateRoom);
 
 // // get list room of hotel
-router.post('/list', userMiddleware.authenticateJWT, roomMiddleware.room_isBelongAccount, roomMiddleware.room_list)
+router.post('/list', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.getHotelRoomList)
 
 // // get room's info
-router.get('/:room_id',  roomMiddleware.room_info)
+router.get('/:room_id',  roomMiddleware.getRoomInfo)
 
 //TODO: delete room
 

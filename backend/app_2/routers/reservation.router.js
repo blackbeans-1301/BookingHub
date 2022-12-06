@@ -4,23 +4,16 @@ const userMiddleware = require("../middleware/user.middleware.js");
 const reservationMiddleware = require("../middleware/reservation.middleware.js")
 
 // Create a reservation
-// TODO: Kiem tra ngay thang
+// TODO: Kiem tra ngay thang // kiem tra trung phong trung ngay, 
 router.post('/create', userMiddleware.authenticateJWT, reservationMiddleware.createReservation);
 
-
-// Get user's reservations
-router.get('/userReservations', userMiddleware.authenticateJWT, reservationMiddleware.userReservations);
-
-// Get hotel's reservations
-router.get('/hotelReservations/:hotel_id', userMiddleware.authenticateJWT, reservationMiddleware.isHotelBelongToOwner, reservationMiddleware.hotelReservations);
-
-//
+// checkin
 router.put('/checkIn', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, reservationMiddleware.isCheckIn, reservationMiddleware.checkIn);
 
-// //
+// checkout
 router.put('/checkOut', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, reservationMiddleware.isCheckOut, reservationMiddleware.checkOut);
 
-// update
+// cancel
 router.put('/cancel', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToUser, reservationMiddleware.isCancel, reservationMiddleware.cancel)
 
 module.exports = router

@@ -9,6 +9,8 @@ const Reservation = db.reservation;
 const Occupied_room = db.occupied_room;
 
 const controllers = require("../controllers/controller.js"); 
+const reservationControllers = require("../controllers/reservation.controller.js")
+const hotelControllers = require("../controllers/hotel.controller.js")
 
 exports.createReservation = async (req, res) => {
     const accountData = req.bookingHub_account_info;
@@ -16,6 +18,7 @@ exports.createReservation = async (req, res) => {
     if (isOwner) {
         return res.status(400).send({ message: "Owner can't create reservation" });
     }
+
     let valueReservation = {
         user_id: accountData.user_id,
         date_in: req.body.date_in,
@@ -57,7 +60,7 @@ exports.isBelongToOwner = async (req, res, next) => {
     let condition2 = {
         owner_id: accountData.owner_id
     }
-    let result = await controllers.isBelongToOwner(Reservation, Room, Hotel, Owner, condition1, condition2)
+    let result = await reservationControllers.isBelongToOwner(Reservation, Room, Hotel, Owner, condition1, condition2)
     if (result.code === -1 || result.code === -2) {
         return res.status(400).send({message: "Reservation isn't belong to current owner"})
     }
@@ -77,7 +80,7 @@ exports.isBelongToUser = async (req, res, next) => {
         reservation_id: req.body.reservation_id,
         user_id: accountData.user_id
     }
-    let result = await controllers.isBelongToUser(Reservation, condition)
+    let result = await reservationControllers.isBelongToUser(Reservation, condition)
     if (result.code === -1 || result.code === -2) {
         return res.status(400).send({message: "Reservation isn't belong to current user"})
     }
@@ -201,56 +204,6 @@ exports.cancel = async (req, res) => {
     return res.status(200).send({message: "Cancel!"}) 
 }
 
-// get list reservations of user
-exports.userReservations = async (req, res) => {
-    const accountData = req.bookingHub_account_info;   
-    const isOwner = req.bookingHub_account_isOwner;
-    if (isOwner) {
-        return res.status(400).send({message: "Account is not User"})
-    }
-    let condition = {
-        user_id: accountData.user_id,
-        status: "waiting"
-    }
-    let dataReservation = await controllers.FindManyData(Reservation, condition);
-    if (dataReservation.code === -2) {
-        return res.status(400).send({message: "An error occurred", err: dataReservation.err})
-    }
-    return res.status(200).send(dataReservation);
-}
-
-// get list reservations of hotel
-exports.isHotelBelongToOwner = async (req, res, next) => {
-    const accountData = req.bookingHub_account_info;
-    const isOwner = req.bookingHub_account_isOwner;
-    if (!isOwner) {
-        return res.status(400).send({message: "Account is not Owner"})
-    }
-    let condition = {
-        hotel_id: req.params.hotel_id
-    }
-    let result = await controllers.FindOneData(Hotel, condition);
-    if (result.code === -1) {
-        return res.status(400).send({message: "Hotel isn't exist"})
-    }
-    if (result.code === -2) {
-        return res.status(400).send({message: "Hotel isn't exist", err: result.err})
-    }
-    if (result.owner_id !== accountData.owner_id) {
-        return res.status(400).send({message: "Hotel isn't belong to owner"})
-    }
-    next();
-}
-    
 
 
-exports.hotelReservations = async (req, res) => {
-    let condition = {
-        hotel_id: req.params.hotel_id
-    }
-    let dataReservation = await controllers.HotelReservations(Reservation, Room, condition)
-    if (dataReservation.code === -2) {
-        return res.status(400).send({message: "An error occurred", err: dataReservation.err})
-    }
-    return res.status(200).send(dataReservation)
-}
+
