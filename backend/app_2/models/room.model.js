@@ -54,10 +54,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         })
-        // Room.belongsToMany(models.reservation, { 
-        //     through: models.occupied_room,
-        //     foreignKey: 'room_id' 
-        // }); 
+        Room.belongsToMany(models.reservation, { 
+            through: models.occupied_room,
+            foreignKey: 'room_id' 
+        }); 
     }
     return Room;
 };

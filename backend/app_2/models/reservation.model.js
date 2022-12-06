@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
             onUpdate: 'CASCADE'
         })
         Reservation.belongsToMany(models.room, { 
-            through: 'occupied_room',
+            through: models.occupied_room,
             foreignKey: 'reservation_id'
         });
     }

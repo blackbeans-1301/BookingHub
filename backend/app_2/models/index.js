@@ -22,12 +22,14 @@ db.owner = require("./owner.model.js")(sequelize, DataTypes);
 db.hotel = require("./hotel.model.js")(sequelize, DataTypes);
 db.room = require("./room.model.js")(sequelize, DataTypes);
 db.image = require("./image.model.js")(sequelize, DataTypes);
+db.reservation = require("./reservation.model.js")(sequelize, DataTypes);
+db.occupied_room = require("./occupied_room.models.js")(sequelize, DataTypes);
 
-//db.user.associate(db);
+db.user.associate(db);
 db.owner.associate(db);
 db.hotel.associate(db);
 db.room.associate(db);
 db.image.associate(db);
-//db.reservation.associate(db);
+db.reservation.associate(db);
 
 module.exports = db;

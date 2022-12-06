@@ -11,6 +11,7 @@ var corsOptions = {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors(corsOptions));
+app.use(require("./app_2/middleware/middleware.js").UpdateDatabase)
 
 app.get("/", (req, res) => {
     res.json({message:"H3L2 Sever!!!!!!!!"});
@@ -19,7 +20,7 @@ app.get("/", (req, res) => {
 app.use("/user", require("./app_2/routers/user.router.js"))
 app.use("/hotel", require("./app_2/routers/hotel.router.js"))
 app.use("/room", require('./app_2/routers/room.router.js'))
-//app.use("/reservation", require("./app/routers/reservation.router.js"))
+app.use("/reservation", require("./app_2/routers/reservation.router.js"))
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -30,5 +31,5 @@ app.listen(PORT, () => {
 const db = require("./app_2/models")
 //db.sequelize.sync({ force: true });
 db.sequelize.sync();
-// db.sequelize.sync({ alter: true });
+//db.sequelize.sync({ alter: true });
 
