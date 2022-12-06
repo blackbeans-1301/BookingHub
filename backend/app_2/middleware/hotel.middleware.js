@@ -4,6 +4,7 @@ const Hotel = db.hotel;
 const Image = db.image;
 
 const hotelControllers = require("../controllers/hotel.controller.js");
+const controllers = require("../controllers/controller.js");
 
 exports.createHotel = async (req, res) => {
     const accountData = req.bookingHub_account_info;
@@ -100,4 +101,15 @@ exports.updateHotel = async (req, res) => {
         return res.status(400).send({ message: "Unable to update image", err: resultImage.err })
     }
     return res.status(200).send({ message: "Update successful" })
+}
+
+exports.hotelByAddress = async (req, res) => {
+    let condition = {
+        province: req.body.province
+    }
+    let hotelData = await controllers.FindManyData(Hotel, condition);
+    if (hotelData.code === -2) {
+        return res.status(400).send({ message: "Unable to get hotel by address", err: hotelData.err })
+    }
+    return res.status(200).send(hotelData);
 }

@@ -11,6 +11,8 @@ router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.updateHote
 // get all user's hotels
 router.get('/ownerHotels', userMiddleware.authenticateJWT, hotelMiddleware.getOwnerHotels);
 
+// get hotel by address
+router.put('/hotelByAddress', hotelMiddleware.hotelByAddress) 
 // TODO: find hotel
 // TODO: delete a hotel
 

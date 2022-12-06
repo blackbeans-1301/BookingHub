@@ -81,7 +81,6 @@ exports.room_info = async (req, res) => {
 
 // cap nhat lai room
 exports.room_update = async (req, res) => {
-    let isErr = false;
     let resultRoom = await roomControllers.UpdateRoom(req, Room)
     if (resultRoom.code === -1) {
         return res.status(400).send({ message: "Room is not exists" })
