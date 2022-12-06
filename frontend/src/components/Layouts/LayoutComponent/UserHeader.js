@@ -16,23 +16,24 @@ export default function UserHeader() {
 
   const token = localStorage.getItem("token");
   console.log("token", typeof token);
-  let user;
+  // let user;
 
-  async function getUser() {
-    const get = await getInformation(localStorage.getItem("token")).then(
-      (fulfilledResult) => {
-        console.log("success", fulfilledResult);
-        user = fulfilledResult;
-        return fulfilledResult;
-      },
-      (rejectedResult) => {
-        console.log("fail", rejectedResult);
-      }
-    );
-    return get;
-  }
+  // async function getUser() {
+  //   const get = await getInformation(localStorage.getItem("token")).then(
+  //     (fulfilledResult) => {
+  //       console.log("success", fulfilledResult);
+  //       user = fulfilledResult;
+  //       return fulfilledResult;
+  //     },
+  //     (rejectedResult) => {
+  //       console.log("fail", rejectedResult);
+  //     }
+  //   );
+  //   return get;
+  // }
 
-  console.log('getu', getUser())
+  // console.log('getu', getUser())
+
   return (
     <Fragment>
       <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
