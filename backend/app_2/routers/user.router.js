@@ -33,6 +33,8 @@ router.put('/avatar', userMiddleware.authenticateJWT, userMiddleware.updateAvata
 // get user's avatar URL
 router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
 
+// Get user's reservations
+router.get('/userReservations', userMiddleware.authenticateJWT, userMiddleware.userReservations);
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 

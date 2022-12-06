@@ -3,50 +3,114 @@ require('dotenv').config();
 const db = require("../models/index.js")
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const Room = db.room;
+const Image = db.image;
+const Hotel = db.hotel;
 const User = db.user;
 const Owner = db.owner;
+const Reservation = db.reservation;
+const Occupied_room = db.occupied_room;
 
-const userControllers = require("../controllers/user.controller.js")
+const controllers = require("../controllers/controller.js")
 
-// Dang ky user DONE
+// Dang ky account
 exports.register = async (req, res) => {
-    let data;
-    if (!parseInt(req.body.isOwner)) {
-        data = await userControllers.CreateAccount(req, User);
-    } else {
-        data = await userControllers.CreateAccount(req, Owner);
+    // kiem tra xem thieu truong isOwner khong
+    if (req.body.isOwner === undefined) {
+        return res.status(400).send({ message: "Missing isOwner field!" })
     }
-    if (data.code === -1) {
+
+    // tim kiem xem trong database da ton tai email chua
+    let condition = {
+        email: req.body.email
+    }
+    let findAccount;
+    if (!parseInt(req.body.isOwner)) {
+        findAccount = await controllers.FindManyData(User, condition)
+    } else {
+        findAccount = await controllers.FindManyData(Owner, condition)
+    }
+    if (findAccount.code !== -2 && findAccount.length !== 0) {
         return res.status(400).send({ message: "Email has already existed!" })
     }
-    if (data.code === -2) {
-        return res.status(400).send({ message: "Failed to create account", err: data.err })
+
+    // tao mat khau ma hoa 
+    var salt = bcrypt.genSaltSync(10);
+    var passwordHash = bcrypt.hashSync(req.body.password, salt);
+
+    // tao email sau khi da kiem tra va ma hoa
+    let value = {
+        email: req.body.email,
+        password: passwordHash,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dob: req.body.dob,
+        member_since: controllers.GetCurrentDate(),
+        gender: req.body.gender,
+        phone_number: req.body.phone_number,
     }
-    delete data.dataValues.password;
-    delete data.dataValues.createdAt;
-    delete data.dataValues.updatedAt;
-    return res.status(201).send({ message: "Registered successfully!", accountInfo: data.dataValues })
+    let dataAccount;
+    if (!parseInt(req.body.isOwner)) {
+        dataAccount = await controllers.CreateData(User, value)
+    } else {
+        dataAccount = await controllers.CreateData(Owner, value)
+    }
+    if (dataAccount.code === -2) {
+        return res.status(400).send({ message: "Failed to create account", err: dataAccount.err })
+    }
+    delete dataAccount.user_id;
+    delete dataAccount.password;
+    delete dataAccount.createdAt;
+    delete dataAccount.updatedAt;
+    return res.status(200).send(dataAccount);
 }
 
-// dang nhap
+//dang nhap
 exports.login = async (req, res) => {
-    //tim kiem email trong db
-    let data;
+    // kiem tra xem thieu truong isOwner khong
     if (req.body.isOwner === undefined) {
-        return res.status(401).send({ message: "Failed to login", err: "Losing isOwner property" })
+        return res.status(400).send({ message: "Missing isOwner field!" })
     }
+    if (req.body.password === undefined){
+        return res.status(400).send({ message: "Missing password field!" })
+    }
+
+    // kiem tra xem co email trong database khong
+    let condition = {
+        email: req.body.email
+    }
+    let dataAccount;
     if (!parseInt(req.body.isOwner)) {
-        data = await userControllers.LoginAccount(req, User)
+        dataAccount = await controllers.FindManyData(User, condition)
     } else {
-        data = await userControllers.LoginAccount(req, Owner)
+        dataAccount = await controllers.FindManyData(Owner, condition)
     }
-    if (data.code === -1) {
-        return res.status(401).send({ message: "Email or password is incorrect!" })
+    if (dataAccount.code === -2) {
+        return res.status(400).send({ message: "Failed to login", err: dataAccount.err })
     }
-    if (data.code === -2) {
-        return res.status(401).send({ message: "Failed to login", err: data.err })
+    if (!dataAccount.length) {
+        return res.status(400).send({ message: "Email or password is incorrect!" })
     }
-    return res.status(200).send({ message: "Login successfully!!", assessToken: data.assessToken });
+
+    // kiem tra mat khau
+    if (!bcrypt.compareSync(req.body.password, dataAccount[0].dataValues.password)) {
+        return res.status(400).send({ message: "Email or password is incorrect!" })
+    }
+
+    // tao token JWT
+    let informationAuth = {
+        email: dataAccount[0].dataValues.email,
+    };
+    if (!parseInt(req.body.isOwner)) {
+        informationAuth.user_id = dataAccount[0].dataValues.user_id
+        informationAuth.isOwner = 0    
+    } else {
+        informationAuth.owner_id = dataAccount[0].dataValues.owner_id
+        informationAuth.isOwner = 1;
+    }
+    const assessToken = jwt.sign(informationAuth, process.env.ACCESS_TOKEN_SECRET);
+
+    return res.status(200).send({ message: "Login successfully!!", assessToken: assessToken });
 }
 
 // authentication JWT
@@ -62,22 +126,23 @@ exports.authenticateJWT = async (req, res, next) => {
     try {
         // xac thuc token sync
         const decodeToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        // kiem tra xem phai user khong
+
+        // xac thuc thong tin token
         let dataAccount;
         let condition = {
             email: decodeToken.email
         }
         if (!decodeToken.isOwner) {
             condition.user_id = decodeToken.user_id;
-            dataAccount = await userControllers.FindAccount(User, condition)
+            dataAccount = await controllers.FindManyData(User, condition)
         } else {
             condition.owner_id = decodeToken.owner_id;
-            dataAccount = await userControllers.FindAccount(Owner, condition)
+            dataAccount = await controllers.FindManyData(Owner, condition)
         }
-        if (dataAccount.code === -1) {
+        if (dataAccount.length === 0 || dataAccount.code === -2) {
             return res.status(403).send({ message: "Forbidden!" })
         } else {
-            req.bookingHub_account_info = dataAccount.data[0].dataValues;
+            req.bookingHub_account_info = dataAccount[0].dataValues;
             req.bookingHub_account_isOwner = decodeToken.isOwner;
             next();
         }
@@ -90,6 +155,7 @@ exports.authenticateJWT = async (req, res, next) => {
 exports.sendUserInfo = async (req, res) => {
     // req.bookingHub_user_infor lay tu middleware authenticateJWT
     const accountData = req.bookingHub_account_info;
+
     // xoa bot properties khong gui di 
     delete accountData.owner_id;
     delete accountData.user_id;
@@ -104,15 +170,23 @@ exports.updateUser = async (req, res) => {
     // req.bookingHub_user_infor lay tu middleware authenticationJWT
     const accountData = req.bookingHub_account_info;
     const isOwner = req.bookingHub_account_isOwner;
+
     // update
     let condition = {}
     let result;
+    let value = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dob: req.body.dob,
+        gender: req.body.gender,
+        phone_number: req.body.phone_number,
+    }
     if (!isOwner) {
         condition.user_id = accountData.user_id
-        result = await userControllers.UpdateAccount(req, User, condition)
+        result = await controllers.UpdateData(User, value, condition)
     } else {
         condition.owner_id = accountData.owner_id
-        result = await userControllers.UpdateAccount(req, Owner, condition)
+        result = await controllers.UpdateData(Owner, value, condition)
     }
     if (result.code === -1) {
         return res.status(400).send({ message: 'Unable to update user info!' })
@@ -130,13 +204,16 @@ exports.updateAvatar = async (req, res) => {
     const accountData = req.bookingHub_account_info;
     const isOwner = req.bookingHub_account_isOwner;
     let result;
+    let value = {
+        imgURL: req.body.imgURL
+    }
     let condition = {}
     if (!isOwner) {
         condition.user_id = accountData.user_id
-        result = await userControllers.UpdateAvatar(req, User, condition);
+        result = await controllers.UpdateData(User, value, condition);
     } else {
         condition.owner_id = accountData.owner_id
-        result = await userControllers.UpdateAvatar(req, Owner, condition);
+        result = await controllers.UpdateData(Owner, value, condition);
     }
     if (result.code === -1) {
         return res.status(400).send({ message: "Unable to update avatar!" })
@@ -144,7 +221,7 @@ exports.updateAvatar = async (req, res) => {
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to update avatar!", err: result.err })
     }
-    return res.status(200).send({ message: 'Updated successfully', imgURL: result.imgURL })
+    return res.status(200).send({ message: 'Updated successfully', imgURL: req.body.imgURL })
 }
 
 exports.getAvatar = async (req, res) => {
@@ -154,10 +231,10 @@ exports.getAvatar = async (req, res) => {
     let condition = {}
     if (!isOwner) {
         condition.user_id = accountData.user_id;
-        img = await userControllers.GetAvatar(User, condition);
+        img = await controllers.FindOneData(User, condition);
     } else {
         condition.owner_id = accountData.owner_id;
-        img = await userControllers.GetAvatar(Owner, condition);
+        img = await controllers.FindOneData(Owner, condition);
     }
     if (img.code === -2) {
         return res.status(400).send({ message: "Unable to get avatar!", err: img.err })
@@ -185,17 +262,38 @@ exports.resetPassword = async (req, res) => {
     let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt);
 
     let result;
+    let value = {
+        password: newPasswordHash
+    }
     let condition = {}
     // cap nhat mat khau moi vao db
     if (!isOwner) {
         condition.user_id = accountData.user_id;
-        result = await userControllers.UpdatePassword(User, condition, newPasswordHash)
+        result = await controllers.UpdateData(User, value, condition)
     } else {
         condition.owner_id = accountData.owner_id;
-        result = await userControllers.UpdatePassword(Owner, condition, newPasswordHash)
+        result = await controllers.UpdateData(Owner, value,condition)
     }
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to update password!", err: result.err })
     }
     return res.status(200).send({ message: 'Updated password successfully!' })
+}
+
+// get list reservations of user
+exports.userReservations = async (req, res) => {
+    const accountData = req.bookingHub_account_info;   
+    const isOwner = req.bookingHub_account_isOwner;
+    if (isOwner) {
+        return res.status(400).send({message: "Account is not User"})
+    }
+    let condition = {
+        user_id: accountData.user_id,
+        status: "waiting"
+    }
+    let dataReservation = await controllers.FindManyData(Reservation, condition);
+    if (dataReservation.code === -2) {
+        return res.status(400).send({message: "An error occurred", err: dataReservation.err})
+    }
+    return res.status(200).send(dataReservation);
 }
