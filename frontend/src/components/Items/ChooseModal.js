@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
+import React, { Fragment } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
 
 export default function ChooseModal({ isVisible, isClose }) {
-  if (!isVisible) return null;
+  if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
       <div className="w-[900px] flex flex-col z-20">
@@ -35,9 +35,12 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new hotel</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() =>
-                  (window.location = "http://localhost:8000/owner/CreateHotelPage")
-                }
+                onClick={() => {
+                  //   const isBrowser = typeof window !== "undefined" && window
+                  //   if (isBrowser)
+                  //     (window.location = "http://localhost:8000/owner/CreateHotelPage")
+                  // }
+                }}
               >
                 Select
               </button>
@@ -51,8 +54,10 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new room</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() =>
-                  (window.location = "http://localhost:8000/owner/CreateRoomPage")
+                onClick={() => {
+                  // const isBrowser = typeof window !== "undefined" && window
+                  // if (isBrowser) (window.location = "http://localhost:8000/owner/CreateRoomPage")
+                }
                 }
               >
                 Select
@@ -67,8 +72,10 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">List all hotels</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() =>
-                  (window.location = "http://localhost:8000/owner/ListHotelPage")
+                onClick={() => {
+                  // const isBrowser = typeof window !== "undefined" && window
+                  // if (isBrowser) (window.location = "http://localhost:8000/owner/ListHotelPage")
+                }
                 }
               >
                 Select
@@ -78,5 +85,5 @@ export default function ChooseModal({ isVisible, isClose }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

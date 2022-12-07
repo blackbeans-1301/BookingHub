@@ -1,25 +1,30 @@
+<<<<<<< HEAD
+import axios from "axios"
+import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL } from "../configs/api"
+=======
 import axios from "axios";
 import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api";
+>>>>>>> master
 
 export const createRoomApi = (data, tokenStr) => {
   const options = {
     headers: {
       Authorization: `Bearer ${tokenStr}`,
     },
-  };
+  }
   const response = axios
     .post(CREATE_ROOM_URL, data, options)
     .then((res) => {
-      console.log("RESPONSE ==== : ", res);
-      return res.data;
+      console.log("RESPONSE ==== : ", res)
+      return res.data
     })
     .catch((err) => {
-      console.log("ERROR: ====", err);
-      return err.response.data.Message;
-    });
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
 
-  return response;
-};
+  return response
+}
 
 export const getAllRoomsApi = (setAllRooms, hotelData, tokenStr) => {
   // var myHeaders = new Headers();
@@ -49,39 +54,39 @@ export const getAllRoomsApi = (setAllRooms, hotelData, tokenStr) => {
       Authorization: `Bearer ${tokenStr}`,
       "Content-Type": "application/x-www-form-urlencoded"
     },
-  };
+  }
 
   const response = axios
     .post(GET_ALL_ROOMS_URL, hotelData, options)
     .then((res) => {
-      console.log("RESPONSE ==== : ", res);
-      setAllRooms(res.data);
-      return res.data;
+      console.log("RESPONSE ==== : ", res)
+      setAllRooms(res.data)
+      return res.data
     })
     .catch((err) => {
-      console.log("ERROR: ====", err);
-      return err.response.data.Message;
-    });
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
 
-  return response;
-};
+  return response
+}
 
 export const updateRoomInfor = (data, tokenStr) => {
   const options = {
     headers: {
       Authorization: `Bearer ${tokenStr}`,
     },
-  };
+  }
   const response = axios
     .put(UPDATE_ROOM_URL, data, options)
     .then((res) => {
-      console.log("RESPONSE ==== : ", res);
-      return res.data;
+      console.log("RESPONSE ==== : ", res)
+      return res.data
     })
     .catch((err) => {
-      console.log("ERROR: ====", err);
-      return err.response.data.Message;
-    });
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
 
-  return response;
+  return response
 }

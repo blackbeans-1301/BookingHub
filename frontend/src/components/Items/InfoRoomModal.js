@@ -1,54 +1,54 @@
-import * as React from "react";
-import * as yup from "yup";
-import { useState } from "react";
-import { useEffect } from "react";
-import RestaurantIcon from "@material-ui/icons/Restaurant";
-import RoomServiceIcon from "@material-ui/icons/RoomService";
-import WifiIcon from "@material-ui/icons/Wifi";
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
-import CancelIcon from "@material-ui/icons/Cancel";
-import CheckIcon from "@material-ui/icons/Check";
-import AssignmentIcon from "@material-ui/icons/Assignment";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import ImageIcon from "@material-ui/icons/Image";
-import ChatIcon from "@material-ui/icons/Chat";
-import HomeWorkIcon from "@material-ui/icons/HomeWork";
-import ArtTrackIcon from "@material-ui/icons/ArtTrack";
-import KingBedIcon from "@material-ui/icons/KingBed";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import MeetingRoomIcon from "@material-ui/icons/MeetingRoom";
-import BorderColorIcon from "@material-ui/icons/BorderColor";
-import UpdateIcon from "@material-ui/icons/Update";
-import InfoIcon from "@material-ui/icons/Info";
-import TvIcon from "@material-ui/icons/Tv";
-import BathtubIcon from "@material-ui/icons/Bathtub";
-import WeekendIcon from "@material-ui/icons/Weekend";
-import HttpsIcon from "@material-ui/icons/Https";
-import SportsCricketIcon from "@material-ui/icons/SportsCricket";
-import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
-import TerrainIcon from "@material-ui/icons/Terrain";
-import GTranslateIcon from "@material-ui/icons/GTranslate";
+import * as React from "react"
+import * as yup from "yup"
+import { useState } from "react"
+import { useEffect } from "react"
+import RestaurantIcon from "@material-ui/icons/Restaurant"
+import RoomServiceIcon from "@material-ui/icons/RoomService"
+import WifiIcon from "@material-ui/icons/Wifi"
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
+import CancelIcon from "@material-ui/icons/Cancel"
+import CheckIcon from "@material-ui/icons/Check"
+import AssignmentIcon from "@material-ui/icons/Assignment"
+import LocationOnIcon from "@material-ui/icons/LocationOn"
+import ImageIcon from "@material-ui/icons/Image"
+import ChatIcon from "@material-ui/icons/Chat"
+import HomeWorkIcon from "@material-ui/icons/HomeWork"
+import ArtTrackIcon from "@material-ui/icons/ArtTrack"
+import KingBedIcon from "@material-ui/icons/KingBed"
+import LocalOfferIcon from "@material-ui/icons/LocalOffer"
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom"
+import BorderColorIcon from "@material-ui/icons/BorderColor"
+import UpdateIcon from "@material-ui/icons/Update"
+import InfoIcon from "@material-ui/icons/Info"
+import TvIcon from "@material-ui/icons/Tv"
+import BathtubIcon from "@material-ui/icons/Bathtub"
+import WeekendIcon from "@material-ui/icons/Weekend"
+import HttpsIcon from "@material-ui/icons/Https"
+import SportsCricketIcon from "@material-ui/icons/SportsCricket"
+import DirectionsBusIcon from "@material-ui/icons/DirectionsBus"
+import TerrainIcon from "@material-ui/icons/Terrain"
+import GTranslateIcon from "@material-ui/icons/GTranslate"
 
-import _ from "lodash";
+import _ from "lodash"
 import {
   getAllProvinces,
-} from "../../apis/hotelApi";
-import { useFormik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
-import { Fragment } from "react";
+} from "../../apis/hotelApi"
+import { useFormik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { LoadingButton } from "@mui/lab"
+import { toast } from "react-toastify"
+import { Fragment } from "react"
 import {
   FormControlLabel,
   Checkbox,
   FormLabel,
   FormGroup,
   TextareaAutosize,
-} from "@mui/material";
-import { IMAGE_CLOUD_API } from "../../configs/api";
-import ToastMessage from "./ToastMessage";
+} from "@mui/material"
+import { IMAGE_CLOUD_API } from "../../configs/api"
+import ToastMessage from "./ToastMessage"
 import {
   GeneralCriteria,
   FBCriteria,
@@ -64,8 +64,8 @@ import {
   TransportCriteria,
   ViewCriteria,
   LanguageCriteria,
-} from "../../assets/data/RoomCriteriaData";
-import { updateRoomInfor } from "../../apis/roomApi";
+} from "../../assets/data/RoomCriteriaData"
+import { updateRoomInfor } from "../../apis/roomApi"
 
 const validationSchema = yup.object({
   room_name: yup.string().required("Enter your room's name"),
@@ -77,42 +77,35 @@ const validationSchema = yup.object({
   // type_of_room: yup.string().required("This field is required"),
   price: yup.string().required("Price is required"),
   number_of_bed: yup.string().required("Number of bed is required"),
-});
+})
 
 export default function InfoRoomModal({ isVisible, isClose, detail }) {
-  const [progress, setProgress] = useState(0);
-  const [isUploading, setUploading] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [acceptTnC, setAcceptTnC] = useState(false);
-  const [criterias, setCriterias] = useState([]);
-  const [all, setAll] = useState();
-  const [province, setProvince] = useState("");
-  const [images, setImages] = useState([]);
-  const [hotelInfor, setHotelInfor] = useState();
-  const [imgFile, setImgFile] = useState();
-  const [toggleState, setToggleState] = useState(1);
+  const [progress, setProgress] = useState(0)
+  const [isUploading, setUploading] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [acceptTnC, setAcceptTnC] = useState(false)
+  const [criterias, setCriterias] = useState([])
+  const [all, setAll] = useState()
+  const [province, setProvince] = useState("")
+  const [images, setImages] = useState([])
+  const [hotelInfor, setHotelInfor] = useState()
+  const [imgFile, setImgFile] = useState()
+  const [toggleState, setToggleState] = useState(1)
 
   const toggleTab = (index) => {
-    setToggleState(index);
-  };
+    setToggleState(index)
+  }
 
   //   const [detail, setDetail] = useState();
 
   useEffect(() => {
-    getAllProvinces(setAll);
-  }, []);
+    getAllProvinces(setAll)
+  }, [])
 
-  let imagesURLs = [];
-  // console.log("all", all);
-  const pr = all;
-  // console.log("pr", pr);
-
-  console.log(criterias);
-
-  console.log("detail from params", detail.hotel_id);
-  // console.log("criteria from params", detail.criteria);
-  let checkedCriterias = detail.criteria.split(",");
+  let imagesURLs = []
+  const pr = all
+  let checkedCriterias = detail.criteria.split(",")
   // console.log("arr criteria", checkedCriterias);
 
   //   setCriterias(checkedCriterias);
@@ -121,77 +114,82 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // change criterias state
   const handleChange = (event) => {
-    setAcceptTnC(event.target.checked);
-  };
+    setAcceptTnC(event.target.checked)
+  }
 
   const handleCriteriaChange = (event) => {
-    const index = criterias.indexOf(event.target.value);
+    const index = criterias.indexOf(event.target.value)
     if (index === -1) {
-      setCriterias([...criterias, event.target.value]);
+      setCriterias([...criterias, event.target.value])
     } else {
       setCriterias(
         criterias.filter((criteria) => criteria !== event.target.value)
-      );
+      )
     }
-  };
+  }
 
   const handleChangeProvince = (event) => {
-    setProvince(event.target.value);
-  };
+    setProvince(event.target.value)
+  }
 
   //   handle upload images
   const handleUpload = async (e) => {
-    let { files } = e.target;
-    console.log("files", files);
+    let { files } = e.target
+    console.log("files", files)
 
-    const uploadName = "jqlebxmc";
+    const uploadName = "jqlebxmc"
 
-    let formData = new FormData();
+    let formData = new FormData()
 
-    setUploadedImages([]);
+    setUploadedImages([])
 
-    setUploading(true);
+    setUploading(true)
     for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-      formData.append("file", file);
-      formData.append("upload_preset", uploadName);
+      let file = files[i]
+      formData.append("file", file)
+      formData.append("upload_preset", uploadName)
       const getImg = fetch(IMAGE_CLOUD_API, {
         method: "POST",
         body: formData,
-      });
-      setImgFile(getImg);
-      getImg.then((res) => res.json()).then((res) => imagesURLs.push(res.url));
+      })
+      setImgFile(getImg)
+      getImg.then((res) => res.json()).then((res) => imagesURLs.push(res.url))
     }
 
     // console.log("img urls", imagesURLs[0].imgURL);
-    formik.values.imgURL = imagesURLs;
+    formik.values.imgURL = imagesURLs
 
-    setUploading(false);
-  };
+    setUploading(false)
+  }
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListRoomPage";
-  };
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   window.location = "http://localhost:8000/owner/ListHotelPage"
+  }
 
   const handleGetHotelInfor = (values) => {
-    const token = localStorage.getItem("token");
-    console.log("token", token);
+    let token = ""
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   token = localStorage.getItem("token")
+    console.log("token", token)
     const signUp = async (postData) => {
-      const response = await updateRoomInfor(postData, token);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await updateRoomInfor(postData, token)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type == "object") {
-        toast.success("Update room details successfully");
-        setTimeout(redirectFunc, 3000);
+        toast.success("Update room details successfully")
+        setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Update room details failed");
-        toast.error(response);
+        console.log("Update room details failed")
+        toast.error(response)
       }
-      setIsLoading(false);
-    };
-    formik.values.criteria = criterias.toString();
+      setIsLoading(false)
+    }
+    formik.values.criteria = criterias.toString()
     const data = {
       room_id: detail.room_id,
       hotel: {
@@ -205,10 +203,10 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
       // address: values.address,
       // type_of_room: values.type_of_room,
       imgURL: values.imgURL,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -223,12 +221,12 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("value", values);
-      handleGetHotelInfor(values);
+      console.log("value", values)
+      handleGetHotelInfor(values)
     },
-  });
+  })
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
@@ -400,7 +398,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     </span>{" "}
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-                        return <img src={item.imgURL} className="m-2" />;
+                        return <img src={item.imgURL} className="m-2" />
                       })
                     ) : (
                       <div>This hotel has no images</div>
@@ -562,7 +560,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -582,7 +580,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -602,7 +600,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -622,7 +620,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -642,7 +640,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -662,7 +660,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -682,7 +680,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -702,7 +700,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -722,7 +720,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -742,7 +740,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -762,7 +760,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -782,7 +780,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -802,7 +800,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
 
                     <p className="font-bold">
@@ -822,7 +820,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                           }
                           label={<Fragment>{item.name}</Fragment>}
                         />
-                      );
+                      )
                     })}
                   </FormGroup>
 
@@ -852,5 +850,5 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,14 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react"
 import Logo from "../../../assets/images/logo.png"
-import textLogo from "../../../assets/images/text-logo.png";
-import LoginModal from "../../Items/LoginModal";
+import textLogo from "../../../assets/images/text-logo.png"
+import LoginModal from "../../Items/LoginModal"
 import Login from "../../Items/Login"
 // import Button from "../Items/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import DescriptionIcon from "@material-ui/icons/Description";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import DescriptionIcon from "@material-ui/icons/Description"
 
 export default function Header() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  // const showPosition = (position) => {
+  //   console.log(position)
+  // }
+  // navigator.geolocation.getCurrentPosition(showPosition)
 
   return (
     <Fragment>
@@ -30,26 +34,15 @@ export default function Header() {
             </button> */}
 
             <button
-              className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
-              onClick={() =>
-                (window.location = "http://localhost:8000/owner/main")
-              }
-            >
-              <DescriptionIcon /> 
-              <span className="hidden lg:inline">List your place</span>
-              
-            </button>
-
-            <button
               className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
               onClick={() => {
-                console.log("click on login");
-                setShowModal(true);
+                console.log("click on login")
+                setShowModal(true)
               }}
             >
-              <AccountCircleIcon /> 
+              <AccountCircleIcon />
               <span className="hidden lg:inline">Sign in</span>
-              
+
             </button>
           </div>
         </div>
@@ -57,7 +50,7 @@ export default function Header() {
 
       <Login isVisible={showModal} isClose={() => setShowModal(false)} />
     </Fragment>
-  );
+  )
 }
 
 // bg-colorText border-b-2 border-black-100 text-black rounded-full md:cursor-pointer items-center
