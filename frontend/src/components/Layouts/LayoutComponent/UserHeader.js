@@ -15,6 +15,7 @@ export default function UserHeader() {
   const [showUserModal, setShowUserModal] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
 
+<<<<<<< HEAD
   let token
 
   // const isBrowser = typeof window !== "undefined" && window
@@ -45,6 +46,28 @@ export default function UserHeader() {
     // getUser()
   }, [])
 
+=======
+  const token = localStorage.getItem("token");
+  console.log("token", typeof token);
+  // let user;
+
+  // async function getUser() {
+  //   const get = await getInformation(localStorage.getItem("token")).then(
+  //     (fulfilledResult) => {
+  //       console.log("success", fulfilledResult);
+  //       user = fulfilledResult;
+  //       return fulfilledResult;
+  //     },
+  //     (rejectedResult) => {
+  //       console.log("fail", rejectedResult);
+  //     }
+  //   );
+  //   return get;
+  // }
+
+  // console.log('getu', getUser())
+
+>>>>>>> master
   return (
     <Fragment>
       <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">

@@ -1,0 +1,40 @@
+const db = require("../models/index.js");
+const { Op } = require("sequelize");
+
+const Room = db.room;
+const Image = db.image;
+const Hotel = db.hotel;
+const User = db.user;
+const Owner = db.owner;
+const Reservation = db.reservation;
+const Occupied_room = db.occupied_room;
+
+const controllers = require("../controllers/controller.js"); 
+
+exports.UpdateDatabase = async (req, res, next) => {
+    let value1 = {
+        status: "canceled"
+    }
+    let difference = new Date(Date.now() - (60*60*12*1000))
+    let condition1 = {
+        status: "waiting",
+        date_in: {
+            [Op.lte]: difference 
+        }
+    }
+    await controllers.UpdateData(Reservation, value1, condition1)
+    
+    let value2 = {
+        status: "completed"
+    }
+    let now = new Date();
+    let condition2 = {
+        status: "located",
+        date_out: {
+            [Op.lte]: now
+        }
+    }
+    await controllers.UpdateData(Reservation, value2, condition2)
+    next()
+}
+

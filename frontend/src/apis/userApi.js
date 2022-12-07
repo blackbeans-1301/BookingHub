@@ -51,7 +51,7 @@ export const registerAPI = async (data) => {
   return response;
 };
 
-export const getInformation = async (tokenStr) => {
+export const getUserInfor = async (setInfor, tokenStr) => {
   const options = {
     headers: {
       Authorization: `Bearer ${tokenStr}`,
@@ -62,6 +62,7 @@ export const getInformation = async (tokenStr) => {
     .get(GET_USER_INFOR_URL, options)
     .then((res) => {
       console.log("RESPONSE ==== : ", res);
+      setInfor(res.data);
       return res.data;
     })
     .catch((err) => {

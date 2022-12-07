@@ -45,14 +45,14 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: null
         }
     });
-    // User.associate = function (models) {
-    //     // // associations can be defined here
-    //     User.hasMany(models.reservation, {
-    //         foreignKey: 'user_id',
-    //         onDelete: 'RESTRICT',
-    //         onUpdate: 'CASCADE'
-    //     })
-    // }
+    User.associate = function (models) {
+        // // associations can be defined here
+        User.hasMany(models.reservation, {
+            foreignKey: 'user_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
+    }
     return User;
 };
 

@@ -14,7 +14,11 @@ export const LOGIN_URL = `${DOMAIN_URL}/user/login`
 
 export const REGISTER_URL = `${DOMAIN_URL}/user/register`
 
+<<<<<<< HEAD
 export const GET_USER_INFOR_URL = `${DOMAIN_URL}/user/information`
+=======
+export const GET_USER_INFOR_URL = `${DOMAIN_URL}/user/info`;
+>>>>>>> master
 
 export const UPDATE_USER_INFOR_URL = `${DOMAIN_URL}/user/updateUser`
 
@@ -26,7 +30,11 @@ export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`
 
 // API for get provinces--------------------------------------------
 
+<<<<<<< HEAD
 export const PROVINCE_OPEN_API = "https://provinces.open-api.vn/api"
+=======
+export const PROVINCE_OPEN_API = "https://provinces.open-api.vn/api";
+>>>>>>> master
 
 export const GET_PROVINCES_URL = `${PROVINCE_OPEN_API}/p`
 
@@ -44,4 +52,10 @@ export const UPDATE_HOTEL_URL = `${DOMAIN_URL}/hotel/update`
 
 export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`
 
+<<<<<<< HEAD
 export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`
+=======
+export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`;
+
+export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`;
+>>>>>>> master

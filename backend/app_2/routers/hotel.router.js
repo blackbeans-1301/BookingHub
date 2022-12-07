@@ -11,10 +11,15 @@ router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.updateHote
 // get all user's hotels
 router.get('/ownerHotels', userMiddleware.authenticateJWT, hotelMiddleware.getOwnerHotels);
 
+// get hotel by address
+router.put('/hotelByAddress', hotelMiddleware.hotelByAddress) 
+
 // TODO: find hotel
 // TODO: delete a hotel
 
 // get hotel's info (cai nay luon o duoi cung)
 router.get('/:hotel_id', hotelMiddleware.getInfoHotel)
 
+// Get hotel's reservations
+router.get('/hotelReservations/:hotel_id', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.hotelReservations);
 module.exports = router
