@@ -1,61 +1,63 @@
-import * as React from "react";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { loginAPI, getInformation, registerAPI, resetPassword } from "../../../apis/userApi";
-import { toast } from "react-toastify";
-import { LoadingButton } from "@mui/lab";
-import { useState } from "react";
-import ToastMessage from "../../Items/ToastMessage";
+import * as React from "react"
+import * as yup from "yup"
+import { useFormik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { loginAPI, getInformation, registerAPI, resetPassword } from "../../../apis/userApi"
+import { toast } from "react-toastify"
+import { LoadingButton } from "@mui/lab"
+import { useState } from "react"
+import ToastMessage from "../../Items/ToastMessage"
 
 const validationSchema = yup.object({
   password: yup.string().required("Enter your password"),
   newPassword: yup.string().required("Enter your new password")
-});
+})
 
 export default function Settings() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const token = localStorage.getItem("token");
+  const [isLoading, setIsLoading] = useState(false)
+  let token
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   token = localStorage.getItem("token")
   // console.log('token', token)
   const handleChangePassword = (values) => {
     const getToken = async (postData) => {
-      const response = await resetPassword(postData, token);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await resetPassword(postData, token)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type == "object") {
-        console.log('message', Object.values(response)[0]);
-        toast.success(Object.values(response)[0]);
+        console.log('message', Object.values(response)[0])
+        toast.success(Object.values(response)[0])
       } else {
-        console.log("update password failed");
-        toast.error(response);
+        console.log("update password failed")
+        toast.error(response)
       }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       password: values.password,
       newPassword: values.newPassword,
-    };
-    setIsLoading(true);
-    getToken(data);
-  };
+    }
+    setIsLoading(true)
+    getToken(data)
+  }
 
   const changePasswordFormik = useFormik({
     initialValues: {
-        password: "",
-        newPassword: "",
+      password: "",
+      newPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
-      handleChangePassword(values);
+      handleChangePassword(values)
     },
-  });
+  })
 
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -136,5 +138,5 @@ export default function Settings() {
         </form>
       </div>
     </div>
-  );
+  )
 }

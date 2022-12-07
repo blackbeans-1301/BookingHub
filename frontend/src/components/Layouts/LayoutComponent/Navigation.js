@@ -1,22 +1,22 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react"
 // import Icon from '@mui/icons-material/Icon';
 // import PeopleIcon from '@material-ui/icons/People';
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import FlightOutlinedIcon from "@material-ui/icons/FlightOutlined";
-import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined";
-import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined";
-import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined";
-import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined";
-import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined";
-import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
-import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import FlightOutlinedIcon from "@material-ui/icons/FlightOutlined"
+import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined"
+import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined"
+import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
+import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
+import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
+import BookOutlinedIcon from "@material-ui/icons/BookOutlined"
+import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined"
 // import Logo from "../../assets/images/favicon.png";
-import Logo from "../../../assets/images/logo.png";
+import Logo from "../../../assets/images/logo.png"
 // import LoginModal from "../../Items/LoginModal";
 
 export default function Navigation() {
-  const [open, setOpen] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(true)
+  const [showModal, setShowModal] = useState(false)
 
   const menu = [
     // {
@@ -63,7 +63,7 @@ export default function Navigation() {
       icon: <BookOutlinedIcon />,
       link: "http://localhost:8000/user/TripsPage",
     },
-  ];
+  ]
 
   return (
     <Fragment>
@@ -111,7 +111,10 @@ export default function Navigation() {
               key={index}
               className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
                 ${menuItem.gap ? "mt-6" : "mt-2"}`}
-              onClick={() => (window.location = menuItem.link)}
+              onClick={() => {
+                // const isBrowser = typeof window !== "undefined" && window
+                // if (isBrowser) (window.location = menuItem.link)
+              }}
             >
               <span className={`material-icons md-48`}>{menuItem.icon}</span>
 
@@ -177,5 +180,5 @@ export default function Navigation() {
 
     //   </div>
     // </div>
-  );
+  )
 }

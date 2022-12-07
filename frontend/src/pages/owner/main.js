@@ -8,7 +8,10 @@ import OwnerLayout from "../../components/Layouts/OwnerLayout"
 
 const OwnerPage = () => {
   const [showModal, setShowModal] = useState(false)
-  console.log("GET TOKEN FROM LOCAL STORAGE", localStorage.getItem("token"))
+
+
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser) console.log("GET TOKEN FROM LOCAL STORAGE", localStorage.getItem("token"))
 
   return (
     <OwnerLayout>

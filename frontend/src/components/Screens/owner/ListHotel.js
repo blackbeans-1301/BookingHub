@@ -1,17 +1,17 @@
-import * as React from "react";
-import { useState } from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InfoIcon from "@material-ui/icons/Info";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import { getAllHotels } from "../../../apis/hotelApi";
-import { useEffect } from "react";
-import InfoHotelModal from "../../Items/InfoHotelModal";
+import * as React from "react"
+import { useState } from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import InfoIcon from "@material-ui/icons/Info"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import { getAllHotels } from "../../../apis/hotelApi"
+import { useEffect } from "react"
+import InfoHotelModal from "../../Items/InfoHotelModal"
 
 export default function ListHotel() {
-  const [allHotels, setAllHotels] = useState();
-  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [allHotels, setAllHotels] = useState()
+  const [showInfoModal, setShowInfoModal] = useState(false)
   const [hotelDetail, setHotelDetail] = useState({
     name: "",
     address: "",
@@ -19,17 +19,23 @@ export default function ListHotel() {
     Images: "",
     description: "",
     province: "",
-  });
+  })
 
-  const token = localStorage.getItem("token");
+  let token
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   token = localStorage.getItem("token")
   useEffect(() => {
-    getAllHotels(setAllHotels, token);
-  }, []);
-  console.log("all hotels", allHotels);
+    getAllHotels(setAllHotels, token)
+  }, [])
+  console.log("all hotels", allHotels)
 
   function directToUpdatePage(id) {
-    localStorage.setItem("hotelID", id);
-    window.location = "http://localhost:8000/owner/UpdateHotelPage";
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser) {
+    //   localStorage.setItem("hotelID", id)
+    //   window.location = "http://localhost:8000/owner/UpdateHotelPage"
+    // }
   }
 
   return (
@@ -131,8 +137,8 @@ export default function ListHotel() {
                               type="button"
                               class="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
                               onClick={() => {
-                                setHotelDetail(hotel);
-                                setTimeout(setShowInfoModal(true), 2000);
+                                setHotelDetail(hotel)
+                                setTimeout(setShowInfoModal(true), 2000)
                               }}
                             >
                               <InfoIcon />
@@ -159,9 +165,12 @@ export default function ListHotel() {
                             <button
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
-                                localStorage.setItem("hotelID", hotel.hotel_id);
-                                window.location =
-                                  "http://localhost:8000/owner/ListRoomPage";
+                                // const isBrowser = typeof window !== "undefined" && window
+                                // if (isBrowser) {
+                                //   localStorage.setItem("hotelID", hotel.hotel_id)
+                                //   window.location =
+                                //     "http://localhost:8000/owner/ListRoomPage"
+                                // }
                               }}
                             >
                               List rooms
@@ -169,7 +178,7 @@ export default function ListHotel() {
                           </p>
                         </td>
                       </tr>
-                    );
+                    )
                   })}
               </tbody>
             </table>
@@ -184,5 +193,5 @@ export default function ListHotel() {
         />
       )}
     </div>
-  );
+  )
 }

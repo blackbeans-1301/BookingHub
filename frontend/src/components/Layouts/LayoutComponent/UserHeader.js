@@ -15,30 +15,36 @@ export default function UserHeader() {
   const [showUserModal, setShowUserModal] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
 
-  const token = localStorage.getItem("token")
+  let token
+
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   token = localStorage.getItem("token")
   console.log("token", typeof token)
   let user
 
   async function getUser() {
-    const get = await getInformation(localStorage.getItem("token")).then(
-      (fulfilledResult) => {
-        console.log("success", fulfilledResult)
-        user = fulfilledResult
-        return fulfilledResult
-      },
-      (rejectedResult) => {
-        console.log("fail", rejectedResult)
-      }
-    )
-    return get
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser) {
+    //   const get = await getInformation(localStorage.getItem("token")).then(
+    //     (fulfilledResult) => {
+    //       console.log("success", fulfilledResult)
+    //       user = fulfilledResult
+    //       return fulfilledResult
+    //     },
+    //     (rejectedResult) => {
+    //       console.log("fail", rejectedResult)
+    //     }
+    //   )
+    //   return get
+    // }
+    return
   }
 
   useEffect(() => {
-    console.log(2987341612873564123756184576345876348567)
-    getUser()
+    // getUser()
   }, [])
 
-  console.log('get', getUser())
   return (
     <Fragment>
       <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
@@ -47,8 +53,10 @@ export default function UserHeader() {
           <div className="flex">
             <button
               className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
-              onClick={() =>
-                (window.location = "http://localhost:8000/owner/main")
+              onClick={() => {
+                // const isBrowser = typeof window !== "undefined" && window
+                // if (isBrowser) (window.location = "http://localhost:8000/owner/main")
+              }
               }
             >
               <DescriptionIcon />

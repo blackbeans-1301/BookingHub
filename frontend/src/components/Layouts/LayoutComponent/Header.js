@@ -9,10 +9,10 @@ import DescriptionIcon from "@material-ui/icons/Description"
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false)
-  const showPosition = (position) => {
-    console.log(position)
-  }
-  navigator.geolocation.getCurrentPosition(showPosition)
+  // const showPosition = (position) => {
+  //   console.log(position)
+  // }
+  // navigator.geolocation.getCurrentPosition(showPosition)
 
   return (
     <Fragment>

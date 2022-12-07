@@ -1,47 +1,47 @@
-import * as React from "react";
-import * as yup from "yup";
-import { useState } from "react";
-import { useEffect } from "react";
-import PoolIcon from "@material-ui/icons/Pool";
-import SpaIcon from "@material-ui/icons/Spa";
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter";
-import RestaurantIcon from "@material-ui/icons/Restaurant";
-import FireplaceIcon from "@material-ui/icons/Fireplace";
-import RoomServiceIcon from "@material-ui/icons/RoomService";
-import WifiIcon from "@material-ui/icons/Wifi";
-import AcUnitIcon from "@material-ui/icons/AcUnit";
-import LocalParkingIcon from "@material-ui/icons/LocalParking";
-import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle";
-import PetsIcon from "@material-ui/icons/Pets";
-import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast";
-import KitchenIcon from "@material-ui/icons/Kitchen";
-import FastfoodIcon from "@material-ui/icons/Fastfood";
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-import StorefrontIcon from "@material-ui/icons/Storefront";
-import GolfCourseIcon from "@material-ui/icons/GolfCourse";
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist";
-import DeckIcon from "@material-ui/icons/Deck";
-import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill";
-import LocalAtmIcon from "@material-ui/icons/LocalAtm";
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar";
-import WavesIcon from "@material-ui/icons/Waves";
-import LocationCityIcon from "@material-ui/icons/LocationCity";
-import NatureIcon from "@material-ui/icons/Nature";
-import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu";
-import ChildCareIcon from "@material-ui/icons/ChildCare";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import API from "../../../pages/owner/service";
-import _ from "lodash";
-import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi";
-import { Field, useFormik, Form, Formik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
-import { Fragment } from "react";
+import * as React from "react"
+import * as yup from "yup"
+import { useState } from "react"
+import { useEffect } from "react"
+import PoolIcon from "@material-ui/icons/Pool"
+import SpaIcon from "@material-ui/icons/Spa"
+import FitnessCenterIcon from "@material-ui/icons/FitnessCenter"
+import RestaurantIcon from "@material-ui/icons/Restaurant"
+import FireplaceIcon from "@material-ui/icons/Fireplace"
+import RoomServiceIcon from "@material-ui/icons/RoomService"
+import WifiIcon from "@material-ui/icons/Wifi"
+import AcUnitIcon from "@material-ui/icons/AcUnit"
+import LocalParkingIcon from "@material-ui/icons/LocalParking"
+import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle"
+import PetsIcon from "@material-ui/icons/Pets"
+import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast"
+import KitchenIcon from "@material-ui/icons/Kitchen"
+import FastfoodIcon from "@material-ui/icons/Fastfood"
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard"
+import StorefrontIcon from "@material-ui/icons/Storefront"
+import GolfCourseIcon from "@material-ui/icons/GolfCourse"
+import LocalFloristIcon from "@material-ui/icons/LocalFlorist"
+import DeckIcon from "@material-ui/icons/Deck"
+import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill"
+import LocalAtmIcon from "@material-ui/icons/LocalAtm"
+import DirectionsCarIcon from "@material-ui/icons/DirectionsCar"
+import WavesIcon from "@material-ui/icons/Waves"
+import LocationCityIcon from "@material-ui/icons/LocationCity"
+import NatureIcon from "@material-ui/icons/Nature"
+import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
+import ChildCareIcon from "@material-ui/icons/ChildCare"
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
+import CloudUploadIcon from "@material-ui/icons/CloudUpload"
+import API from "../../../services/service"
+import _ from "lodash"
+import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi"
+import { Field, useFormik, Form, Formik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { LoadingButton } from "@mui/lab"
+import { toast } from "react-toastify"
+import { Fragment } from "react"
 import {
   Box,
   FormControlLabel,
@@ -49,12 +49,12 @@ import {
   FormLabel,
   FormGroup,
   TextareaAutosize,
-} from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { IMAGE_CLOUD_API } from "../../../configs/api";
-import ToastMessage from "../../Items/ToastMessage";
+} from "@mui/material"
+import InputLabel from "@mui/material/InputLabel"
+import MenuItem from "@mui/material/MenuItem"
+import Select, { SelectChangeEvent } from "@mui/material/Select"
+import { IMAGE_CLOUD_API } from "../../../configs/api"
+import ToastMessage from "../../Items/ToastMessage"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
@@ -63,103 +63,108 @@ const validationSchema = yup.object({
   province: yup.string().required("Province is required"),
   criteria: yup.string(),
   imgURL: yup.array().required("Image field is required"),
-});
+})
 
 export default function CreateHotel() {
-  const [progress, setProgress] = useState(0);
-  const [isUploading, setUploading] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [acceptTnC, setAcceptTnC] = useState(false);
-  const [criterias, setCriterias] = useState([]);
-  const [all, setAll] = useState();
-  const [province, setProvince] = useState("");
-  const [images, setImages] = useState([]);
-  const [imgFile, setImgFile] = useState();
+  const [progress, setProgress] = useState(0)
+  const [isUploading, setUploading] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [acceptTnC, setAcceptTnC] = useState(false)
+  const [criterias, setCriterias] = useState([])
+  const [all, setAll] = useState()
+  const [province, setProvince] = useState("")
+  const [images, setImages] = useState([])
+  const [imgFile, setImgFile] = useState()
 
-  let imagesURLs = [];
-  console.log("all", all);
-  const pr = all;
-  console.log("pr", pr);
+  let imagesURLs = []
+  console.log("all", all)
+  const pr = all
+  console.log("pr", pr)
 
-  console.log(criterias);
+  console.log(criterias)
 
   // change criterias state
   const handleChange = (event) => {
-    setAcceptTnC(event.target.checked);
-  };
+    setAcceptTnC(event.target.checked)
+  }
 
   const handleCriteriaChange = (event) => {
-    const index = criterias.indexOf(event.target.value);
+    const index = criterias.indexOf(event.target.value)
     if (index === -1) {
-      setCriterias([...criterias, event.target.value]);
+      setCriterias([...criterias, event.target.value])
     } else {
       setCriterias(
         criterias.filter((criteria) => criteria !== event.target.value)
-      );
+      )
     }
-  };
+  }
 
   const handleChangeProvince = (event) => {
-    setProvince(event.target.value);
-  };
+    setProvince(event.target.value)
+  }
 
   //   handle upload images
   const handleUpload = async (e) => {
-    let { files } = e.target;
-    console.log("files", files);
+    let { files } = e.target
+    console.log("files", files)
 
-    const uploadName = "jqlebxmc";
+    const uploadName = "jqlebxmc"
 
-    let formData = new FormData();
+    let formData = new FormData()
 
-    setUploadedImages([]);
+    setUploadedImages([])
 
-    setUploading(true);
+    setUploading(true)
     for (let i = 0; i < files.length; i++) {
-      let file = files[i];
-      formData.append("file", file);
-      formData.append("upload_preset", uploadName);
+      let file = files[i]
+      formData.append("file", file)
+      formData.append("upload_preset", uploadName)
       fetch(IMAGE_CLOUD_API, {
         method: "POST",
         body: formData,
       })
         .then((res) => res.json())
-        .then((res) => imagesURLs.push(res.url));
+        .then((res) => imagesURLs.push(res.url))
     }
 
     console.log('img urls', imagesURLs)
-    formik.values.imgURL = imagesURLs;
+    formik.values.imgURL = imagesURLs
 
-    setUploading(false);
-  };
+    setUploading(false)
+  }
 
   useEffect(() => {
-    getAllProvinces(setAll);
-  }, []);
+    getAllProvinces(setAll)
+  }, [])
 
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage";
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   window.location = "http://localhost:8000/owner/ListHotelPage"
   }
 
   const handleGetHotelInfor = (values) => {
-    const token = localStorage.getItem("token");
-    console.log("token", token);
+    let token
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   token = localStorage.getItem("token")
+    console.log("token", token)
     const signUp = async (postData) => {
-      const response = await createHotelApi(postData, token);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await createHotelApi(postData, token)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type == "object") {
-        toast.success("Sign up successfully");
-        setTimeout(redirectFunc, 3000);
+        toast.success("Sign up successfully")
+        setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Sign up failed");
-        toast.error(response);
+        console.log("Sign up failed")
+        toast.error(response)
       }
-      setIsLoading(false);
-    };
-    formik.values.criteria = criterias.toString();
+      setIsLoading(false)
+    }
+    formik.values.criteria = criterias.toString()
     const data = {
       name: values.name,
       description: values.description,
@@ -167,10 +172,10 @@ export default function CreateHotel() {
       province: values.province,
       criteria: values.criteria,
       imgURL: values.imgURL,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -183,10 +188,10 @@ export default function CreateHotel() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("value", values);
-      handleGetHotelInfor(values);
+      console.log("value", values)
+      handleGetHotelInfor(values)
     },
-  });
+  })
 
   return (
     <div>
@@ -222,7 +227,7 @@ export default function CreateHotel() {
             >
               {pr != undefined &&
                 pr.map((p) => {
-                  return <MenuItem value={p.name}>{p.name}</MenuItem>;
+                  return <MenuItem value={p.name}>{p.name}</MenuItem>
                 })}
             </Select>
           </FormControl>
@@ -786,7 +791,7 @@ export default function CreateHotel() {
           Send
         </LoadingButton>
       </form>
-      {}
+      { }
     </div>
-  );
+  )
 }

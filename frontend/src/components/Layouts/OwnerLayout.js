@@ -7,7 +7,10 @@ import OwnerHeader from "./LayoutComponent/OwnerHeader"
 import PlacePageHeader from "./LayoutComponent/PlacePageHeader"
 
 export default function OwnerLayout({ children }) {
-  const login = localStorage.getItem("token")
+  let login
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   login = localStorage.getItem("token")
 
   return (
     <div className="flex">

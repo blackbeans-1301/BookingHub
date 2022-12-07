@@ -10,7 +10,10 @@ export default function UserOption({ isVisible, isClose }) {
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-        onClick={() => (window.location = "http://localhost:8000/user/ProfilePage")}
+        onClick={() => {
+          // const isBrowser = typeof window !== "undefined" && window
+          // if (isBrowser) (window.location = "http://localhost:8000/user/ProfilePage")
+        }}
       >
         <span className="flex items-center">
           <AccountCircleIcon />
@@ -21,7 +24,10 @@ export default function UserOption({ isVisible, isClose }) {
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-        onClick={() => (window.location = "http://localhost:8000/user/SettingsPage")}
+        onClick={() => {
+          const isBrowser = typeof window !== "undefined" && window
+          if (isBrowser) (window.location = "http://localhost:8000/user/SettingsPage")
+        }}
       >
         <span className="flex items-center">
           <SettingsIcon />
@@ -33,8 +39,11 @@ export default function UserOption({ isVisible, isClose }) {
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
         onClick={() => {
-          localStorage.removeItem("token")
-          window.location.reload()
+          // const isBrowser = typeof window !== "undefined" && window
+          // if (isBrowser) {
+          //   localStorage.removeItem("token")
+          //   window.location.reload()
+          // }
         }}
       >
         <span className="flex items-center">

@@ -111,11 +111,6 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("criteria from params", detail.criteria);
   let checkedCriterias = detail.criteria.split(",")
-  // console.log("arr criteria", checkedCriterias);
-
-  //   setCriterias(checkedCriterias);
-  //   const token = localStorage.getItem("token");
-  //   const hotelID = localStorage.getItem("hotelID");
 
   // change criterias state
   const handleChange = (event) => {
@@ -168,11 +163,16 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   window.location = "http://localhost:8000/owner/ListHotelPage"
   }
 
   const handleGetHotelInfor = (values) => {
-    const token = localStorage.getItem("token")
+    let token
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    // token = localStorage.getItem("token")
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
       const type = typeof response
