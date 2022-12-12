@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import axios from "axios"
-import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL } from "../configs/api"
-=======
-import axios from "axios";
-import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api";
->>>>>>> master
+import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api"
 
 export const createRoomApi = (data, tokenStr) => {
   const options = {

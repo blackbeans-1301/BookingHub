@@ -49,22 +49,13 @@ import {
   FormLabel,
   FormGroup,
   TextareaAutosize,
-<<<<<<< HEAD
 } from "@mui/material"
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
-=======
-} from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { IMAGE_CLOUD_API } from "../../../configs/api";
-import ToastMessage from "../../Items/ToastMessage";
-import { HotelCriterias } from "../../../assets/data/HotelCriteriaData";
->>>>>>> master
+import { HotelCriterias } from "../../../assets/data/HotelCriteriaData"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
@@ -138,13 +129,8 @@ export default function CreateHotel() {
         .then((res) => imagesURLs.push(res.url))
     }
 
-<<<<<<< HEAD
-    console.log('img urls', imagesURLs)
+    console.log("img urls", imagesURLs)
     formik.values.imgURL = imagesURLs
-=======
-    console.log("img urls", imagesURLs);
-    formik.values.imgURL = imagesURLs;
->>>>>>> master
 
     setUploading(false)
   }
@@ -154,15 +140,8 @@ export default function CreateHotel() {
   }, [])
 
   const redirectFunc = () => {
-<<<<<<< HEAD
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000/owner/ListHotelPage"
+    window.location = "http://localhost:8000/owner/ListHotelPage"
   }
-=======
-    window.location = "http://localhost:8000/owner/ListHotelPage";
-  };
->>>>>>> master
 
   const handleGetHotelInfor = (values) => {
     let token
@@ -176,19 +155,11 @@ export default function CreateHotel() {
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
-<<<<<<< HEAD
-        toast.success("Sign up successfully")
+        toast.success("Create a new hotel successfully")
         setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Sign up failed")
+        console.log("Create a new hotel failed")
         toast.error(response)
-=======
-        toast.success("Create a new hotel successfully");
-        setTimeout(redirectFunc, 3000);
-      } else {
-        console.log("Create a new hotel failed");
-        toast.error(response);
->>>>>>> master
       }
       setIsLoading(false)
     }
@@ -254,17 +225,12 @@ export default function CreateHotel() {
               error={formik.touched.province && !!formik.errors.province}
             >
               {pr != undefined &&
-<<<<<<< HEAD
-                pr.map((p) => {
-                  return <MenuItem value={p.name}>{p.name}</MenuItem>
-=======
                 pr.map((p, index) => {
                   return (
                     <MenuItem key={index} value={p.name}>
                       {p.name}
                     </MenuItem>
-                  );
->>>>>>> master
+                  )
                 })}
             </Select>
           </FormControl>
@@ -304,7 +270,7 @@ export default function CreateHotel() {
               formik.touched.description && Boolean(formik.errors.description)
             }
             onChange={formik.handleChange}
-            // helperText={formik.touched.description && formik.errors.description}
+          // helperText={formik.touched.description && formik.errors.description}
           />
         </FormControl>
         <FormLabel>Amenities (select criterias of your hotel)</FormLabel>
@@ -327,7 +293,7 @@ export default function CreateHotel() {
                   </Fragment>
                 }
               />
-            );
+            )
           })}
 
           {/* <div className="flex">
