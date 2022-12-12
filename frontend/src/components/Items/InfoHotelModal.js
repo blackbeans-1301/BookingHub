@@ -460,13 +460,9 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-<<<<<<< HEAD
-                        return <img src={item.imgURL} className="m-2" />
-=======
                         return (
                           <img key={index} src={item.imgURL} className="m-2" />
-                        );
->>>>>>> master
+                        )
                       })
                     ) : (
                       <div>This hotel has no images</div>
