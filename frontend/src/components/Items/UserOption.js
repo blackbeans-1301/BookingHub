@@ -4,12 +4,8 @@ import SettingsIcon from "@material-ui/icons/Settings"
 import ReplyIcon from "@material-ui/icons/Reply"
 
 export default function UserOption({ isVisible, isClose }) {
-<<<<<<< HEAD
   if (!isVisible) return null
-=======
-  if (!isVisible) return null;
-  
->>>>>>> master
+
   return (
     <div className="absolute top-16 right-2 z-10 flex flex-col bg-white rounded-xl shadow-2xl shadow-blue-200">
       <button
