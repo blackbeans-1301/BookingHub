@@ -3,10 +3,7 @@ import textLogo from "../../../assets/images/text-logo.png"
 import Login from "../../Items/Login"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import UndoIcon from "@material-ui/icons/Undo"
-<<<<<<< HEAD
 import { redirect } from "../../../utils"
-=======
->>>>>>> master
 
 export default function OwnerHeader() {
   const [showModal, setShowModal] = useState(false)
@@ -20,12 +17,7 @@ export default function OwnerHeader() {
             <button
               className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
               onClick={() => {
-<<<<<<< HEAD
-                // redirect("http://localhost:8000/")
-=======
-                // const isBrowser = typeof window !== "undefined" && window
-                // if (isBrowser) window.location = "http://localhost:8000/"
->>>>>>> master
+                redirect("http://localhost:8000/")
               }
               }
             >
@@ -35,12 +27,7 @@ export default function OwnerHeader() {
             <button
               className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() => {
-<<<<<<< HEAD
-                // redirect("http://localhost:8000/owner/OwnerProfilePage")
-=======
-                // const isBrowser = typeof window !== "undefined" && window
-                // if (isBrowser) (window.location = "http://localhost:8000/owner/OwnerProfilePage")
->>>>>>> master
+                redirect("http://localhost:8000/owner/OwnerProfilePage")
               }
               }
             >

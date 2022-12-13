@@ -2,39 +2,6 @@ import * as React from "react"
 import * as yup from "yup"
 import { useState } from "react"
 import { useEffect } from "react"
-<<<<<<< HEAD
-import PoolIcon from "@material-ui/icons/Pool"
-import SpaIcon from "@material-ui/icons/Spa"
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter"
-import RestaurantIcon from "@material-ui/icons/Restaurant"
-import FireplaceIcon from "@material-ui/icons/Fireplace"
-import RoomServiceIcon from "@material-ui/icons/RoomService"
-import WifiIcon from "@material-ui/icons/Wifi"
-import AcUnitIcon from "@material-ui/icons/AcUnit"
-import LocalParkingIcon from "@material-ui/icons/LocalParking"
-import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle"
-import PetsIcon from "@material-ui/icons/Pets"
-import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast"
-import KitchenIcon from "@material-ui/icons/Kitchen"
-import FastfoodIcon from "@material-ui/icons/Fastfood"
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard"
-import StorefrontIcon from "@material-ui/icons/Storefront"
-import GolfCourseIcon from "@material-ui/icons/GolfCourse"
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist"
-import DeckIcon from "@material-ui/icons/Deck"
-import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill"
-import LocalAtmIcon from "@material-ui/icons/LocalAtm"
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar"
-import WavesIcon from "@material-ui/icons/Waves"
-import LocationCityIcon from "@material-ui/icons/LocationCity"
-import NatureIcon from "@material-ui/icons/Nature"
-import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
-import ChildCareIcon from "@material-ui/icons/ChildCare"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-=======
->>>>>>> master
 import CancelIcon from "@material-ui/icons/Cancel"
 import CheckIcon from "@material-ui/icons/Check"
 import AssignmentIcon from "@material-ui/icons/Assignment"
@@ -43,14 +10,9 @@ import LocationOnIcon from "@material-ui/icons/LocationOn"
 import ImageIcon from "@material-ui/icons/Image"
 import ChatIcon from "@material-ui/icons/Chat"
 import HomeWorkIcon from "@material-ui/icons/HomeWork"
-<<<<<<< HEAD
 import { getLSItem, setLSItem } from "../../utils"
 import _, { defaultTo, set } from "lodash"
-=======
 import { HotelCriterias } from "../../assets/data/HotelCriteriaData"
-
-import _ from "lodash"
->>>>>>> master
 import {
   createHotelApi,
   getAllProvinces,
@@ -117,22 +79,9 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
   const pr = all
   // console.log("pr", pr);
 
-<<<<<<< HEAD
-  console.log(criterias)
-
-  console.log("detail from params", detail.hotel_id)
-  // console.log("criteria from params", detail.criteria);
-  let checkedCriterias = detail.criteria.split(",")
-  // console.log("arr criteria", checkedCriterias);
-
-  //   setCriterias(checkedCriterias);
-  //   const token = localStorage.getItem("token");
-  //   const hotelID = localStorage.getItem("hotelID");
-=======
 
   // console.log("criteria from params", detail.criteria);
   let checkedCriterias = detail.criteria.split(",")
->>>>>>> master
 
   // change criterias state
   const handleChange = (event) => {
@@ -157,10 +106,6 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
   //   handle upload images
   const handleUpload = async (e) => {
     let { files } = e.target
-<<<<<<< HEAD
-    console.log("files", files)
-=======
->>>>>>> master
 
     const uploadName = "jqlebxmc"
 
@@ -189,7 +134,6 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-<<<<<<< HEAD
     redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
@@ -201,20 +145,6 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       const response = await updateHotelInfor(postData, token)
       console.log("response", response)
       console.log("type", typeof response)
-=======
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000/owner/ListHotelPage"
-  }
-
-  const handleGetHotelInfor = (values) => {
-    let token
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    // token = localStorage.getItem("token")
-    const signUp = async (postData) => {
-      const response = await updateHotelInfor(postData, token)
->>>>>>> master
       const type = typeof response
       if (type == "object") {
         toast.success("Update hotel details successfully")
@@ -250,20 +180,10 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-<<<<<<< HEAD
-      console.log("value", values)
-=======
->>>>>>> master
       handleGetHotelInfor(values)
     },
   })
 
-<<<<<<< HEAD
-=======
-  console.log(formik.initialValues)
-  console.log("checked", checkedCriterias)
-
->>>>>>> master
   if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
@@ -386,13 +306,9 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                     </span>{" "}
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-<<<<<<< HEAD
-                        return <img src={item.imgURL} className="m-2" />
-=======
                         return (
                           <img key={index} src={item.imgURL} className="m-2" />
                         )
->>>>>>> master
                       })
                     ) : (
                       <div>This hotel has no images</div>
@@ -540,13 +456,9 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
-<<<<<<< HEAD
-                        return <img src={item.imgURL} className="m-2" />
-=======
                         return (
                           <img key={index} src={item.imgURL} className="m-2" />
                         )
->>>>>>> master
                       })
                     ) : (
                       <div>This hotel has no images</div>

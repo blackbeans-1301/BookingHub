@@ -5,23 +5,12 @@ import ReplyIcon from "@material-ui/icons/Reply"
 
 export default function UserOption({ isVisible, isClose }) {
   if (!isVisible) return null
-<<<<<<< HEAD
-=======
-
->>>>>>> master
   return (
     <div className="absolute top-16 right-2 z-10 flex flex-col bg-white rounded-xl shadow-2xl shadow-blue-200">
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-<<<<<<< HEAD
         onClick={() => redirect("http://localhost:8000/user/ProfilePage")}
-=======
-        onClick={() => {
-          // const isBrowser = typeof window !== "undefined" && window
-          // if (isBrowser) (window.location = "http://localhost:8000/user/ProfilePage")
-        }}
->>>>>>> master
       >
         <span className="flex items-center">
           <AccountCircleIcon />
@@ -32,14 +21,7 @@ export default function UserOption({ isVisible, isClose }) {
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-<<<<<<< HEAD
         onClick={() => redirect("http://localhost:8000/user/SettingsPage")}
-=======
-        onClick={() => {
-          const isBrowser = typeof window !== "undefined" && window
-          if (isBrowser) (window.location = "http://localhost:8000/user/SettingsPage")
-        }}
->>>>>>> master
       >
         <span className="flex items-center">
           <SettingsIcon />
@@ -51,11 +33,11 @@ export default function UserOption({ isVisible, isClose }) {
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
         onClick={() => {
-          // const isBrowser = typeof window !== "undefined" && window
-          // if (isBrowser) {
-          //   localStorage.removeItem("token")
-          //   window.location.reload()
-          // }
+          const isBrowser = typeof window !== "undefined" && window
+          if (isBrowser) {
+            localStorage.removeItem("token")
+            window.location.reload()
+          }
         }}
       >
         <span className="flex items-center">

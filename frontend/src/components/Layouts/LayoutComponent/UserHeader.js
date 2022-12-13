@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { Fragment, useState } from "react"
-=======
 import React, { Fragment, useState, useEffect } from "react"
->>>>>>> master
 import Logo from "../../../assets/images/logo.png"
 import textLogo from "../../../assets/images/text-logo.png"
 import LoginModal from "../../Items/LoginModal"
@@ -13,15 +9,11 @@ import DescriptionIcon from "@material-ui/icons/Description"
 import { getInformation } from "../../../apis/userApi"
 import { toast } from "react-toastify"
 import UserOption from "../../Items/UserOption"
-<<<<<<< HEAD
 import { getLSItem } from "../../../utils"
-=======
->>>>>>> master
 
 export default function UserHeader() {
   const [showModal, setShowModal] = useState(false)
   const [showUserModal, setShowUserModal] = useState(false)
-<<<<<<< HEAD
 
   const token = getLSItem("token")
   console.log("token", typeof token)
@@ -40,29 +32,6 @@ export default function UserHeader() {
     )
     return get
   }
-=======
-  const [currentUser, setCurrentUser] = useState(null)
-
-  const token = localStorage.getItem("token")
-  console.log("token", typeof token)
-  // let user;
-
-  // async function getUser() {
-  //   const get = await getInformation(localStorage.getItem("token")).then(
-  //     (fulfilledResult) => {
-  //       console.log("success", fulfilledResult);
-  //       user = fulfilledResult;
-  //       return fulfilledResult;
-  //     },
-  //     (rejectedResult) => {
-  //       console.log("fail", rejectedResult);
-  //     }
-  //   );
-  //   return get;
-  // }
-
-  // console.log('getu', getUser())
->>>>>>> master
 
   return (
     <Fragment>
@@ -72,15 +41,8 @@ export default function UserHeader() {
           <div className="flex">
             <button
               className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
-<<<<<<< HEAD
               onClick={() =>
                 redirect("http://localhost:8000/owner/main")
-=======
-              onClick={() => {
-                // const isBrowser = typeof window !== "undefined" && window
-                // if (isBrowser) (window.location = "http://localhost:8000/owner/main")
-              }
->>>>>>> master
               }
             >
               <DescriptionIcon />

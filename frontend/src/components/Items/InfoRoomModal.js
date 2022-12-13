@@ -2,42 +2,6 @@ import * as React from "react"
 import * as yup from "yup"
 import { useState } from "react"
 import { useEffect } from "react"
-<<<<<<< HEAD
-import PoolIcon from "@material-ui/icons/Pool"
-import SpaIcon from "@material-ui/icons/Spa"
-import FitnessCenterIcon from "@material-ui/icons/FitnessCenter"
-import RestaurantIcon from "@material-ui/icons/Restaurant"
-import FireplaceIcon from "@material-ui/icons/Fireplace"
-import RoomServiceIcon from "@material-ui/icons/RoomService"
-import WifiIcon from "@material-ui/icons/Wifi"
-import AcUnitIcon from "@material-ui/icons/AcUnit"
-import LocalParkingIcon from "@material-ui/icons/LocalParking"
-import SwapVerticalCircleIcon from "@material-ui/icons/SwapVerticalCircle"
-import PetsIcon from "@material-ui/icons/Pets"
-import FreeBreakfastIcon from "@material-ui/icons/FreeBreakfast"
-import KitchenIcon from "@material-ui/icons/Kitchen"
-import FastfoodIcon from "@material-ui/icons/Fastfood"
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard"
-import StorefrontIcon from "@material-ui/icons/Storefront"
-import GolfCourseIcon from "@material-ui/icons/GolfCourse"
-import LocalFloristIcon from "@material-ui/icons/LocalFlorist"
-import DeckIcon from "@material-ui/icons/Deck"
-import OutdoorGrillIcon from "@material-ui/icons/OutdoorGrill"
-import LocalAtmIcon from "@material-ui/icons/LocalAtm"
-import DirectionsCarIcon from "@material-ui/icons/DirectionsCar"
-import WavesIcon from "@material-ui/icons/Waves"
-import LocationCityIcon from "@material-ui/icons/LocationCity"
-import NatureIcon from "@material-ui/icons/Nature"
-import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
-import ChildCareIcon from "@material-ui/icons/ChildCare"
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-import CancelIcon from "@material-ui/icons/Cancel"
-import CheckIcon from "@material-ui/icons/Check"
-import AssignmentIcon from "@material-ui/icons/Assignment"
-import MapIcon from "@material-ui/icons/Map"
-=======
 import RestaurantIcon from "@material-ui/icons/Restaurant"
 import RoomServiceIcon from "@material-ui/icons/RoomService"
 import WifiIcon from "@material-ui/icons/Wifi"
@@ -45,16 +9,10 @@ import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
 import CancelIcon from "@material-ui/icons/Cancel"
 import CheckIcon from "@material-ui/icons/Check"
 import AssignmentIcon from "@material-ui/icons/Assignment"
->>>>>>> master
 import LocationOnIcon from "@material-ui/icons/LocationOn"
 import ImageIcon from "@material-ui/icons/Image"
 import ChatIcon from "@material-ui/icons/Chat"
 import HomeWorkIcon from "@material-ui/icons/HomeWork"
-<<<<<<< HEAD
-import { getLSItem, redirect, setLSItem } from "../../utils"
-
-import _, { defaultTo, set } from "lodash"
-=======
 import ArtTrackIcon from "@material-ui/icons/ArtTrack"
 import KingBedIcon from "@material-ui/icons/KingBed"
 import LocalOfferIcon from "@material-ui/icons/LocalOffer"
@@ -72,18 +30,10 @@ import TerrainIcon from "@material-ui/icons/Terrain"
 import GTranslateIcon from "@material-ui/icons/GTranslate"
 
 import _ from "lodash"
->>>>>>> master
 import {
   getAllProvinces,
-<<<<<<< HEAD
-  getHotelById,
-  updateHotelInfor,
-} from "../../apis/hotelApi"
-import { Field, useFormik, Form, Formik } from "formik"
-=======
 } from "../../apis/hotelApi"
 import { useFormik } from "formik"
->>>>>>> master
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
@@ -97,14 +47,6 @@ import {
   FormGroup,
   TextareaAutosize,
 } from "@mui/material"
-<<<<<<< HEAD
-import InputLabel from "@mui/material/InputLabel"
-import MenuItem from "@mui/material/MenuItem"
-import Select, { SelectChangeEvent } from "@mui/material/Select"
-import { IMAGE_CLOUD_API } from "../../configs/api"
-import ToastMessage from "./ToastMessage"
-import PreviewImage from "./PreviewImage"
-=======
 import { IMAGE_CLOUD_API } from "../../configs/api"
 import ToastMessage from "./ToastMessage"
 import {
@@ -124,7 +66,6 @@ import {
   LanguageCriteria,
 } from "../../assets/data/RoomCriteriaData"
 import { updateRoomInfor } from "../../apis/roomApi"
->>>>>>> master
 
 const validationSchema = yup.object({
   room_name: yup.string().required("Enter your room's name"),
@@ -133,12 +74,9 @@ const validationSchema = yup.object({
   // province: yup.string().required("Province is required"),
   criteria: yup.string(),
   imgURL: yup.array(),
-<<<<<<< HEAD
-=======
   // type_of_room: yup.string().required("This field is required"),
   price: yup.string().required("Price is required"),
   number_of_bed: yup.string().required("Number of bed is required"),
->>>>>>> master
 })
 
 export default function InfoRoomModal({ isVisible, isClose, detail }) {
@@ -166,18 +104,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
   }, [])
 
   let imagesURLs = []
-<<<<<<< HEAD
-  // console.log("all", all);
   const pr = all
-  // console.log("pr", pr);
-
-  console.log(criterias)
-
-  console.log("detail from params", detail.hotel_id)
-  // console.log("criteria from params", detail.criteria);
-=======
-  const pr = all
->>>>>>> master
   let checkedCriterias = detail.criteria.split(",")
   // console.log("arr criteria", checkedCriterias);
 
@@ -237,7 +164,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-<<<<<<< HEAD
     redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
@@ -247,36 +173,14 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
-=======
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000/owner/ListHotelPage"
-  }
-
-  const handleGetHotelInfor = (values) => {
-    let token = ""
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   token = localStorage.getItem("token")
-    console.log("token", token)
-    const signUp = async (postData) => {
-      const response = await updateRoomInfor(postData, token)
->>>>>>> master
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
-<<<<<<< HEAD
-        toast.success("Update hotel details successfully")
-        setTimeout(redirectFunc, 3000)
-      } else {
-        console.log("Update hotel details failed")
-=======
         toast.success("Update room details successfully")
         setTimeout(redirectFunc, 3000)
       } else {
         console.log("Update room details failed")
->>>>>>> master
         toast.error(response)
       }
       setIsLoading(false)
@@ -523,33 +427,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     />
                   </FormControl>
 
-<<<<<<< HEAD
-                  <Box sx={{ minWidth: 120 }}>
-                    <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">
-                        Province
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={formik.values.province}
-                        name="province"
-                        label="Province"
-                        onChange={formik.handleChange}
-                        error={
-                          formik.touched.province && !!formik.errors.province
-                        }
-                      >
-                        {pr != undefined &&
-                          pr.map((p) => {
-                            return <MenuItem value={p.name}>{p.name}</MenuItem>
-                          })}
-                      </Select>
-                    </FormControl>
-                  </Box>
-
-=======
->>>>>>> master
                   <FormControl className="my-2">
                     <Typography variant="subtitle1">Room's name</Typography>
                     <TextField
@@ -952,17 +829,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       multiple
                       size="50"
                     />
-<<<<<<< HEAD
-
-                    {detail.Images.length != 0 ? (
-                      detail.Images.map((item, index) => {
-                        return <img src={item.imgURL} className="m-2" />
-                      })
-                    ) : (
-                      <div>This hotel has no images</div>
-                    )}
-=======
->>>>>>> master
                   </FormControl>
 
                   <LoadingButton

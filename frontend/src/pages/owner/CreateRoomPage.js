@@ -1,8 +1,5 @@
 import * as React from "react"
 import { useState } from "react"
-
-
-import API from "../../services/ownerService"
 import _ from "lodash"
 import OwnerLayout from "../../components/Layouts/OwnerLayout"
 import CreateRoom from "../../components/Screens/owner/CreateRoom"
