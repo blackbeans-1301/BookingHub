@@ -1,17 +1,19 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import InfoRoomModal from "../../Items/InfoRoomModal";
-import { getAllRoomsApi } from "../../../apis/roomApi";
+import * as React from "react"
+import { useState, useEffect } from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import InfoRoomModal from "../../Items/InfoRoomModal"
+import { getAllRoomsApi } from "../../../apis/roomApi"
+import { getLSItem, setLSItem } from "../../utils"
+
 
 export default function ListRoom() {
-  const [allRooms, setAllRooms] = useState();
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [hotel, setHotel] = useState();
+  const [allRooms, setAllRooms] = useState()
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [hotel, setHotel] = useState()
   const [roomDetail, setRoomDetail] = useState({
     name: "",
     address: "",
@@ -19,27 +21,27 @@ export default function ListRoom() {
     Images: "",
     description: "",
     province: "",
-  });
+  })
 
-  const token = localStorage.getItem("token");
-  const hotelID = localStorage.getItem("hotelID");
+  const token = getLSItem("token")
+  const hotelID = getLSItem("hotelID")
 
   const data = {
     hotel: {
       hotel_id: hotelID,
     },
-  };
+  }
 
   useEffect(() => {
-    console.log("in use effects");
-    getAllRoomsApi(setAllRooms, data, token);
-  }, []);
+    console.log("in use effects")
+    getAllRoomsApi(setAllRooms, data, token)
+  }, [])
 
-  console.log("all rooms", allRooms);
+  console.log("all rooms", allRooms)
 
   function directToUpdatePage(id) {
-    localStorage.setItem("hotelID", id);
-    window.location = "http://localhost:8000/owner/UpdateHotelPage";
+    setLSItem("hotelID", id)
+    window.location = "http://localhost:8000/owner/UpdateHotelPage"
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -202,8 +204,8 @@ type_of_room
                               type="button"
                               class="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setRoomDetail(room);
-                                setTimeout(setShowInfoModal(true), 2000);
+                                setRoomDetail(room)
+                                setTimeout(setShowInfoModal(true), 2000)
                               }}
                             >
                               <EditIcon />
@@ -225,14 +227,14 @@ type_of_room
                           </div>
                         </td>
                       </tr>
-                    );
+                    )
                   })}
               </tbody>
             </table>
           </div>
         </div>
       </div>
-      
+
       {showInfoModal && (
         <InfoRoomModal
           isVisible={showInfoModal}
@@ -241,5 +243,5 @@ type_of_room
         />
       )}
     </div>
-  );
+  )
 }

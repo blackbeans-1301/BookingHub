@@ -1,35 +1,36 @@
-import React, { Fragment, useState } from "react";
-import Logo from "../../../assets/images/logo.png";
-import textLogo from "../../../assets/images/text-logo.png";
-import LoginModal from "../../Items/LoginModal";
-import Login from "../../Items/Login";
+import React, { Fragment, useState } from "react"
+import Logo from "../../../assets/images/logo.png"
+import textLogo from "../../../assets/images/text-logo.png"
+import LoginModal from "../../Items/LoginModal"
+import Login from "../../Items/Login"
 // import Button from "../Items/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import DescriptionIcon from "@material-ui/icons/Description";
-import { getInformation } from "../../../apis/userApi";
-import { toast } from "react-toastify";
-import UserOption from "../../Items/UserOption";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import DescriptionIcon from "@material-ui/icons/Description"
+import { getInformation } from "../../../apis/userApi"
+import { toast } from "react-toastify"
+import UserOption from "../../Items/UserOption"
+import { getLSItem } from "../../../utils"
 
 export default function UserHeader() {
-  const [showModal, setShowModal] = useState(false);
-  const [showUserModal, setShowUserModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const [showUserModal, setShowUserModal] = useState(false)
 
-  const token = localStorage.getItem("token");
-  console.log("token", typeof token);
-  let user;
+  const token = getLSItem("token")
+  console.log("token", typeof token)
+  let user
 
   async function getUser() {
-    const get = await getInformation(localStorage.getItem("token")).then(
+    const get = await getInformation(getLSItem("token")).then(
       (fulfilledResult) => {
-        console.log("success", fulfilledResult);
-        user = fulfilledResult;
-        return fulfilledResult;
+        console.log("success", fulfilledResult)
+        user = fulfilledResult
+        return fulfilledResult
       },
       (rejectedResult) => {
-        console.log("fail", rejectedResult);
+        console.log("fail", rejectedResult)
       }
-    );
-    return get;
+    )
+    return get
   }
 
   console.log('getu', getUser())
@@ -81,7 +82,7 @@ export default function UserHeader() {
       <UserOption isVisible={showUserModal} isClose={() => setShowUserModal(false)} />
 
     </Fragment>
-  );
+  )
 }
 
 // bg-colorText border-b-2 border-black-100 text-black rounded-full md:cursor-pointer items-center

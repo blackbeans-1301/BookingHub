@@ -1,38 +1,39 @@
-import * as yup from "yup";
-import React, { Fragment } from "react";
-import { useState } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
+import * as yup from "yup"
+import React, { Fragment } from "react"
+import { useState } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
 // import axios, { Axios } from "axios";
-import { useFormik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { loginAPI, getInformation, registerAPI } from "../../apis/userApi";
-import { toast } from "react-toastify";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../../store/atoms/userState";
-import { tokenState } from "../../store/atoms/tokenState";
-import { LoadingButton } from "@mui/lab";
-import ToastMessage from "./ToastMessage";
-import { parse, isDate } from "date-fns";
-import { date } from "yup";
+import { useFormik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { loginAPI, getInformation, registerAPI } from "../../apis/userApi"
+import { toast } from "react-toastify"
+import { useSetRecoilState } from "recoil"
+import { userState } from "../../store/atoms/userState"
+import { tokenState } from "../../store/atoms/tokenState"
+import { LoadingButton } from "@mui/lab"
+import ToastMessage from "./ToastMessage"
+import { parse, isDate } from "date-fns"
+import { date } from "yup"
+import { getLSItem, setLSItem } from "../../utils"
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
     ? originalValue
-    : parse(originalValue, "yyyy-MM-dd", new Date());
+    : parse(originalValue, "yyyy-MM-dd", new Date())
 
-  return parsedDate;
+  return parsedDate
 }
 
-const today = new Date();
+const today = new Date()
 const loginValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
   password: yup.string().required("Enter your password"),
-});
+})
 
 const registerValidationSchema = yup.object({
   email: yup
@@ -45,7 +46,7 @@ const registerValidationSchema = yup.object({
   dob: date().transform(parseDateString).max(today).required("Enter your date of birth. Please enter a valid date."),
   gender: yup.string().required("Enter your gender"),
   phone_number: yup.string().required("Enter your phone number"),
-});
+})
 
 const forgotPassValidationSchema = yup.object({
   email: yup
@@ -53,33 +54,34 @@ const forgotPassValidationSchema = yup.object({
     .email("Let enter a valid email")
     .required("Enter your email"),
   password: yup.string().required("Enter your password"),
-});
+})
 export default function Login({ isVisible, isClose }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [active, setActive] = useState("signin");
-  const setToken = useSetRecoilState(tokenState);
-  const setUser = useSetRecoilState(userState);
+  const [isLoading, setIsLoading] = useState(false)
+  const [active, setActive] = useState("signin")
+  const setToken = useSetRecoilState(tokenState)
+  const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    window.location = "http://localhost:8000";
-  };
+    window.location = "http://localhost:8000"
+  }
 
   const handleLogin = (values) => {
     const getToken = async (postData) => {
-      const response = await loginAPI(postData);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await loginAPI(postData)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type == "object") {
-        localStorage.setItem("token", response.assessToken);
+        // localStorage.setItem("token", response.assessToken);
+        setLSItem("token", response.assessToken)
 
-        const getInfor = await getInformation(localStorage.getItem("token"));
-        toast.success("Login successfully");
-        console.log(getInfor);
-        setTimeout(redirectFunc, 3000);
+        const getInfor = await getInformation(getLSItem("token"))
+        toast.success("Login successfully")
+        console.log(getInfor)
+        setTimeout(redirectFunc, 3000)
       } else {
-        console.log("login failed");
-        toast.error(response);
+        console.log("login failed")
+        toast.error(response)
       }
 
       // if (response.includes("Email")) {
@@ -102,19 +104,19 @@ export default function Login({ isVisible, isClose }) {
       //   toast.error("Login failed");
       // }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       email: values.email,
       password: values.password,
       isOwner: 1,
-    };
-    setIsLoading(true);
-    getToken(data);
-  };
+    }
+    setIsLoading(true)
+    getToken(data)
+  }
 
-  
+
   const loginFormik = useFormik({
     initialValues: {
       email: "",
@@ -123,49 +125,49 @@ export default function Login({ isVisible, isClose }) {
     validationSchema: loginValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
-      handleLogin(values);
+      handleLogin(values)
     },
-  });
+  })
 
   const handleRegister = (values) => {
     const signUp = async (postData) => {
-      const response = await registerAPI(postData);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await registerAPI(postData)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type == "object") {
-        toast.success("Sign up successfully");
-        setActive("signin");
+        toast.success("Sign up successfully")
+        setActive("signin")
       } else {
-        console.log("Sign up failed");
-        toast.error(response);
+        console.log("Sign up failed")
+        toast.error(response)
       }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       email: values.email,
       password: values.password,
       firstName: values.firstName,
       lastName: values.lastName,
-      dob: values.dob, 
+      dob: values.dob,
       gender: values.gender,
       phone_number: values.phone_number,
       isOwner: 1,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
-  {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */}
+  {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */ }
   const registerFormik = useFormik({
     initialValues: {
       email: "",
       password: "",
       firstName: "",
       lastName: "",
-      dob: "", 
+      dob: "",
       gender: "",
       phone_number: "",
       isOwner: 1,
@@ -173,9 +175,9 @@ export default function Login({ isVisible, isClose }) {
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
-      handleRegister(values);
+      handleRegister(values)
     },
-  });
+  })
 
   const forgotPassFormik = useFormik({
     initialValues: {
@@ -185,11 +187,11 @@ export default function Login({ isVisible, isClose }) {
     validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
-      handleLogin(values);
+      handleLogin(values)
     },
-  });
+  })
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -718,5 +720,5 @@ export default function Login({ isVisible, isClose }) {
         )}
       </div>
     </div>
-  );
+  )
 }
