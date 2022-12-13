@@ -32,7 +32,7 @@ import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 import ChildCareIcon from "@material-ui/icons/ChildCare"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-import API from "../../../pages/owner/service"
+import API from "../../../services/ownerService"
 import _ from "lodash"
 import {
   createHotelApi,
@@ -59,7 +59,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
-import { getLSItem, setLSItem } from "../../utils"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
 
 const validationSchema = yup.object({
   address: yup.string().required("Enter your hotel's address"),
@@ -145,8 +145,9 @@ export default function UpdateHotel() {
     getAllProvinces(setAll)
   }, [])
 
+
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {
@@ -184,28 +185,33 @@ export default function UpdateHotel() {
   }, [])
 
   console.log("hotel infor", hotelInfor)
-
-  const formik = useFormik({
-    initialValues: {
-      name: hotelInfor.name,
-      description: hotelInfor.description,
-      address: hotelInfor.address,
-      province: hotelInfor.province,
-      criteria: hotelInfor.criteria,
-      imgURL: hotelInfor.Images,
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log("value", values)
-      handleGetHotelInfor(values)
-    },
-  })
+  var formik
+  if (hotelInfor) {
+    formik = useFormik({
+      initialValues: {
+        name: hotelInfor.name,
+        description: hotelInfor.description,
+        address: hotelInfor.address,
+        province: hotelInfor.province,
+        criteria: hotelInfor.criteria,
+        imgURL: hotelInfor.Images,
+      },
+      validationSchema: validationSchema,
+      onSubmit: (values) => {
+        console.log("value", values)
+        handleGetHotelInfor(values)
+      },
+    })
+  }
 
   return (
     <div>
       <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1>
       <ToastMessage />
-      <form className="flex flex-col m-4" onSubmit={formik.handleSubmit}>
+      <form className="flex flex-col m-4" onSubmit={() => {
+        if (formik)
+          formik.handleSubmit
+      }}>
         <FormControl className="my-2">
           <Typography variant="subtitle1">Hotel's name</Typography>
           <TextField
@@ -214,10 +220,10 @@ export default function UpdateHotel() {
             }}
             placeholder="Enter your hotel's name..."
             name="name"
-            value={formik.values.name}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            onChange={formik.handleChange}
-            helperText={formik.touched.name && formik.errors.name}
+            value={formik && formik.values.name}
+            error={formik && formik.touched.name && Boolean(formik.errors.name)}
+            onChange={formik && formik.handleChange}
+            helperText={formik && formik.touched.name && formik.errors.name}
           />
         </FormControl>
 
@@ -227,11 +233,11 @@ export default function UpdateHotel() {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={formik.values.province}
+              value={formik && formik.values.province}
               name="province"
               label="Province"
-              onChange={formik.handleChange}
-              error={formik.touched.province && !!formik.errors.province}
+              onChange={formik && formik.handleChange}
+              error={formik && formik.touched.province && !!formik.errors.province}
             >
               {pr != undefined &&
                 pr.map((p) => {
@@ -249,10 +255,10 @@ export default function UpdateHotel() {
             }}
             placeholder="Enter your hotel's address..."
             name="address"
-            value={formik.values.address}
-            error={formik.touched.address && Boolean(formik.errors.address)}
-            onChange={formik.handleChange}
-            helperText={formik.touched.address && formik.errors.address}
+            value={formik && formik.values.address}
+            error={formik && formik.touched.address && Boolean(formik && formik.errors.address)}
+            onChange={formik && formik.handleChange}
+            helperText={formik && formik.touched.address && formik.errors.address}
           />
         </FormControl>
 
@@ -270,12 +276,12 @@ export default function UpdateHotel() {
             minRows={3}
             placeholder="Enter your hotel's description..."
             name="description"
-            value={formik.values.description}
+            value={formik && formik.values.description}
             error={
-              formik.touched.description && Boolean(formik.errors.description)
+              formik && formik.touched.description && Boolean(formik.errors.description)
             }
-            onChange={formik.handleChange}
-            helperText={formik.touched.description && formik.errors.description}
+            onChange={formik && formik.handleChange}
+            helperText={formik && formik.touched.description && formik.errors.description}
           />
         </FormControl>
         <FormLabel>Amenities (select criterias of your hotel)</FormLabel>

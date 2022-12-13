@@ -1,11 +1,12 @@
-import React, { Fragment, useState } from "react";
-import textLogo from "../../../assets/images/text-logo.png";
-import Login from "../../Items/Login";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import UndoIcon from "@material-ui/icons/Undo";
+import React, { Fragment, useState } from "react"
+import textLogo from "../../../assets/images/text-logo.png"
+import Login from "../../Items/Login"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import UndoIcon from "@material-ui/icons/Undo"
+import { redirect } from "../../../utils"
 
 export default function PlacePageHeader() {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false)
 
   return (
     <Fragment>
@@ -15,8 +16,7 @@ export default function PlacePageHeader() {
           <div className="">
             <button
               className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
-              onClick={() => window.location = "http://localhost:8000/"
-              }
+            // onClick={() => { redirect("http://localhost:8000/") }}
             >
               <UndoIcon /> Return to main page
             </button>
@@ -24,8 +24,8 @@ export default function PlacePageHeader() {
             <button
               className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
               onClick={() => {
-                console.log("click on login");
-                setShowModal(true);
+                console.log("click on login")
+                setShowModal(true)
               }}
             >
               <AccountCircleIcon /> Sign in
@@ -36,7 +36,7 @@ export default function PlacePageHeader() {
 
       <Login isVisible={showModal} isClose={() => setShowModal(false)} />
     </Fragment>
-  );
+  )
 }
 
 // bg-colorText border-b-2 border-black-100 text-black rounded-full md:cursor-pointer items-center

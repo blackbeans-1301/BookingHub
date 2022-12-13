@@ -171,7 +171,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {

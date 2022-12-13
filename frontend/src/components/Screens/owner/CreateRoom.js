@@ -55,7 +55,7 @@ import {
   ViewCriteria,
   LanguageCriteria,
 } from "../../../assets/data/RoomCriteriaData"
-import { getLSItem, setLSItem } from "../../utils"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
 
 
 const validationSchema = yup.object({
@@ -151,8 +151,7 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    window.location = `http://localhost:8000/owner/ListRoomPage`
-    // window.location = `http://localhost:8000/owner/${test}`;
+    redirect(`http://localhost:8000/owner/ListRoomPage`)
   }
 
   const handleGetRoomInfor = (values) => {

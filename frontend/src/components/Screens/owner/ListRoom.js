@@ -7,7 +7,7 @@ import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutline
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import InfoRoomModal from "../../Items/InfoRoomModal"
 import { getAllRoomsApi } from "../../../apis/roomApi"
-import { getLSItem, setLSItem } from "../../utils"
+import { getLSItem, setLSItem } from "../../../utils"
 
 
 export default function ListRoom() {
@@ -41,7 +41,7 @@ export default function ListRoom() {
 
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
-    window.location = "http://localhost:8000/owner/UpdateHotelPage"
+    redirect("http://localhost:8000/owner/UpdateHotelPage")
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">

@@ -8,6 +8,7 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
+import { getLSItem, redirect } from "../../../utils"
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
@@ -29,7 +30,7 @@ export default function ListHotel() {
 
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
-    window.location = "http://localhost:8000/owner/UpdateHotelPage"
+    redirect("http://localhost:8000/owner/UpdateHotelPage")
   }
 
   return (
@@ -160,8 +161,7 @@ export default function ListHotel() {
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
                                 setLSItem("hotelID", hotel.hotel_id)
-                                window.location =
-                                  "http://localhost:8000/owner/ListRoomPage"
+                                redirect("http://localhost:8000/owner/ListRoomPage")
                               }}
                             >
                               List rooms

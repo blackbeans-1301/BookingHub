@@ -40,7 +40,7 @@ import LocationOnIcon from "@material-ui/icons/LocationOn"
 import ImageIcon from "@material-ui/icons/Image"
 import ChatIcon from "@material-ui/icons/Chat"
 import HomeWorkIcon from "@material-ui/icons/HomeWork"
-import { getLSItem, setLSItem } from "../../utils"
+import { getLSItem, redirect, setLSItem } from "../../utils"
 
 import _, { defaultTo, set } from "lodash"
 import {
@@ -172,7 +172,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {

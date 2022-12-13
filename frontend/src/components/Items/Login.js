@@ -62,7 +62,7 @@ export default function Login({ isVisible, isClose }) {
   const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    window.location = "http://localhost:8000"
+    redirect("http://localhost:8000")
   }
 
   const handleLogin = (values) => {

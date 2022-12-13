@@ -32,7 +32,7 @@ import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 import ChildCareIcon from "@material-ui/icons/ChildCare"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-import API from "../../../pages/owner/service"
+import API from "../../../services/ownerService"
 import _ from "lodash"
 import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi"
 import { Field, useFormik, Form, Formik } from "formik"
@@ -55,7 +55,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
-import { getLSItem } from "../../../utils"
+import { getLSItem, redirect } from "../../../utils"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
@@ -140,7 +140,7 @@ export default function CreateHotel() {
   }, [])
 
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {
