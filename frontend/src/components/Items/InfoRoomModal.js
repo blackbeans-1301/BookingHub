@@ -65,7 +65,7 @@ import {
   ViewCriteria,
   LanguageCriteria,
 } from "../../assets/data/RoomCriteriaData"
-import { updateRoomInfor } from "../../apis/roomApi"
+import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi"
 import { redirect, getLSItem, setLSItem } from "../../utils"
 
 const validationSchema = yup.object({

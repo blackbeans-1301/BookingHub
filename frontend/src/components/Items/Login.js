@@ -58,8 +58,8 @@ const forgotPassValidationSchema = yup.object({
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
-  const setToken = useSetRecoilState(tokenState)
-  const setUser = useSetRecoilState(userState)
+  // const setToken = useSetRecoilState(tokenState)
+  // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
     redirect("http://localhost:8000")

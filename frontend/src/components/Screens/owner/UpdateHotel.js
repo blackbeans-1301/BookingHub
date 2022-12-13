@@ -185,33 +185,28 @@ export default function UpdateHotel() {
   }, [])
 
   console.log("hotel infor", hotelInfor)
-  var formik
-  if (hotelInfor) {
-    formik = useFormik({
-      initialValues: {
-        name: hotelInfor.name,
-        description: hotelInfor.description,
-        address: hotelInfor.address,
-        province: hotelInfor.province,
-        criteria: hotelInfor.criteria,
-        imgURL: hotelInfor.Images,
-      },
-      validationSchema: validationSchema,
-      onSubmit: (values) => {
-        console.log("value", values)
-        handleGetHotelInfor(values)
-      },
-    })
-  }
+  const formik = useFormik({
+    initialValues: {
+      name: hotelInfor.name,
+      description: hotelInfor.description,
+      address: hotelInfor.address,
+      province: hotelInfor.province,
+      criteria: hotelInfor.criteria,
+      imgURL: hotelInfor.Images,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log("value", values)
+      handleGetHotelInfor(values)
+    },
+  })
+
 
   return (
     <div className="">
       <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1>
       <ToastMessage />
-      <form className="flex flex-col m-4" onSubmit={() => {
-        if (formik)
-          formik.handleSubmit
-      }}>
+      <form className="flex flex-col m-4" onSubmit={formik && formik.handleSubmit}>
         <FormControl className="my-2">
           <Typography variant="subtitle1">Hotel's name</Typography>
           <TextField
@@ -805,6 +800,6 @@ export default function UpdateHotel() {
           Send
         </LoadingButton>
       </form>
-    </div>
+    </div >
   )
 }
