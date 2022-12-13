@@ -10,8 +10,6 @@ import SearchIcon from "@material-ui/icons/Search"
 import Carousel from "react-elastic-carousel"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-// import "slick-carousel/slick/slick.css";
-
 // import { Component } from "react";
 // import Slider from "react-slick";
 // import { favoriteHotels } from "../Layouts/data";
@@ -20,7 +18,8 @@ import dataSlider from "../../Layouts/dataSlider"
 import CarouselItem from "../../Items/CarouselItem"
 import Item from "../../Items/Item"
 import Reason from "../../../components/Layouts/LayoutComponent/Reason"
-import NearbyHotel from "./nearbyHotel/NearbyHotel"
+import NearbyHotel from "../../Items/nearbyHotel/NearbyHotel"
+import TrendingCity from "../../Items/TrendingCity"
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date())
@@ -219,56 +218,9 @@ export default function Main() {
           </button>
         </div>
       </div>
-
-
-
-      {/* <Fragment>
-        <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
-          <div className="justify-between items-center h-96">
-            <Slider {...settings}>
-              {favoriteHotels.map((item) => (
-                <div>
-                  <div>
-                    <img src={item.image} alt={item.title} />
-                    <h2>{item.title}</h2>
-                  </div>
-
-                  <div>
-                    <h3>{item.rating}</h3>
-                    <p>{item.position}</p>
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-</Fragment> */}
-
       <Reason />
       <NearbyHotel />
-
-
-      {/* new slider */}
-      <div className="">
-        <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">
-          Trending cities
-        </h1>
-        <Slider dataSlider={dataSlider} className="z-0" />
-      </div>
-
-      {/* <div className="flex flex-col">
-        <h1>test carousel</h1>
-        <Carousel breakPoints={breakPoints}>
-          {dataSlider.map((i) => {
-            console.log('title', i.title);
-            <CarouselItem>one</CarouselItem>
-          })}
-        </Carousel>
-      </div> */}
+      <TrendingCity />
     </div>
-    //     <Footer />
-    //   </div>
-    //   {/* <Footer /> */}
-    // </Fragment>
   )
 }

@@ -13,16 +13,6 @@ const IndexPage = () => {
     <Layout>
       <Main />
     </Layout>
-    // <div className="flex relative">
-    //   <div className="container">
-    //     {/* <Header /> */}
-
-    //     <section className="flex">
-    //       <Navigation />
-    //       <Main />
-    //     </section>
-    //   </div>
-    // </div>
   )
 }
 
