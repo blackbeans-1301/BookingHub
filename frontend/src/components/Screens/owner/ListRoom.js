@@ -157,14 +157,14 @@ type_of_room
                         {/* column 3: hotel's name */}
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            Peridot Grand Luxury Boutique Hotel
+                            {room.Hotel.name}
                           </p>
                         </td>
 
                         {/* column 5: address */}
                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            Hoan Kiem, Hanoi, Vietnam
+                            {room.Hotel.address}
                           </p>
                         </td>
 

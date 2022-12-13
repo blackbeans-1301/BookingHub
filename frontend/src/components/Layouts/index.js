@@ -3,12 +3,21 @@ import Header from "./LayoutComponent/Header"
 import UserHeader from "./LayoutComponent/UserHeader"
 import Navigation from "./LayoutComponent/Navigation"
 import Footer from "./LayoutComponent/Footer"
+<<<<<<< HEAD
 import { getLSItem } from "../../utils"
 
 export default function Layout({ children }) {
   const login = getLSItem("token")
 
   console.log('login', login)
+=======
+
+export default function Layout({ children }) {
+  let login
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   login = localStorage.getItem("token")
+>>>>>>> master
 
   return (
     <div className="flex relative">

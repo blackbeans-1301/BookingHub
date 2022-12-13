@@ -20,6 +20,7 @@ import dataSlider from "../../Layouts/dataSlider"
 import CarouselItem from "../../Items/CarouselItem"
 import Item from "../../Items/Item"
 import Reason from "../../../components/Layouts/LayoutComponent/Reason"
+import NearbyHotel from "./nearbyHotel/NearbyHotel"
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date())
@@ -244,6 +245,7 @@ export default function Main() {
 </Fragment> */}
 
       <Reason />
+      <NearbyHotel />
 
 
       {/* new slider */}

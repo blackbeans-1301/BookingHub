@@ -16,7 +16,10 @@ import { LoadingButton } from "@mui/lab"
 import ToastMessage from "./ToastMessage"
 import { parse, isDate } from "date-fns"
 import { date } from "yup"
+<<<<<<< HEAD
 import { getLSItem, setLSItem } from "../../utils"
+=======
+>>>>>>> master
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
@@ -58,11 +61,19 @@ const forgotPassValidationSchema = yup.object({
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
+<<<<<<< HEAD
   const setToken = useSetRecoilState(tokenState)
   const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
     redirect("http://localhost:8000")
+=======
+
+  const redirectFunc = () => {
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   window.location = "http://localhost:8000"
+>>>>>>> master
   }
 
   const handleLogin = (values) => {
@@ -72,6 +83,7 @@ export default function Login({ isVisible, isClose }) {
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
+<<<<<<< HEAD
         // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
 
@@ -79,6 +91,17 @@ export default function Login({ isVisible, isClose }) {
         toast.success("Login successfully")
         console.log(getInfor)
         setTimeout(redirectFunc, 3000)
+=======
+        //   const isBrowser = typeof window !== "undefined" && window
+        //   if (isBrowser) {
+        //   localStorage.setItem("token", response.assessToken)
+        //   const getInfor = await getInformation(localStorage.getItem("token"))
+
+        //   toast.success("Login successfully")
+        //   console.log(getInfor)
+        //   setTimeout(redirectFunc, 3000)
+        // }
+>>>>>>> master
       } else {
         console.log("login failed")
         toast.error(response)

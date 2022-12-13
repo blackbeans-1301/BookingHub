@@ -8,7 +8,10 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
+<<<<<<< HEAD
 import { getLSItem, redirect } from "../../../utils"
+=======
+>>>>>>> master
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
@@ -22,15 +25,30 @@ export default function ListHotel() {
     province: "",
   })
 
+<<<<<<< HEAD
   const token = getLSItem("token")
+=======
+  let token
+  // const isBrowser = typeof window !== "undefined" && window
+  // if (isBrowser)
+  //   token = localStorage.getItem("token")
+>>>>>>> master
   useEffect(() => {
     getAllHotels(setAllHotels, token)
   }, [])
   console.log("all hotels", allHotels)
 
   function directToUpdatePage(id) {
+<<<<<<< HEAD
     setLSItem("hotelID", id)
     redirect("http://localhost:8000/owner/UpdateHotelPage")
+=======
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser) {
+    //   localStorage.setItem("hotelID", id)
+    //   window.location = "http://localhost:8000/owner/UpdateHotelPage"
+    // }
+>>>>>>> master
   }
 
   return (
@@ -57,31 +75,31 @@ export default function ListHotel() {
         List of hotels
       </h1>
 
-      <div class="container mx-auto px-4 sm:px-8">
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-            <table class="min-w-full leading-normal">
+      <div className="container mx-auto px-4 sm:px-8">
+        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+          <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+            <table className="min-w-full leading-normal">
               <thead>
                 <tr>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     No
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Hotel name
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Address
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Created date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Updated date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Actions
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                 </tr>
               </thead>
 
@@ -89,48 +107,48 @@ export default function ListHotel() {
                 {allHotels != undefined &&
                   allHotels.map((hotel, index) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         {/* column 1: id */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
                         {/* column 3: hotel's name */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.name}
                           </p>
                         </td>
 
                         {/* column 5: address */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.address}
                           </p>
                         </td>
 
                         {/* column 7: created date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.createdAt}
                           </p>
                         </td>
 
                         {/* column 8: updated date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.updatedAt}
                           </p>
                         </td>
 
                         {/* column 9: actions */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                           <div className="flex">
                             <button
                               type="button"
-                              class="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
+                              className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
                               onClick={() => {
                                 setHotelDetail(hotel)
                                 setTimeout(setShowInfoModal(true), 2000)
@@ -141,27 +159,36 @@ export default function ListHotel() {
 
                             <button
                               type="button"
-                              class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                              className="inline-block mx-px text-rose-300 hover:text-rose-500"
                             >
                               <DeleteIcon />
                             </button>
 
                             {/* <button
                               type="button"
-                              class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                              className="inline-block mx-px text-gray-400 hover:text-gray-600"
                             >
                               <MoreVertSharpIcon />
                             </button> */}
                           </div>
                         </td>
 
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             <button
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
+<<<<<<< HEAD
                                 setLSItem("hotelID", hotel.hotel_id)
                                 redirect("http://localhost:8000/owner/ListRoomPage")
+=======
+                                // const isBrowser = typeof window !== "undefined" && window
+                                // if (isBrowser) {
+                                //   localStorage.setItem("hotelID", hotel.hotel_id)
+                                //   window.location =
+                                //     "http://localhost:8000/owner/ListRoomPage"
+                                // }
+>>>>>>> master
                               }}
                             >
                               List rooms

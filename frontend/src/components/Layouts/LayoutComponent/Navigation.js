@@ -111,7 +111,14 @@ export default function Navigation() {
               key={index}
               className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
                 ${menuItem.gap ? "mt-6" : "mt-2"}`}
+<<<<<<< HEAD
               onClick={() => redirect(menuItem.link)}
+=======
+              onClick={() => {
+                // const isBrowser = typeof window !== "undefined" && window
+                // if (isBrowser) (window.location = menuItem.link)
+              }}
+>>>>>>> master
             >
               <span className={`material-icons md-48`}>{menuItem.icon}</span>
 

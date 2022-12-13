@@ -205,7 +205,7 @@ export default function UpdateHotel() {
   }
 
   return (
-    <div>
+    <div className="">
       <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1>
       <ToastMessage />
       <form className="flex flex-col m-4" onSubmit={() => {

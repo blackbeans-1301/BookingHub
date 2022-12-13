@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkbooking_hub=self.webpackChunkbooking_hub||[]).push([[793],{76506:function(e,a,t){t.r(a);var u=t(56861).Z.create({baseURL:"http://localhost:8080/api"});a.default=u}}]);
+//# sourceMappingURL=component---src-pages-owner-service-js-7e40328571fd3bc01d79.js.map

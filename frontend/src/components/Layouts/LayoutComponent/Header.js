@@ -6,10 +6,20 @@ import Login from "../../Items/Login"
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import DescriptionIcon from "@material-ui/icons/Description"
+<<<<<<< HEAD
 import { redirect } from "../../../utils"
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false)
+=======
+
+export default function Header() {
+  const [showModal, setShowModal] = useState(false)
+  // const showPosition = (position) => {
+  //   console.log(position)
+  // }
+  // navigator.geolocation.getCurrentPosition(showPosition)
+>>>>>>> master
 
   return (
     <Fragment>
@@ -19,6 +29,7 @@ export default function Header() {
           <div className="flex">
 
             <button
+<<<<<<< HEAD
               className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() => { redirect("http://localhost:8000/owner/main") }
               }
@@ -29,6 +40,8 @@ export default function Header() {
             </button>
 
             <button
+=======
+>>>>>>> master
               className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
               onClick={() => {
                 console.log("click on login")

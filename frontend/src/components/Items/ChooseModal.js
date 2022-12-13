@@ -35,8 +35,17 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new hotel</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+<<<<<<< HEAD
                 onClick={() => { redirect("http://localhost:8000/owner/CreateHotelPage") }
                 }
+=======
+                onClick={() => {
+                  //   const isBrowser = typeof window !== "undefined" && window
+                  //   if (isBrowser)
+                  //     (window.location = "http://localhost:8000/owner/CreateHotelPage")
+                  // }
+                }}
+>>>>>>> master
               >
                 Select
               </button>
@@ -50,8 +59,15 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new room</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+<<<<<<< HEAD
                 onClick={() =>
                   redirect("http://localhost:8000/owner/CreateRoomPage")
+=======
+                onClick={() => {
+                  // const isBrowser = typeof window !== "undefined" && window
+                  // if (isBrowser) (window.location = "http://localhost:8000/owner/CreateRoomPage")
+                }
+>>>>>>> master
                 }
               >
                 Select
@@ -66,8 +82,15 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">List all hotels</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+<<<<<<< HEAD
                 onClick={() =>
                   redirect("http://localhost:8000/owner/ListHotelPage")
+=======
+                onClick={() => {
+                  // const isBrowser = typeof window !== "undefined" && window
+                  // if (isBrowser) (window.location = "http://localhost:8000/owner/ListHotelPage")
+                }
+>>>>>>> master
                 }
               >
                 Select

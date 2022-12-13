@@ -2,6 +2,7 @@ import * as React from "react"
 import * as yup from "yup"
 import { useState } from "react"
 import { useEffect } from "react"
+<<<<<<< HEAD
 import PoolIcon from "@material-ui/icons/Pool"
 import SpaIcon from "@material-ui/icons/Spa"
 import FitnessCenterIcon from "@material-ui/icons/FitnessCenter"
@@ -36,20 +37,53 @@ import CancelIcon from "@material-ui/icons/Cancel"
 import CheckIcon from "@material-ui/icons/Check"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import MapIcon from "@material-ui/icons/Map"
+=======
+import RestaurantIcon from "@material-ui/icons/Restaurant"
+import RoomServiceIcon from "@material-ui/icons/RoomService"
+import WifiIcon from "@material-ui/icons/Wifi"
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
+import CancelIcon from "@material-ui/icons/Cancel"
+import CheckIcon from "@material-ui/icons/Check"
+import AssignmentIcon from "@material-ui/icons/Assignment"
+>>>>>>> master
 import LocationOnIcon from "@material-ui/icons/LocationOn"
 import ImageIcon from "@material-ui/icons/Image"
 import ChatIcon from "@material-ui/icons/Chat"
 import HomeWorkIcon from "@material-ui/icons/HomeWork"
+<<<<<<< HEAD
 import { getLSItem, redirect, setLSItem } from "../../utils"
 
 import _, { defaultTo, set } from "lodash"
+=======
+import ArtTrackIcon from "@material-ui/icons/ArtTrack"
+import KingBedIcon from "@material-ui/icons/KingBed"
+import LocalOfferIcon from "@material-ui/icons/LocalOffer"
+import MeetingRoomIcon from "@material-ui/icons/MeetingRoom"
+import BorderColorIcon from "@material-ui/icons/BorderColor"
+import UpdateIcon from "@material-ui/icons/Update"
+import InfoIcon from "@material-ui/icons/Info"
+import TvIcon from "@material-ui/icons/Tv"
+import BathtubIcon from "@material-ui/icons/Bathtub"
+import WeekendIcon from "@material-ui/icons/Weekend"
+import HttpsIcon from "@material-ui/icons/Https"
+import SportsCricketIcon from "@material-ui/icons/SportsCricket"
+import DirectionsBusIcon from "@material-ui/icons/DirectionsBus"
+import TerrainIcon from "@material-ui/icons/Terrain"
+import GTranslateIcon from "@material-ui/icons/GTranslate"
+
+import _ from "lodash"
+>>>>>>> master
 import {
-  createHotelApi,
   getAllProvinces,
+<<<<<<< HEAD
   getHotelById,
   updateHotelInfor,
 } from "../../apis/hotelApi"
 import { Field, useFormik, Form, Formik } from "formik"
+=======
+} from "../../apis/hotelApi"
+import { useFormik } from "formik"
+>>>>>>> master
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
@@ -57,27 +91,54 @@ import { LoadingButton } from "@mui/lab"
 import { toast } from "react-toastify"
 import { Fragment } from "react"
 import {
-  Box,
   FormControlLabel,
   Checkbox,
   FormLabel,
   FormGroup,
   TextareaAutosize,
 } from "@mui/material"
+<<<<<<< HEAD
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../configs/api"
 import ToastMessage from "./ToastMessage"
 import PreviewImage from "./PreviewImage"
+=======
+import { IMAGE_CLOUD_API } from "../../configs/api"
+import ToastMessage from "./ToastMessage"
+import {
+  GeneralCriteria,
+  FBCriteria,
+  WifiCriteria,
+  RoomServiceCriteria,
+  CleaningServiceCriteria,
+  BathroomCriteria,
+  LivingAreaCriteria,
+  SafetyCriteria,
+  BedroomCriteria,
+  ActivitiCriteria,
+  MediaCriteria,
+  TransportCriteria,
+  ViewCriteria,
+  LanguageCriteria,
+} from "../../assets/data/RoomCriteriaData"
+import { updateRoomInfor } from "../../apis/roomApi"
+>>>>>>> master
 
 const validationSchema = yup.object({
-  name: yup.string().required("Enter your hotel's name"),
-  address: yup.string().required("Enter your hotel's address"),
+  room_name: yup.string().required("Enter your room's name"),
+  // address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
-  province: yup.string().required("Province is required"),
+  // province: yup.string().required("Province is required"),
   criteria: yup.string(),
   imgURL: yup.array(),
+<<<<<<< HEAD
+=======
+  // type_of_room: yup.string().required("This field is required"),
+  price: yup.string().required("Price is required"),
+  number_of_bed: yup.string().required("Number of bed is required"),
+>>>>>>> master
 })
 
 export default function InfoRoomModal({ isVisible, isClose, detail }) {
@@ -105,6 +166,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
   }, [])
 
   let imagesURLs = []
+<<<<<<< HEAD
   // console.log("all", all);
   const pr = all
   // console.log("pr", pr);
@@ -113,6 +175,9 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   console.log("detail from params", detail.hotel_id)
   // console.log("criteria from params", detail.criteria);
+=======
+  const pr = all
+>>>>>>> master
   let checkedCriterias = detail.criteria.split(",")
   // console.log("arr criteria", checkedCriterias);
 
@@ -172,6 +237,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
+<<<<<<< HEAD
     redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
@@ -181,26 +247,53 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
+=======
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   window.location = "http://localhost:8000/owner/ListHotelPage"
+  }
+
+  const handleGetHotelInfor = (values) => {
+    let token = ""
+    // const isBrowser = typeof window !== "undefined" && window
+    // if (isBrowser)
+    //   token = localStorage.getItem("token")
+    console.log("token", token)
+    const signUp = async (postData) => {
+      const response = await updateRoomInfor(postData, token)
+>>>>>>> master
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
+<<<<<<< HEAD
         toast.success("Update hotel details successfully")
         setTimeout(redirectFunc, 3000)
       } else {
         console.log("Update hotel details failed")
+=======
+        toast.success("Update room details successfully")
+        setTimeout(redirectFunc, 3000)
+      } else {
+        console.log("Update room details failed")
+>>>>>>> master
         toast.error(response)
       }
       setIsLoading(false)
     }
     formik.values.criteria = criterias.toString()
     const data = {
-      hotel_id: detail.hotel_id,
-      name: values.name,
-      description: values.description,
-      address: values.address,
-      province: values.province,
+      room_id: detail.room_id,
+      hotel: {
+        hotel_id: detail.Hotel.hotel_id,
+      },
+      room_name: values.room_name,
       criteria: values.criteria,
+      price: values.price,
+      number_of_bed: values.number_of_bed,
+      description: values.description,
+      // address: values.address,
+      // type_of_room: values.type_of_room,
       imgURL: values.imgURL,
     }
     setIsLoading(true)
@@ -209,10 +302,12 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   const formik = useFormik({
     initialValues: {
-      name: detail.name,
+      room_name: detail.room_name,
       description: detail.description,
-      address: detail.address,
-      province: detail.province,
+      // address: detail.Hotel.address,
+      price: detail.price,
+      // type_of_room: detail.type_of_room,
+      number_of_bed: detail.number_of_bed,
       criteria: "",
       imgURL: detail.Images,
     },
@@ -253,7 +348,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                 }
                 onClick={() => toggleTab(1)}
               >
-                <h2>Hotel details</h2>
+                <h2>Room details</h2>
               </div>
               <div
                 className={
@@ -263,7 +358,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                 }
                 onClick={() => toggleTab(2)}
               >
-                Edit hotel details
+                Edit room details
               </div>
             </div>
 
@@ -275,26 +370,26 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     : "bg-white p-5 w-full h-full p-6 transition duration-300 hidden"
                 }
               >
-                <h1 className="font-bold text-2xl mb-4">Hotel's detail</h1>
+                <h1 className="font-bold text-2xl mb-4">Room's detail</h1>
                 <div className="">
                   <div className="m-2 text-lg">
                     <span className="font-semibold text-sky-600">
                       <span className="mr-2 text-stone-700">
-                        <AssignmentIcon />
+                        <ArtTrackIcon />
                       </span>
-                      Hotel's name:
+                      Room's name:
                     </span>{" "}
-                    {detail.name}
+                    {detail.room_name}
                   </div>
 
                   <div className="m-2 text-lg">
                     <span className="font-semibold text-sky-600">
                       <span className="mr-2 text-green-600">
-                        <MapIcon />
+                        <AssignmentIcon />
                       </span>
-                      Province:
+                      Hotel's name:
                     </span>{" "}
-                    {detail.province}
+                    {detail.Hotel.name}
                   </div>
 
                   <div className="m-2 text-lg">
@@ -304,7 +399,57 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       </span>
                       Hotel's address:
                     </span>{" "}
-                    {detail.address}
+                    {detail.Hotel.address}
+                  </div>
+
+                  <div className="m-2 text-lg">
+                    <span className="font-semibold text-sky-600">
+                      <span className="mr-2 text-stone-700">
+                        <MeetingRoomIcon />
+                      </span>
+                      Room type:
+                    </span>{" "}
+                    {detail.type_of_room}
+                  </div>
+
+                  <div className="m-2 text-lg">
+                    <span className="font-semibold text-sky-600">
+                      <span className="mr-2 text-sky-600">
+                        <KingBedIcon />
+                      </span>
+                      Number of bed:
+                    </span>{" "}
+                    {detail.number_of_bed}
+                  </div>
+
+                  <div className="m-2 text-lg">
+                    <span className="font-semibold text-sky-600">
+                      <span className="mr-2 text-yellow-500">
+                        <LocalOfferIcon />
+                      </span>
+                      Price:
+                    </span>{" "}
+                    {detail.price} USD
+                  </div>
+
+                  <div className="m-2 text-lg">
+                    <span className="font-semibold text-sky-600">
+                      <span className="mr-2 text-sky-600">
+                        <BorderColorIcon />
+                      </span>
+                      Created at:
+                    </span>{" "}
+                    {detail.createdAt}
+                  </div>
+
+                  <div className="m-2 text-lg">
+                    <span className="font-semibold text-sky-600">
+                      <span className="mr-2 text-green-500">
+                        <UpdateIcon />
+                      </span>
+                      Last modified at:
+                    </span>{" "}
+                    {detail.updatedAt}
                   </div>
 
                   <div className="m-2 text-lg">
@@ -312,7 +457,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       <span className="mr-2">
                         <ChatIcon />
                       </span>
-                      Hotel's description:
+                      Room's description:
                     </span>{" "}
                     {detail.description}
                   </div>
@@ -341,7 +486,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       <span className="mr-2 text-stone-500">
                         <ImageIcon />
                       </span>
-                      Hotel's images:
+                      Room's images:
                     </span>{" "}
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
@@ -373,15 +518,12 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       sx={{
                         height: "85px",
                       }}
-                      placeholder="Enter your hotel's name..."
-                      name="name"
-                      value={formik.values.name}
-                      error={formik.touched.name && Boolean(formik.errors.name)}
-                      onChange={formik.handleChange}
-                      helperText={formik.touched.name && formik.errors.name}
+                      value={detail.Hotel.name}
+                      disabled
                     />
                   </FormControl>
 
+<<<<<<< HEAD
                   <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                       <InputLabel id="demo-simple-select-label">
@@ -406,22 +548,86 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     </FormControl>
                   </Box>
 
+=======
+>>>>>>> master
                   <FormControl className="my-2">
-                    <Typography variant="subtitle1">Address</Typography>
+                    <Typography variant="subtitle1">Room's name</Typography>
                     <TextField
                       sx={{
                         height: "85px",
                       }}
-                      placeholder="Enter your hotel's address..."
-                      name="address"
-                      value={formik.values.address}
+                      placeholder="Enter your room's name..."
+                      name="room_name"
+                      value={formik.values.room_name}
                       error={
-                        formik.touched.address && Boolean(formik.errors.address)
+                        formik.touched.room_name &&
+                        Boolean(formik.errors.room_name)
                       }
                       onChange={formik.handleChange}
                       helperText={
-                        formik.touched.address && formik.errors.address
+                        formik.touched.room_name && formik.errors.room_name
                       }
+                    />
+                  </FormControl>
+
+                  {/* <FormControl className="my-2">
+                    <Typography variant="subtitle1">Room's type</Typography>
+                    <TextField
+                      sx={{
+                        height: "85px",
+                      }}
+                      placeholder="Enter your hotel's type..."
+                      name="type_of_room"
+                      value={formik.values.type_of_room}
+                      error={
+                        formik.touched.type_of_room &&
+                        Boolean(formik.errors.type_of_room)
+                      }
+                      onChange={formik.handleChange}
+                      helperText={
+                        formik.touched.type_of_room &&
+                        formik.errors.type_of_room
+                      }
+                    />
+                  </FormControl> */}
+
+                  <FormControl className="my-2">
+                    <Typography variant="subtitle1">Number of beds</Typography>
+                    <TextField
+                      sx={{
+                        height: "85px",
+                      }}
+                      placeholder="Enter the number of beds..."
+                      name="number_of_bed"
+                      value={formik.values.number_of_bed}
+                      error={
+                        formik.touched.number_of_bed &&
+                        Boolean(formik.errors.number_of_bed)
+                      }
+                      onChange={formik.handleChange}
+                      helperText={
+                        formik.touched.number_of_bed &&
+                        formik.errors.number_of_bed
+                      }
+                    />
+                  </FormControl>
+
+                  <FormControl className="my-2">
+                    <Typography variant="subtitle1">
+                      Price for a night
+                    </Typography>
+                    <TextField
+                      sx={{
+                        height: "85px",
+                      }}
+                      placeholder="Enter the price for a night..."
+                      name="price"
+                      value={formik.values.price}
+                      error={
+                        formik.touched.price && Boolean(formik.errors.price)
+                      }
+                      onChange={formik.handleChange}
+                      helperText={formik.touched.price && formik.errors.price}
                     />
                   </FormControl>
 
@@ -438,7 +644,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                         padding: "4px",
                         paddingLeft: "6px",
                       }}
-                      minRows={1}
+                      minRows={3}
                       placeholder="Enter your hotel's description..."
                       name="description"
                       value={formik.values.description}
@@ -452,491 +658,289 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       }
                     />
                   </FormControl>
+
                   <FormLabel>
-                    Amenities (Please select all criterias of your hotel)
+                    Amenities (select criterias of your hotel)
                   </FormLabel>
                   <FormGroup>
-                    <div className="flex text-sm">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="fire-extinguisher"
-                            checked={criterias.includes("fire-extinguisher")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <FireplaceIcon /> Fire extinguisher
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <InfoIcon />
+                      <span className="ml-2">General</span>
+                    </p>
+                    {GeneralCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="air-conditioned"
-                            checked={criterias.includes("air-conditioned")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <AcUnitIcon /> Air-conditioned
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <RestaurantIcon />
+                      Food & Drink
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="Elevator"
-                            checked={criterias.includes("Elevator")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <SwapVerticalCircleIcon /> Elevator
-                          </Fragment>
-                        }
-                      />
+                    {FBCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="pet-allowed"
-                            checked={criterias.includes("pet-allowed")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <PetsIcon /> Pets allowed
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <WifiIcon />
+                      Internet
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="outdoor-pool"
-                            checked={criterias.includes("outdoor-pool")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <PoolIcon /> Outdoor-pool
-                          </Fragment>
-                        }
-                      />
+                    {WifiCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="indoor-pool"
-                            checked={criterias.includes("indoor-pool")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <PoolIcon /> Indoor pool
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <RoomServiceIcon />
+                      Reception services
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="spa"
-                            checked={criterias.includes("spa")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <SpaIcon /> Spa and wellness center
-                          </Fragment>
-                        }
-                      />
+                    {RoomServiceCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="fitness"
-                            checked={criterias.includes("fitness")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <FitnessCenterIcon /> Fitness center
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <LocalLaundryServiceIcon />
+                      Cleaning services
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="restaurant"
-                            checked={criterias.includes("restaurant")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <RestaurantIcon />
-                            Restaurant
-                          </Fragment>
-                        }
-                      />
+                    {CleaningServiceCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="bar"
-                            checked={criterias.includes("bar")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <RestaurantIcon /> Bar/ Lounge
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <BathtubIcon />
+                      Bathroom
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="room-service"
-                            checked={criterias.includes("room-service")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <RoomServiceIcon /> Room service
-                          </Fragment>
-                        }
-                      />
+                    {BathroomCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="wifi"
-                            checked={criterias.includes("wifi")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <WifiIcon /> Free wifi
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <WeekendIcon />
+                      Living Area
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="coffee-shop"
-                            checked={criterias.includes("coffee-shop")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <FreeBreakfastIcon /> Coffee shop
-                          </Fragment>
-                        }
-                      />
+                    {LivingAreaCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="free-parking"
-                            checked={criterias.includes("free-parking")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <LocalParkingIcon /> Free parking
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <HttpsIcon />
+                      Safety & Security
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="minibar"
-                            checked={criterias.includes("minibar")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <KitchenIcon /> Minibar
-                          </Fragment>
-                        }
-                      />
+                    {SafetyCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="snack-bar"
-                            checked={criterias.includes("snack-bar")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <FastfoodIcon /> Snack bar
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <KingBedIcon />
+                      Bedroom
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="shop"
-                            checked={criterias.includes("shop")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <StorefrontIcon /> Shops on site
-                          </Fragment>
-                        }
-                      />
+                    {BedroomCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="golf"
-                            checked={criterias.includes("golf")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <GolfCourseIcon /> Golf
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <SportsCricketIcon />
+                      Activities
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="ironing"
-                            checked={criterias.includes("ironing")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <LocalLaundryServiceIcon /> Ironing service
-                          </Fragment>
-                        }
-                      />
+                    {ActivitiCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="gift-shop"
-                            checked={criterias.includes("gift-shop")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <CardGiftcardIcon /> Gift shop
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <TvIcon />
+                      Media & Technology
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="garden"
-                            checked={criterias.includes("garden")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <LocalFloristIcon /> Garden
-                          </Fragment>
-                        }
-                      />
+                    {MediaCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="terrace"
-                            checked={criterias.includes("terrace")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <DeckIcon /> Terrace/ Patio
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <DirectionsBusIcon />
+                      Transport
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="atm"
-                            checked={criterias.includes("atm")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <LocalAtmIcon /> ATM on-site
-                          </Fragment>
-                        }
-                      />
+                    {TransportCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="car-rental"
-                            checked={criterias.includes("car-rental")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <DirectionsCarIcon /> Car rental
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    <p className="font-bold">
+                      <TerrainIcon />
+                      View
+                    </p>
 
-                    <div className="flex">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="grill"
-                            checked={criterias.includes("grill")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <OutdoorGrillIcon /> Grill
-                          </Fragment>
-                        }
-                      />
+                    {ViewCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="lake-view"
-                            checked={criterias.includes("lake-view")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <WavesIcon /> Lake view
-                          </Fragment>
-                        }
-                      />
+                    <p className="font-bold">
+                      <GTranslateIcon />
+                      Languages spoken
+                    </p>
 
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="city-view"
-                            checked={criterias.includes("city-view")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <LocationCityIcon /> City view
-                          </Fragment>
-                        }
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="playground"
-                            checked={criterias.includes("playground")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <NatureIcon /> Playground
-                          </Fragment>
-                        }
-                      />
-                    </div>
-
-                    <div className="flex flex-col">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="buffet"
-                            checked={criterias.includes("buffet")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <RestaurantMenuIcon /> Buffet
-                          </Fragment>
-                        }
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="childcare"
-                            checked={criterias.includes("childcare")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <ChildCareIcon /> Babysitting or childcare
-                          </Fragment>
-                        }
-                      />
-
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            value="other"
-                            checked={criterias.includes("other")}
-                            onChange={handleCriteriaChange}
-                          />
-                        }
-                        label={
-                          <Fragment>
-                            <MoreHorizIcon /> Others
-                          </Fragment>
-                        }
-                      />
-                    </div>
+                    {LanguageCriteria.map((item, index) => {
+                      return (
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              value={item.id}
+                              checked={criterias.includes(`${item.id}`)}
+                              onChange={handleCriteriaChange}
+                            />
+                          }
+                          label={<Fragment>{item.name}</Fragment>}
+                        />
+                      )
+                    })}
                   </FormGroup>
 
                   <FormControl className="my-2">
@@ -948,6 +952,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       multiple
                       size="50"
                     />
+<<<<<<< HEAD
 
                     {detail.Images.length != 0 ? (
                       detail.Images.map((item, index) => {
@@ -956,6 +961,8 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     ) : (
                       <div>This hotel has no images</div>
                     )}
+=======
+>>>>>>> master
                   </FormControl>
 
                   <LoadingButton
