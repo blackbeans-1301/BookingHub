@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-// import { atom } from "recoil";
-// import { recoilPersist } from "recoil-persist";
-=======
 import { atom } from "recoil"
 import { recoilPersist } from "recoil-persist"
->>>>>>> master
 
 // const { persistAtom } = recoilPersist({
 //   key: "token", // this key is using to store data in local storage

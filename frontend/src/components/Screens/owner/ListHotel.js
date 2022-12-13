@@ -8,10 +8,7 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
-<<<<<<< HEAD
 import { getLSItem, redirect } from "../../../utils"
-=======
->>>>>>> master
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
@@ -25,30 +22,15 @@ export default function ListHotel() {
     province: "",
   })
 
-<<<<<<< HEAD
   const token = getLSItem("token")
-=======
-  let token
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser)
-  //   token = localStorage.getItem("token")
->>>>>>> master
   useEffect(() => {
     getAllHotels(setAllHotels, token)
   }, [])
   console.log("all hotels", allHotels)
 
   function directToUpdatePage(id) {
-<<<<<<< HEAD
     setLSItem("hotelID", id)
     redirect("http://localhost:8000/owner/UpdateHotelPage")
-=======
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser) {
-    //   localStorage.setItem("hotelID", id)
-    //   window.location = "http://localhost:8000/owner/UpdateHotelPage"
-    // }
->>>>>>> master
   }
 
   return (
@@ -178,17 +160,8 @@ export default function ListHotel() {
                             <button
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
-<<<<<<< HEAD
                                 setLSItem("hotelID", hotel.hotel_id)
                                 redirect("http://localhost:8000/owner/ListRoomPage")
-=======
-                                // const isBrowser = typeof window !== "undefined" && window
-                                // if (isBrowser) {
-                                //   localStorage.setItem("hotelID", hotel.hotel_id)
-                                //   window.location =
-                                //     "http://localhost:8000/owner/ListRoomPage"
-                                // }
->>>>>>> master
                               }}
                             >
                               List rooms
