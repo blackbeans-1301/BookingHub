@@ -10,9 +10,8 @@ import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
 import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined"
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined"
-// import Logo from "../../assets/images/favicon.png";
 import Logo from "../../../assets/images/logo.png"
-// import LoginModal from "../../Items/LoginModal";
+import { redirect } from "../../../utils"
 
 export default function Navigation() {
   const [open, setOpen] = useState(true)

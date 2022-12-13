@@ -56,6 +56,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
 import { getLSItem, redirect } from "../../../utils"
+import { HotelCriterias } from "../../../assets/data/HotelCriteriaData"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),

@@ -9,7 +9,7 @@ import DescriptionIcon from "@material-ui/icons/Description"
 import { getInformation } from "../../../apis/userApi"
 import { toast } from "react-toastify"
 import UserOption from "../../Items/UserOption"
-import { getLSItem } from "../../../utils"
+import { getLSItem, redirect } from "../../../utils"
 
 export default function UserHeader() {
   const [showModal, setShowModal] = useState(false)

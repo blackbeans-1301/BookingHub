@@ -2,6 +2,7 @@ import React, { Fragment } from "react"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import SettingsIcon from "@material-ui/icons/Settings"
 import ReplyIcon from "@material-ui/icons/Reply"
+import { redirect } from "../../utils"
 
 export default function UserOption({ isVisible, isClose }) {
   if (!isVisible) return null

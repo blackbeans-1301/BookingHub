@@ -7,7 +7,7 @@ import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutline
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import InfoRoomModal from "../../Items/InfoRoomModal"
 import { getAllRoomsApi } from "../../../apis/roomApi"
-import { getLSItem, setLSItem } from "../../../utils"
+import { getLSItem, setLSItem, redirect } from "../../../utils"
 
 
 export default function ListRoom() {

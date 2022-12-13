@@ -40,6 +40,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../configs/api"
 import ToastMessage from "./ToastMessage"
 import PreviewImage from "./PreviewImage"
+import { redirect } from "../../utils"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),

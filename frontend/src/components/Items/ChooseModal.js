@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import CancelIcon from "@material-ui/icons/Cancel"
+import { redirect } from "../../utils"
 
 export default function ChooseModal({ isVisible, isClose }) {
   if (!isVisible) return null

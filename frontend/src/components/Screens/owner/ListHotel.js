@@ -8,7 +8,7 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
-import { getLSItem, redirect } from "../../../utils"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
