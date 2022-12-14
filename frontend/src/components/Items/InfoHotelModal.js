@@ -76,9 +76,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
   }, [])
 
   let imagesURLs = []
-  // console.log("all", all);
   const pr = all
-  // console.log("pr", pr);
 
 
   // console.log("criteria from params", detail.criteria);
