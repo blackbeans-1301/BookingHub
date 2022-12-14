@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const db = require("../models/index.js");
 
 const Room = db.room;
@@ -10,15 +12,60 @@ const Occupied_room = db.occupied_room;
 
 const controllers = require("../controllers/controller.js"); 
 const reservationControllers = require("../controllers/reservation.controller.js")
-const hotelControllers = require("../controllers/hotel.controller.js")
 
-exports.createReservation = async (req, res) => {
+exports.checkInfoReservation = async (req, res, next) => {
     const accountData = req.bookingHub_account_info;
     const isOwner = req.bookingHub_account_isOwner;
     if (isOwner) {
         return res.status(400).send({ message: "Owner can't create reservation" });
     }
+    // kiem tra request co room_id khong
+    if (req.body.room_id === undefined || req.body.room_id.length === 0) {
+        return res.status(400).send({ message: "room_id field can't be empty or undefined"})
+    }
 
+    // check date co hop le khong
+    let dateIn = new Date(req.body.date_in);
+    let dateOut = new Date(req.body.date_out);
+    let dateNow = new Date();
+    if (dateIn < dateNow) {
+        return res.status(400).send({ message: "date_in can't be less than now"})
+    }
+    if (dateIn > dateOut) {
+        return res.status(400).send({ message: "date_in can't be greater than date_out"})
+    }
+    
+    // check room da bi dat trong ngay date_in -> date_out chua
+    let condition1 = {
+        room_id: {
+            [Op.or]: req.body.room_id
+        }
+    }
+    let condition2 = {
+        status: {
+            [Op.or]: ['located', 'waiting']
+        },
+        [Op.or]: [
+            {date_in: {
+                [Op.gte]: new Date(req.body.date_in),
+                [Op.lte]: new Date(req.body.date_out)
+            }},
+            {date_out: {
+                [Op.gte]: new Date(req.body.date_in),
+                [Op.lte]: new Date(req.body.date_out)
+            }}
+        ]
+    }
+    let dataRoom = await reservationControllers.CheckReservationInfo(Reservation, Room, condition1, condition2)
+    if (dataRoom.length) {
+        return res.status(400).send({ message: "Room is already booked"})
+    }
+    next();
+    
+}
+exports.createReservation = async (req, res) => {
+    const accountData = req.bookingHub_account_info;
+    
     let valueReservation = {
         user_id: accountData.user_id,
         date_in: req.body.date_in,
@@ -28,7 +75,7 @@ exports.createReservation = async (req, res) => {
 
     let dataReservation = await controllers.CreateData(Reservation, valueReservation);
     if (dataReservation.code === -2) {
-        return res.status(400).send({message: "Unable to create reservation", err: dataReservation.err})
+        return res.status(400).send({message: "Unable to create reservation1", err: dataReservation.err})
     }
     
     let valueOccupiedRoom = [];
@@ -38,10 +85,11 @@ exports.createReservation = async (req, res) => {
             room_id: req.body.room_id[i]
         })
     }
-
+    //console.log(valueOccupiedRoom);
     let dataOccupiedRoom = await controllers.CreateManyData(Occupied_room, valueOccupiedRoom);
     if (dataOccupiedRoom.code === -2) {
-        return res.status(400).send({message: "Unable to create reservation", err: dataReservation.err})
+        let result = await controllers.DeleteData(Reservation, {reservation_id: dataReservation.reservation_id})
+        return res.status(400).send({message: "Unable to create reservation (room is not exist)", err: dataOccupiedRoom.err})
     }
 
     return res.status(200).send({reservation: dataReservation, room: dataOccupiedRoom});

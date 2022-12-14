@@ -5,7 +5,7 @@ const reservationMiddleware = require("../middleware/reservation.middleware.js")
 
 // Create a reservation
 // TODO: Kiem tra ngay thang // kiem tra trung phong trung ngay, 
-router.post('/create', userMiddleware.authenticateJWT, reservationMiddleware.createReservation);
+router.post('/create', userMiddleware.authenticateJWT, reservationMiddleware.checkInfoReservation,reservationMiddleware.createReservation);
 
 // checkin
 router.put('/checkIn', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, reservationMiddleware.isCheckIn, reservationMiddleware.checkIn);

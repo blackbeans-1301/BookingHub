@@ -15,6 +15,9 @@ router.post('/list', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelo
 // // get room's info
 router.get('/:room_id',  roomMiddleware.getRoomInfo)
 
+// get room by criteria
+router.put('/roomCriteria', roomMiddleware.getRoomByCriteria)
+
 //TODO: delete room
 
 module.exports = router

@@ -1,3 +1,5 @@
+const { Op } = require("sequelize");
+
 const db = require("../models/index.js");
 
 const Room = db.room;
@@ -29,6 +31,7 @@ exports.createRoom = async (req, res) => {
         description: req.body.description,
         type_of_room: req.body.type_of_room,
         number_of_bed: req.body.number_of_bed,
+        capacity: req.body.capacity,
         status: 0,
     }
     let roomData = await controllers.CreateData(Room, value);
@@ -95,7 +98,8 @@ exports.updateRoom = async (req, res) => {
         description: req.body.description,
         price: req.body.price,
         type_of_room: req.body.type_of_room,
-        number_of_bed: req.body.number_of_bed
+        number_of_bed: req.body.number_of_bed,
+        capacity: req.body.capacity,
     }
     let condition1 = {
         room_id: req.body.room_id,
@@ -130,4 +134,39 @@ exports.updateRoom = async (req, res) => {
         return res.status(400).send({ message: "Unable to update image", err: resultImage.err })
     }
     return res.status(200).send({ message: "Update successful" })
+}
+
+exports.getRoomByCriteria = async (req, res) => {
+    let condition1 = {
+        hotel_id: req.body.hotel_id
+    }
+    let condition2 = {  
+        status: {
+            [Op.or]: ['located', 'waiting']
+        },
+        [Op.or]: [
+            {date_in: {
+                [Op.gte]: new Date(req.body.date_in),
+                [Op.lte]: new Date(req.body.date_out)
+            }},
+            {date_out: {
+                [Op.gte]: new Date(req.body.date_in),
+                [Op.lte]: new Date(req.body.date_out)
+            }}
+        ]
+    }
+    let data = await roomControllers.GetRoomCriteria(Room, Reservation, condition1, condition2);
+    if (data.code === -2) {
+        return res.status(400).send({ message: "Unable to get room", err: data.err })
+    }
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].dataValues.Reservations.length) {
+            data.splice(i, 1);
+            i--;
+        }
+    }
+    for (let i = 0; i < data.length; i++) {
+        delete data[i].dataValues.Reservations
+    }
+    return res.status(200).send(data);
 }
