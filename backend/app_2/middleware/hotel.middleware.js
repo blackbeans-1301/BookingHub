@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const db = require("../models/index.js");
 
 const Room = db.room;
@@ -10,6 +11,7 @@ const Occupied_room = db.occupied_room;
 
 const hotelControllers = require("../controllers/hotel.controller.js");
 const controllers = require("../controllers/controller.js");
+
 
 // tao hotel
 exports.createHotel = async (req, res) => {
@@ -184,4 +186,53 @@ exports.hotelReservations = async (req, res) => {
         return res.status(400).send({message: "An error occurred", err: dataReservation.err})
     }
     return res.status(200).send(dataReservation)
+}
+
+exports.getHotelByCriteria = async (req, res) => {
+    let condition1 = {
+        province: req.body.province
+    }
+    let condition2 = {
+        status: {
+            [Op.or]: ['located', 'waiting']
+        },
+        [Op.or]: [
+            {
+                date_in: {
+                    [Op.gte]: new Date(req.body.date_in),
+                    [Op.lte]: new Date(req.body.date_out)
+                }
+            },
+            {
+                date_out: {
+                    [Op.gte]: new Date(req.body.date_in),
+                    [Op.lte]: new Date(req.body.date_out)
+                }
+            }
+        ]
+    }
+    let data = await hotelControllers.GetHotelCriteria(Hotel, Room, Reservation, condition1, condition2);
+    if (data.code === -2) {
+        return res.status(400).send({ message: "Unable to get hotel", err: data.err })
+    }
+    for (let hotel of data) {
+        hotel.dataValues.totalCapacity = 0;
+        hotel.dataValues.totalEmptyRoom = 0;
+        for (let room of hotel.dataValues.Rooms) {
+            if (!room.dataValues.Reservations.length) {
+                hotel.dataValues.totalCapacity += room.dataValues.capacity;
+                hotel.dataValues.totalEmptyRoom++;
+            }
+        }
+    }
+    for (let h = 0; h < data.length; h++) {
+        delete data[h].dataValues.Rooms;
+        if (data[h].dataValues.totalCapacity < req.body.number_of_guest || data[h].dataValues.totalEmptyRoom < req.body.number_of_room) {
+            data.splice(h, 1);
+            h--;
+        }
+    }
+    
+    return res.status(200).send(data);
+    
 }
