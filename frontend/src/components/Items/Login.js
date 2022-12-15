@@ -62,7 +62,8 @@ export default function Login({ isVisible, isClose }) {
   // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    redirect("http://localhost:8000")
+    console.log(process.env.API_URL)
+    redirect(process.env.API_URL)
   }
 
   const handleLogin = (values) => {

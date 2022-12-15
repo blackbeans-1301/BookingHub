@@ -16,7 +16,7 @@ export default function PlacePageHeader() {
           <div className="">
             <button
               className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
-              onClick={() => { redirect("http://localhost:8000/") }}
+              onClick={() => { redirect(`${process.env.API_URL}`) }}
             >
               <UndoIcon /> Return to main page
             </button>

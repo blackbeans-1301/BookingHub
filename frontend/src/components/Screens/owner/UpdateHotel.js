@@ -147,7 +147,7 @@ export default function UpdateHotel() {
 
 
   const redirectFunc = () => {
-    redirect("http://localhost:8000/owner/ListHotelPage")
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {

@@ -36,7 +36,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new hotel</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() => { redirect("http://localhost:8000/owner/CreateHotelPage") }
+                onClick={() => { redirect(`${process.env.API_URL}/owner/CreateHotelPage`) }
                 }
               >
                 Select
@@ -52,7 +52,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  redirect("http://localhost:8000/owner/CreateRoomPage")
+                  redirect(`${process.env.API_URL}/owner/CreateRoomPage`)
                 }
               >
                 Select
@@ -68,7 +68,7 @@ export default function ChooseModal({ isVisible, isClose }) {
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                 onClick={() =>
-                  redirect("http://localhost:8000/owner/ListHotelPage")
+                  redirect(`${process.env.API_URL}/owner/ListHotelPage`)
                 }
               >
                 Select

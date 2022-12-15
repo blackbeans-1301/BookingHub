@@ -20,7 +20,7 @@ export default function Header() {
 
             <button
               className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
-              onClick={() => { redirect("http://localhost:8000/owner/main") }
+              onClick={() => { redirect(`${process.env.API_URL}/owner/main`) }
               }
             >
               <DescriptionIcon />
