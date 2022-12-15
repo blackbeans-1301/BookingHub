@@ -7,7 +7,7 @@ import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI } from "../../apis/userApi"
+import { loginAPI, getInformation, registerAPI, getUserInfor } from "../../apis/userApi"
 import { toast } from "react-toastify"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../../store/atoms/userState"
@@ -75,7 +75,8 @@ export default function Login({ isVisible, isClose }) {
         // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
 
-        const getInfor = await getInformation(getLSItem("token"))
+        const getInfor = await getUserInfor(getLSItem("token"))
+        console.log('token', getLSItem('token'));
         toast.success("Login successfully")
         console.log(getInfor)
         setTimeout(redirectFunc, 3000)

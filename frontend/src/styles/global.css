@@ -53,3 +53,8 @@
 .nav:hover .title {
   display: block;
 }
+
+/* booking modal */
+.modal-width {
+  height: 80vh;
+}
