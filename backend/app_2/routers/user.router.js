@@ -38,4 +38,12 @@ router.get('/userReservations', userMiddleware.authenticateJWT, userMiddleware.u
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 
+// get user's favorite
+router.put('/addFavorite', userMiddleware.authenticateJWT, userMiddleware.addFavorite)
+
+// delete user's favorite
+router.put('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.delFavorite)
+
+// get favorite
+router.put('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
 module.exports = router

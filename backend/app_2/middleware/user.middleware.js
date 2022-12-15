@@ -297,3 +297,132 @@ exports.userReservations = async (req, res) => {
     }
     return res.status(200).send(dataReservation);
 }
+
+
+// Send Email
+var getCodeForgotten = () => {
+    const getRndInterger = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1) ) + min;
+        } 
+        var rand1 = getRndInterger(0, 9);
+        var rand2 = getRndInterger(10000, 99999);
+        var code = "" + rand1 + rand2;
+        return code;
+}
+
+exports.createCode = (req, res, next) => {
+    var newCode = getCodeForgotten()
+
+    User.update({
+        code: newCode
+    }, {
+        where: {
+            email: req.body.email,
+        }
+    }).then(data => {
+        console.log(data[0])
+        if (data[0] === 1) {
+            req.bookingHub_user_code = newCode
+            next()
+        }
+        else {
+            return res.status(400).send({Message: "Email not exist"})
+        }
+    }).catch(err => {
+        return res.status(500).send({Message: err.message})
+    }) 
+}
+
+// sendEmail
+exports.sendEmail = (req, res) => {
+    const userCode = req.bookingHub_user_code;
+
+    var mail = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'bookinghub888@gmail.com',
+            pass: 'nqiunuuultpztsoj'
+        }
+    });
+    var mailOptions = {
+        from: 'bookinghub888@gmail.com',
+        to: req.body.email,
+        subject: 'BookingHub service',
+        html: '<p>BH-' + userCode + ' là mã xác minh BookingHub của bạn</p>'
+    };
+    mail.sendMail(mailOptions, (error) => {
+        if (error) {
+            return res.status(500).send({Message: "Failed sending email"});
+        } else {
+            res.status(200).send({Message: "Successfull"});
+        }
+    })
+}
+
+exports.verifyCode = (req, res) => {
+    const {email, code} = req.body;
+    User.findAll({
+        where: { 
+            email: email,
+            code: code
+        }
+    }).then(data => {
+        console.log(data)
+        if (data.length) {
+            return res.status(200).send({Message: "Verified done!"})
+        }
+        else {
+            return res.status(400).send({Message: "Wrong Code/Email"})
+        }
+    }).catch(err => {
+        return res.status(500).send({Message: "Request failed"})
+    })
+}
+
+exports.addFavorite = (req, res) => {
+    const favorite = {
+        user_id: req.body.user_id,
+        hotel_id: req.body.hotel_id
+    }
+    let favor = {}
+    Favorite.create(favorite).then(data => {
+        favor = data.dataValues
+        delete favor.user_id;
+        delete favor.hotel_id
+    }).catch(err => {
+        isErr = true;
+        return res.status(500).send({Message: "(create favorite) An error occurred on the server side" + err})
+    })
+}
+
+exports.delFavorite = (req, res) => {
+    const {user_id, hotel_id} = req.body
+
+    Favorite.destroy({
+        where: {
+            user_id: user_id,
+            hotel_id: hotel_id
+        }
+    }).then(data => {
+        console.log(data)
+        return res.status(200).send({Message: "Deleted!"})
+    }).catch(err => {
+        return res.status(500).send({Message: "Request failed"})
+    })
+}
+
+exports.getFavorite = (req, res) => {
+    const favorData = req.bookingHub_user_infor[0].dataValues;
+    console.log(favorData.user_id);
+
+    Favorite.findAll({
+        where:{
+            user_id: favorData.user_id
+        },
+        }).then(data => {
+            console.log(data);
+            res.status(200).send(data);
+    }).catch(err => {
+        return res.status(400).send({ message: "Getting favorite's user failed!", err: err.message })
+    })
+}
