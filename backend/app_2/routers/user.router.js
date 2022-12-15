@@ -9,7 +9,7 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     function (req, res) {
-        
+        res.send(req.user)
     });
 
 // register an user account:
