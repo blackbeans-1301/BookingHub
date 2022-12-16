@@ -62,7 +62,8 @@ export default function Login({ isVisible, isClose }) {
   // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    redirect("http://localhost:8000")
+    console.log(process.env.API_URL)
+    redirect(process.env.API_URL)
   }
 
   const handleLogin = (values) => {
@@ -74,11 +75,8 @@ export default function Login({ isVisible, isClose }) {
       if (type == "object") {
         // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
-
-        const getInfor = await getUserInfor(getLSItem("token"))
-        console.log('token', getLSItem('token'));
+        console.log('token', getLSItem('token'))
         toast.success("Login successfully")
-        console.log(getInfor)
         setTimeout(redirectFunc, 3000)
       } else {
         console.log("login failed")

@@ -15,11 +15,11 @@ export default function HotelCard(props) {
   return (
     <div className="ml-8 flex flex-col mb-4">
       <div>
-        <img src={data.images} atl="none" className="rounded w-80"></img>
+        <img src={data.images} atl="none" className="rounded-lg w-64 h-96"></img>
       </div>
-      <div className="">
+      <div className="mt-4">
         <div className="">
-          <div>{data.name}</div>
+          <div className="font-bold text-primary font-sans">{data.name}</div>
           <div className="flex align-center">
             {starList.map(item => <StarIcon style={{ width: "16px" }} />)}
             <div className="inline-block ml-2 font-sans">Rating: {data.rating}</div>

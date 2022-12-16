@@ -1,83 +1,84 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react"
 // import Header from "../Layouts/LayoutComponent/Header";
 // import Footer from "./Footer";
-import LocalHotelIcon from "@material-ui/icons/LocalHotel";
-import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
-import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
-import SearchIcon from "@material-ui/icons/Search";
-import Carousel from "react-elastic-carousel";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import LocalHotelIcon from "@material-ui/icons/LocalHotel"
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
+import SearchIcon from "@material-ui/icons/Search"
+import Carousel from "react-elastic-carousel"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 // import "slick-carousel/slick/slick.css";
 
 // import { Component } from "react";
 // import Slider from "react-slick";
 // import { favoriteHotels } from "../Layouts/data";
-import Slider from "../../Items/Slider";
-import dataSlider from "../../Layouts/dataSlider";
-import CarouselItem from "../../Items/CarouselItem";
-import Item from "../../Items/Item";
-import Reason from "../../../components/Layouts/LayoutComponent/Reason";
-import NearbyHotel from "./nearbyHotel/NearbyHotel";
+import Slider from "../../Items/Slider"
+import dataSlider from "../../Layouts/dataSlider"
+import CarouselItem from "../../Items/CarouselItem"
+import Item from "../../Items/Item"
+import Reason from "../../../components/Layouts/LayoutComponent/Reason"
+import NearbyHotel from "./nearbyHotel/NearbyHotel"
+import PopularCities from "../../Items/PopularCities"
 
 export default function Main() {
-  const [arriveDay, setArriveDay] = useState(new Date());
-  const [leaveDay, setLeaveDay] = useState(new Date());
-  const [room, setRoom] = useState(1);
-  const [adult, setAdult] = useState(1);
-  const [child, setChild] = useState(0);
-  const [open, setOpen] = useState(false);
+  const [arriveDay, setArriveDay] = useState(new Date())
+  const [leaveDay, setLeaveDay] = useState(new Date())
+  const [room, setRoom] = useState(1)
+  const [adult, setAdult] = useState(1)
+  const [child, setChild] = useState(0)
+  const [open, setOpen] = useState(false)
 
-  const { arrive } = arriveDay;
-  const { leave } = leaveDay;
+  const { arrive } = arriveDay
+  const { leave } = leaveDay
 
   //   room
   const decreaseRoom = () => {
     if (room > 0) {
-      setRoom((prevCount) => prevCount - 1);
+      setRoom((prevCount) => prevCount - 1)
     } else {
-      setRoom(0);
+      setRoom(0)
     }
-  };
+  }
 
   const increaseRoom = () => {
-    setRoom((prevCount) => prevCount + 1);
-  };
+    setRoom((prevCount) => prevCount + 1)
+  }
 
   //   adult
   const decreaseAdult = () => {
     if (room > 0) {
-      setAdult((prevCount) => prevCount - 1);
+      setAdult((prevCount) => prevCount - 1)
     } else {
-      setAdult(0);
+      setAdult(0)
     }
-  };
+  }
 
   const increaseAdult = () => {
-    setAdult((prevCount) => prevCount + 1);
-  };
+    setAdult((prevCount) => prevCount + 1)
+  }
 
   //   children
   const decreaseChild = () => {
     if (room > 0) {
-      setChild((prevCount) => prevCount - 1);
+      setChild((prevCount) => prevCount - 1)
     } else {
-      setChild(0);
+      setChild(0)
     }
-  };
+  }
 
   const increaseChild = () => {
-    setChild((prevCount) => prevCount + 1);
-  };
+    setChild((prevCount) => prevCount + 1)
+  }
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
     { width: 550, itemsToShow: 2 },
     { width: 768, itemsToShow: 3 },
     { width: 1200, itemsToShow: 4 },
-  ];
+  ]
 
   const settings = {
     dots: true,
@@ -86,7 +87,7 @@ export default function Main() {
     slidesToShow: 3,
     slidesToScroll: 3,
     initialSlide: 0,
-  };
+  }
 
   return (
     // <Fragment>
@@ -114,7 +115,7 @@ export default function Main() {
                 className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
                 value={arrive}
                 onChange={(arrive) => {
-                  setArriveDay({ arrive });
+                  setArriveDay({ arrive })
                 }}
                 options={{
                   altFormat: "d/m/Y",
@@ -130,7 +131,7 @@ export default function Main() {
                 className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
                 value={leave}
                 onChange={(leave) => {
-                  setLeaveDay({ leave });
+                  setLeaveDay({ leave })
                 }}
                 options={{
                   altFormat: "d/m/Y",
@@ -148,7 +149,7 @@ export default function Main() {
               type="value"
               value={`${room} rooms, ${adult + child} people`}
               onClick={() => setOpen(!open)}
-              //   onBlur={() => setOpen(!open)}
+            //   onBlur={() => setOpen(!open)}
             />
 
             {open && (
@@ -221,53 +222,9 @@ export default function Main() {
           </button>
         </div>
       </div>
-
-      {/* <Fragment>
-        <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
-          <div className="justify-between items-center h-96">
-            <Slider {...settings}>
-              {favoriteHotels.map((item) => (
-                <div>
-                  <div>
-                    <img src={item.image} alt={item.title} />
-                    <h2>{item.title}</h2>
-                  </div>
-
-                  <div>
-                    <h3>{item.rating}</h3>
-                    <p>{item.position}</p>
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-</Fragment> */}
-
       <Reason />
       <NearbyHotel />
-
-      {/* new slider */}
-      <div className="">
-        <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">
-          Trending cities
-        </h1>
-        <Slider dataSlider={dataSlider} className="z-0" />
-      </div>
-
-      {/* <div className="flex flex-col">
-        <h1>test carousel</h1>
-        <Carousel breakPoints={breakPoints}>
-          {dataSlider.map((i) => {
-            console.log('title', i.title);
-            <CarouselItem>one</CarouselItem>
-          })}
-        </Carousel>
-      </div> */}
-    </div>
-    //     <Footer />
-    //   </div>
-    //   {/* <Footer /> */}
-    // </Fragment>
-  );
+      <PopularCities />
+    </div >
+  )
 }

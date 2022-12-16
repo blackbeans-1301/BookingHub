@@ -32,17 +32,17 @@ export default function Navigation() {
       title: "Flights",
       icon: <FlightOutlinedIcon />,
       gap: true,
-      link: "http://localhost:8000/user/FlightsPage",
+      link: `${process.env.API_URL}/user/FlightsPage`,
     },
     {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
-      link: "http://localhost:8000/user/StayPage",
+      link: `${process.env.API_URL}/user/StayPage`,
     },
     {
       title: "Things to do",
       icon: <RowingOutlinedIcon />,
-      link: "http://localhost:8000/user/ThingsToDoPage",
+      link: `${process.env.API_URL}/user/ThingsToDoPage`,
     },
     {
       title: "Packages",
@@ -51,7 +51,7 @@ export default function Navigation() {
     {
       title: "Explore",
       icon: <LanguageOutlinedIcon />,
-      link: "http://localhost:8000/user/ExplorePage",
+      link: `${process.env.API_URL}/user/ExplorePage`,
     },
     {
       title: "Travel Restrictions",
@@ -60,7 +60,7 @@ export default function Navigation() {
     {
       title: "Trips",
       icon: <BookOutlinedIcon />,
-      link: "http://localhost:8000/user/TripsPage",
+      link: `${process.env.API_URL}/user/TripsPage`,
     },
   ]
 
