@@ -125,9 +125,18 @@ exports.isBelongToUser = async (req, res, next) => {
     }
     
     let condition = {
-        reservation_id: req.body.reservation_id,
         user_id: accountData.user_id
     }
+    
+    if (req.body.reservation_id === undefined) {
+        if (req.params.reservation_id === undefined) {
+            return res.status(400).send({ message: "Missing reservation_id field"})
+        } 
+        condition.reservation_id = req.params.reservation_id
+    } else {
+        condition.reservation_id = req.body.reservation_id
+    }
+
     let result = await reservationControllers.isBelongToUser(Reservation, condition)
     if (result.code === -1 || result.code === -2) {
         return res.status(400).send({message: "Reservation isn't belong to current user"})
