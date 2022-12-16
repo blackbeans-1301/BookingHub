@@ -10,9 +10,9 @@ import LocationOnIcon from "@material-ui/icons/LocationOn"
 import ImageIcon from "@material-ui/icons/Image"
 import ChatIcon from "@material-ui/icons/Chat"
 import HomeWorkIcon from "@material-ui/icons/HomeWork"
+import { getLSItem, setLSItem } from "../../utils"
+import _, { defaultTo, set } from "lodash"
 import { HotelCriterias } from "../../assets/data/HotelCriteriaData"
-
-import _ from "lodash"
 import {
   createHotelApi,
   getAllProvinces,
@@ -40,6 +40,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../configs/api"
 import ToastMessage from "./ToastMessage"
 import PreviewImage from "./PreviewImage"
+import { redirect } from "../../utils"
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
@@ -75,9 +76,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
   }, [])
 
   let imagesURLs = []
-  // console.log("all", all);
   const pr = all
-  // console.log("pr", pr);
 
 
   // console.log("criteria from params", detail.criteria);
@@ -134,18 +133,17 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {
-    let token
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    // token = localStorage.getItem("token")
+    // const token = localStorage.getItem("token");
+    const token = getLSItem('token')
+    console.log("token", token)
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
+      console.log("response", response)
+      console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
         toast.success("Update hotel details successfully")
@@ -184,9 +182,6 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       handleGetHotelInfor(values)
     },
   })
-
-  console.log(formik.initialValues)
-  console.log("checked", checkedCriterias)
 
   if (!isVisible) return null
   return (

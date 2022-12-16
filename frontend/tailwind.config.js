@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "primary": "#37b5ff",
+        "primary": "#033665",
         "light-primary": "#B0E2FF",
         "colorText": "#555555",
         "light-close": "#F6B297",
@@ -17,6 +17,10 @@ module.exports = {
       },
       backgroundImage: {
         'ownerPageBG': "url('https://img.freepik.com/free-vector/organic-flat-new-normal-hotels-illustration_23-2148926018.jpg?w=2000')",
+      },
+      fontFamily: {
+        'Montserrat': ['Montserrat'],
+        'body': ['"Open Sans"'],
       }
     },
   },

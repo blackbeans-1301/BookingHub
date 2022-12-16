@@ -8,6 +8,7 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
@@ -21,21 +22,15 @@ export default function ListHotel() {
     province: "",
   })
 
-  let token
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser)
-  //   token = localStorage.getItem("token")
+  const token = getLSItem("token")
   useEffect(() => {
     getAllHotels(setAllHotels, token)
   }, [])
   console.log("all hotels", allHotels)
 
   function directToUpdatePage(id) {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser) {
-    //   localStorage.setItem("hotelID", id)
-    //   window.location = "http://localhost:8000/owner/UpdateHotelPage"
-    // }
+    setLSItem("hotelID", id)
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
   return (
@@ -165,12 +160,8 @@ export default function ListHotel() {
                             <button
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
-                                // const isBrowser = typeof window !== "undefined" && window
-                                // if (isBrowser) {
-                                //   localStorage.setItem("hotelID", hotel.hotel_id)
-                                //   window.location =
-                                //     "http://localhost:8000/owner/ListRoomPage"
-                                // }
+                                setLSItem("hotelID", hotel.hotel_id)
+                                redirect(`${process.env.API_URL}/owner/ListRoomPage`)
                               }}
                             >
                               List rooms

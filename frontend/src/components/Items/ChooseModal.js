@@ -1,5 +1,6 @@
 import React, { Fragment } from "react"
 import CancelIcon from "@material-ui/icons/Cancel"
+import { redirect } from "../../utils"
 
 export default function ChooseModal({ isVisible, isClose }) {
   if (!isVisible) return null
@@ -35,12 +36,8 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new hotel</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() => {
-                  //   const isBrowser = typeof window !== "undefined" && window
-                  //   if (isBrowser)
-                  //     (window.location = "http://localhost:8000/owner/CreateHotelPage")
-                  // }
-                }}
+                onClick={() => { redirect(`${process.env.API_URL}/owner/CreateHotelPage`) }
+                }
               >
                 Select
               </button>
@@ -54,10 +51,8 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">Create new room</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() => {
-                  // const isBrowser = typeof window !== "undefined" && window
-                  // if (isBrowser) (window.location = "http://localhost:8000/owner/CreateRoomPage")
-                }
+                onClick={() =>
+                  redirect(`${process.env.API_URL}/owner/CreateRoomPage`)
                 }
               >
                 Select
@@ -72,10 +67,8 @@ export default function ChooseModal({ isVisible, isClose }) {
               <p className="font-bold">List all hotels</p>
               <button
                 className="w-full text-center text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                onClick={() => {
-                  // const isBrowser = typeof window !== "undefined" && window
-                  // if (isBrowser) (window.location = "http://localhost:8000/owner/ListHotelPage")
-                }
+                onClick={() =>
+                  redirect(`${process.env.API_URL}/owner/ListHotelPage`)
                 }
               >
                 Select

@@ -21,6 +21,7 @@ import CarouselItem from "../../Items/CarouselItem"
 import Item from "../../Items/Item"
 import Reason from "../../../components/Layouts/LayoutComponent/Reason"
 import NearbyHotel from "./nearbyHotel/NearbyHotel"
+import PopularCities from "../../Items/PopularCities"
 
 export default function Main() {
   const [arriveDay, setArriveDay] = useState(new Date())
@@ -152,63 +153,65 @@ export default function Main() {
             />
 
             {open && (
-              <div className="absolute bg-white w-100 top-12 border-cyan-100 rounded-md p-2 shadow-xl">
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Rooms</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+              <div className="absolute bg-white w-max top-12 border-cyan-100 rounded-md p-2 shadow-xl">
+                <div className="w-56 flex justify-between px-2 m-2">
+                  <p className="w-20">Rooms</p>
+
+                  {/* optionCounter */}
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={decreaseRoom}
                     >
                       -
-                    </span>
-                    <span className="px-2 text-center w-1">{room}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                    </button>
+                    <span className="w-3">{room}</span>
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={increaseRoom}
                     >
                       +
-                    </span>
+                    </button>
                   </div>
-                </li>
+                </div>
 
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Adults</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                <div className="w-56 flex justify-between px-2 m-2">
+                  <p className="w-20">Adults</p>
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={decreaseAdult}
                     >
                       -
-                    </span>
-                    <span className="px-2 text-center w-1">{adult}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                    </button>
+                    <span className="w-3">{adult}</span>
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={increaseAdult}
                     >
                       +
-                    </span>
+                    </button>
                   </div>
-                </li>
+                </div>
 
-                <li className="flex justify-between px-2 mb-2">
-                  <p className="mr-20">Children</p>
-                  <div className="">
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                <div className="w-56 flex justify-between px-2 m-2">
+                  <p className="w-20">Children</p>
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={decreaseChild}
                     >
                       -
-                    </span>
-                    <span className="px-2 text-center w-1">{child}</span>
-                    <span
-                      className="px-0.5 border-cyan-200 border-2 cursor-pointer"
+                    </button>
+                    <span className="w-3">{child}</span>
+                    <button
+                      className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
                       onClick={increaseChild}
                     >
                       +
-                    </span>
+                    </button>
                   </div>
-                </li>
+                </div>
               </div>
             )}
           </div>
@@ -219,56 +222,9 @@ export default function Main() {
           </button>
         </div>
       </div>
-
-
-
-      {/* <Fragment>
-        <div className="bg-black flex max-w-screen-xl min-w-96 w-96">
-          <div className="justify-between items-center h-96">
-            <Slider {...settings}>
-              {favoriteHotels.map((item) => (
-                <div>
-                  <div>
-                    <img src={item.image} alt={item.title} />
-                    <h2>{item.title}</h2>
-                  </div>
-
-                  <div>
-                    <h3>{item.rating}</h3>
-                    <p>{item.position}</p>
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
-</Fragment> */}
-
       <Reason />
       <NearbyHotel />
-
-
-      {/* new slider */}
-      <div className="">
-        <h1 className="font-bold text-xl text-colorText mt-10 mb-4 ml-10">
-          Trending cities
-        </h1>
-        <Slider dataSlider={dataSlider} className="z-0" />
-      </div>
-
-      {/* <div className="flex flex-col">
-        <h1>test carousel</h1>
-        <Carousel breakPoints={breakPoints}>
-          {dataSlider.map((i) => {
-            console.log('title', i.title);
-            <CarouselItem>one</CarouselItem>
-          })}
-        </Carousel>
-      </div> */}
-    </div>
-    //     <Footer />
-    //   </div>
-    //   {/* <Footer /> */}
-    // </Fragment>
+      <PopularCities />
+    </div >
   )
 }
