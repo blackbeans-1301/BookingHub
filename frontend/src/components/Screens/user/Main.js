@@ -21,14 +21,19 @@ import CarouselItem from "../../Items/CarouselItem";
 import Item from "../../Items/Item";
 import Reason from "../../../components/Layouts/LayoutComponent/Reason";
 import NearbyHotel from "./nearbyHotel/NearbyHotel";
+import { searchHotelByCriteria } from "../../../apis/hotelApi";
+import { FormatDate } from "../../Common/CommonFunc";
+import { useEffect } from "react";
 
 export default function Main() {
+  const [destination, setDestination] = useState();
   const [arriveDay, setArriveDay] = useState(new Date());
   const [leaveDay, setLeaveDay] = useState(new Date());
   const [room, setRoom] = useState(1);
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
   const [open, setOpen] = useState(false);
+  const [hotel, setHotel] = useState([]);
 
   const { arrive } = arriveDay;
   const { leave } = leaveDay;
@@ -88,6 +93,31 @@ export default function Main() {
     initialSlide: 0,
   };
 
+  function handleSearch() {
+    console.log("destination: ", destination);
+    console.log("arrive day", arriveDay);
+    console.log("format arrive day", FormatDate(arriveDay.arrive));
+    console.log("leave day", leaveDay);
+    console.log("adults", adult);
+    console.log("child", child);
+    console.log("room", room);
+
+    let data = {
+      date_in: FormatDate(arriveDay.arrive),
+      date_out: FormatDate(leaveDay.leave),
+      province: destination,
+      number_of_room: room,
+      number_of_guest: adult + child,
+    };
+
+    // useEffect(() => {
+    //   searchHotelByCriteria(data, setHotel);
+    // }, [])
+
+    let searchResult = searchHotelByCriteria(data, setHotel);
+    console.log("search result: ", searchResult, "hotels", hotel);
+  }
+
   return (
     // <Fragment>
     //   <div className="flex-1 h-screen absolute right-0">
@@ -104,6 +134,10 @@ export default function Main() {
               className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
               type="text"
               placeholder="Find the destination..."
+              value={destination}
+              onChange={(e) => {
+                setDestination(e.target.value);
+              }}
             />
           </div>
 
@@ -215,7 +249,10 @@ export default function Main() {
             )}
           </div>
 
-          <button className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200">
+          <button
+            className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200"
+            onClick={() => handleSearch()}
+          >
             <SearchIcon />
             <span>Search</span>
           </button>
