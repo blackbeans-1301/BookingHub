@@ -6,7 +6,7 @@ export const IMAGE_CLOUD_API = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/im
 
 // Common variables--------------------------------------
 
-export const DOMAIN_URL = "http://localhost:3000"
+export const DOMAIN_URL = "http://localhost:3000/api"
 
 // API for user------------------------------------------
 
