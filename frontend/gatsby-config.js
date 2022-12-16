@@ -17,5 +17,6 @@ module.exports = {
         icon: "src/assets/images/icon.png",
       },
     },
+    "gatsby-plugin-use-query-params",
   ],
 }

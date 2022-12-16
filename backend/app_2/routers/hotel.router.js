@@ -14,7 +14,9 @@ router.get('/ownerHotels', userMiddleware.authenticateJWT, hotelMiddleware.getOw
 // get hotel by address
 router.put('/hotelByAddress', hotelMiddleware.hotelByAddress) 
 
-// TODO: find hotel
+// get hotel by criteria
+router.put('/hotelCriteria', hotelMiddleware.getHotelByCriteria)
+
 // TODO: delete a hotel
 
 // get hotel's info (cai nay luon o duoi cung)
@@ -22,4 +24,6 @@ router.get('/:hotel_id', hotelMiddleware.getInfoHotel)
 
 // Get hotel's reservations
 router.get('/hotelReservations/:hotel_id', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.hotelReservations);
+
+// 
 module.exports = router
