@@ -32,7 +32,7 @@ import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 import ChildCareIcon from "@material-ui/icons/ChildCare"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
 import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-import API from "../../../services/service"
+import API from "../../../services/ownerService"
 import _ from "lodash"
 import { createHotelApi, getAllProvinces } from "../../../apis/hotelApi"
 import { Field, useFormik, Form, Formik } from "formik"
@@ -55,6 +55,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
+import { getLSItem, redirect } from "../../../utils"
 import { HotelCriterias } from "../../../assets/data/HotelCriteriaData"
 
 const validationSchema = yup.object({
@@ -129,7 +130,7 @@ export default function CreateHotel() {
         .then((res) => imagesURLs.push(res.url))
     }
 
-    console.log("img urls", imagesURLs)
+    console.log('img urls', imagesURLs)
     formik.values.imgURL = imagesURLs
 
     setUploading(false)
@@ -140,14 +141,11 @@ export default function CreateHotel() {
   }, [])
 
   const redirectFunc = () => {
-    window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {
-    let token
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   token = localStorage.getItem("token")
+    const token = getLSItem("token")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createHotelApi(postData, token)
@@ -155,10 +153,10 @@ export default function CreateHotel() {
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
-        toast.success("Create a new hotel successfully")
+        toast.success("Sign up successfully")
         setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Create a new hotel failed")
+        console.log("Sign up failed")
         toast.error(response)
       }
       setIsLoading(false)

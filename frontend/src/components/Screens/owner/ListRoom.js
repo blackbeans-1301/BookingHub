@@ -7,6 +7,8 @@ import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutline
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import InfoRoomModal from "../../Items/InfoRoomModal"
 import { getAllRoomsApi } from "../../../apis/roomApi"
+import { getLSItem, setLSItem, redirect } from "../../../utils"
+
 
 export default function ListRoom() {
   const [allRooms, setAllRooms] = useState()
@@ -20,13 +22,9 @@ export default function ListRoom() {
     description: "",
     province: "",
   })
-  let token
-  let hotelID
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser) {
-  //   token = localStorage.getItem("token")
-  //   hotelID = localStorage.getItem("hotelID")
-  // }
+
+  const token = getLSItem("token")
+  const hotelID = getLSItem("hotelID")
 
   const data = {
     hotel: {
@@ -42,11 +40,8 @@ export default function ListRoom() {
   console.log("all rooms", allRooms)
 
   function directToUpdatePage(id) {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser) {
-    //   localStorage.setItem("hotelID", id)
-    //   window.location = "http://localhost:8000/owner/UpdateHotelPage"
-    // }
+    setLSItem("hotelID", id)
+    redirect("http://localhost:8000/owner/UpdateHotelPage")
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">

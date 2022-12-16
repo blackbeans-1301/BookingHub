@@ -3,6 +3,9 @@ module.exports = {
     title: `BookingHub`,
     siteUrl: `https://www.yourdomain.tld`,
   },
+  flags: {
+    DEV_SSR: false
+  },
   plugins: [
     {
       resolve: "gatsby-plugin-manifest",
@@ -10,5 +13,6 @@ module.exports = {
         icon: "src/assets/images/icon.png",
       },
     },
+    "gatsby-plugin-use-query-params",
   ],
 }

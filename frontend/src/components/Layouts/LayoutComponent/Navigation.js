@@ -10,9 +10,8 @@ import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
 import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined"
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined"
-// import Logo from "../../assets/images/favicon.png";
 import Logo from "../../../assets/images/logo.png"
-// import LoginModal from "../../Items/LoginModal";
+import { redirect } from "../../../utils"
 
 export default function Navigation() {
   const [open, setOpen] = useState(true)
@@ -111,10 +110,7 @@ export default function Navigation() {
               key={index}
               className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
                 ${menuItem.gap ? "mt-6" : "mt-2"}`}
-              onClick={() => {
-                // const isBrowser = typeof window !== "undefined" && window
-                // if (isBrowser) (window.location = menuItem.link)
-              }}
+              onClick={() => redirect(menuItem.link)}
             >
               <span className={`material-icons md-48`}>{menuItem.icon}</span>
 

@@ -7,7 +7,7 @@ import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI } from "../../apis/userApi"
+import { loginAPI, getInformation, registerAPI, getUserInfor } from "../../apis/userApi"
 import { toast } from "react-toastify"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../../store/atoms/userState"
@@ -16,6 +16,7 @@ import { LoadingButton } from "@mui/lab"
 import ToastMessage from "./ToastMessage"
 import { parse, isDate } from "date-fns"
 import { date } from "yup"
+import { getLSItem, setLSItem, redirect } from "../../utils"
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
@@ -57,11 +58,11 @@ const forgotPassValidationSchema = yup.object({
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
+  // const setToken = useSetRecoilState(tokenState)
+  // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000"
+    redirect("http://localhost:8000")
   }
 
   const handleLogin = (values) => {
@@ -71,15 +72,14 @@ export default function Login({ isVisible, isClose }) {
       console.log("type", typeof response)
       const type = typeof response
       if (type == "object") {
-        //   const isBrowser = typeof window !== "undefined" && window
-        //   if (isBrowser) {
-        //   localStorage.setItem("token", response.assessToken)
-        //   const getInfor = await getInformation(localStorage.getItem("token"))
+        // localStorage.setItem("token", response.assessToken);
+        setLSItem("token", response.assessToken)
 
-        //   toast.success("Login successfully")
-        //   console.log(getInfor)
-        //   setTimeout(redirectFunc, 3000)
-        // }
+        const getInfor = await getUserInfor(getLSItem("token"))
+        console.log('token', getLSItem('token'));
+        toast.success("Login successfully")
+        console.log(getInfor)
+        setTimeout(redirectFunc, 3000)
       } else {
         console.log("login failed")
         toast.error(response)

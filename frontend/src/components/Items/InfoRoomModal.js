@@ -65,7 +65,8 @@ import {
   ViewCriteria,
   LanguageCriteria,
 } from "../../assets/data/RoomCriteriaData"
-import { updateRoomInfor } from "../../apis/roomApi"
+import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi"
+import { redirect, getLSItem, setLSItem } from "../../utils"
 
 const validationSchema = yup.object({
   room_name: yup.string().required("Enter your room's name"),
@@ -164,19 +165,15 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = "http://localhost:8000/owner/ListHotelPage"
+    redirect("http://localhost:8000/owner/ListHotelPage")
   }
 
   const handleGetHotelInfor = (values) => {
-    let token = ""
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   token = localStorage.getItem("token")
+    // const token = localStorage.getItem("token")
+    const token = getLSItem('token')
     console.log("token", token)
     const signUp = async (postData) => {
-      const response = await updateRoomInfor(postData, token)
+      const response = await updateHotelInfor(postData, token)
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
