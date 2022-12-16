@@ -75,8 +75,6 @@ export default function Login({ isVisible, isClose }) {
       if (type == "object") {
         // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
-
-        const getInfor = await getUserInfor(getLSItem("token"))
         console.log('token', getLSItem('token'))
         toast.success("Login successfully")
         setTimeout(redirectFunc, 3000)
