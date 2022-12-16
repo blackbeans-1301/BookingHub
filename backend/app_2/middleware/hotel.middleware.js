@@ -63,7 +63,6 @@ exports.createHotel = async (req, res) => {
 }
 
 exports.getOwnerHotels = async (req, res) => {
-    console.log(req)
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
     if (!isOwner) {
