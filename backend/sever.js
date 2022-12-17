@@ -20,24 +20,27 @@ app.get("/", (req, res) => {
     res.json({ message: "H3L2 Sever!!!!!!!!" })
 })
 
-app.use("/user", require("./app_2/routers/user.router.js"))
-app.use("/hotel", require("./app_2/routers/hotel.router.js"))
-app.use("/room", require('./app_2/routers/room.router.js'))
-app.use("/reservation", require("./app_2/routers/reservation.router.js"))
-app.use("/comment", require("./app_2/routers/comment.router.js"))
+app.use("/api/user", require("./app_2/routers/user.router.js"))
+app.use("/api/hotel", require("./app_2/routers/hotel.router.js"))
+app.use("/api/room", require('./app_2/routers/room.router.js'))
+app.use("/api/reservation", require("./app_2/routers/reservation.router.js"))
+app.use("/api/comment", require("./app_2/routers/comment.router.js"))
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join(__dirname, 'public/index.html'))
 // })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
-    console.log(`Sever is running on port ${PORT}.`);
+    console.log(`Sever is running on port ${PORT}.`)
 })
 
 
 const db = require("./app_2/models")
-db.sequelize.sync({ force: true });
+db.sequelize.sync({ force: true })
 //db.sequelize.sync();
 //db.sequelize.sync({ alter: true });
 

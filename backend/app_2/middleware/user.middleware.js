@@ -117,8 +117,6 @@ exports.login = async (req, res) => {
 
 // authentication JWT
 exports.authenticateJWT = async (req, res, next) => {
-    console.log(21341242134)
-    console.log(req)
     // lay token tu header
     const authHeader = req.header('Authorization')
     // cat chuoi "bearer" ra chi lay token
@@ -141,7 +139,6 @@ exports.authenticateJWT = async (req, res, next) => {
             dataAccount = await controllers.FindManyData(User, condition)
         } else {
             condition.owner_id = decodeToken.owner_id
-            console.log()
             dataAccount = await controllers.FindManyData(Owner, condition)
         }
         if (dataAccount.length === 0 || dataAccount.code === -2) {
@@ -149,18 +146,15 @@ exports.authenticateJWT = async (req, res, next) => {
         } else {
             req.bookingHub_account_info = dataAccount[0].dataValues
             req.bookingHub_account_isOwner = decodeToken.isOwner
-            console.log("next 534t2856234856")
             next()
         }
     }
     catch (err) {
-        console.log(3425)
         return res.status(401).send({ message: "Unable to verify token!", err })
     }
 }
 
 exports.sendUserInfo = async (req, res) => {
-    console.log(req)
     // req.bookingHub_user_infor lay tu middleware authenticateJWT
     const accountData = req.bookingHub_account_info
 
