@@ -7,6 +7,7 @@ import {
   LOGIN_URL,
   REGISTER_URL,
   RESET_PASSWORD_URL,
+  FORGOT_PASSWORD_URL,
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -89,6 +90,20 @@ export const resetPassword = async (data, tokenStr) => {
     .catch((err) => {
       console.log("ERROR: ====", err)
       return err.response.data.Message
+    })
+
+  return response
+}
+
+export const forgotPassword = async (data) => {
+  const response = axios
+    .put(FORGOT_PASSWORD_URL, data)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err
     })
 
   return response

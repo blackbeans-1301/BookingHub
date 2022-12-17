@@ -20,6 +20,8 @@ export const UPDATE_USER_INFOR_URL = `${DOMAIN_URL}/user/updateUser`
 
 export const RESET_PASSWORD_URL = `${DOMAIN_URL}/user/resetPassword`
 
+export const FORGOT_PASSWORD_URL = `${DOMAIN_URL}/user/forgetPassword`
+
 // API for register with Google-------------------------------------
 
 export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`

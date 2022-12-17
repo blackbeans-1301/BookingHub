@@ -7,7 +7,7 @@ import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI, getUserInfor } from "../../apis/userApi"
+import { loginAPI, getInformation, registerAPI, getUserInfor, forgotPassword } from "../../apis/userApi"
 import { toast } from "react-toastify"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../../store/atoms/userState"
@@ -53,12 +53,12 @@ const forgotPassValidationSchema = yup.object({
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
-  password: yup.string().required("Enter your password"),
 })
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
-  // const setToken = useSetRecoilState(tokenState)
+  const [recoverEmail, setRecoverEmail] = useState()
+  // const setToken = ,useSetRecoilState(tokenState)
   // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
@@ -69,11 +69,8 @@ export default function Login({ isVisible, isClose }) {
   const handleLogin = (values) => {
     const getToken = async (postData) => {
       const response = await loginAPI(postData)
-      console.log("response", response)
-      console.log("type", typeof response)
       const type = typeof response
       if (type === "object") {
-        // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
         console.log('token', getLSItem('token'))
         toast.success("Login successfully")
@@ -82,27 +79,6 @@ export default function Login({ isVisible, isClose }) {
         console.log("login failed")
         toast.error(response)
       }
-
-      // if (response.includes("Email")) {
-      //   console.log("invalid password or email");
-      //   toast.error("Login failed");
-      // } else {
-
-      // }
-
-      // if (response?.UserLogin) {
-      //   setToken({
-      //     id: response.UserLogin.Id,
-      //     token: response.Token,
-      //     refreshToken: response.RefreshToken,
-      //     role: response.UserLogin.Role,
-      //   });
-      //   toast.success("Login successfully");
-      //   setUser(response.UserLogin);
-      // } else {
-      //   toast.error("Login failed");
-      // }
-
       setIsLoading(false)
     }
 
@@ -123,7 +99,6 @@ export default function Login({ isVisible, isClose }) {
     },
     validationSchema: loginValidationSchema,
     onSubmit: (values) => {
-      // console.log("value" + values);
       handleLogin(values)
     },
   })
@@ -180,15 +155,20 @@ export default function Login({ isVisible, isClose }) {
 
   const forgotPassFormik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: ""
     },
     validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
-      // console.log("value" + values);
-      handleLogin(values)
+      setRecoverEmail(values.email)
+      sendEmail()
     },
   })
+
+  const sendEmail = async () => {
+    console.log(recoverEmail)
+    const response = await forgotPassword({ email: recoverEmail, isOwner: 0 })
+    console.log(response)
+  }
 
   if (!isVisible) return null
 
@@ -198,82 +178,6 @@ export default function Login({ isVisible, isClose }) {
         <ToastMessage />
         {/* sign in modal */}
         {active === "signin" && (
-          // <form className="bg-white p-2 rounded flex flex-col m-2"
-          // // onSubmit={this.handleSignIn}
-          // >
-          //   <div className="flex justify-between m-2">
-          //     <h2 className="font-bold text-xl text-colorText">Sign in</h2>
-          //     <button
-          //       className="text-light-close text-xl place-self-end hover:text-close-color"
-          //       onClick={() => isClose()}
-          //     >
-          //       <CancelIcon />
-          //     </button>
-          //   </div>
-
-          //   <div>
-          //     <div className="p-2 mb-4">
-          //       <label className="text-colorText">Username</label>
-          //       <input
-          //         className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-          //         type="username"
-          //         name="username"
-          //         onChange={(e) => {
-          //           setUsernameLogin(e.target.value);
-          //         }}
-          //       />
-          //       <p className="text-red-500 hidden">Wrong username</p>
-          //     </div>
-
-          //     <div className="p-2 mb-4">
-          //       <label className="text-colorText">Password</label>
-          //       <input
-          //         className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-          //         type="password"
-          //         name="password"
-          //         onChange={(e) => {
-          //           setPasswordLogin(e.target.value);
-          //         }}
-          //       />
-          //       <p className="text-red-500 hidden">Wrong password</p>
-          //     </div>
-
-          //     <div className="p-2 mb-4 flex justify-between">
-          //       <div>
-          //         <input className="mr-2" type="checkbox" id="remember" />
-          //         <label className="text-colorText" for="remember">
-          //           Remember me
-          //         </label>
-          //       </div>
-
-          //       <span
-          //         className="font-bold text-light-primary hover:text-primary"
-          //         onClick={() => setActive("forgot")}
-          //       >
-          //         Forgot password ?
-          //       </span>
-          //     </div>
-          //   </div>
-          //   <button
-          //     type="submit"
-          //     className="font-bold text-lg mb-4 pl-4 pr-4 bg-light-primary w-full text-colorText py-2 rounded-full hover:bg-primary hover:text-white"
-          //     onClick={login}
-          //   >
-          //     Login
-          //   </button>
-
-          //   <div className="mb-4 flex justify-center">
-          //     <span>You don't have account ? </span>
-          //     <span
-          //       className="font-bold text-light-primary hover:text-primary"
-          //       onClick={() => setActive("signup")}
-          //     >
-          //       {" "}
-          //       Sign up
-          //     </span>
-          //   </div>
-          // </form>
-
           <div className="bg-white p-2 rounded flex flex-col m-2">
             <div className="flex justify-between m-2">
               <h2 className="font-bold text-3xl text-colorText">Sign in</h2>
