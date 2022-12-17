@@ -1,7 +1,7 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "123",
+    PASSWORD: "huydinhvo6886",
     DB: "bookinghub",
     dialect: "mysql",
     timezone: "Asia/Ho_Chi_Minh",

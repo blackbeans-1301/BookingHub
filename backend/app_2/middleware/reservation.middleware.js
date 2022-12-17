@@ -158,6 +158,11 @@ exports.isCheckIn = async (req, res, next) => {
     if (dataReservation.code === -2) {
         return res.status(400).send({message: "Can't find reservation", err: dataReservation.err})
     }
+
+    let now = new Date();
+    if (new Date(dataReservation.date_in) > now) {
+        return res.status(400).send({message: "It's not time to check in yet"})
+    }
     if (dataReservation.status !== "waiting" ) {
         return res.status(400).send({message: "Reservation already be checked in or canceled"})
     } 
