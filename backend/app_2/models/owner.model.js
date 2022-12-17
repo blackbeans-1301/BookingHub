@@ -43,6 +43,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             defaultValue: null
+        },
+        resetCode: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            defaultValue: null
+        },
+        timeOfResetCode: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            defaultValue: null
         }
     });
     Owner.associate = function (models) {

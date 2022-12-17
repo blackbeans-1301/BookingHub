@@ -9,7 +9,7 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     function (req, res) {
-        
+        res.send(req.user)
     });
 
 // register an user account:
@@ -35,15 +35,13 @@ router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
 
 // Get user's reservations
 router.get('/userReservations', userMiddleware.authenticateJWT, userMiddleware.userReservations);
+
+// forget password
+router.put('/forgetPassword', userMiddleware.sendEmail);
+
+// reset password by code forget
+router.put('/resetPasswordByCode', userMiddleware.resetPasswordByCode);
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 
-// get user's favorite
-router.put('/addFavorite', userMiddleware.authenticateJWT, userMiddleware.addFavorite)
-
-// delete user's favorite
-router.put('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.delFavorite)
-
-// get favorite
-router.put('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
 module.exports = router
