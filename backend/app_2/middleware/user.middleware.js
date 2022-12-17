@@ -4,7 +4,6 @@ const db = require("../models/index.js")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
-
 const Room = db.room
 const Image = db.image
 const Hotel = db.hotel

@@ -55,6 +55,8 @@ import {
   ViewCriteria,
   LanguageCriteria,
 } from "../../../assets/data/RoomCriteriaData"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
+
 
 const validationSchema = yup.object({
   hotel: yup
@@ -94,11 +96,7 @@ export default function CreateRoom() {
   const [images, setImages] = useState([])
 
   let imagesURLs = []
-
-  let ownerToken = ""
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser)
-  //   ownerToken = localStorage.getItem("token")
+  const ownerToken = getLSItem("token")
   //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken)
@@ -153,17 +151,11 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   window.location = `http://localhost:8000/owner/ListRoomPage`
-    // window.location = `http://localhost:8000/owner/${test}`;
+    redirect(`${process.env.API_URL}/owner/ListRoomPage`)
   }
 
   const handleGetRoomInfor = (values) => {
-    let token
-    // const isBrowser = typeof window !== "undefined" && window
-    // if (isBrowser)
-    //   token = localStorage.getItem("token")
+    const token = getLSItem("token")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createRoomApi(postData, token)

@@ -3,6 +3,7 @@ import textLogo from "../../../assets/images/text-logo.png"
 import Login from "../../Items/Login"
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import UndoIcon from "@material-ui/icons/Undo"
+import { redirect } from "../../../utils"
 
 export default function PlacePageHeader() {
   const [showModal, setShowModal] = useState(false)
@@ -15,10 +16,7 @@ export default function PlacePageHeader() {
           <div className="">
             <button
               className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
-              onClick={() => {
-                // const isBrowser = typeof window !== "undefined" && window
-                // if (isBrowser) window.location = "http://localhost:8000/"
-              }}
+              onClick={() => { redirect(`${process.env.API_URL}`) }}
             >
               <UndoIcon /> Return to main page
             </button>

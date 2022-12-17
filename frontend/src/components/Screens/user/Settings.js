@@ -9,6 +9,8 @@ import { toast } from "react-toastify"
 import { LoadingButton } from "@mui/lab"
 import { useState } from "react"
 import ToastMessage from "../../Items/ToastMessage"
+import { getLSItem, setLSItem } from "../../../utils"
+
 
 const validationSchema = yup.object({
   password: yup.string().required("Enter your password"),
@@ -17,10 +19,8 @@ const validationSchema = yup.object({
 
 export default function Settings() {
   const [isLoading, setIsLoading] = useState(false)
-  let token
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser)
-  //   token = localStorage.getItem("token")
+
+  const token = getLSItem("token")
   // console.log('token', token)
   const handleChangePassword = (values) => {
     const getToken = async (postData) => {
