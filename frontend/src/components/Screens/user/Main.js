@@ -1,6 +1,4 @@
 import React, { Fragment, useState } from "react";
-// import Header from "../Layouts/LayoutComponent/Header";
-// import Footer from "./Footer";
 import LocalHotelIcon from "@material-ui/icons/LocalHotel";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import Flatpickr from "react-flatpickr";
@@ -10,11 +8,6 @@ import SearchIcon from "@material-ui/icons/Search";
 import Carousel from "react-elastic-carousel";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import "slick-carousel/slick/slick.css";
-
-// import { Component } from "react";
-// import Slider from "react-slick";
-// import { favoriteHotels } from "../Layouts/data";
 import Slider from "../../Items/Slider";
 import dataSlider from "../../Layouts/dataSlider";
 import CarouselItem from "../../Items/CarouselItem";
@@ -119,9 +112,6 @@ export default function Main() {
   }
 
   return (
-    // <Fragment>
-    //   <div className="flex-1 h-screen absolute right-0">
-    //     <Header />
     <div className="w-full">
       <div className="m-4">
         <div className="font-bold text-xl m-4 mb-4 text-colorText">
@@ -302,9 +292,5 @@ export default function Main() {
         </Carousel>
       </div> */}
     </div>
-    //     <Footer />
-    //   </div>
-    //   {/* <Footer /> */}
-    // </Fragment>
   );
 }
