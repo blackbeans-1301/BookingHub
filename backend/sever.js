@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const path = require('path')
 const cors = require("cors")
 const app = express()
-const dotenv = require('dotenv').config()
 
 var corsOptions = {
     origin: "*",
@@ -25,9 +24,14 @@ app.use("/api/user", require("./app_2/routers/user.router.js"))
 app.use("/api/hotel", require("./app_2/routers/hotel.router.js"))
 app.use("/api/room", require('./app_2/routers/room.router.js'))
 app.use("/api/reservation", require("./app_2/routers/reservation.router.js"))
+app.use("/api/comment", require("./app_2/routers/comment.router.js"))
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'public/index.html'))
 })
+
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'public/index.html'))
+// })
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
@@ -36,7 +40,7 @@ app.listen(PORT, () => {
 
 
 const db = require("./app_2/models")
-//db.sequelize.sync({ force: true });
-db.sequelize.sync();
+db.sequelize.sync({ force: true })
+//db.sequelize.sync();
 //db.sequelize.sync({ alter: true });
 

@@ -35,12 +35,25 @@ exports.checkInfoReservation = async (req, res, next) => {
         return res.status(400).send({ message: "date_in can't be greater than date_out" })
     }
 
-    // check room da bi dat trong ngay date_in -> date_out chua
+    // reservation info 
     let condition1 = {
         room_id: {
             [Op.or]: req.body.room_id
         }
     }
+    // check cac room duoc dat co cung 1 hotel hay k
+    let data = await controllers.FindManyData(Room, condition1)
+    if (data.code === -2) {
+        return res.status(400).send({ message: "Can't find room", err: data.err })
+    }
+
+    for (var i = 1; i < data.length; i++) {
+        if (data[i].dataValues.hotel_id !== data[i - 1].dataValues.hotel_id) {
+            return res.status(400).send({ message: "Rooms aren't in the same hotel" })
+        }
+    }
+
+    // check room da bi dat trong ngay date_in -> date_out chua    
     let condition2 = {
         status: {
             [Op.or]: ['located', 'waiting']
@@ -72,6 +85,10 @@ exports.createReservation = async (req, res) => {
 
     let valueReservation = {
         user_id: accountData.user_id,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        description: req.body.description,
         date_in: req.body.date_in,
         date_out: req.body.date_out,
         number_of_rooms: req.body.room_id.length
@@ -128,9 +145,18 @@ exports.isBelongToUser = async (req, res, next) => {
     }
 
     let condition = {
-        reservation_id: req.body.reservation_id,
         user_id: accountData.user_id
     }
+
+    if (req.body.reservation_id === undefined) {
+        if (req.params.reservation_id === undefined) {
+            return res.status(400).send({ message: "Missing reservation_id field" })
+        }
+        condition.reservation_id = req.params.reservation_id
+    } else {
+        condition.reservation_id = req.body.reservation_id
+    }
+
     let result = await reservationControllers.isBelongToUser(Reservation, condition)
     if (result.code === -1 || result.code === -2) {
         return res.status(400).send({ message: "Reservation isn't belong to current user" })
@@ -151,6 +177,11 @@ exports.isCheckIn = async (req, res, next) => {
     }
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "Can't find reservation", err: dataReservation.err })
+    }
+
+    let now = new Date()
+    if (new Date(dataReservation.date_in) > now) {
+        return res.status(400).send({ message: "It's not time to check in yet" })
     }
     if (dataReservation.status !== "waiting") {
         return res.status(400).send({ message: "Reservation already be checked in or canceled" })

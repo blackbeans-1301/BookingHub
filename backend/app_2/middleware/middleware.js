@@ -12,6 +12,7 @@ const Occupied_room = db.occupied_room;
 const controllers = require("../controllers/controller.js"); 
 
 exports.UpdateDatabase = async (req, res, next) => {
+    // update status cua reservation
     let value1 = {
         status: "canceled"
     }
@@ -35,6 +36,23 @@ exports.UpdateDatabase = async (req, res, next) => {
         }
     }
     await controllers.UpdateData(Reservation, value2, condition2)
+
+    // update resetCode
+    let value3 = {
+        resetCode: null,
+        timeOfResetCode: null
+    }
+    let difference2 = new Date(Date.now() - (60*5*1000));
+    let condition3 = {
+        resetCode: {
+            [Op.ne]: null
+        },
+        timeOfResetCode: {
+            [Op.lte]: difference2
+        }
+    }
+    await controllers.UpdateData(User, value3, condition3)
+    await controllers.UpdateData(Owner, value3, condition3)
     next()
 }
 

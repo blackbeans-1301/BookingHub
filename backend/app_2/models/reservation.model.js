@@ -36,7 +36,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             defaultValue: 'waiting',
             allowNull: false,            
-        }
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        phone: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
     });
     Reservation.associate = function (models) {
         Reservation.belongsTo(models.user, {
@@ -48,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
             through: models.occupied_room,
             foreignKey: 'reservation_id'
         });
+        Reservation.hasOne(models.comment, {
+            foreignKey: 'reservation_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
     }
     return Reservation;
 };

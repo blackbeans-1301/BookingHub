@@ -30,7 +30,7 @@ exports.createHotel = async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
         criteria: req.body.criteria
     }
     let hotelData = await controllers.CreateData(Hotel, value)
@@ -100,7 +100,7 @@ exports.updateHotel = async (req, res) => {
         criteria: req.body.criteria,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
     }
     let condition1 = {
         owner_id: accountData.owner_id,
@@ -139,7 +139,7 @@ exports.updateHotel = async (req, res) => {
 
 exports.hotelByAddress = async (req, res) => {
     let condition = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
     let hotelData = await controllers.FindManyData(Hotel, condition)
     if (hotelData.code === -2) {
@@ -190,7 +190,7 @@ exports.hotelReservations = async (req, res) => {
 
 exports.getHotelByCriteria = async (req, res) => {
     let condition1 = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
     let condition2 = {
         status: {

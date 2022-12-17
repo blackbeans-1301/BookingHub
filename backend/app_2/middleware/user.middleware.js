@@ -3,6 +3,7 @@ require('dotenv').config()
 const db = require("../models/index.js")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const nodemailer = require('nodemailer')
 const Room = db.room
 const Image = db.image
 const Hotel = db.hotel
@@ -12,6 +13,7 @@ const Reservation = db.reservation
 const Occupied_room = db.occupied_room
 
 const controllers = require("../controllers/controller.js")
+const userControllers = require("../controllers/user.controller.js");
 
 // Dang ky account
 exports.register = async (req, res) => {
@@ -289,11 +291,107 @@ exports.userReservations = async (req, res) => {
     }
     let condition = {
         user_id: accountData.user_id,
-        status: "waiting"
+        status: {
+            [Op.or]: ['located', 'waiting']
+        }, 
     }
     let dataReservation = await controllers.FindManyData(Reservation, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
     return res.status(200).send(dataReservation)
+}
+
+// forget password
+exports.sendEmail = async (req, res) => {
+    // create code
+    const newCode = userControllers.GetCodeForgotten();
+    let condition = {
+        email: req.body.email
+    }
+    let value = {
+        resetCode: newCode,
+        timeOfResetCode: new Date()
+    }
+    // update code to Database
+    let resultUpdate;
+    if (req.body.isOwner === undefined) {
+        return res.status(400).send({message: "Missing isOwner field"})
+    }
+    if (parseInt(req.body.isOwner)) {
+        resultDelete = await controllers.UpdateData(Owner, value, condition)
+    } else {
+        resultUpdate = await controllers.UpdateData(User, value, condition);
+    }
+    if (resultUpdate.code === -1) {
+        return res.status(400).send({message: "Wrong email"})
+    }
+    if (resultUpdate.code === -2) {
+        return res.status(400).send({message: "Wrong email", err: resultUpdate.err})
+    }
+
+    // send code to gmail
+    let resultSendEmail = userControllers.SendEmail(req.body.email, newCode);
+    if (resultSendEmail.code === -2) {
+        return res.status(400).send({message: "Unable to send code to email", err: resultSendEmail.err})
+    }
+
+    return res.status(200).send({message: "Send code to email successfully"});
+}
+
+exports.resetPasswordByCode = async (req, res) => {
+    // kiem tra input
+    if (req.body.code === undefined || req.body.code === null 
+        || req.body.code.length !== 6) {
+        return res.status(400).send({message: "Wrong code"});
+    }
+    if (req.body.isOwner === undefined) {
+        return res.status(400).send({message: "Missing isOwner field"})
+    }
+
+    // tim user
+    let dataAccount;
+    let condition = {
+        email: req.body.email
+    }
+    if (parseInt(req.body.isOwner)) {
+        dataAccount = await controllers.FindOneData(Owner, condition)
+    } else {
+        dataAccount = await controllers.FindOneData(User, condition)
+    }
+    if (dataAccount.code === -1) {
+        return res.status(400).send({ message: "Wrong email"})
+    }
+    if (dataAccount.code === -2) {
+        return res.status(400).send({ message: "Wrong email", err: dataAccount.err })
+    }
+
+    // kiem tra code dung khong
+    if (req.body.code !== dataAccount.resetCode) {
+        return res.status(400).send({ message: "Wrong code"})
+    }
+
+    // tao mat khau moi
+    let salt = bcrypt.genSaltSync(10)
+    let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt)
+
+    // xoa code trong database va reset mat khau
+    let value = {
+        password: newPasswordHash,
+        resetCode: null,
+        timeOfResetCode: null
+    }
+    let resultUpdate;
+    if (parseInt(req.body.isOwner)) {
+        resultDelete = await controllers.UpdateData(Owner, value, condition)
+    } else {
+        resultDelete = await controllers.UpdateData(User, value, condition)
+    }
+    if (resultDelete.code === -1) {
+        return res.status(400).send({message: "Wrong email"})
+    }
+    if (resultDelete.code === -2) {
+        return res.status(400).send({message: "Unable to reset password", err: resultDelete.err})
+    }
+    return res.status(200).send({message: "Reset password successfully"})
 }
