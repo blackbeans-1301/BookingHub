@@ -1,4 +1,5 @@
 const { Op } = require("sequelize");
+const { sequelize } = require("../models");
 
 exports.GetHotelRoomList = (roomModel, imageModel, hotelModel, condition) => {
     return roomModel.findAll({
@@ -57,6 +58,15 @@ exports.GetRoomCriteria = (roomModel, reservationModel, condition1, condition2) 
         ]
     }).then(data => {
         return data;
+    }).catch(err => {
+        return {code: -2, err: err.message}
+    })
+}
+
+exports.GetMinPrice = (roomModel, condition) => {
+    return roomModel.findAll({
+        attributes: [[sequelize.fn('min', sequelize.col('price')), 'minPrice']],
+        where: condition
     }).catch(err => {
         return {code: -2, err: err.message}
     })

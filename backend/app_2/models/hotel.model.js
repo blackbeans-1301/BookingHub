@@ -37,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
         province: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        startPrice: {
+            type: DataTypes.FLOAT,
+            defaultValue: 0,
+            allowNull: false
         }
     });
     Hotel.associate = function (models) {
@@ -58,7 +63,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'hotel_id',
             onDelete: "RESTRICT",
             onUpdate: "CASCADE"
-        })
+        });
+        Hotel.belongsToMany(models.user, { 
+            through: models.favorite,
+            foreignKey: 'hotel_id'
+        });
     }
     return Hotel;
 };

@@ -38,6 +38,29 @@ exports.createRoom = async (req, res) => {
     if (roomData.code === -2) {
         return res.status(400).send({ message: "Unable to create room", err: roomData.err })
     }
+    
+    // update start price
+    // lay min price
+    let condition2 = {
+        hotel_id: req.body.hotel.hotel_id
+    }
+    let dataMinPrice = await roomControllers.GetMinPrice(Room, condition2);
+    if (dataMinPrice.code === -2) {
+        return res.status(400).send({message: "Unable to get min price", err: dataMinPrice.err})
+    } 
+    let startPrice = dataMinPrice[0].dataValues.minPrice;
+    
+    // update lai startPrice cua hotel
+    let value2 = {
+        startPrice: startPrice
+    }
+    let resultUpdateStartPrice = await controllers.UpdateData(Hotel, value2, condition2);
+    if (resultUpdateStartPrice.code === -1) {
+        return res.status(400).send({message: "Unable to update startPrice "})
+    }
+    if (resultUpdateStartPrice.code === -2) {
+        return res.status(400).send({message: "Unable to update startPrice ", err: resultUpdateStartPrice.err})
+    }
 
     // neu khong ton tai image thi tra ve data
     if (req.body.imgURL === undefined) {
@@ -92,6 +115,7 @@ exports.getRoomInfo = async (req, res) => {
 
 // UPDATE ROOM
 exports.updateRoom = async (req, res) => {
+    // cap nhat data
     let value1 = {
         room_name: req.body.room_name,
         criteria: req.body.criteria,
@@ -113,13 +137,38 @@ exports.updateRoom = async (req, res) => {
         return res.status(400).send({ message: "Unable to update room", err: resultRoom.err })
     }
 
+    // update start price
+    // lay min price
+    let condition2 = {
+        hotel_id: req.body.hotel.hotel_id
+    }
+    let dataMinPrice = await roomControllers.GetMinPrice(Room, condition2);
+    if (dataMinPrice.code === -2) {
+        return res.status(400).send({message: "Unable to get min price", err: dataMinPrice.err})
+    } 
+    let startPrice = dataMinPrice[0].dataValues.minPrice;
+    
+    // update lai startPrice cua hotel
+    let value2 = {
+        startPrice: startPrice
+    }
+    let resultUpdateStartPrice = await controllers.UpdateData(Hotel, value2, condition2);
+    if (resultUpdateStartPrice.code === -1) {
+        return res.status(400).send({message: "Unable to update startPrice "})
+    }
+    if (resultUpdateStartPrice.code === -2) {
+        return res.status(400).send({message: "Unable to update startPrice ", err: resultUpdateStartPrice.err})
+    }
+    // kiem tra neu img undefined
     if (req.body.imgURL === undefined) {
         return res.status(200).send({ message: "Update successful" });
     }
 
-    let condition2 = { room_id: req.body.room_id }
-    let removeImage = await controllers.DeleteData(Image, condition2)
+    // xoa anh cu
+    let condition3 = { room_id: req.body.room_id }
+    let removeImage = await controllers.DeleteData(Image, condition3)
 
+    // update anh moi
     let imgData = [];
     for (let i = 0; i < req.body.imgURL.length; i++) {
         imgData.push({
@@ -137,6 +186,9 @@ exports.updateRoom = async (req, res) => {
 }
 
 exports.getRoomByCriteria = async (req, res) => {
+    if ( req.body.date_in === undefined || req.body.date_out === undefined) {
+            return res.status(400).send({ message: "Unable to get rooms (missing field)"})
+        }
     let condition1 = {
         hotel_id: req.body.hotel_id
     }
