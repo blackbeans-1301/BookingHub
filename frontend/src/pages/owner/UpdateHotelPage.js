@@ -6,7 +6,7 @@ import UpdateHotel from "../../components/Screens/owner/UpdateHotel"
 const UpdateHotelPage = () => {
   return (
     <OwnerLayout>
-      {/* <UpdateHotel /> */}
+      <UpdateHotel />
     </OwnerLayout>
   )
 }

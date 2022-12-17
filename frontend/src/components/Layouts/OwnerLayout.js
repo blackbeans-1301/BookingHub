@@ -5,12 +5,11 @@ import Navigation from "./LayoutComponent/Navigation"
 import Footer from "./LayoutComponent/Footer"
 import OwnerHeader from "./LayoutComponent/OwnerHeader"
 import PlacePageHeader from "./LayoutComponent/PlacePageHeader"
+import { getLSItem, setLSItem } from "../../utils"
 
 export default function OwnerLayout({ children }) {
-  let login
-  // const isBrowser = typeof window !== "undefined" && window
-  // if (isBrowser)
-  //   login = localStorage.getItem("token")
+  const login = getLSItem("token")
+  console.log("login", login)
 
   return (
     <div className="flex">

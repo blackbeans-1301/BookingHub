@@ -6,13 +6,10 @@ import Login from "../../Items/Login"
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import DescriptionIcon from "@material-ui/icons/Description"
+import { redirect } from "../../../utils"
 
 export default function Header() {
   const [showModal, setShowModal] = useState(false)
-  // const showPosition = (position) => {
-  //   console.log(position)
-  // }
-  // navigator.geolocation.getCurrentPosition(showPosition)
 
   return (
     <Fragment>
@@ -20,18 +17,19 @@ export default function Header() {
         <div className="flex justify-between items-center w-full h-full">
           <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
           <div className="flex">
-            {/* <button
-              className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
-              onClick={() =>
-                (window.location = "http://localhost:8000/user/ProfilePage")
+
+            <button
+              className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
+              onClick={() => {
+                console.log(process.env.API_URL)
+                redirect(`${process.env.API_URL}/owner/main`)
+              }
               }
             >
-              <img
-                className="w-7 h-7 rounded-full mr-2"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPyGNr2qL63Sfugk2Z1-KBEwMGOfycBribew&usqp=CAU"
-              />
-              <span className="hidden lg:flex">Profile</span>
-            </button> */}
+              <DescriptionIcon />
+              <span className="hidden lg:inline">List your place</span>
+
+            </button>
 
             <button
               className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"

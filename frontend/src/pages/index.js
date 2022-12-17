@@ -7,8 +7,6 @@ import Navigation from "../components/Layouts/LayoutComponent/Navigation"
 import Main from "../components/Screens/user/Main"
 
 const IndexPage = () => {
-
-
   return (
     <Layout>
       <Main />
