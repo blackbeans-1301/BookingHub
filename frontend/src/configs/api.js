@@ -40,6 +40,8 @@ export const GET_HOTEL_BY_ID_URL = `${DOMAIN_URL}/hotel`
 
 export const UPDATE_HOTEL_URL = `${DOMAIN_URL}/hotel/update`
 
+export const SEARCH_HOTEL_BY_CRITERIA_URL = `${DOMAIN_URL}/hotel/hotelCriteria`
+
 // API for room------------------------------------------------
 
 export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`
