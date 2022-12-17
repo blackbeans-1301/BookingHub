@@ -53,6 +53,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         })
+        Reservation.hasOne(models.bill, {
+            foreignKey: 'reservation_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
     }
     return Reservation;
 };

@@ -25,6 +25,7 @@ app.use("/hotel", require("./app_2/routers/hotel.router.js"))
 app.use("/room", require('./app_2/routers/room.router.js'))
 app.use("/reservation", require("./app_2/routers/reservation.router.js"))
 app.use("/comment", require("./app_2/routers/comment.router.js"))
+app.use("/bill", require("./app_2/routers/bill.router.js"))
 
 // app.get('/', function (req, res) {
 //     res.sendFile(path.join(__dirname, 'public/index.html'))
