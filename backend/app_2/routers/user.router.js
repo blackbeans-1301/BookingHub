@@ -41,6 +41,15 @@ router.put('/forgetPassword', userMiddleware.sendEmail);
 
 // reset password by code forget
 router.put('/resetPasswordByCode', userMiddleware.resetPasswordByCode);
+
+// create user's favorite
+router.post('/addFavorite', userMiddleware.authenticateJWT, userMiddleware.addFavorite)
+
+// delete user's favorite
+router.delete('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.delFavorite)
+
+// get favorite
+router.get('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 

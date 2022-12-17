@@ -11,6 +11,7 @@ const User = db.user
 const Owner = db.owner
 const Reservation = db.reservation
 const Occupied_room = db.occupied_room
+const Favorite = db.favorite
 
 const controllers = require("../controllers/controller.js")
 const userControllers = require("../controllers/user.controller.js");
@@ -263,7 +264,6 @@ exports.resetPassword = async (req, res) => {
     let salt = bcrypt.genSaltSync(10)
     let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt)
 
-    let result
     let value = {
         password: newPasswordHash
     }
@@ -394,4 +394,64 @@ exports.resetPasswordByCode = async (req, res) => {
         return res.status(400).send({message: "Unable to reset password", err: resultDelete.err})
     }
     return res.status(200).send({message: "Reset password successfully"})
+}
+
+exports.addFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't add favorite"})
+    }
+    const value = {
+        user_id: accountData.user_id,
+        hotel_id: req.body.hotel_id
+    }
+
+    let favoriteData = await controllers.CreateData(Favorite, value);
+    if (favoriteData.code === -2) {
+        return res.status(400).send({message: "Unable to create Favorite", err: favoriteData.err})
+    } 
+    delete favoriteData.user_id;
+    return res.status(200).send(favoriteData);
+}
+
+exports.delFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't delete favorite"})
+    }
+
+    let condition = {
+        user_id: accountData.user_id,
+        hotel_id: req.body.hotel_id
+    }
+    let resultDelete = await controllers.DeleteData(Favorite, condition);
+    if (resultDelete.code === -2) {
+        return res.status(400).send({message: "Unable to delete hotel", err: resultDelete.err})
+    }
+    if (!resultDelete) {
+        return res.status(400).send({message: "Unable to delete hotel"})
+    }
+    return res.status(200).send({message: "Delete favorite successfully"}) 
+}
+
+exports.getFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't get favorite list"})
+    }
+    let condition = {
+        user_id: accountData.user_id
+    }
+    let hotelData = await userControllers.GetFavoriteList(User, Hotel, Image, condition);
+    if (hotelData.code === -2) {
+        return res.status(400).send({message: "Unable to delete hotel", err: hotelData.err})
+    }
+    
+    return res.status(200).send(hotelData.Hotels) 
 }

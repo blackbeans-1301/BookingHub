@@ -186,6 +186,9 @@ exports.updateRoom = async (req, res) => {
 }
 
 exports.getRoomByCriteria = async (req, res) => {
+    if ( req.body.date_in === undefined || req.body.date_out === undefined) {
+            return res.status(400).send({ message: "Unable to get rooms (missing field)"})
+        }
     let condition1 = {
         hotel_id: req.body.hotel_id
     }

@@ -26,13 +26,17 @@ exports.createHotel = async (req, res) => {
         return res.status(400).send({ message: "Unable to create hotel (is not owner)" })
     }
 
+    // kiem tra province
+    if (req.body.province === undefined) {
+        return res.status(400).send({ message: "Missing province field" })
+    }
     // tao hotel 
     let value = {
         owner_id: accountData.owner_id,
         name: req.body.name,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
         criteria: req.body.criteria
     }
     let hotelData = await controllers.CreateData(Hotel, value)
@@ -65,7 +69,6 @@ exports.createHotel = async (req, res) => {
 }
 
 exports.getOwnerHotels = async (req, res) => {
-    console.log(req)
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
     if (!isOwner) {
@@ -103,7 +106,7 @@ exports.updateHotel = async (req, res) => {
         criteria: req.body.criteria,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
     }
     let condition1 = {
         owner_id: accountData.owner_id,
@@ -142,7 +145,7 @@ exports.updateHotel = async (req, res) => {
 
 exports.hotelByAddress = async (req, res) => {
     let condition = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
     let hotelData = await controllers.FindManyData(Hotel, condition)
     if (hotelData.code === -2) {
@@ -192,8 +195,12 @@ exports.hotelReservations = async (req, res) => {
 }
 
 exports.getHotelByCriteria = async (req, res) => {
+    if (req.body.province === undefined || req.body.date_in === undefined 
+        || req.body.date_out === undefined || req.body.number_of_guest === undefined || req.body.number_of_room === undefined) {
+            return res.status(400).send({ message: "Unable to get hotel (missing field)"})
+        }
     let condition1 = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
     let condition2 = {
         status: {
@@ -235,7 +242,6 @@ exports.getHotelByCriteria = async (req, res) => {
             h--
         }
     }
-
     return res.status(200).send(data)
 
 }

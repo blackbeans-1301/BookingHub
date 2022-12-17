@@ -33,3 +33,21 @@ exports.SendEmail = (email, code) => {
     })
     return {code: 1}
 }
+
+exports.GetFavoriteList = (userModel, hotelModel, imageModel, condition) => {
+    return userModel.findOne({
+        where: condition,
+        exclude: ['user_id'],
+        include: [{
+            model: hotelModel,
+            include: [{
+                model: imageModel,
+                exclude: ['hotel_id']
+            }]
+        }]
+    }).then(data => {
+        return data.dataValues;
+    }).catch(err => {
+        return {code: -2, err: err.message}
+    })
+}
