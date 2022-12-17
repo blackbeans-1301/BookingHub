@@ -1,19 +1,19 @@
-import React, { Fragment } from "react";
-import { useState, useEffect } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
-import axios, { Axios } from "axios";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
-import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
+import React, { Fragment } from "react"
+import { useState, useEffect } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
+import axios, { Axios } from "axios"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
 
 export default function CreateTripModal({ isVisible, isClose }) {
-  const [usernameLogin, setUsernameLogin] = useState("");
-  const [passwordLogin, setPasswordLogin] = useState("");
-  const [arriveDay, setArriveDay] = useState(new Date());
-  const [leaveDay, setLeaveDay] = useState(new Date());
+  const [usernameLogin, setUsernameLogin] = useState("")
+  const [passwordLogin, setPasswordLogin] = useState("")
+  const [arriveDay, setArriveDay] = useState(new Date())
+  const [leaveDay, setLeaveDay] = useState(new Date())
 
-  const { arrive } = arriveDay;
-  const { leave } = leaveDay;
+  const { arrive } = arriveDay
+  const { leave } = leaveDay
 
   // useEffect(() => {
   //   axios({
@@ -21,20 +21,20 @@ export default function CreateTripModal({ isVisible, isClose }) {
   //     url: "http://localhost:8080/login",
   //   }).then((response) => {
   //     console.log("response", response);
-  //     if (response.data.loggedIn == true) {
+  //     if (response.data.loggedIn === true) {
   //       setLoginStatus(response.data.user[0].username);
   //     }
   //   });
   // }, []);
 
-  const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [fullname, setFullname] = useState("")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({})
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
 
   // function submit sign in btn
   // const login = () => {
@@ -58,7 +58,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
 
   // function submit sign up btn
   const signUpFunc = () => {
-    console.log("register");
+    console.log("register")
 
     axios({
       method: "post",
@@ -69,8 +69,8 @@ export default function CreateTripModal({ isVisible, isClose }) {
         email: email,
         password: password,
       },
-    }).then((res) => console.log("res", res));
-  };
+    }).then((res) => console.log("res", res))
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -94,7 +94,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
                 type="username"
                 name="username"
                 onChange={(e) => {
-                  setUsernameLogin(e.target.value);
+                  setUsernameLogin(e.target.value)
                 }}
               />
               <p className="text-red-500 hidden">Wrong username</p>
@@ -107,7 +107,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
                 type="password"
                 name="password"
                 onChange={(e) => {
-                  setPasswordLogin(e.target.value);
+                  setPasswordLogin(e.target.value)
                 }}
               />
               <p className="text-red-500 hidden">Wrong password</p>
@@ -120,7 +120,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
                   className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
                   value={arrive}
                   onChange={(arrive) => {
-                    setArriveDay({ arrive });
+                    setArriveDay({ arrive })
                   }}
                   options={{
                     altFormat: "d/m/Y",
@@ -136,7 +136,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
                   className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
                   value={leave}
                   onChange={(leave) => {
-                    setLeaveDay({ leave });
+                    setLeaveDay({ leave })
                   }}
                   options={{
                     altFormat: "d/m/Y",
@@ -166,7 +166,7 @@ export default function CreateTripModal({ isVisible, isClose }) {
           <button
             type="submit"
             className="font-bold text-lg mb-4 pl-4 pr-4 bg-light-primary w-full text-colorText py-2 rounded-full hover:bg-primary hover:text-white"
-            // onClick={login}
+          // onClick={login}
           >
             Save
           </button>
@@ -184,5 +184,5 @@ export default function CreateTripModal({ isVisible, isClose }) {
         </div>
       </form>
     </div>
-  );
+  )
 }

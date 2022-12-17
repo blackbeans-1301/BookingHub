@@ -28,7 +28,7 @@ export default function Settings() {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         console.log('message', Object.values(response)[0])
         toast.success(Object.values(response)[0])
       } else {
