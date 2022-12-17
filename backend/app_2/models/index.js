@@ -26,7 +26,6 @@ db.reservation = require("./reservation.model.js")(sequelize, DataTypes);
 db.occupied_room = require("./occupied_room.models.js")(sequelize, DataTypes);
 db.comment = require("./comment.model.js")(sequelize, DataTypes);
 db.favorite = require("./favorite.model.js")(sequelize, DataTypes);
-
 db.user.associate(db);
 db.owner.associate(db);
 db.hotel.associate(db);
@@ -34,5 +33,6 @@ db.room.associate(db);
 db.image.associate(db);
 db.reservation.associate(db);
 db.comment.associate(db);
+db.bill.associate(db);
 
 module.exports = db;

@@ -14,7 +14,7 @@ export default function OwnerLayout({ children }) {
   return (
     <div className="flex">
       <div className="flex-1 h-screen">
-        {login != null ? <OwnerHeader /> : <PlacePageHeader />}
+        {login !== null ? <OwnerHeader /> : <PlacePageHeader />}
         {/* <OwnerHeader /> */}
         {children}
       </div>

@@ -136,7 +136,7 @@ type_of_room
 : 
 "111" */}
 
-                {allRooms != undefined &&
+                {allRooms !== undefined &&
                   allRooms.map((room, index) => {
                     return (
                       <tr>

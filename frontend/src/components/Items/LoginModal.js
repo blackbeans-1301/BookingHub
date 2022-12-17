@@ -52,7 +52,7 @@
 // //       url: 'http://localhost:8080/login',
 // //     }).then((response) => {
 // //       console.log("response", response);
-// //       if (response.data.loggedIn == true) {
+// //       if (response.data.loggedIn === true) {
 // //         setLoginStatus(response.data.user[0].username);
 // //       }
 // //     });
