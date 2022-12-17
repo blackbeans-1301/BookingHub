@@ -16,7 +16,7 @@ export default function Layout({ children }) {
       <Navigation />
       {/* </div> */}
       <div className="flex-1 h-screen absolute right-0 content">
-        {login != null ? <UserHeader /> : <Header />}
+        {login !== null ? <UserHeader /> : <Header />}
         {/* <Header /> */}
         {children}
         <Footer />

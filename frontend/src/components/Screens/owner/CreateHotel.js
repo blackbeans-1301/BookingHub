@@ -152,7 +152,7 @@ export default function CreateHotel() {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Sign up successfully")
         setTimeout(redirectFunc, 3000)
       } else {
@@ -222,7 +222,7 @@ export default function CreateHotel() {
               onChange={formik.handleChange}
               error={formik.touched.province && !!formik.errors.province}
             >
-              {pr != undefined &&
+              {pr !== undefined &&
                 pr.map((p, index) => {
                   return (
                     <MenuItem key={index} value={p.name}>
