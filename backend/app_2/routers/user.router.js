@@ -35,6 +35,12 @@ router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
 
 // Get user's reservations
 router.get('/userReservations', userMiddleware.authenticateJWT, userMiddleware.userReservations);
+
+// forget password
+router.put('/forgetPassword', userMiddleware.sendEmail);
+
+// reset password by code forget
+router.put('/resetPasswordByCode', userMiddleware.resetPasswordByCode);
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 

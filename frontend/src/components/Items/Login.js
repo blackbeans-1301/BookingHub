@@ -72,7 +72,7 @@ export default function Login({ isVisible, isClose }) {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         // localStorage.setItem("token", response.assessToken);
         setLSItem("token", response.assessToken)
         console.log('token', getLSItem('token'))
@@ -134,7 +134,7 @@ export default function Login({ isVisible, isClose }) {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Sign up successfully")
         setActive("signin")
       } else {

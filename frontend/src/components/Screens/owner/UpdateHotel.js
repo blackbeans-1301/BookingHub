@@ -39,7 +39,7 @@ import {
   getAllProvinces,
   getHotelById,
 } from "../../../apis/hotelApi"
-import { Field, useFormik, Form, Formik } from "formik"
+import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
@@ -59,7 +59,7 @@ import MenuItem from "@mui/material/MenuItem"
 import Select, { SelectChangeEvent } from "@mui/material/Select"
 import { IMAGE_CLOUD_API } from "../../../configs/api"
 import ToastMessage from "../../Items/ToastMessage"
-import { getLSItem, redirect, setLSItem } from "../../../utils"
+import { getLSItem, redirect } from "../../../utils"
 
 const validationSchema = yup.object({
   address: yup.string().required("Enter your hotel's address"),
@@ -70,7 +70,6 @@ const validationSchema = yup.object({
 })
 
 export default function UpdateHotel() {
-  const [progress, setProgress] = useState(0)
   const [isUploading, setUploading] = useState(false)
   const [uploadedImages, setUploadedImages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -158,7 +157,7 @@ export default function UpdateHotel() {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Sign up successfully")
         setTimeout(redirectFunc, 3000)
       } else {
@@ -185,23 +184,21 @@ export default function UpdateHotel() {
   }, [])
 
   console.log("hotel infor", hotelInfor)
-  var formik
-  // formik = useFormik({
-  //   initialValues: {
-  //     name: hotelInfor.name,
-  //     description: hotelInfor.description,
-  //     address: hotelInfor.address,
-  //     province: hotelInfor.province,
-  //     criteria: hotelInfor.criteria,
-  //     imgURL: hotelInfor.Images,
-  //   },
-  //   validationSchema: validationSchema,
-  //   onSubmit: (values) => {
-  //     console.log("value", values)
-  //     handleGetHotelInfor(values)
-  //   },
-  // })
-
+  const formik = useFormik({
+    initialValues: {
+      name: hotelInfor !== undefined ?? hotelInfor.name,
+      description: hotelInfor !== undefined ?? hotelInfor.description,
+      address: hotelInfor !== undefined ?? hotelInfor.address,
+      province: hotelInfor !== undefined ?? hotelInfor.province,
+      criteria: hotelInfor !== undefined ?? hotelInfor.criteria,
+      imgURL: hotelInfor !== undefined ?? hotelInfor.Images,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log("value", values)
+      handleGetHotelInfor(values)
+    },
+  })
 
   return (
     <div className="">
@@ -235,7 +232,7 @@ export default function UpdateHotel() {
               onChange={formik && formik.handleChange}
               error={formik && formik.touched.province && !!formik.errors.province}
             >
-              {pr != undefined &&
+              {pr !== undefined &&
                 pr.map((p) => {
                   return <MenuItem value={p.name}>{p.name}</MenuItem>
                 })}
