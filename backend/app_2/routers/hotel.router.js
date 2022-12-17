@@ -25,5 +25,8 @@ router.get('/:hotel_id', hotelMiddleware.getInfoHotel)
 // Get hotel's reservations
 router.get('/hotelReservations/:hotel_id', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.hotelReservations);
 
+
+router.get('/:hotel_id/income', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.calculateIncome);
+
 // 
 module.exports = router
