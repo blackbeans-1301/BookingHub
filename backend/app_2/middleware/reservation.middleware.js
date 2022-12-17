@@ -35,12 +35,25 @@ exports.checkInfoReservation = async (req, res, next) => {
         return res.status(400).send({ message: "date_in can't be greater than date_out"})
     }
     
-    // check room da bi dat trong ngay date_in -> date_out chua
+    // reservation info 
     let condition1 = {
         room_id: {
             [Op.or]: req.body.room_id
         }
     }
+    // check cac room duoc dat co cung 1 hotel hay k
+    let data = await controllers.FindManyData(Room, condition1)
+    if (data.code === -2) {
+        return res.status(400).send({ message: "Can't find room", err: data.err})
+    }
+    
+    for(var i = 1; i < data.length; i++) {
+        if (data[i].dataValues.hotel_id !== data[i - 1].dataValues.hotel_id) {
+            return res.status(400).send({ message: "Rooms aren't in the same hotel"}) 
+        }
+    }
+
+    // check room da bi dat trong ngay date_in -> date_out chua    
     let condition2 = {
         status: {
             [Op.or]: ['located', 'waiting']
