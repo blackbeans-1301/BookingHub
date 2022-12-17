@@ -81,6 +81,10 @@ exports.createReservation = async (req, res) => {
     
     let valueReservation = {
         user_id: accountData.user_id,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+        description: req.body.description,
         date_in: req.body.date_in,
         date_out: req.body.date_out,
         number_of_rooms: req.body.room_id.length
