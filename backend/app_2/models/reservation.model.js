@@ -36,7 +36,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             defaultValue: 'waiting',
             allowNull: false,            
-        }
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        phone: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
     });
     Reservation.associate = function (models) {
         Reservation.belongsTo(models.user, {
