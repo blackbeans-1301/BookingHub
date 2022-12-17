@@ -1,28 +1,28 @@
-import * as React from "react";
-import * as yup from "yup";
-import EditIcon from "@material-ui/icons/Edit";
-import { useState, useEffect } from "react";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
-import { getUserInfor, registerAPI } from "../../../apis/userApi";
-import { useFormik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import { toast } from "react-toastify";
-import { LoadingButton } from "@mui/lab";
-import { parse, isDate } from "date-fns";
-
-import { date } from "yup";
+import * as React from "react"
+import * as yup from "yup"
+import EditIcon from "@material-ui/icons/Edit"
+import { useState, useEffect } from "react"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import { getUserInfor, registerAPI } from "../../../apis/userApi"
+import { useFormik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { toast } from "react-toastify"
+import { LoadingButton } from "@mui/lab"
+import { parse, isDate } from "date-fns"
+import { setLSItem, getLSItem } from "../../../utils"
+import { date } from "yup"
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
     ? originalValue
-    : parse(originalValue, "yyyy-MM-dd", new Date());
+    : parse(originalValue, "yyyy-MM-dd", new Date())
 
-  return parsedDate;
+  return parsedDate
 }
-const today = new Date();
+const today = new Date()
 const registerValidationSchema = yup.object({
   email: yup
     .string()
@@ -36,51 +36,51 @@ const registerValidationSchema = yup.object({
     .required("Enter your date of birth. Please enter a valid date."),
   gender: yup.string().required("Enter your gender"),
   phone_number: yup.string().required("Enter your phone number"),
-});
+})
 
 export default function Profile() {
-  const [toggleState, setToggleState] = useState(1);
-  const [showEditNameForm, setShowEditNameForm] = useState(false);
-  const [showEditNumberForm, setShowEditNumberForm] = useState(false);
-  const [showEditBirthdayForm, setShowEditBirthdayForm] = useState(false);
-  const [showEditGenderForm, setShowEditGenderForm] = useState(false);
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const [birthday, setBirthday] = useState(new Date());
-  const [expiration, setExpiration] = useState(new Date());
-  const [infor, setInfor] = useState();
-  const [edit, setEdit] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [active, setActive] = useState("signin");
-  const { birth } = birthday;
-  const { expirationDate } = expiration;
+  const [toggleState, setToggleState] = useState(1)
+  const [showEditNameForm, setShowEditNameForm] = useState(false)
+  const [showEditNumberForm, setShowEditNumberForm] = useState(false)
+  const [showEditBirthdayForm, setShowEditBirthdayForm] = useState(false)
+  const [showEditGenderForm, setShowEditGenderForm] = useState(false)
+  const [showPaymentForm, setShowPaymentForm] = useState(false)
+  const [birthday, setBirthday] = useState(new Date())
+  const [expiration, setExpiration] = useState(new Date())
+  const [infor, setInfor] = useState()
+  const [edit, setEdit] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [active, setActive] = useState("signin")
+  const { birth } = birthday
+  const { expirationDate } = expiration
 
   const toggleTab = (index) => {
-    setToggleState(index);
-  };
+    setToggleState(index)
+  }
 
-  const token = localStorage.getItem("token");
+  const token = getLSItem("token")
   useEffect(() => {
-    getUserInfor(setInfor, token);
-  }, []);
+    getUserInfor(setInfor, token)
+  }, [])
 
-  console.log("infor", infor);
+  console.log("infor", infor)
 
   const handleRegister = (values) => {
     const signUp = async (postData) => {
-      const response = await registerAPI(postData);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
-      if (type == "object") {
-        toast.success("Change user's information successfully");
-        setActive("signin");
+      const response = await registerAPI(postData)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
+      if (type === "object") {
+        toast.success("Change user's information successfully")
+        setActive("signin")
       } else {
-        console.log("Change user's information failed");
-        toast.error(response);
+        console.log("Change user's information failed")
+        toast.error(response)
       }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       email: values.email,
@@ -91,10 +91,10 @@ export default function Profile() {
       gender: values.gender,
       phone_number: values.phone_number,
       isOwner: 1,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
   const registerFormik = useFormik({
     initialValues: {
       email: infor.email,
@@ -108,25 +108,25 @@ export default function Profile() {
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
       // console.log("value" + values);
-      handleRegister(values);
+      handleRegister(values)
     },
-  });
+  })
 
   return (
     <div>
       <div className="flex items-center justify-between m-4 bg-light-primary w-screen z-10 md:w-auto w-full">
         <div>
           <h1 className="font-bold text-2xl mb-3 m-4">
-            Hello, <span>{infor != undefined ? infor.lastName : ""}</span>
+            Hello, <span>{infor !== undefined ? infor.lastName : ""}</span>
           </h1>
           <div className="m-4">
             <p className="font-bold">Account Email</p>
-            <p className="">{infor != undefined ? infor.email : ""}</p>
+            <p className="">{infor !== undefined ? infor.email : ""}</p>
           </div>
           <div className="m-4">
             <p className="font-bold">Name</p>
             <p className="">
-              {infor != undefined ? `${infor.firstName} ${infor.lastName}` : ""}
+              {infor !== undefined ? `${infor.firstName} ${infor.lastName}` : ""}
             </p>
           </div>
         </div>
@@ -590,7 +590,7 @@ export default function Profile() {
                   className="w-full pr-3 pl-2 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-primary focus:ring-primary-500 focus: ring-2"
                   value={expirationDate}
                   onChange={(expirationDate) => {
-                    setExpiration({ expirationDate });
+                    setExpiration({ expirationDate })
                   }}
                   options={{
                     altFormat: "m/Y",
@@ -667,5 +667,5 @@ export default function Profile() {
         </div>
       </div>
     </div>
-  );
+  )
 }

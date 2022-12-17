@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from "react";
-import EmailIcon from "@material-ui/icons/Email";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import InstagramIcon from "@material-ui/icons/Instagram";
-import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import React, { Fragment, useState } from "react"
+import EmailIcon from "@material-ui/icons/Email"
+import FacebookIcon from "@material-ui/icons/Facebook"
+import InstagramIcon from "@material-ui/icons/Instagram"
+import LinkedInIcon from "@material-ui/icons/LinkedIn"
 
 export default function Footer() {
   return (
@@ -18,13 +18,13 @@ export default function Footer() {
               Contact
             </a>
             <a
-              href="http://localhost:8000/user/PrivacyPage"
+              href={`${process.env.API_URL}/user/PrivacyPage`}
               className="block hover:text-colorText"
             >
               Privacy
             </a>
             <a
-              href="http://localhost:8000/user/SupportPage"
+              href={`${process.env.API_URL}/user/SupportPage`}
               className="block hover:text-colorText"
             >
               Support
@@ -33,20 +33,20 @@ export default function Footer() {
 
           <div className="">
             <p className="font-bold mb-2">Menu</p>
-            <a href="http://localhost:8000/user/FlightsPage" className="block hover:text-colorText">
+            <a href={`${process.env.API_URL}/user/FlightsPage`} className="block hover:text-colorText">
               Flights
             </a>
-            <a href="http://localhost:8000/user/StayPage" className="block hover:text-colorText">
+            <a href={`${process.env.API_URL}/user/StayPage`} className="block hover:text-colorText">
               Stay
             </a>
-            <a href="http://localhost:8000/user/ThingsToDoPage" className="block hover:text-colorText">
+            <a href={`${process.env.API_URL}/user/ThingsToDoPage`} className="block hover:text-colorText">
               Things to do
             </a>
             <a href="#" className="block hover:text-colorText">
               Packages
             </a>
             <a
-              href="http://localhost:8000/user/ExplorePage"
+              href={`${process.env.API_URL}/user/ExplorePage`}
               className="block hover:text-colorText"
             >
               Explore
@@ -54,7 +54,7 @@ export default function Footer() {
             <a href="#" className="block hover:text-colorText">
               Travel Restrictions
             </a>
-            <a href="http://localhost:8000/user/TripsPage" className="block hover:text-colorText">
+            <a href={`${process.env.API_URL}/user/TripsPage`} className="block hover:text-colorText">
               Trips
             </a>
           </div>
@@ -92,5 +92,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }

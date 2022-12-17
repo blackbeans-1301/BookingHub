@@ -151,7 +151,7 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    redirect(`http://localhost:8000/owner/ListRoomPage`)
+    redirect(`${process.env.API_URL}/owner/ListRoomPage`)
   }
 
   const handleGetRoomInfor = (values) => {
@@ -162,7 +162,7 @@ export default function CreateRoom() {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Create a new room successfully")
         setTimeout(redirectFunc, 3000)
       } else {
@@ -223,7 +223,7 @@ export default function CreateRoom() {
               onChange={formik.handleChange}
               error={formik.touched.hotel && !!formik.errors.hotel}
             >
-              {allHotels != undefined &&
+              {allHotels !== undefined &&
                 allHotels.map((p) => {
                   return <MenuItem value={p}>{p.name}</MenuItem>
                 })}

@@ -1,27 +1,27 @@
-const { Op } = require("sequelize");
-const db = require("../models/index.js");
+const { Op } = require("sequelize")
+const db = require("../models/index.js")
 
-const Room = db.room;
-const Image = db.image;
-const Hotel = db.hotel;
-const User = db.user;
-const Owner = db.owner;
-const Reservation = db.reservation;
-const Occupied_room = db.occupied_room;
+const Room = db.room
+const Image = db.image
+const Hotel = db.hotel
+const User = db.user
+const Owner = db.owner
+const Reservation = db.reservation
+const Occupied_room = db.occupied_room
 
-const hotelControllers = require("../controllers/hotel.controller.js");
-const controllers = require("../controllers/controller.js");
+const hotelControllers = require("../controllers/hotel.controller.js")
+const controllers = require("../controllers/controller.js")
 
 
 // tao hotel
 exports.createHotel = async (req, res) => {
     // lay thong tin tu Token gui ve
-    const accountData = req.bookingHub_account_info;
+    const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
 
     // kiem tra xem co phai owner khong
     if (!isOwner) {
-        return res.status(400).send({ message: "Unable to create hotel (is not owner)" });
+        return res.status(400).send({ message: "Unable to create hotel (is not owner)" })
     }
 
     // tao hotel 
@@ -30,21 +30,21 @@ exports.createHotel = async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
         criteria: req.body.criteria
     }
-    let hotelData = await controllers.CreateData(Hotel, value);
+    let hotelData = await controllers.CreateData(Hotel, value)
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable to create hotel", err: hotelData.err })
     }
-    delete hotelData.owner_id 
+    delete hotelData.owner_id
     if (req.body.imgURL === undefined) {
-        return res.status(200).send(hotelData);
+        return res.status(200).send(hotelData)
     }
 
     // tao image cho hotel
-    let imgData = [];
-    hotelData.Image = [];
+    let imgData = []
+    hotelData.Image = []
     for (let i = 0; i < req.body.imgURL.length; i++) {
         imgData.push({
             imgURL: req.body.imgURL[i],
@@ -59,39 +59,39 @@ exports.createHotel = async (req, res) => {
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to create image", err: result.err })
     }
-    return res.status(200).send(hotelData);
+    return res.status(200).send(hotelData)
 }
 
 exports.getOwnerHotels = async (req, res) => {
-    const accountData = req.bookingHub_account_info;
-    const isOwner = req.bookingHub_account_isOwner;
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
     if (!isOwner) {
         return res.status(400).send({ message: "User isn't owner" })
     }
     let condition = { owner_id: accountData.owner_id }
-    let hotelData = await hotelControllers.GetOwnerHotels(Hotel, Image, condition);
+    let hotelData = await hotelControllers.GetOwnerHotels(Hotel, Image, condition)
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable to get all owner'hotels", err: hotelData.err })
     }
-    return res.status(200).send(hotelData.data);
+    return res.status(200).send(hotelData.data)
 }
 
 exports.getInfoHotel = async (req, res) => {
     let condition = { hotel_id: req.params.hotel_id }
-    let hotelData = await hotelControllers.GetHotelInfo(Hotel, Image, condition);
+    let hotelData = await hotelControllers.GetHotelInfo(Hotel, Image, condition)
     if (hotelData.code === -1) {
         return res.status(400).send({ message: "Can't find hotel_id " })
     }
     if (hotelData.code === -2) {
-        return res.status(400).send({ message: "Unable get hotel information", err: hotelData.err });
+        return res.status(400).send({ message: "Unable get hotel information", err: hotelData.err })
     }
-    return res.status(200).send(hotelData);
+    return res.status(200).send(hotelData)
 }
 
 // update hotel
 exports.updateHotel = async (req, res) => {
-    const accountData = req.bookingHub_account_info;
-    const isOwner = req.bookingHub_account_isOwner;
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
     if (!isOwner) {
         return res.status(400).send({ message: "User isn't owner" })
     }
@@ -100,28 +100,28 @@ exports.updateHotel = async (req, res) => {
         criteria: req.body.criteria,
         description: req.body.description,
         address: req.body.address,
-        province: req.body.province,
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
     }
     let condition1 = {
         owner_id: accountData.owner_id,
         hotel_id: req.body.hotel_id
     }
-    let result = await controllers.UpdateData(Hotel, value1, condition1);
+    let result = await controllers.UpdateData(Hotel, value1, condition1)
     if (result.code === -1) {
         return res.status(400).send({ message: "Hotel is not exists" })
     }
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to update hotel", err: result.err })
     }
-    
+
 
     if (req.body.imgURL === undefined) {
-        return res.status(200).send({ message: "Update successful" });
+        return res.status(200).send({ message: "Update successful" })
     }
     let condition2 = { hotel_id: req.body.hotel_id }
     let removeImage = await controllers.DeleteData(Image, condition2)
-    
-    let imgData = [];
+
+    let imgData = []
     for (let i = 0; i < req.body.imgURL.length; i++) {
         imgData.push({
             imgURL: req.body.imgURL[i],
@@ -139,42 +139,42 @@ exports.updateHotel = async (req, res) => {
 
 exports.hotelByAddress = async (req, res) => {
     let condition = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
-    let hotelData = await controllers.FindManyData(Hotel, condition);
+    let hotelData = await controllers.FindManyData(Hotel, condition)
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable to get hotel by address", err: hotelData.err })
     }
-    return res.status(200).send(hotelData);
+    return res.status(200).send(hotelData)
 }
 
 // kiem tra xem hotel co thuoc owner khong
 exports.isHotelBelongToOwner = async (req, res, next) => {
-    const accountData = req.bookingHub_account_info;
-    const isOwner = req.bookingHub_account_isOwner;
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
     if (!isOwner) {
-        return res.status(400).send({ message: "Account isn't owner" });
+        return res.status(400).send({ message: "Account isn't owner" })
     }
     let condition = {}
     if (req.body.hotel === undefined) {
         if (req.params.hotel_id === undefined) {
-            return res.status(400).send({ message: "Missing hotel object (hotel_id) field"})
-        } 
+            return res.status(400).send({ message: "Missing hotel object (hotel_id) field" })
+        }
         condition.hotel_id = req.params.hotel_id
     } else {
         condition.hotel_id = req.body.hotel.hotel_id
     }
-    let result = await controllers.FindOneData(Hotel, condition);
+    let result = await controllers.FindOneData(Hotel, condition)
     if (result.code === -1) {
-        return res.status(400).send({message: "Hotel isn't exist"})
+        return res.status(400).send({ message: "Hotel isn't exist" })
     }
     if (result.code === -2) {
-        return res.status(400).send({message: "Hotel isn't exist", err: result.err})
+        return res.status(400).send({ message: "Hotel isn't exist", err: result.err })
     }
     if (result.owner_id !== accountData.owner_id) {
-        return res.status(400).send({message: "Hotel isn't belong to owner"})
+        return res.status(400).send({ message: "Hotel isn't belong to owner" })
     }
-    next();
+    next()
 }
 
 exports.hotelReservations = async (req, res) => {
@@ -183,14 +183,14 @@ exports.hotelReservations = async (req, res) => {
     }
     let dataReservation = await hotelControllers.HotelReservations(Reservation, Room, condition)
     if (dataReservation.code === -2) {
-        return res.status(400).send({message: "An error occurred", err: dataReservation.err})
+        return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
     return res.status(200).send(dataReservation)
 }
 
 exports.getHotelByCriteria = async (req, res) => {
     let condition1 = {
-        province: req.body.province
+        province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
     let condition2 = {
         status: {
@@ -211,28 +211,28 @@ exports.getHotelByCriteria = async (req, res) => {
             }
         ]
     }
-    let data = await hotelControllers.GetHotelCriteria(Hotel, Room, Reservation, condition1, condition2);
+    let data = await hotelControllers.GetHotelCriteria(Hotel, Room, Reservation, condition1, condition2)
     if (data.code === -2) {
         return res.status(400).send({ message: "Unable to get hotel", err: data.err })
     }
     for (let hotel of data) {
-        hotel.dataValues.totalCapacity = 0;
-        hotel.dataValues.totalEmptyRoom = 0;
+        hotel.dataValues.totalCapacity = 0
+        hotel.dataValues.totalEmptyRoom = 0
         for (let room of hotel.dataValues.Rooms) {
             if (!room.dataValues.Reservations.length) {
-                hotel.dataValues.totalCapacity += room.dataValues.capacity;
-                hotel.dataValues.totalEmptyRoom++;
+                hotel.dataValues.totalCapacity += room.dataValues.capacity
+                hotel.dataValues.totalEmptyRoom++
             }
         }
     }
     for (let h = 0; h < data.length; h++) {
-        delete data[h].dataValues.Rooms;
+        delete data[h].dataValues.Rooms
         if (data[h].dataValues.totalCapacity < req.body.number_of_guest || data[h].dataValues.totalEmptyRoom < req.body.number_of_room) {
-            data.splice(h, 1);
-            h--;
+            data.splice(h, 1)
+            h--
         }
     }
-    
-    return res.status(200).send(data);
-    
+
+    return res.status(200).send(data)
+
 }

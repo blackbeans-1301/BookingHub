@@ -76,9 +76,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
   }, [])
 
   let imagesURLs = []
-  // console.log("all", all);
   const pr = all
-  // console.log("pr", pr);
 
 
   // console.log("criteria from params", detail.criteria);
@@ -135,7 +133,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    redirect("http://localhost:8000/owner/ListHotelPage")
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {
@@ -147,7 +145,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Update hotel details successfully")
         setTimeout(redirectFunc, 3000)
       } else {
@@ -305,7 +303,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                       </span>
                       Hotel's images:
                     </span>{" "}
-                    {detail.Images.length != 0 ? (
+                    {detail.Images.length !== 0 ? (
                       detail.Images.map((item, index) => {
                         return (
                           <img key={index} src={item.imgURL} className="m-2" />
@@ -362,7 +360,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                           formik.touched.province && !!formik.errors.province
                         }
                       >
-                        {pr != undefined &&
+                        {pr !== undefined &&
                           pr.map((p) => {
                             return <MenuItem value={p.name}>{p.name}</MenuItem>
                           })}
@@ -455,7 +453,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                       size="50"
                     />
 
-                    {detail.Images.length != 0 ? (
+                    {detail.Images.length !== 0 ? (
                       detail.Images.map((item, index) => {
                         return (
                           <img key={index} src={item.imgURL} className="m-2" />
