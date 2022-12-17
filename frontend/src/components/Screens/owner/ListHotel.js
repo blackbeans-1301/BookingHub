@@ -30,7 +30,7 @@ export default function ListHotel() {
 
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
-    redirect("http://localhost:8000/owner/UpdateHotelPage")
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
   return (
@@ -161,7 +161,7 @@ export default function ListHotel() {
                               className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
                                 setLSItem("hotelID", hotel.hotel_id)
-                                redirect("http://localhost:8000/owner/ListRoomPage")
+                                redirect(`${process.env.API_URL}/owner/ListRoomPage`)
                               }}
                             >
                               List rooms

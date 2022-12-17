@@ -11,7 +11,7 @@ export default function UserOption({ isVisible, isClose }) {
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-        onClick={() => redirect("http://localhost:8000/user/ProfilePage")}
+        onClick={() => redirect(`${process.env.API_URL}/user/ProfilePage`)}
       >
         <span className="flex items-center">
           <AccountCircleIcon />
@@ -22,7 +22,7 @@ export default function UserOption({ isVisible, isClose }) {
       <button
         type="button"
         className="relative m-2 p-2 cursor-pointer text-left hover:bg-primary hover:text-white sm:text-sm"
-        onClick={() => redirect("http://localhost:8000/user/SettingsPage")}
+        onClick={() => redirect(`${process.env.API_URL}/user/SettingsPage`)}
       >
         <span className="flex items-center">
           <SettingsIcon />

@@ -151,7 +151,7 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    redirect(`http://localhost:8000/owner/ListRoomPage`)
+    redirect(`${process.env.API_URL}/owner/ListRoomPage`)
   }
 
   const handleGetRoomInfor = (values) => {

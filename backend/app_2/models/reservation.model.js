@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
             through: models.occupied_room,
             foreignKey: 'reservation_id'
         });
+        Reservation.hasOne(models.comment, {
+            foreignKey: 'reservation_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
     }
     return Reservation;
 };

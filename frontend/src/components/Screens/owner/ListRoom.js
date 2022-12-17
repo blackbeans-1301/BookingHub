@@ -41,7 +41,7 @@ export default function ListRoom() {
 
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
-    redirect("http://localhost:8000/owner/UpdateHotelPage")
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">

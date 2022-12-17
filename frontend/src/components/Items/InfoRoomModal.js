@@ -165,7 +165,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
-    redirect("http://localhost:8000/owner/ListHotelPage")
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {

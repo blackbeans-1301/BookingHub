@@ -147,7 +147,7 @@ export default function UpdateHotel() {
 
 
   const redirectFunc = () => {
-    redirect("http://localhost:8000/owner/ListHotelPage")
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {
@@ -185,21 +185,22 @@ export default function UpdateHotel() {
   }, [])
 
   console.log("hotel infor", hotelInfor)
-  const formik = useFormik({
-    initialValues: {
-      name: hotelInfor.name,
-      description: hotelInfor.description,
-      address: hotelInfor.address,
-      province: hotelInfor.province,
-      criteria: hotelInfor.criteria,
-      imgURL: hotelInfor.Images,
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log("value", values)
-      handleGetHotelInfor(values)
-    },
-  })
+  var formik
+  // formik = useFormik({
+  //   initialValues: {
+  //     name: hotelInfor.name,
+  //     description: hotelInfor.description,
+  //     address: hotelInfor.address,
+  //     province: hotelInfor.province,
+  //     criteria: hotelInfor.criteria,
+  //     imgURL: hotelInfor.Images,
+  //   },
+  //   validationSchema: validationSchema,
+  //   onSubmit: (values) => {
+  //     console.log("value", values)
+  //     handleGetHotelInfor(values)
+  //   },
+  // })
 
 
   return (
