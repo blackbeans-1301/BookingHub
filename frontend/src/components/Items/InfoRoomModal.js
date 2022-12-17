@@ -177,7 +177,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Update room details successfully")
         setTimeout(redirectFunc, 3000)
       } else {
@@ -393,7 +393,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       </span>
                       Room's images:
                     </span>{" "}
-                    {detail.Images.length != 0 ? (
+                    {detail.Images.length !== 0 ? (
                       detail.Images.map((item, index) => {
                         return <img src={item.imgURL} className="m-2" />
                       })

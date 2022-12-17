@@ -86,7 +86,7 @@ export default function ListHotel() {
               </thead>
 
               <tbody>
-                {allHotels != undefined &&
+                {allHotels !== undefined &&
                   allHotels.map((hotel, index) => {
                     return (
                       <tr key={index}>

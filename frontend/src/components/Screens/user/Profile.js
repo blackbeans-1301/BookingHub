@@ -71,7 +71,7 @@ export default function Profile() {
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
-      if (type == "object") {
+      if (type === "object") {
         toast.success("Change user's information successfully")
         setActive("signin")
       } else {
@@ -117,16 +117,16 @@ export default function Profile() {
       <div className="flex items-center justify-between m-4 bg-light-primary w-screen z-10 md:w-auto w-full">
         <div>
           <h1 className="font-bold text-2xl mb-3 m-4">
-            Hello, <span>{infor != undefined ? infor.lastName : ""}</span>
+            Hello, <span>{infor !== undefined ? infor.lastName : ""}</span>
           </h1>
           <div className="m-4">
             <p className="font-bold">Account Email</p>
-            <p className="">{infor != undefined ? infor.email : ""}</p>
+            <p className="">{infor !== undefined ? infor.email : ""}</p>
           </div>
           <div className="m-4">
             <p className="font-bold">Name</p>
             <p className="">
-              {infor != undefined ? `${infor.firstName} ${infor.lastName}` : ""}
+              {infor !== undefined ? `${infor.firstName} ${infor.lastName}` : ""}
             </p>
           </div>
         </div>
