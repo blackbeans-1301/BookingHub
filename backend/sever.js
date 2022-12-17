@@ -25,9 +25,10 @@ app.use("/api/hotel", require("./app_2/routers/hotel.router.js"))
 app.use("/api/room", require('./app_2/routers/room.router.js'))
 app.use("/api/reservation", require("./app_2/routers/reservation.router.js"))
 app.use("/api/comment", require("./app_2/routers/comment.router.js"))
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'public/index.html'))
-})
+
+// app.get('/', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'public/index.html'))
+// })
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
@@ -36,4 +37,7 @@ app.listen(PORT, () => {
 
 
 const db = require("./app_2/models")
-db.sequelize.sync({ force: true })
+// db.sequelize.sync({ force: true })
+db.sequelize.sync();
+//db.sequelize.sync({ alter: true });
+
