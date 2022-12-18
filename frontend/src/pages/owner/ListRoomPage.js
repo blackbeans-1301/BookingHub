@@ -1,6 +1,6 @@
 import * as React from "react";
-import OwnerLayout from "../../components/Layouts/OwnerLayout";
 import ListRoom from "../../components/Screens/owner/ListRoom";
+import OwnerLayout from "../../components/Layouts/owner/OwnerLayout";
 
 const ListOfRoomPage = () => {
   return (

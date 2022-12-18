@@ -1,8 +1,8 @@
 import React from "react"
-import Header from "./LayoutComponent/Header"
-import UserHeader from "./LayoutComponent/UserHeader"
-import Navigation from "./LayoutComponent/Navigation"
-import Footer from "./LayoutComponent/Footer"
+import Header from "./user/Header"
+import UserHeader from "./user/UserHeader"
+import Navigation from "./user/Navigation"
+import Footer from "./user/Footer"
 import { getLSItem } from "../../utils"
 
 export default function Layout({ children }) {

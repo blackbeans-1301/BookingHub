@@ -166,6 +166,16 @@ export default function ListHotel() {
                             >
                               List rooms
                             </button>
+
+                            <button
+                              className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                              onClick={() => {
+                                setLSItem("hotelID", hotel.hotel_id)
+                                redirect(`${process.env.API_URL}/owner/ListReservationPage`)
+                              }}
+                            >
+                              List reservations
+                            </button>
                           </p>
                         </td>
                       </tr>

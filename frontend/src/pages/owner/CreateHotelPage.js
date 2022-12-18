@@ -1,7 +1,6 @@
 import * as React from "react";
-import OwnerLayout from "../../components/Layouts/OwnerLayout";
-import _ from "lodash";
 import CreateHotel from "../../components/Screens/owner/CreateHotel";
+import OwnerLayout from "../../components/Layouts/owner/OwnerLayout";
 
 const CreateHotelPage = () => {
   return (
