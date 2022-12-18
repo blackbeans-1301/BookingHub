@@ -1,9 +1,11 @@
 module.exports = {
     HOST: "localhost",
     USER: "root",
-    PASSWORD: "changbiet247",
-    DB: "bookinghub2",
-    dialect: "mysql",
+    // PASSWORD: "oc06c17a,huy",
+    // DB: "booking",
+    PASSWORD: "password",
+    DB: "db1",
+    dialect: "mysql", 
     timezone: "Asia/Ho_Chi_Minh",
     pool: {
         max: 5,
@@ -11,4 +13,4 @@ module.exports = {
         acquire: 30000,
         idle: 10000
     }
-}
+};
