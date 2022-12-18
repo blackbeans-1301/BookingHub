@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
+import { redirect } from "../../../utils";
 
 export default function HotelSearch({ hotel }) {
   const [arriveDay, setArriveDay] = useState(new Date());
@@ -81,72 +82,82 @@ export default function HotelSearch({ hotel }) {
                 No hotels were founded
               </h1>
             </div>
-          ) : hotel.map((item, index) => {
-            return (
-              <div className="p-2.5 border-2 border-sky-500 rounded-lg flex justify-between mb-2" key={index}>
-              {/* siImg */}
-              <img
-                src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/234762091.jpg?k=45540c95d66e3278d194a4a35994dd3491811d644b2a6cb3e3da1b187dfa7d06&o=&hp=1"
-                alt=""
-                className="w-40 h-40 object-cover"
-              />
+          ) : (
+            hotel.map((item, index) => {
+              return (
+                <div
+                  className="p-2.5 border-2 border-sky-500 rounded-lg flex justify-between mb-2"
+                  key={index}
+                >
+                  {/* siImg */}
+                  <img
+                    src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/234762091.jpg?k=45540c95d66e3278d194a4a35994dd3491811d644b2a6cb3e3da1b187dfa7d06&o=&hp=1"
+                    alt=""
+                    className="w-40 h-40 object-cover"
+                  />
 
-              {/* siDesc */}
-              <div className="flex flex-col gap-1.5 flex2 ml-4">
-                {/* siTitle */}
-                <h1 className="text-lg text-sky-600 font-bold">
-                  {item.name}
-                </h1>
-                <span className="text-sm text-white bg-green-500 p-1 rounded w-max">
-                  500m from center
-                </span>
-                <span className="">Free airport taxi</span>
-                <span className="font-bold">
-                  {item.description}
-                </span>
+                  {/* siDesc */}
+                  <div className="flex flex-col gap-1.5 flex2 ml-4">
+                    {/* siTitle */}
+                    <h1 className="text-lg text-sky-600 font-bold">
+                      {item.name}
+                    </h1>
+                    <span className="text-sm text-white bg-green-500 p-1 rounded w-max">
+                      500m from center
+                    </span>
+                    <span className="">Free airport taxi</span>
+                    <span className="font-bold">{item.description}</span>
 
-                <span className="mt-2">
-                  <span className="font-bold">Amenities: </span>
-                  {item.criteria}
-                </span>
+                    <span className="mt-2">
+                      <span className="font-bold">Amenities: </span>
+                      {item.criteria}
+                    </span>
 
-                <span className="font-bold text-green-600">
-                  Free cancellation
-                </span>
-                <span className="text-sm text-green-600">
-                  You can cancel later, so lock in this great price today!
-                </span>
-              </div>
+                    <span className="font-bold text-green-600">
+                      Free cancellation
+                    </span>
+                    <span className="text-sm text-green-600">
+                      You can cancel later, so lock in this great price today!
+                    </span>
+                  </div>
 
-              {/* siDetails */}
-              <div className="flex flex-col flex-1 justify-between">
-                {/* siRating */}
-                <div className="flex justify-between">
-                  <span className="font-semibold">Excellent</span>
-                  <button className="bg-blue-700 text-white font-bold p-1 border-0">
-                    {item.rating}
-                  </button>
+                  {/* siDetails */}
+                  <div className="flex flex-col flex-1 justify-between">
+                    {/* siRating */}
+                    <div className="flex justify-between">
+                      <span className="font-semibold">Excellent</span>
+                      <button className="bg-blue-700 text-white font-bold p-1 border-0">
+                        {item.rating}
+                      </button>
+                    </div>
+
+                    {/* siDetailsTexts */}
+                    <div className="text-right flex flex-col gap-1">
+                      {/* siPrice */}
+                      <span className="text-xl font-semibold">
+                        ${item.startPrice}
+                      </span>
+                      {/* siTaxOp */}
+                      <span className="text-sm text-gray-500">
+                        Includes taxes and fees
+                      </span>
+                      {/* siCheckButton */}
+                      <button
+                        className="bg-sky-300 font-bold px-2 py-1 hover:text-white hover:bg-sky-600 cursor-pointer"
+                        onClick={() => {
+                          console.log("item ", index, item);
+                          console.log('hotel id', item.hotel_id);
+                          redirect(`http://localhost:8000/user/HotelPage?x=${item.hotel_id}`)
+                        }}
+                      >
+                        See availability
+                      </button>
+                    </div>
+                  </div>
                 </div>
-
-                {/* siDetailsTexts */}
-                <div className="text-right flex flex-col gap-1">
-                  {/* siPrice */}
-                  <span className="text-xl font-semibold">${item.startPrice}</span>
-                  {/* siTaxOp */}
-                  <span className="text-sm text-gray-500">
-                    Includes taxes and fees
-                  </span>
-                  {/* siCheckButton */}
-                  <button className="bg-sky-300 font-bold px-2 py-1 hover:text-white hover:bg-sky-600 cursor-pointer">
-                    See availability
-                  </button>
-                </div>
-              </div>
-            </div>
-            )
-          })}
-
-          
+              );
+            })
+          )}
         </div>
       </div>
     </div>

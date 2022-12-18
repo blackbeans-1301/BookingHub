@@ -2,8 +2,9 @@ import * as React from "react"
 import { Fragment } from "react"
 import { useState } from "react"
 import ChooseModal from "../../components/Items/ChooseModal"
-import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader"
-import OwnerLayout from "../../components/Layouts/OwnerLayout"
+import OwnerHeader from "../../components/Layouts/owner/OwnerHeader"
+import OwnerLayout from "../../components/Layouts/owner/OwnerLayout"
+
 // import OwnerHeader from "../../components/Layouts/LayoutComponent/OwnerHeader";
 
 const OwnerPage = () => {

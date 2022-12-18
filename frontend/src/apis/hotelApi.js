@@ -60,24 +60,36 @@ export const getAllHotels = (setAllHotels, tokenStr) => {
 };
 
 // function get hotel by id
-export const getHotelById = (id, setHotelInfor, tokenStr) => {
+export const getHotelById = (id, setHotel) => {
   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
   console.log("url", URL);
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${tokenStr}`);
+
+  // var myHeaders = new Headers();
+  // myHeaders.append("Authorization", `Bearer ${tokenStr}`);
 
   var requestOptions = {
     method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
+    // headers: myHeaders,
+    // redirect: "follow",
   };
 
-  fetch(URL, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      setHotelInfor(data);
-      return data;
-    });
+  // fetch(URL, requestOptions)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setHotelInfor(data);
+  //     return data;
+  //   });
+
+  const response = axios.get(URL).then((res) => {
+    console.log("res==", res);
+    setHotel(res.data);
+    return res.data;
+  })
+  .catch((err) => {
+    console.log("ERROR: ====", err);
+      return err.response.data.Message;
+  });
+  return response;
 };
 
 // function update information of a hotel
@@ -120,5 +132,5 @@ export const searchHotelByCriteria = (data, setHotel) => {
       console.log("ERROR:", err);
     });
 
-    return response;
+  return response;
 };
