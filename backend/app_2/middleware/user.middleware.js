@@ -12,9 +12,11 @@ const Owner = db.owner
 const Reservation = db.reservation
 const Occupied_room = db.occupied_room
 const Favorite = db.favorite
+const Comment = db.comment
 
 const controllers = require("../controllers/controller.js")
 const userControllers = require("../controllers/user.controller.js");
+const { Op } = require('sequelize')
 
 // Dang ky account
 exports.register = async (req, res) => {
@@ -455,3 +457,45 @@ exports.getFavorite = async (req, res) => {
     
     return res.status(200).send(hotelData.Hotels) 
 }
+
+exports.getHistory = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't get history list"})
+    }
+
+    let condition = {
+        user_id: accountData.user_id,
+        status: {
+            [Op.or]: ['completed', 'canceled']
+        }
+    }
+    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, condition);
+    if (reservationData.code === -2) {
+        return res.status(400).send({message: "Unable to get history list", err: reservationData.err})
+    }
+    for (let reservation of reservationData) {
+        reservation.dataValues.Hotel = reservation.dataValues.Rooms[0].dataValues.Hotel
+        delete reservation.dataValues.Rooms
+        delete reservation.dataValues.user_id
+    }
+    
+    return res.status(200).send(reservationData);
+}
+
+exports.reservationInfo = async (req, res) => {
+    let condition = {
+        reservation_id: req.params.reservation_id
+    }
+    let reservationData = await userControllers.ReservationInfo(Reservation, Comment, Room, Hotel, condition)
+    if (reservationData.code === -1) {
+        return res.status(400).send({message: "Unable to get reservation information"})
+    }
+    if (reservationData.code === -2) {
+        return res.status(400).send({message: "Unable to get reservation information", err: reservationData.err})
+    }
+    delete reservationData.user_id
+    return res.status(400).send(reservationData)
+} 

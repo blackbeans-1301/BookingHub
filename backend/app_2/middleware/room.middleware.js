@@ -207,7 +207,7 @@ exports.getRoomByCriteria = async (req, res) => {
             }}
         ]
     }
-    let data = await roomControllers.GetRoomCriteria(Room, Reservation, condition1, condition2);
+    let data = await roomControllers.GetRoomCriteria(Room, Reservation, Image, condition1, condition2);
     if (data.code === -2) {
         return res.status(400).send({ message: "Unable to get room", err: data.err })
     }

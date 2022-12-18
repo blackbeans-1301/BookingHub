@@ -27,7 +27,7 @@ exports.checkInfoReservation = async (req, res, next) => {
     // check date co hop le khong
     let dateIn = new Date(req.body.date_in)
     let dateOut = new Date(req.body.date_out)
-    let dateNow = new Date()
+    let dateNow = new Date(Date.now() - (60*60*24*1000))
     if (dateIn < dateNow) {
         return res.status(400).send({ message: "date_in can't be less than now" })
     }
@@ -121,10 +121,16 @@ exports.isBelongToOwner = async (req, res, next) => {
     if (!isOwner) {
         return res.status(400).send({ message: "Account isn't owner" })
     }
-
-    let condition1 = {
-        reservation_id: req.body.reservation_id
+    let condition1 = {}
+    if (req.body.reservation_id === undefined) {
+        if (req.params.reservation_id === undefined) {
+            return res.status(400).send({ message: "Missing reservation_id field" })
+        }
+        condition1.reservation_id = req.params.reservation_id
+    } else {
+        condition1.reservation_id = req.body.reservation_id
     }
+
     let condition2 = {
         owner_id: accountData.owner_id
     }

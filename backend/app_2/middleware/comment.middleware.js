@@ -25,9 +25,9 @@ exports.createComment = async (req, res) => {
     // lay hotel ma co reservation cua comment
     let reservationData = await commentControllers.GetReservationInfo(Reservation, Room, Hotel, condition1);
 
-    // if (reservationData.status !== "completed") {
-    //     return res.status(400).send({message: "Only completed reservation can be reviewed"})
-    // }
+    if (reservationData.status !== "completed") {
+        return res.status(400).send({message: "Only completed reservation can be reviewed"})
+    }
     
     let hotel_id = reservationData.Rooms[0].dataValues.Hotel.dataValues.hotel_id;
     let condition2 = {
