@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const userMiddleware = require("../middleware/user.middleware.js")
+const reservationMiddleware = require("../middleware/reservation.middleware.js")
 
 const passport = require('passport');
 require('../authentication/auth.js');
@@ -50,6 +51,13 @@ router.delete('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.del
 
 // get favorite
 router.get('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
+
+// get history
+router.get('/history', userMiddleware.authenticateJWT, userMiddleware.getHistory)
+
+// get Reservation
+router.get('/reservationOwner/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, userMiddleware.reservationInfo)
+router.get('/reservationUser/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToUser, userMiddleware.reservationInfo)
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 

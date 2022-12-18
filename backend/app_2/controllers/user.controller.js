@@ -51,3 +51,44 @@ exports.GetFavoriteList = (userModel, hotelModel, imageModel, condition) => {
         return {code: -2, err: err.message}
     })
 }
+
+
+exports.GetHistory = (Reservation, Room, Image, Hotel, condition) => {
+    return Reservation.findAll({
+        where: condition,
+        include: [{
+            model: Room,
+            include: [{
+                model: Hotel,
+                include: [{
+                    model: Image
+                }]
+            }]
+        }]
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        return {code: -2, err: err.message}
+    })
+};
+
+exports.ReservationInfo = (Reservation, Comment, Room, Hotel, condition) => {
+    return Reservation.findOne({
+        where: condition,
+        include: [{
+            model: Room,
+            include: [{
+                model: Hotel,
+            }]
+        }, {
+            model: Comment
+        }]
+    }).then(data => {
+        if (data === null) {
+            return {code: -1}
+        } 
+        return data.dataValues;
+    }).catch(err => {
+        return {code: -2, err: err.message}
+    })
+}

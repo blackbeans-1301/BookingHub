@@ -36,6 +36,8 @@ exports.createHotel = async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         address: req.body.address,
+        phone: req.body.phone,
+        fromCenter: req.body.fromCenter,
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
         criteria: req.body.criteria
     }
@@ -106,6 +108,8 @@ exports.updateHotel = async (req, res) => {
         criteria: req.body.criteria,
         description: req.body.description,
         address: req.body.address,
+        phone: req.body.phone,
+        fromCenter: req.body.fromCenter,
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
     }
     let condition1 = {
@@ -147,7 +151,7 @@ exports.hotelByAddress = async (req, res) => {
     let condition = {
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
-    let hotelData = await controllers.FindManyData(Hotel, condition)
+    let hotelData = await hotelControllers.GetHotelByAddress(Hotel, Image, condition)
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable to get hotel by address", err: hotelData.err })
     }
@@ -221,7 +225,7 @@ exports.getHotelByCriteria = async (req, res) => {
             }
         ]
     }
-    let data = await hotelControllers.GetHotelCriteria(Hotel, Room, Reservation, condition1, condition2)
+    let data = await hotelControllers.GetHotelCriteria(Hotel, Room, Reservation, Image, condition1, condition2)
     if (data.code === -2) {
         return res.status(400).send({ message: "Unable to get hotel", err: data.err })
     }
@@ -234,7 +238,9 @@ exports.getHotelByCriteria = async (req, res) => {
                 hotel.dataValues.totalEmptyRoom++
             }
         }
+        console.log( hotel.dataValues.totalCapacity,hotel.dataValues.totalEmptyRoom )
     }
+    
     for (let h = 0; h < data.length; h++) {
         delete data[h].dataValues.Rooms
         if (data[h].dataValues.totalCapacity < req.body.number_of_guest || data[h].dataValues.totalEmptyRoom < req.body.number_of_room) {

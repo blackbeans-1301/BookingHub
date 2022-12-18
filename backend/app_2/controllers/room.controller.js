@@ -45,7 +45,7 @@ exports.GetRoomInfo = (roomModel, imageModel, hotelModel, condition) => {
 }
 
 
-exports.GetRoomCriteria = (roomModel, reservationModel, condition1, condition2) => {
+exports.GetRoomCriteria = (roomModel, reservationModel, imageModel, condition1, condition2) => {
     return roomModel.findAll({
         where: condition1,
         include: [
@@ -54,6 +54,9 @@ exports.GetRoomCriteria = (roomModel, reservationModel, condition1, condition2) 
                 required: false,
                 attributes: ['reservation_id', 'date_in', 'date_out', 'status'],
                 where: condition2
+            },
+            {
+                model: imageModel
             }
         ]
     }).then(data => {

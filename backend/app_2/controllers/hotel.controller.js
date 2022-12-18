@@ -55,7 +55,7 @@ exports.HotelReservations = (Reservation, Room, condition) => {
     })
 }
 
-exports.GetHotelCriteria = (Hotel, Room, Reservation, condition1, condition2) => {
+exports.GetHotelCriteria = (Hotel, Room, Reservation, Image, condition1, condition2) => {
     return Hotel.findAll({
             where: condition1,
             include: [{
@@ -65,6 +65,9 @@ exports.GetHotelCriteria = (Hotel, Room, Reservation, condition1, condition2) =>
                     required: false,
                     where: condition2,
                 }],
+               
+            }, {
+                model: Image
             }],
     }).then(data => {
         return data;
@@ -73,6 +76,18 @@ exports.GetHotelCriteria = (Hotel, Room, Reservation, condition1, condition2) =>
     })
 };
 
+exports.GetHotelByAddress = (Hotel, Image, condition) => {
+    return Hotel.findAll({
+        where: condition,
+        include: [{
+            model: Image
+        }]
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        return { code: -2, err: err.message }
+    })
+}
 exports.GetHotelVietnamese = (province) => {
     if (province === "an giang") return "An Giang";
     if (province === "ba ria vung tau") return "Bà Rịa – Vũng Tàu";

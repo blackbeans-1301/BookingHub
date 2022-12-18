@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             defaultValue: 0,
             allowNull: false
+        },
+        phone: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        fromCenter: {
+            type: DataTypes.FLOAT,
+            allowNull: false
         }
     });
     Hotel.associate = function (models) {
