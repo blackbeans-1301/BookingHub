@@ -140,6 +140,9 @@ exports.GetHotelVietnamese = (province) => {
 }
 
 exports.removeVietnameseTones = (str) => {
+    if (str === undefined || str === null) {
+        return ""
+    }
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
     str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
     str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 

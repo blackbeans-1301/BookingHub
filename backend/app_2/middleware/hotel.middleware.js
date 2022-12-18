@@ -8,9 +8,11 @@ const User = db.user
 const Owner = db.owner
 const Reservation = db.reservation
 const Occupied_room = db.occupied_room
+const Bill = db.bill
 
 const hotelControllers = require("../controllers/hotel.controller.js")
 const controllers = require("../controllers/controller.js")
+const { bill } = require("../models/index.js")
 
 
 // tao hotel
@@ -24,6 +26,10 @@ exports.createHotel = async (req, res) => {
         return res.status(400).send({ message: "Unable to create hotel (is not owner)" })
     }
 
+    // kiem tra province
+    if (req.body.province === undefined) {
+        return res.status(400).send({ message: "Missing province field" })
+    }
     // tao hotel 
     let value = {
         owner_id: accountData.owner_id,
@@ -189,6 +195,10 @@ exports.hotelReservations = async (req, res) => {
 }
 
 exports.getHotelByCriteria = async (req, res) => {
+    if (req.body.province === undefined || req.body.date_in === undefined 
+        || req.body.date_out === undefined || req.body.number_of_guest === undefined || req.body.number_of_room === undefined) {
+            return res.status(400).send({ message: "Unable to get hotel (missing field)"})
+        }
     let condition1 = {
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase())
     }
@@ -232,7 +242,39 @@ exports.getHotelByCriteria = async (req, res) => {
             h--
         }
     }
-
     return res.status(200).send(data)
 
+}
+
+exports.calculateIncome = async function (req, res) {
+    let data = await Bill.findAll({
+        include: {
+            model: Reservation,
+            include: {
+                model: Room,
+                include: {
+                    model: Hotel,
+                    where: {
+                        hotel_id: req.params.hotel_id
+                    }
+                }
+            }
+        }
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        return { code: -2, err: err.message }
+    })
+
+
+    if (data.code === -2) {
+        return res.status(400).send({ message: "Unable to calculate income", err: data.err })
+    }
+
+    let totalIncome = 0;
+    for (let i = 0; i < data.length; i++) {
+        totalIncome += data[i].total_price
+    }
+
+    return res.status(200).send({ totalIncome })
 }
