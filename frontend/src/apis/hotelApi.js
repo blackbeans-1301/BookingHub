@@ -102,7 +102,7 @@ export const updateHotelInfor = (data, tokenStr) => {
 };
 
 // function search hotels by some criterias
-export const searchHotelByCriteria = (data, setHotels) => {
+export const searchHotelByCriteria = (data, setHotel) => {
   const options = {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -113,7 +113,8 @@ export const searchHotelByCriteria = (data, setHotels) => {
     .put(SEARCH_HOTEL_BY_CRITERIA_URL, data, options)
     .then((res) => {
       console.log("RESPONSE:", res);
-      setHotels(res);
+      setHotel(res.data);
+      return res.data;
     })
     .catch((err) => {
       console.log("ERROR:", err);
