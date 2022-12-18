@@ -8,6 +8,7 @@ import {
   REGISTER_URL,
   RESET_PASSWORD_URL,
   FORGOT_PASSWORD_URL,
+  RESET_PASSWORD_BY_CODE_URL
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -95,9 +96,36 @@ export const resetPassword = async (data, tokenStr) => {
   return response
 }
 
-export const forgotPassword = async (data) => {
+
+export const resetPasswordWithVerificationCode = async (data) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
   const response = axios
-    .put(FORGOT_PASSWORD_URL, data)
+    .put(RESET_PASSWORD_BY_CODE_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
+export const forgotPassword = async (data) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+  const response = axios
+    .put(FORGOT_PASSWORD_URL, data, options)
     .then((res) => {
       return res.data
     })

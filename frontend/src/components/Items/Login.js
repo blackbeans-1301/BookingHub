@@ -7,11 +7,12 @@ import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI, getUserInfor, forgotPassword } from "../../apis/userApi"
+import { loginAPI, getInformation, registerAPI, getUserInfor, forgotPassword, resetPasswordWithVerificationCode } from "../../apis/userApi"
 import { toast } from "react-toastify"
 import { useSetRecoilState } from "recoil"
 import { userState } from "../../store/atoms/userState"
 import { tokenState } from "../../store/atoms/tokenState"
+import * as Promise from "bluebird"
 import { LoadingButton } from "@mui/lab"
 import ToastMessage from "./ToastMessage"
 import { parse, isDate } from "date-fns"
@@ -54,10 +55,17 @@ const forgotPassValidationSchema = yup.object({
     .email("Let enter a valid email")
     .required("Enter your email"),
 })
+
+const resetPasswordValidationSchema = yup.object({
+  verificationCode: yup.string().required("Enter verification code"),
+  newPassword: yup.string().required("Enter New password"),
+  repeatPassword: yup.string().required("Enter Repeat Password"),
+})
 export default function Login({ isVisible, isClose }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
   const [recoverEmail, setRecoverEmail] = useState()
+  const [error, setError] = useState("")
   // const setToken = ,useSetRecoilState(tokenState)
   // const setUser = useSetRecoilState(userState)
 
@@ -85,7 +93,7 @@ export default function Login({ isVisible, isClose }) {
     const data = {
       email: values.email,
       password: values.password,
-      isOwner: 1,
+      isOwner: 0,
     }
     setIsLoading(true)
     getToken(data)
@@ -164,10 +172,53 @@ export default function Login({ isVisible, isClose }) {
     },
   })
 
+  const resetPasswordFormik = useFormik({
+    initialValues: {
+      newPassword: "",
+      repeatPassword: "",
+      verificationCode: "",
+    },
+    validationSchema: resetPasswordValidationSchema,
+    onSubmit: (values) => {
+      if (values.verificationCode.toString().trim().length !== 6) {
+        setError("Not a valid code!")
+        return
+      }
+
+      if (values.newPassword !== values.repeatPassword) {
+        setError("Password not match, please retype again!")
+        return
+      }
+      setError("")
+      requestNewPassword(values.verificationCode, values.newPassword)
+    },
+  })
+
   const sendEmail = async () => {
-    console.log(recoverEmail)
     const response = await forgotPassword({ email: recoverEmail, isOwner: 0 })
     console.log(response)
+    if (response.message === 'Send code to email successfully') {
+      setActive("confirm")
+    }
+  }
+
+  const requestNewPassword = async (verificationCode, password) => {
+    const data = {
+      code: verificationCode,
+      isOwner: 0,
+      email: recoverEmail,
+      newPassword: password,
+    }
+    console.log(data)
+    const response = await resetPasswordWithVerificationCode(data)
+
+    console.log(response)
+    if (response.message === 'Reset password successfully') {
+      toast.success("Reset password successfully! Going to login.")
+      setActive("signin")
+    } else {
+      toast.error("Wrong verification code! Please try again.")
+    }
   }
 
   if (!isVisible) return null
@@ -288,71 +339,6 @@ export default function Login({ isVisible, isClose }) {
               </button>
             </div>
 
-            {/* <div>
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Username</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="text"
-                  name="username"
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Fullname</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="text"
-                  name="fullname"
-                  onChange={(e) => {
-                    setFullname(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Email</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="email"
-                  name="email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Password</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="password"
-                  name="password"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              </div>
-
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Confirm password</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="password"
-                />
-              </div>
-            </div> */}
-
-            {/* <button
-              type="submit"
-              className="font-bold text-lg mb-4 pl-4 pr-4 bg-light-primary w-full text-colorText py-2 rounded-full hover:bg-primary hover:text-white"
-              onClick={signUpFunc}
-            >
-              Sign up
-            </button> */}
             <form
               className="flex flex-col m-4"
               onSubmit={registerFormik.handleSubmit}
@@ -609,7 +595,7 @@ export default function Login({ isVisible, isClose }) {
                 className="bg-sky-300 text-xl font-bold rounded-full mt-6 hover:bg-sky-500 hover:text-white py-2"
                 type="submit"
               >
-                Send
+                Continue
               </button>
             </form>
 
@@ -619,6 +605,108 @@ export default function Login({ isVisible, isClose }) {
             >
               Send
             </button> */}
+          </div>
+        )}
+
+        {active === "confirm" && (
+          <div className="bg-white p-2 rounded flex flex-col m-2">
+            <div className="flex justify-between m-2">
+              <h2 className="font-bold text-3xl text-colorText">
+                Reset password
+              </h2>
+              <button
+                className="text-light-close text-xl place-self-end hover:text-close-color"
+                onClick={() => isClose()}
+              >
+                <CancelIcon />
+              </button>
+            </div>
+            <form
+              className="flex flex-col m-4"
+              onSubmit={resetPasswordFormik.handleSubmit}
+            >
+
+              <FormControl className="my-2">
+                <Typography variant="subtitle2">Verification code</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="Enter verification code"
+                  name="verificationCode"
+                  value={resetPasswordFormik.values.verificationCode}
+                  error={
+                    resetPasswordFormik.touched.verificationCode &&
+                    Boolean(resetPasswordFormik.errors.verificationCode)
+                  }
+                  onChange={resetPasswordFormik.handleChange}
+                  helperText={
+                    resetPasswordFormik.touched.verificationCode &&
+                    resetPasswordFormik.errors.verificationCode
+                  }
+                />
+              </FormControl>
+              <FormControl className="my-2">
+                <Typography variant="subtitle1">New Password</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="New password"
+                  name="newPassword"
+                  value={resetPasswordFormik.values.newPassword}
+                  error={
+                    resetPasswordFormik.touched.newPassword &&
+                    Boolean(resetPasswordFormik.errors.newPassword)
+                  }
+                  onChange={resetPasswordFormik.handleChange}
+                  helperText={
+                    resetPasswordFormik.touched.newPassword &&
+                    resetPasswordFormik.errors.newPassword
+                  }
+                />
+              </FormControl>
+
+              <FormControl className="my-2">
+                <Typography variant="subtitle2">Repeat Password</Typography>
+                <TextField
+                  sx={{
+                    height: "85px",
+                  }}
+                  placeholder="Repeat password"
+                  name="repeatPassword"
+                  value={resetPasswordFormik.values.repeatPassword}
+                  error={
+                    resetPasswordFormik.touched.repeatPassword &&
+                    Boolean(resetPasswordFormik.errors.repeatPassword)
+                  }
+                  onChange={resetPasswordFormik.handleChange}
+                  helperText={
+                    resetPasswordFormik.touched.repeatPassword &&
+                    resetPasswordFormik.errors.repeatPassword
+                  }
+                />
+              </FormControl>
+
+              <div className="p-2 right-0 flex justify-end items-end">
+                Go to
+                <span
+                  className="font-bold text-light-primary hover:text-primary mx-2"
+                  onClick={() => setActive("signin")}
+                >
+                  Sign in
+                </span>
+              </div>
+              <div className="text-red-700 font-bold text-center">{error}</div>
+              <button
+                loading={isLoading}
+                variant="contained"
+                className="bg-sky-300 text-xl font-bold rounded-full mt-6 hover:bg-sky-500 hover:text-white py-2"
+                type="submit"
+              >
+                Confirm
+              </button>
+            </form>
           </div>
         )}
       </div>
