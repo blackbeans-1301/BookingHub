@@ -10,11 +10,13 @@ router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 
 router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     function (req, res) {
-        res.send(req.user)
+        let accessToken = req.user
+        let fe_link = `${process.env.FE_URL}/user/GoogleAuthPage?x=${accessToken}`
+        res.redirect(fe_link)
     });
 
 // register an user account:
-router.post('/register', userMiddleware.register); 
+router.post('/register', userMiddleware.register);
 
 // login an account
 router.post('/login', userMiddleware.login);
