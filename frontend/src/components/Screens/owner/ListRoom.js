@@ -8,6 +8,7 @@ import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import InfoRoomModal from "../../Items/InfoRoomModal"
 import { getAllRoomsApi } from "../../../apis/roomApi"
 import { getLSItem, setLSItem, redirect } from "../../../utils"
+import VerifyModal from "../../Items/VerifyModal"
 
 
 export default function ListRoom() {
@@ -105,37 +106,6 @@ export default function ListRoom() {
               </thead>
 
               <tbody>
-                {/* Images
-: 
-(2) [{…}, {…}]
-criteria
-: 
-"Wifi, view dep"
-description
-: 
-"heheheheheheheh"
-hotel_id
-: 
-"b28cda9e-5686-44d9-939f-cd0665660b21"
-number_of_bed
-: 
-"2"
-price
-: 
-10
-room_id
-: 
-"1b1f5b43-de0e-45e7-91b3-e581799a1c18"
-room_name
-: 
-"101"
-status
-: 
-false
-type_of_room
-: 
-"111" */}
-
                 {allRooms !== undefined &&
                   allRooms.map((room, index) => {
                     return (

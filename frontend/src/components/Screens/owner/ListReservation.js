@@ -11,11 +11,17 @@ import InfoHotelModal from "../../Items/InfoHotelModal";
 import { getLSItem, redirect, setLSItem } from "../../../utils";
 import ReservationInforModal from "../../Items/ReservationInforModal";
 import { Fragment } from "react";
+import VerifyModal from "../../Items/VerifyModal";
 
 const ListReservation = () => {
   const [allHotels, setAllHotels] = useState();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [reservation, setReservation] = useState();
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [verifyContent, setVerifyContent] = useState();
+  const [type, setType] = useState();
+  const [verified, setVerified] = useState(false);
+  const [reservationID, setReservationID] = useState();
   const [hotelDetail, setHotelDetail] = useState({
     name: "",
     address: "",
@@ -37,6 +43,10 @@ const ListReservation = () => {
     setLSItem("hotelID", id);
     redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
   }
+
+  function checkInFunction() {}
+
+  console.log("verified", verified);
 
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -160,7 +170,7 @@ const ListReservation = () => {
 
                           {/* column 9: actions */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                            <div className="flex">
+                            <span className="flex">
                               <button
                                 type="button"
                                 className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
@@ -185,22 +195,39 @@ const ListReservation = () => {
                               >
                                 <MoreVertSharpIcon />
                               </button> */}
-                            </div>
+                            </span>
                           </td>
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {/* <button
-                              className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                              onClick={() => {
-                                // setLSItem("hotelID", hotel.hotel_id);
-                                redirect(
-                                  `${process.env.API_URL}/owner/ListRoomPage`
-                                );
-                              }}
-                            >
-                              List rooms
-                            </button> */}
+                            <p className="text-gray-900p">
+                              <button
+                                className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white font-semibold"
+                                onClick={() => {
+                                  console.log("click check in");
+                                  setVerifyContent(
+                                    "This guest will be checked in. You can't undo this action."
+                                  );
+                                  setShowVerifyModal(true);
+                                  setType("checkIn");
+                                  console.log("verified", verified);
+                                  setReservationID(item.reservation_id);
+                                }}
+                              >
+                                Check-in
+                              </button>
+
+                              <button
+                                className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white font-semibold"
+                                onClick={() => {
+                                  console.log("click check out");
+                                  setVerifyContent(
+                                    "This guest will be checked out. You can't undo this action."
+                                  );
+                                  setShowVerifyModal(true);
+                                }}
+                              >
+                                Checkout
+                              </button>
                             </p>
                           </td>
                         </tr>
@@ -210,6 +237,16 @@ const ListReservation = () => {
                             isVisible={showInfoModal}
                             isClose={() => setShowInfoModal(false)}
                             detail={item}
+                          />
+                        )}
+
+                        {showVerifyModal && (
+                          <VerifyModal
+                            isVisible={showVerifyModal}
+                            isClose={() => setShowVerifyModal(false)}
+                            detail={verifyContent}
+                            type={type}
+                            id={reservationID}
                           />
                         )}
                       </Fragment>
