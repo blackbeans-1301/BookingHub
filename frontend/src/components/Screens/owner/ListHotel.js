@@ -10,7 +10,7 @@ import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
 import { FormatDateToGB } from "../../Common/CommonFunc"
-
+// test
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
   const [showInfoModal, setShowInfoModal] = useState(false)
