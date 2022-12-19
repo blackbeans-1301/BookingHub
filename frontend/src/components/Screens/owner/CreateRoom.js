@@ -176,7 +176,7 @@ export default function CreateRoom() {
     const hotelID = 0
     formik.values.criteria = criterias.toString()
     const data = {
-      hotel: {hotel_id: values.hotel},
+      hotel: values.hotel,
       room_name: values.room_name,
       criteria: values.criteria,
       number_of_bed: values.number_of_bed,

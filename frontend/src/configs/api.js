@@ -60,6 +60,8 @@ export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`
 
 export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`
 
+export const GET_ALL_ROOMS_BY_CRITERIA_URL = `${DOMAIN_URL}/room/roomCriteria`
+
 // API for reservation
 
 export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`;
@@ -67,3 +69,11 @@ export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`;
 export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`;
 
 export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`;
+
+// API for comments ------------------------
+
+export const CREATE_COMMENT_URL = `${DOMAIN_URL}/comment/create`
+
+export const GET_COMMENTS_OF_HOTEL_URL = `${DOMAIN_URL}/comment/hotelComments`
+
+export const GET_COMMENTS_OF_RESERVATION_URL = `${DOMAIN_URL}/comment/reservationComment`
