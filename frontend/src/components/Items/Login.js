@@ -88,7 +88,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
 
         console.log('token', getLSItem('token'))
         toast.success("Login successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("login failed")
         toast.error(response)

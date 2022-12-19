@@ -62,7 +62,12 @@ const validationSchema = yup.object({
   name: yup.string().required("Enter your hotel's name"),
   address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
+  email: yup
+    .string()
+    .email("Let enter a valid email")
+    .required("Enter your email"),
   province: yup.string().required("Province is required"),
+  phone: yup.string().required("Phone number is required"),
   phone: yup.string().required("Phone number is required"),
   fromCenter: yup.string().required("This field is required"),
   criteria: yup.array(),
@@ -170,6 +175,7 @@ export default function CreateHotel() {
       address: values.address,
       province: values.province,
       phone: values.phone,
+      email: values.email,
       fromCenter: values.fromCenter,
       criteria: values.criteria,
       imgURL: values.imgURL,
@@ -182,6 +188,7 @@ export default function CreateHotel() {
     initialValues: {
       name: "",
       description: "",
+      email: "",
       address: "",
       province: "",
       phone: "",
@@ -267,6 +274,22 @@ export default function CreateHotel() {
             error={formik.touched.phone && Boolean(formik.errors.phone)}
             onChange={formik.handleChange}
             helperText={formik.touched.phone && formik.errors.phone}
+          />
+        </FormControl>
+
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Email</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter hotel's email..."
+            name="email"
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.email && formik.errors.email}
           />
         </FormControl>
 
