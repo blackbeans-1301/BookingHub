@@ -145,6 +145,8 @@ export default function Hotel({ id, dateIn, dateOut }) {
     getHotelById(id, setHotel)
   }, [])
 
+  const token = getLSItem("token")
+
   const data = {
     hotel_id: id,
     date_in: FormatDate(dateIn),
@@ -171,16 +173,13 @@ export default function Hotel({ id, dateIn, dateOut }) {
   }, [listRoom])
 
   const handleButtonReserveClicked = (roomId) => {
-    console.log("---------------------------------------")
     if (listRoomToReserve.includes(roomId)) {
-      console.log("GO TO UNRESERVE")
       let listRoomTemp = listRoomToReserve
       listRoomTemp.splice(listRoomTemp.indexOf(roomId))
 
       let roomStatusTemp = roomStatus
       roomStatusTemp[listRoomId.indexOf(roomId)] = "reserve"
 
-      console.log("room status", roomStatusTemp)
       setRoomStatus(['reserve', 'reserve', 'reserve'])
       setListRoomToReserve(listRoomTemp)
       setLSItem("roomsToReserve", listRoomTemp)
@@ -196,14 +195,21 @@ export default function Hotel({ id, dateIn, dateOut }) {
       setListRoomToReserve(listRoomTemp)
       setLSItem("roomsToReserve", listRoomTemp)
     }
-    console.log(roomStatus)
-    console.log(listRoomToReserve)
   }
 
-  useEffect(() => {
-    console.log(roomStatus)
-  }, [listRoomToReserve])
+  // useEffect(() => {
+  //   checkFavoriteHotel(token, id, setFavorite);
+  // }, []);
+  // console.log("favorite", favorite);
 
+  // if (favorite !== undefined && favorite.code === 1) {
+  //   setIsFavorite(true);
+  // } else {
+  //   setIsFavorite(false);
+  // }
+
+  // {code: 0}
+  // chua dang nhap: {message:Forbidden}
   return (
     // hotelContainer
     <div className="flex justify-center mt-4">
@@ -214,13 +220,41 @@ export default function Hotel({ id, dateIn, dateOut }) {
 
         <div className="w-full">
           {/* hotelTitle */}
-          <h1 className="text-2xl font-bold text-sky-600">
-            {hotel !== undefined && hotel.name}
-          </h1>
 
-          <span className="">
-            {hotel !== undefined && hotel.rating}/10 Very good
-          </span>
+          <div className="flex justify-between">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold text-sky-600">
+                {hotel !== undefined && hotel.name}
+              </h1>
+
+              <span className="">
+                {hotel !== undefined && hotel.rating}/10 Very good
+              </span>
+            </div>
+
+            <div className="text-red-500 mr-10">
+              {/* {isFavorite === false ? (
+                <span
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setIsFavorite(true);
+                  }}
+                >
+                  <FavoriteBorderIcon />
+                </span>
+              ) : (
+                <span
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setIsFavorite(false);
+                  }}
+                >
+                  <FavoriteIcon />
+                </span>
+              )} */}
+            </div>
+          </div>
+
           {/* hotelAddress */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
@@ -260,8 +294,8 @@ export default function Hotel({ id, dateIn, dateOut }) {
           </div>
         </div>
 
-        <div className="">
-          <h1 className="text-lg font-bold text-sky-600">Choose  room</h1>
+        {/* <div className="">
+          <h1 className="text-lg font-bold text-sky-600">Choose your room</h1>
           <div className="flex">
             <div className="flex items-center ml-2">
               <div className="relative flex items-center text-sky-300 focus-within:text-sky-600 mr-4">
@@ -304,7 +338,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
                 type="value"
                 value={`${room} rooms, ${adult + child} people`}
                 onClick={() => setOpen(!open)}
-              //   onBlur={() => setOpen(!open)}
+          
               />
 
               {open && (
@@ -312,7 +346,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
                   <div className="w-56 flex justify-between px-2 m-2">
                     <p className="w-20">Rooms</p>
 
-                    {/* optionCounter */}
+                   
                     <div className="flex items-center gap-2.5">
                       <button
                         className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
@@ -375,7 +409,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
               Check availability
             </button>
           </div>
-        </div>
+        </div> */}
 
 
 
@@ -454,10 +488,14 @@ export default function Hotel({ id, dateIn, dateOut }) {
             <div className="flex">
               <div className="flex-1">
                 <div className="flex items-center">
-                  <span className="text-6xl font-bold mr-2">{hotel && hotel.rating.toFixed(1)}</span>
+                  <span className="text-6xl font-bold mr-2">
+                    {hotel.rating.toFixed(1)}
+                  </span>
                   <div className="flex flex-col">
                     <span className="text-lg font-bold">Very Good</span>
-                    <span className="text-sky-600">{listComment.length} reviews</span>
+                    <span className="text-sky-600">
+                      {listComment.length} reviews
+                    </span>
                   </div>
                 </div>
               </div>
@@ -465,12 +503,18 @@ export default function Hotel({ id, dateIn, dateOut }) {
               <div className="flex3">
                 {listComment.map((item, index) => {
                   return (
-                    <div className="bg-sky-100 rounded-lg p-2 flex flex-col my-2" key={index}>
+                    <div
+                      className="bg-sky-100 rounded-lg p-2 flex flex-col my-2"
+                      key={index}
+                    >
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                          <span className="text-lg font-bold">{item.rating}/5 Good</span>
+                          <span className="text-lg font-bold">
+                            {item.rating}/5 Good
+                          </span>
                           <span className="font-bold text-sky-600 text-xl">
-                            {item.Reservation.User.firstName} {item.Reservation.User.lastName}
+                            {item.Reservation.User.firstName}{" "}
+                            {item.Reservation.User.lastName}
                           </span>
                         </div>
                         <span className="text-gray-400">
@@ -481,11 +525,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
                       <span className="text-gray-500">
                         <TagFacesIcon /> Liked
                       </span>
-                      <p className="ml-2">
-                        {item.content}
-                      </p>
+                      <p className="ml-2">{item.content}</p>
                       <span className="text-gray-400 text-sm">
-                        Stayed in {FormatDateToGBShort(item.Reservation.check_in)}
+                        Stayed in{" "}
+                        {FormatDateToGBShort(item.Reservation.check_in)}
                       </span>
                     </div>
                   )

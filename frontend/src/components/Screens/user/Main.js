@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { Fragment, useEffect, useState } from "react"
 import LocalHotelIcon from "@material-ui/icons/LocalHotel"
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline"
 import Flatpickr from "react-flatpickr"
@@ -13,6 +13,14 @@ import NearbyHotel from "./nearbyHotel/NearbyHotel"
 import PopularCities from "../../Items/PopularCities"
 import Reason from "../../Layouts/user/Reason"
 import { redirect } from "../../../utils"
+import { Autocomplete, TextField } from "@mui/material"
+
+import { useDebounce } from "use-debounce"
+import { searchHotelByKeyword } from "../../../apis/hotelApi"
+
+import { AsyncPaginate } from "react-select-async-paginate"
+import { mapValues } from "lodash"
+import { NonceProvider } from "react-select"
 
 export default function Main() {
   const [destination, setDestination] = useState()
@@ -22,10 +30,25 @@ export default function Main() {
   const [adult, setAdult] = useState(1)
   const [child, setChild] = useState(0)
   const [open, setOpen] = useState(false)
-  const [hotel, setHotel] = useState([])
+  const [hotel, setHotel] = useState("")
+
+  const [advanceList, setAdvanceList] = useState([])
+  const [searchValue, setSearchValue] = useState("")
+  // const [keywords] = useDebounce(searchValue, 1500) //delay set value keywords sau 1.5s
 
   const { arrive } = arriveDay
   const { leave } = leaveDay
+
+  const defaultProps = {
+    options: advanceList,
+    getOptionLabel: (options) => {
+      if (options.length > 0) {
+        return options.name
+      } else {
+        return ""
+      }
+    },
+  }
 
   //   room
   const decreaseRoom = () => {
@@ -113,6 +136,40 @@ export default function Main() {
     redirect(`${process.env.API_URL}/user/SearchHotelPage?x=${destination}/${date_in}/${date_out}/room${room}/guest${guest}`)
   }
 
+  const getAdvanceList = async (keyword) => {
+    await searchHotelByKeyword(keyword).then((response) => {
+      setAdvanceList(response.data)
+    })
+  }
+
+  // useEffect(() => {
+  //   if(keywords){
+  //     console.log("keywords", keywords)
+  //     getAdvanceList(keywords)
+  //   }
+  // },[keywords])
+
+  const handleSearchChange = (value) => {
+    setSearchValue(value)
+  }
+
+  const handleChange = (value) => {
+    setHotel(value)
+    setDestination(value.province)
+  }
+  const getData = async (keyword) => {
+    const response = await searchHotelByKeyword(keyword)
+
+    return {
+      options: [...response.data],
+      hasMore: false,
+    }
+  }
+
+  const loadOptions = (searchValues) => {
+    return getData(searchValues || "a")
+  }
+
   return (
     <div className="w-full">
       <div className="m-4">
@@ -120,17 +177,43 @@ export default function Main() {
           Find the stay
         </div>
         <div className="drop-shadow-sm p-2 flex justify-center">
-          <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
-            <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-            <input
+          <div className="relative w-60 flex items-center text-gray-400 focus-within:text-gray-600">
+            {/* <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" /> */}
+            <AsyncPaginate
+              styles={{
+                border: 'none',
+                width: '200px',
+              }}
+              className="w-60"
+              value={hotel}
+              debounceTimeout={1000}
+              loadOptions={loadOptions}
+              getOptionLabel={(e) => e.province}
+              getOptionValue={(e) => e.province}
+              onInputChange={handleSearchChange}
+              onChange={handleChange}
+            />
+            {/* <Autocomplete
+            {...defaultProps}
+            sx={{
+              width: "100px"
+            }}
+              value={  hotel ? hotel : ""}
+              onChange={(e, newValue) => setHotel(newValue)}
+              inputValues={searchValue}
+              onInputChange={(e, newValue) => setSearchValue(newValue)}
+              renderInput={(param) => (<TextField {...param} label="Hotel" />)}
+            /> */}
+
+            {/* <input
               className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
               type="text"
               placeholder="Find the destination..."
               value={destination}
               onChange={(e) => {
-                setDestination(e.target.value)
+                setDestination(e.target.value);
               }}
-            />
+            /> */}
           </div>
 
           <div className="flex items-center ml-2">
@@ -253,6 +336,6 @@ export default function Main() {
       <Reason />
       <NearbyHotel />
       <PopularCities />
-    </div >
+    </div>
   )
 }

@@ -2,6 +2,7 @@ import * as yup from "yup"
 import React, { Fragment } from "react"
 import { useState } from "react"
 import CancelIcon from "@material-ui/icons/Cancel"
+import GoogleIcon from '@mui/icons-material/Google'
 // import axios, { Axios } from "axios";
 import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
@@ -91,7 +92,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
         setTimeout(redirectFunc, 1000)
       } else {
         console.log("login failed")
-        toast.error(response)
+        toast.error("Error signing uin! Please try again!")
+
       }
       setIsLoading(false)
     }
@@ -129,7 +131,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
         setActive("signin")
       } else {
         console.log("Sign up failed")
-        toast.error(response)
+        toast.error("Error signing up! Please try again!")
       }
 
       setIsLoading(false)
@@ -327,6 +329,21 @@ export default function Login({ isVisible, isClose, isOwner }) {
                 {" "}
                 Sign up
               </span>
+            </div>
+            <div className="text-center text-gray-500 flex center justify-center">
+              <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
+              or
+              <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
+            </div>
+            <div className="flex justify-center">
+              <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
+                onClick={() => {
+                  console.log("go to google")
+                  redirect(`https://localhost:3000/api/user/auth/google/`)
+                }}
+              >
+                <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />
+              </div>
             </div>
           </div>
         )}

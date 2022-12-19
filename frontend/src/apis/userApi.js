@@ -10,8 +10,12 @@ import {
   FORGOT_PASSWORD_URL,
   RESET_PASSWORD_BY_CODE_URL,
   UPDATE_USER_INFO,
-  GET_TOTAL_PRICE,
-  CREATE_RESERVATION_API
+  CHECK_FAVORITE_HOTEL_URL,
+  GET_HISTORY_URL,
+  ADD_FAVORITE_HOTEL_URL,
+  GET_ALL_RESERVATIONS_OF_USER_URL,
+  CREATE_RESERVATION_API,
+  GET_TOTAL_PRICE
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -227,4 +231,99 @@ export const forgotPassword = async (data) => {
 
 export const googleRegister = async () => {
   const res = axios.get(GOOGLE_REGISTER_URL).then((res) => console.log(res))
+}
+
+export const checkFavoriteHotel = async (token, hotelID, setStatus) => {
+  let URL = `${CHECK_FAVORITE_HOTEL_URL}/${hotelID}`
+  console.log("URL", URL)
+
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = axios
+    .get(URL, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      setStatus(res.data.code)
+      return res.data.code
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
+export const getHistory = async (token, setHistory) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios
+    .get(GET_HISTORY_URL, options)
+    .then((res) => {
+      console.log("res==", res)
+      setHistory(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return {
+        status: err.response.status,
+        message: err.response.data.message
+      }
+    })
+  return response
+}
+
+export const getReservations = async (token, setReservation) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios
+    .get(GET_ALL_RESERVATIONS_OF_USER_URL, options)
+    .then((res) => {
+      console.log("res==", res)
+      setReservation(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return {
+        status: err.response.status,
+        message: err.response.data.message
+      }
+    })
+  return response
+}
+
+export const addFavoriteHotel = async (token, data) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
+  const response = axios
+    .post(ADD_FAVORITE_HOTEL_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
 }
