@@ -72,8 +72,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
   // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    console.log(process.env.API_URL)
-    redirect(process.env.API_URL)
+    redirect(isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`)
   }
 
   const handleLogin = (values) => {
@@ -88,7 +87,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
 
         console.log('token', getLSItem('token'))
         toast.success("Login successfully")
-        setTimeout(redirectFunc, 3000)
+
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("login failed")
         toast.error(response)

@@ -12,7 +12,7 @@ export default function OwnerHeader() {
     <Fragment>
       <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
         <div className="flex justify-between items-center w-full h-full">
-          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
+          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" onClick={() => redirect(`${process.env.API_URL}/owner/main`)} />
           <div className="flex">
             <button
               className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"

@@ -1,5 +1,5 @@
-import * as React from "react";
-import Slider from "react-slick";
+import * as React from "react"
+import Slider from "react-slick"
 
 const photos = [
   {
@@ -11,7 +11,7 @@ const photos = [
   {
     src: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
   },
-];
+]
 
 export default function HotelImg() {
   const settings = {
@@ -22,12 +22,10 @@ export default function HotelImg() {
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-  };
+  }
 
   return (
     <div className="ml-8">
-      <h1 className="text-2xl font-bold text-gray-600">Stays near you</h1>
-      <h1 className="font-sans">From Sun, Dec 4 - Mon, Dec 5</h1>
       <Slider
         {...settings}
         arrows={true}
@@ -39,27 +37,27 @@ export default function HotelImg() {
         ))}
       </Slider>
     </div>
-  );
+  )
 }
 
 function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
+  const { className, style, onClick } = props
   return (
     <div
       className={className}
       style={{ ...style, display: "block", background: "red" }}
       onClick={onClick}
     />
-  );
+  )
 }
 
 function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
+  const { className, style, onClick } = props
   return (
     <div
       className={className}
       style={{ ...style, display: "block", background: "green" }}
       onClick={onClick}
     />
-  );
+  )
 }

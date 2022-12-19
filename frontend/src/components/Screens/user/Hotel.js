@@ -7,27 +7,100 @@ import "flatpickr/dist/themes/material_blue.css"
 import { useState, useEffect } from "react"
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline"
+import { date } from "yup"
+import CancelIcon from "@material-ui/icons/Cancel"
 import TagFacesIcon from "@material-ui/icons/TagFaces"
+import { parse, isDate } from "date-fns"
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined"
 import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined"
 import { getHotelById } from "../../../apis/hotelApi"
 import { getAllRoomsByCriteria } from "../../../apis/roomApi"
 import { FormatDate, FormatDateToGBShort } from "../../Common/CommonFunc"
+import * as yup from "yup"
 import { getCommentsOfHotel } from "../../../apis/commentApi"
+import * as _ from "lodash"
+import FormControl from "@material-ui/core/FormControl"
+import { useFormik } from "formik"
+import { setLSItem, getLSItem } from "../../../utils"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
+import { toSafeInteger } from "lodash"
+import { toast } from "react-toastify"
+import ToastMessage from "../../Items/ToastMessage"
+import BookingModal from "../../Items/BookingModal"
+
+
+function parseDateString(value, originalValue) {
+  const parsedDate = isDate(originalValue)
+    ? originalValue
+    : parse(originalValue, "yyyy-MM-dd", new Date())
+
+  return parsedDate
+}
+
+const today = new Date()
+
+const reservationInfoValidationSchema = yup.object({
+  date_in: yup
+    .date().transform(parseDateString).max(today).required("Enter  date of birth. Please enter a valid date."),
+  date_out: yup
+    .date().transform(parseDateString).max(today).required("Enter  date of birth. Please enter a valid date."),
+  name: yup
+    .string()
+    .required("Enter  email"),
+  email: yup
+    .string()
+    .email("Let enter a valid email")
+    .required("Enter  email"),
+  phone: yup
+    .string()
+    .required("Enter  email"),
+  description: yup
+    .string()
+    .required("Enter  email"),
+  room_id: yup
+    .array()
+})
 
 export default function Hotel({ id, dateIn, dateOut }) {
   const [arriveDay, setArriveDay] = useState(new Date())
   const [leaveDay, setLeaveDay] = useState(new Date())
   const [room, setRoom] = useState(1)
+  const [active, setActive] = useState("")
   const [adult, setAdult] = useState(1)
   const [child, setChild] = useState(0)
   const [open, setOpen] = useState(false)
   const [hotel, setHotel] = useState()
   const [listRoom, setListRoom] = useState()
+  const [listRoomId, setListRoomId] = useState()
   const [listComment, setListComment] = useState()
+  const [listRoomToReserve, setListRoomToReserve] = useState([])
+  const [roomStatus, setRoomStatus] = useState([])
+  const [error, setError] = useState("")
 
   const { arrive } = arriveDay
   const { leave } = leaveDay
+
+  const reservationInfoFormik = useFormik({
+    initialValues: {
+      date_in: "",
+      date_out: "",
+      name: "",
+      email: "",
+      phone: "",
+      description: "",
+      room_id: listRoomToReserve,
+    },
+    validationSchema: reservationInfoValidationSchema,
+    onSubmit: (values) => {
+      requestCreateReservation(values)
+    },
+    enableReinitialze: true,
+  })
+
+  const requestCreateReservation = async (values) => {
+
+  }
 
   //   room
   const decreaseRoom = () => {
@@ -68,26 +141,9 @@ export default function Hotel({ id, dateIn, dateOut }) {
     setChild((prevCount) => prevCount + 1)
   }
 
-  console.log("hotel id", id)
-
   useEffect(() => {
     getHotelById(id, setHotel)
   }, [])
-
-  // const callApi = async () => {
-  //   const response = await getHotelById(id);
-  //   console.log('res', response);
-  //   setHotel(response);
-
-  //   if (response.status === 200) {
-  //   } else if (response.status === 400) {
-  //     console.log(response.status, response);
-  //     // toast.error(response.message);
-  //   }
-  // };
-  // callApi();
-
-  console.log("hotel", hotel)
 
   const data = {
     hotel_id: id,
@@ -95,24 +151,63 @@ export default function Hotel({ id, dateIn, dateOut }) {
     date_out: FormatDate(dateOut),
   }
 
-  console.log("post data", data)
   useEffect(() => {
     getAllRoomsByCriteria(data, setListRoom)
   }, [])
-  console.log("all room", listRoom)
-
   useEffect(() => {
     getCommentsOfHotel(id, setListComment)
   }, [])
-  console.log("comments", listComment)
 
-  const handleAddRoom = (roomId) => {
-    console.log(roomId)
+  useEffect(() => {
+    let roomStatusTemp = []
+    let roomIdTemp = []
+    for (var room in listRoom) {
+      roomStatusTemp.push("reserve")
+      roomIdTemp.push(listRoom[room].room_id)
+    }
+
+    setListRoomId(roomIdTemp)
+    setRoomStatus(roomStatusTemp)
+  }, [listRoom])
+
+  const handleButtonReserveClicked = (roomId) => {
+    console.log("---------------------------------------")
+    if (listRoomToReserve.includes(roomId)) {
+      console.log("GO TO UNRESERVE")
+      let listRoomTemp = listRoomToReserve
+      listRoomTemp.splice(listRoomTemp.indexOf(roomId))
+
+      let roomStatusTemp = roomStatus
+      roomStatusTemp[listRoomId.indexOf(roomId)] = "reserve"
+
+      console.log("room status", roomStatusTemp)
+      setRoomStatus(['reserve', 'reserve', 'reserve'])
+      setListRoomToReserve(listRoomTemp)
+      setLSItem("roomsToReserve", listRoomTemp)
+    } else {
+      let listRoomTemp = listRoomToReserve
+      listRoomTemp.push(roomId)
+      listRoomTemp = _.uniq(listRoomTemp)
+
+      let roomStatusTemp = roomStatus
+      roomStatusTemp[listRoomId.indexOf(roomId)] = "unreserved"
+
+      setRoomStatus(roomStatusTemp)
+      setListRoomToReserve(listRoomTemp)
+      setLSItem("roomsToReserve", listRoomTemp)
+    }
+    console.log(roomStatus)
+    console.log(listRoomToReserve)
   }
+
+  useEffect(() => {
+    console.log(roomStatus)
+  }, [listRoomToReserve])
 
   return (
     // hotelContainer
     <div className="flex justify-center mt-4">
+      <ToastMessage />
       {/* hotelWrapper */}
       <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4">
         <HotelImg />
@@ -166,7 +261,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
         </div>
 
         <div className="">
-          <h1 className="text-lg font-bold text-sky-600">Choose your room</h1>
+          <h1 className="text-lg font-bold text-sky-600">Choose  room</h1>
           <div className="flex">
             <div className="flex items-center ml-2">
               <div className="relative flex items-center text-sky-300 focus-within:text-sky-600 mr-4">
@@ -282,11 +377,14 @@ export default function Hotel({ id, dateIn, dateOut }) {
           </div>
         </div>
 
+
+
         <div className="mt-6 flex flex-wrap">
           {listRoom === undefined || listRoom.length === 0 ? (
             <div>There is no rooms</div>
           ) : (
             listRoom.map((item, index) => {
+              var status = roomStatus[index]
               return (
                 <div
                   className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2"
@@ -324,11 +422,12 @@ export default function Hotel({ id, dateIn, dateOut }) {
                       </span>
                     </div>
 
+
                     <div className="">
-                      <button className="text-black bg-sky-300 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded" onClick={() => {
-                        handleAddRoom()
-                      }}>
-                        Reserve
+                      <button className={"text-black bg-sky-500 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded"} onClick={
+                        () => handleButtonReserveClicked(item.room_id)
+                      }>
+                        {status}
                       </button>
                     </div>
                   </div>
@@ -336,7 +435,15 @@ export default function Hotel({ id, dateIn, dateOut }) {
               )
             })
           )}
-
+        </div>
+        <div className="ml-4 mb-12">
+          <h1 className="px-4 w-44 py-2 bg-primary text-white font-bold text-md rounded-md cursor-pointer" onClick={() => {
+            if (listRoomToReserve.length === 0) {
+              toast.error("Pick a room first")
+            } else {
+              setActive("confirm")
+            }
+          }}>Create Reservation</h1>
         </div>
 
         <div className="flex flex-col">
@@ -347,7 +454,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
             <div className="flex">
               <div className="flex-1">
                 <div className="flex items-center">
-                  <span className="text-6xl font-bold mr-2">{hotel.rating.toFixed(1)}</span>
+                  <span className="text-6xl font-bold mr-2">{hotel && hotel.rating.toFixed(1)}</span>
                   <div className="flex flex-col">
                     <span className="text-lg font-bold">Very Good</span>
                     <span className="text-sky-600">{listComment.length} reviews</span>
@@ -388,6 +495,12 @@ export default function Hotel({ id, dateIn, dateOut }) {
           )}
         </div>
       </div>
+
+      {active == "confirm" && (
+        <BookingModal isVisible={active == "confirm"} isClose={() => {
+          setActive("")
+        }} roomList={listRoomToReserve} availableRooms={listRoom} hotel={hotel} />
+      )}
     </div>
   )
 }
