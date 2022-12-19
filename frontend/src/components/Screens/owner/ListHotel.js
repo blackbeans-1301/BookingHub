@@ -9,6 +9,7 @@ import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
+import { FormatDateToGB } from "../../Common/CommonFunc"
 
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
@@ -113,14 +114,14 @@ export default function ListHotel() {
                         {/* column 7: created date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.createdAt}
+                            {FormatDateToGB(hotel.createdAt)}
                           </p>
                         </td>
 
                         {/* column 8: updated date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.updatedAt}
+                            {FormatDateToGB(hotel.updatedAt)}
                           </p>
                         </td>
 

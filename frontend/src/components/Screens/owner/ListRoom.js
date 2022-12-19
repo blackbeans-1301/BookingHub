@@ -68,111 +68,111 @@ export default function ListRoom() {
         List of stays
       </h1>
 
-      <div class="container mx-auto px-4 sm:px-8">
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-            <table class="min-w-full leading-normal">
+      <div className="container mx-auto px-4 sm:px-8">
+        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+          <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+            <table className="min-w-full leading-normal">
               <thead>
                 <tr>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     No
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Room
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Hotel name
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Address
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Room type
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Price
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Created date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Updated date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Actions
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                 </tr>
               </thead>
 
               <tbody>
-                {allRooms.length !== 0 &&
+                {allRooms === undefined ? <h1>There's no rooms.</h1> :
                   allRooms.map((room, index) => {
                     return (
                       <tr>
                         {/* column 1: id */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
                         {/* column 2: room */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.room_name}
                           </p>
                         </td>
 
                         {/* column 3: hotel's name */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.name}
                           </p>
                         </td>
 
                         {/* column 5: address */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.address}
                           </p>
                         </td>
 
                         {/* column 6: room type */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.type_of_room}
                           </p>
                         </td>
 
                         {/* column 7: price */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.price}
                           </p>
-                          <p class="text-gray-600 whitespace-no-wrap">USD</p>
+                          <p className="text-gray-600 whitespace-no-wrap">USD</p>
                         </td>
 
                         {/* column 8: posted date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.createdAt}
                           </p>
                         </td>
 
                         {/* column 8: posted date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.updatedAt}
                           </p>
                         </td>
 
                         {/* column 9: actions */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                          <div className="flex">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                          <span className="flex">
                             <button
                               type="button"
-                              class="inline-block mx-px text-green-300 hover:text-green-500"
+                              className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
                                 setRoomDetail(room)
                                 setTimeout(setShowInfoModal(true), 2000)
@@ -183,18 +183,18 @@ export default function ListRoom() {
 
                             <button
                               type="button"
-                              class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                              className="inline-block mx-px text-rose-300 hover:text-rose-500"
                             >
                               <DeleteIcon />
                             </button>
 
                             <button
                               type="button"
-                              class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                              className="inline-block mx-px text-gray-400 hover:text-gray-600"
                             >
                               <MoreVertSharpIcon />
                             </button>
-                          </div>
+                          </span>
                         </td>
                       </tr>
                     )

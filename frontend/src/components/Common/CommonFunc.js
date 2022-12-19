@@ -13,3 +13,8 @@ exports.FormatDate = (date) => {
     let dateInput = new Date(date);
     return dateInput.toLocaleDateString('en-CA'); 
 }
+
+exports.FormatDateToGB = (date) => { 
+    let dateInput = new Date(date);
+    return dateInput.toLocaleDateString('en-GB'); 
+}

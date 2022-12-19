@@ -63,6 +63,8 @@ const validationSchema = yup.object({
   address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
   province: yup.string().required("Province is required"),
+  phone: yup.string().required("Phone number is required"),
+  fromCenter: yup.string().required("This field is required"),
   criteria: yup.array(),
   imgURL: yup.array().required("Image field is required"),
 })
@@ -153,10 +155,10 @@ export default function CreateHotel() {
       console.log("type", typeof response)
       const type = typeof response
       if (type === "object") {
-        toast.success("Sign up successfully")
+        toast.success("Create a new hotel successfully.")
         setTimeout(redirectFunc, 3000)
       } else {
-        console.log("Sign up failed")
+        console.log("Create a new hotel failed.")
         toast.error(response)
       }
       setIsLoading(false)
@@ -167,6 +169,8 @@ export default function CreateHotel() {
       description: values.description,
       address: values.address,
       province: values.province,
+      phone: values.phone,
+      fromCenter: values.fromCenter,
       criteria: values.criteria,
       imgURL: values.imgURL,
     }
@@ -180,6 +184,8 @@ export default function CreateHotel() {
       description: "",
       address: "",
       province: "",
+      phone: "",
+      fromCenter: "",
       criteria: [],
       imgURL: [],
     },
@@ -246,6 +252,36 @@ export default function CreateHotel() {
             error={formik.touched.address && Boolean(formik.errors.address)}
             onChange={formik.handleChange}
             helperText={formik.touched.address && formik.errors.address}
+          />
+        </FormControl>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Phone number</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter your hotel's phone number..."
+            name="phone"
+            value={formik.values.phone}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.phone && formik.errors.phone}
+          />
+        </FormControl>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Distance to center(m)</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter the distance to center..."
+            name="fromCenter"
+            value={formik.values.fromCenter}
+            error={formik.touched.fromCenter && Boolean(formik.errors.fromCenter)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.fromCenter && formik.errors.fromCenter}
           />
         </FormControl>
 
