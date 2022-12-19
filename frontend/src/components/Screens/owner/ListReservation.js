@@ -12,6 +12,7 @@ import { getLSItem, redirect, setLSItem } from "../../../utils";
 import ReservationInforModal from "../../Items/ReservationInforModal";
 import { Fragment } from "react";
 import VerifyModal from "../../Items/VerifyModal";
+import { FormatDateToGB } from "../../Common/CommonFunc";
 
 const ListReservation = () => {
   const [allHotels, setAllHotels] = useState();
@@ -152,13 +153,13 @@ const ListReservation = () => {
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {item.date_in}
+                              {FormatDateToGB(item.date_in)}
                             </p>
                           </td>
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {item.date_out}
+                              {FormatDateToGB(item.date_out)}
                             </p>
                           </td>
 
@@ -224,6 +225,9 @@ const ListReservation = () => {
                                     "This guest will be checked out. You can't undo this action."
                                   );
                                   setShowVerifyModal(true);
+                                  setType("checkOut");
+                                  console.log("verified", verified);
+                                  setReservationID(item.reservation_id);
                                 }}
                               >
                                 Checkout

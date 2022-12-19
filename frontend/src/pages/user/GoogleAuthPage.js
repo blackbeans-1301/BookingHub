@@ -16,6 +16,7 @@ const GoogleAuthPage = ({ location }) => {
   setLSItem("token", token);
   console.log("get token", getLSItem('token'));
 
+    // http://localhost:8000/user/GoogleAuthPage?x=
   setTimeout(() => {
     redirect("http://localhost:8000")
   }, 100);

@@ -68,6 +68,20 @@ export default function Hotel({id}) {
   useEffect(() => {
     getHotelById(id, setHotel);
   }, [])
+
+  const callApi = async () => {
+    const response = await getHotelById(id);
+    console.log('res', response);
+    setHotel(response);
+
+    if (response.status === 200) {
+    } else if (response.status === 400) {
+      console.log(response.status, response);
+      // toast.error(response.message);
+    }
+  };
+  callApi();
+
   console.log('hotel', hotel);
 
   return (
@@ -80,14 +94,14 @@ export default function Hotel({id}) {
         <div className="w-full">
           {/* hotelTitle */}
           <h1 className="text-2xl font-bold text-sky-600">
-            {hotel.name}
+            {hotel !== undefined && hotel.name}
           </h1>
 
-          <span className="">{hotel.rating}/10 Very good</span>
+          <span className="">{hotel !== undefined && hotel.rating}/10 Very good</span>
           {/* hotelAddress */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
-            <span>{hotel.address}</span>
+            <span>{hotel !== undefined && hotel.address}</span>
           </div>
 
           <div className="">
@@ -116,7 +130,7 @@ export default function Hotel({id}) {
           {/* hotelDetails */}
           <div className="">
             {/* hotelDetailText */}
-            <h1 className="">{hotel.description}</h1>
+            <h1 className="">{hotel !== undefined && hotel.description}</h1>
 
             {/* hotelDesc */}
             <p className="">Located a 5-minute walk from the...</p>

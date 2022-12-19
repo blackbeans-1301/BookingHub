@@ -60,7 +60,7 @@ export const getAllRoomsApi = (setAllRooms, hotelData, tokenStr) => {
     })
     .catch((err) => {
       console.log("ERROR: ====", err)
-      return err.response.data.Message
+      return err.response.data.message
     })
 
   return response
