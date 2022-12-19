@@ -304,10 +304,18 @@ exports.userReservations = async (req, res) => {
             [Op.or]: ['located', 'waiting']
         }, 
     }
-    let dataReservation = await userControllers.UserReservations(Reservation, Bill, condition)
+    //Reservation, Room, Image, Hotel, Bill,condition
+    let dataReservation = await userControllers.UserReservations(Reservation, Room, Image, Hotel, Bill, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
+    
+    for (let reservation of dataReservation) {
+        reservation.dataValues.Hotel = reservation.dataValues.Rooms[0].dataValues.Hotel
+        delete reservation.dataValues.Rooms
+        delete reservation.dataValues.user_id
+    }
+    
     return res.status(200).send(dataReservation)
 }
 
@@ -523,7 +531,7 @@ exports.getHistory = async (req, res) => {
             [Op.or]: ['completed', 'canceled']
         }
     }
-    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, condition);
+    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, Bill,condition);
     if (reservationData.code === -2) {
         return res.status(400).send({message: "Unable to get history list", err: reservationData.err})
     }
