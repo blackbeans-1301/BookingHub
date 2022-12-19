@@ -19,7 +19,7 @@ const ProfilePage = () => {
 
   return (
     <Layout>
-      <div className="h-96 w-full bg-primary-light flex pt-20 px-32 justify-between">
+      <div className="h-80 w-full bg-primary-light flex pt-20 px-32 justify-between">
         <div className="">
           <h1 className="text-white font-bold text-5xl">Hello</h1>
           <div className="text-white text-md pt-12">
@@ -70,7 +70,9 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-            <div className="px-24 py-8 bg-primary text-white rounded-xl cursor-pointer flex align-center"><h1>Change Password</h1></div>
+            <div className="">
+              <h1 className="rounded-lg py-4 px-12 bg-primary text-white text-xl font-bold">Change Password</h1>
+            </div>
           </div>
         </div>
       </div>
