@@ -12,12 +12,13 @@ router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBel
 // // get list room of hotel
 router.post('/list', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.getHotelRoomList)
 
-// // get room's info
-router.get('/:room_id',  roomMiddleware.getRoomInfo)
+// delete room
+router.delete('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.deleteRoom )
 
 // get room by criteria
 router.put('/roomCriteria', roomMiddleware.getRoomByCriteria)
 
-//TODO: delete room
+// // get room's info
+router.get('/:room_id',  roomMiddleware.getRoomInfo)
 
 module.exports = router

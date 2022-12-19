@@ -23,11 +23,12 @@ exports.checkInfoReservation = async (req, res, next) => {
     if (req.body.room_id === undefined || req.body.room_id.length === 0) {
         return res.status(400).send({ message: "room_id field can't be empty or undefined" })
     }
-
+    req.body.date_in = controllers.GetDateTimeFromDate(req.body.date_in)
+    req.body.date_out = controllers.GetDateTimeFromDate(req.body.date_out)
     // check date co hop le khong
     let dateIn = new Date(req.body.date_in)
     let dateOut = new Date(req.body.date_out)
-    let dateNow = new Date(Date.now() - (60*60*24*1000))
+    let dateNow = new Date(Date.now() - (60*60*24*1000));
     if (dateIn < dateNow) {
         return res.status(400).send({ message: "date_in can't be less than now" })
     }
@@ -266,8 +267,8 @@ exports.isCancel = async (req, res, next) => {
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "Can't find reservation", err: dataReservation.err })
     }
-    if (dataReservation.status === "locate" || dataReservation.status === "complete") {
-        return res.status(400).send({ message: "Reservation has been checked in" })
+    if (dataReservation.status === "located" || dataReservation.status === "completed") {
+        return res.status(400).send({ message: "Reservation has been checked in or checked out" })
     }
     if (dataReservation.status === "canceled") {
         return res.status(400).send({ message: "Reservation has been canceled" })
@@ -289,7 +290,7 @@ exports.cancel = async (req, res) => {
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to cancel", err: result.err })
     }
-    return res.status(200).send({ message: "Cancel!" })
+    return res.status(200).send({ message: "Canceled!" })
 }
 
 
