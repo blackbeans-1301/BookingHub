@@ -23,7 +23,7 @@ export default function ListHotel() {
     province: "",
   })
   // huydang to do
-  const token = getLSItem("token")
+  const token = getLSItem("ownerToken")
   useEffect(() => {
     getAllHotels(setAllHotels, token)
   }, [])
@@ -88,102 +88,102 @@ export default function ListHotel() {
 
               <tbody>
                 {allHotels.map((hotel, index) => {
-                    return (
-                      <tr key={index}>
-                        {/* column 1: id */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {index + 1}
-                          </p>
-                        </td>
+                  return (
+                    <tr key={index}>
+                      {/* column 1: id */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {index + 1}
+                        </p>
+                      </td>
 
-                        {/* column 3: hotel's name */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.name}
-                          </p>
-                        </td>
+                      {/* column 3: hotel's name */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {hotel.name}
+                        </p>
+                      </td>
 
-                        {/* column 5: address */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.address}
-                          </p>
-                        </td>
+                      {/* column 5: address */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {hotel.address}
+                        </p>
+                      </td>
 
-                        {/* column 7: created date */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {FormatDateToGB(hotel.createdAt)}
-                          </p>
-                        </td>
+                      {/* column 7: created date */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {FormatDateToGB(hotel.createdAt)}
+                        </p>
+                      </td>
 
-                        {/* column 8: updated date */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {FormatDateToGB(hotel.updatedAt)}
-                          </p>
-                        </td>
+                      {/* column 8: updated date */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          {FormatDateToGB(hotel.updatedAt)}
+                        </p>
+                      </td>
 
-                        {/* column 9: actions */}
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                          <div className="flex">
-                            <button
-                              type="button"
-                              className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
-                              onClick={() => {
-                                setHotelDetail(hotel)
-                                setTimeout(setShowInfoModal(true), 2000)
-                              }}
-                            >
-                              <InfoIcon />
-                            </button>
+                      {/* column 9: actions */}
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <div className="flex">
+                          <button
+                            type="button"
+                            className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
+                            onClick={() => {
+                              setHotelDetail(hotel)
+                              setTimeout(setShowInfoModal(true), 2000)
+                            }}
+                          >
+                            <InfoIcon />
+                          </button>
 
-                            <button
-                              type="button"
-                              className="inline-block mx-px text-rose-300 hover:text-rose-500"
-                            >
-                              <DeleteIcon />
-                            </button>
+                          <button
+                            type="button"
+                            className="inline-block mx-px text-rose-300 hover:text-rose-500"
+                          >
+                            <DeleteIcon />
+                          </button>
 
-                            {/* <button
+                          {/* <button
                               type="button"
                               className="inline-block mx-px text-gray-400 hover:text-gray-600"
                             >
                               <MoreVertSharpIcon />
                             </button> */}
-                          </div>
-                        </td>
+                        </div>
+                      </td>
 
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            <button
-                              className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                              onClick={() => {
-                                setLSItem("hotelID", hotel.hotel_id)
-                                redirect(`${process.env.API_URL}/owner/ListRoomPage`)
-                              }}
-                            >
-                              List rooms
-                            </button>
+                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <p className="text-gray-900 whitespace-no-wrap">
+                          <button
+                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                            onClick={() => {
+                              setLSItem("hotelID", hotel.hotel_id)
+                              redirect(`${process.env.API_URL}/owner/ListRoomPage`)
+                            }}
+                          >
+                            List rooms
+                          </button>
 
-                            <button
-                              className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
-                              onClick={() => {
-                                setLSItem("hotelID", hotel.hotel_id)
-                                redirect(`${process.env.API_URL}/owner/ListReservationPage`)
-                              }}
-                            >
-                              List reservations
-                            </button>
-                          </p>
-                        </td>
-                      </tr>
-                    )
-                  })}
+                          <button
+                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                            onClick={() => {
+                              setLSItem("hotelID", hotel.hotel_id)
+                              redirect(`${process.env.API_URL}/owner/list-reservation`)
+                            }}
+                          >
+                            List reservations
+                          </button>
+                        </p>
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>}
-            
+
           </div>
         </div>
       </div>

@@ -91,9 +91,9 @@ export default function Main() {
     console.log("child", child)
     console.log("room", room)
 
-    let date_in = FormatDate(arriveDay.arrive);
-    let date_out = FormatDate(leaveDay.leave);
-    let guest = adult + child;
+    let date_in = FormatDate(arriveDay.arrive)
+    let date_out = FormatDate(leaveDay.leave)
+    let guest = adult + child
 
     let data = {
       date_in: FormatDate(arriveDay.arrive),
@@ -110,7 +110,7 @@ export default function Main() {
     // let searchResult = searchHotelByCriteria(data, setHotel)
     // console.log("search result: ", searchResult, "hotels", hotel)
 
-    redirect(`http://localhost:8000/user/SearchHotelPage?x=${destination}/${date_in}/${date_out}/room${room}/guest${guest}`);
+    redirect(`${process.env.API_URL}/user/SearchHotelPage?x=${destination}/${date_in}/${date_out}/room${room}/guest${guest}`)
   }
 
   return (

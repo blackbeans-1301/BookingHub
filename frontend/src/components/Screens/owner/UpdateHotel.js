@@ -87,7 +87,7 @@ export default function UpdateHotel() {
 
   console.log(criterias)
 
-  const token = getLSItem("token")
+  const token = getLSItem("ownerToken")
   const hotelID = getLSItem("hotelID")
 
   // change criterias state
@@ -150,7 +150,7 @@ export default function UpdateHotel() {
   }
 
   const handleGetHotelInfor = (values) => {
-    const token = getLSItem("token")
+    const token = getLSItem("ownerToken")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createHotelApi(postData, token)

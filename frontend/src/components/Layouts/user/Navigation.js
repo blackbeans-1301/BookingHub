@@ -36,12 +36,6 @@ export default function Navigation() {
 
   const menu = [
     {
-      title: "Flights",
-      icon: <FlightOutlinedIcon />,
-      gap: true,
-      link: `${process.env.API_URL}/user/FlightsPage`,
-    },
-    {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
       link: `${process.env.API_URL}/user/StayPage`,

@@ -170,7 +170,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
 
   const handleGetHotelInfor = (values) => {
     // const token = localStorage.getItem("token")
-    const token = getLSItem('token')
+    const token = getLSItem('ownerToken')
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
