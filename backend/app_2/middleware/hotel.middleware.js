@@ -375,6 +375,10 @@ exports.searchByKeyword = async (req, res) => {
             searchHotel.push(hotel);
         }
     }
+    for (let hotel of searchHotel) {
+        hotel.dataValues.province = hotelControllers.removeVietnameseTones(hotel.dataValues.province)
+    }
+    
     return res.status(200).send(searchHotel);
 }
 
