@@ -169,6 +169,14 @@ const ProfilePage = () => {
               </div>
 
               <div className="mt-8">
+                <h1>Date of birth</h1>
+                <div className="flex w-80 justify-between border-b mt-2">
+                  <h1 className="text-xl font-bold">{userData ? userData.dob : "(not set)"}</h1>
+                  <h1></h1>
+                </div>
+              </div>
+
+              <div className="mt-8">
                 <h1>Gender</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
                   <h1 className="text-xl font-bold">{userData ? userData.gender : "(not set)"}</h1>
