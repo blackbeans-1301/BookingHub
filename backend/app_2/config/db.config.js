@@ -3,8 +3,8 @@ module.exports = {
     USER: "root",
     // PASSWORD: "oc06c17a,huy",
     // DB: "booking",
-    PASSWORD: "password",
-    DB: "db1",
+    PASSWORD: "",
+    DB: "booking",
     dialect: "mysql",
     timezone: "Asia/Ho_Chi_Minh",
     pool: {
