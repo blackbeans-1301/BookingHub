@@ -9,7 +9,9 @@ import {
   RESET_PASSWORD_URL,
   FORGOT_PASSWORD_URL,
   RESET_PASSWORD_BY_CODE_URL,
-  UPDATE_USER_INFO
+  UPDATE_USER_INFO,
+  GET_TOTAL_PRICE,
+  CREATE_RESERVATION_API
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -139,6 +141,27 @@ export const resetPassword = async (data, tokenStr) => {
   return response
 }
 
+export const createReservation = async (data, tokenStr) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  }
+
+  const response = axios
+    .post(CREATE_RESERVATION_API, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
 
 export const resetPasswordWithVerificationCode = async (data) => {
   const options = {
@@ -149,6 +172,28 @@ export const resetPasswordWithVerificationCode = async (data) => {
 
   const response = axios
     .put(RESET_PASSWORD_BY_CODE_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
+
+export const getTotalPriceReservation = async (data) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
+  const response = axios
+    .put(GET_TOTAL_PRICE, data, options)
     .then((res) => {
       console.log("RESPONSE ==== : ", res)
       return res.data

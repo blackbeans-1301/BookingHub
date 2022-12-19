@@ -17,7 +17,7 @@ export default function HotelSearch({ hotel, dateIn, dateOut }) {
 
   return (
     // listContainer
-    <div className="flex justify-between mt-4">
+    <div className="flex justify-between mt-4 min-h-full">
       {/* listWapper */}
       <div className="w-full max-w-5xl flex">
         {/* listSearch */}
