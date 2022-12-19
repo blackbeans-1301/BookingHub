@@ -61,35 +61,63 @@ export const getAllHotels = (setAllHotels, tokenStr) => {
 };
 
 // function get hotel by id
-export const getHotelById = (id, setHotel) => {
+// export const getHotelById = (id, setHotel) => {
+//   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
+//   console.log("url", URL);
+
+//   // var myHeaders = new Headers();
+//   // myHeaders.append("Authorization", `Bearer ${tokenStr}`);
+
+//   var requestOptions = {
+//     method: "GET",
+//     // headers: myHeaders,
+//     // redirect: "follow",
+//   };
+
+//   // fetch(URL, requestOptions)
+//   //   .then((response) => response.json())
+//   //   .then((data) => {
+//   //     setHotelInfor(data);
+//   //     return data;
+//   //   });
+
+//   const response = axios.get(URL).then((res) => {
+//     console.log("res==", res);
+//     setHotel(res.data);
+//     return res.data;
+//   })
+//   .catch((err) => {
+//     console.log("ERROR: ====", err);
+//       return err.response.data.Message;
+//   });
+//   return response;
+// };
+
+export const getHotelById = async (id) => {
   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
   console.log("url", URL);
 
-  // var myHeaders = new Headers();
-  // myHeaders.append("Authorization", `Bearer ${tokenStr}`);
+  // const options = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //   },
+  // };
 
-  var requestOptions = {
-    method: "GET",
-    // headers: myHeaders,
-    // redirect: "follow",
-  };
-
-  // fetch(URL, requestOptions)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     setHotelInfor(data);
-  //     return data;
-  //   });
-
-  const response = axios.get(URL).then((res) => {
-    console.log("res==", res);
-    setHotel(res.data);
-    return res.data;
-  })
-  .catch((err) => {
-    console.log("ERROR: ====", err);
-      return err.response.data.Message;
-  });
+  const response = await axios
+    .get(URL)
+    .then((res) => {
+      console.log("res==", res);
+    //   setStatus(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err);
+      return {
+        status: err.response.status,
+        message: err.response.data.message
+    };
+    });
   return response;
 };
 

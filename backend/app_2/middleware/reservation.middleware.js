@@ -188,6 +188,8 @@ exports.isCheckIn = async (req, res, next) => {
 
     let now = new Date()
     if (new Date(dataReservation.date_in) > now) {
+        console.log('now', now);
+        console.log(new Date(dataReservation.date_in));
         return res.status(400).send({ message: "It's not time to check in yet" })
     }
     if (dataReservation.status !== "waiting") {

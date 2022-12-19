@@ -224,6 +224,9 @@ const ListReservation = () => {
                                     "This guest will be checked out. You can't undo this action."
                                   );
                                   setShowVerifyModal(true);
+                                  setType("checkOut");
+                                  console.log("verified", verified);
+                                  setReservationID(item.reservation_id);
                                 }}
                               >
                                 Checkout
