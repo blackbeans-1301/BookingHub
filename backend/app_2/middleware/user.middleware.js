@@ -11,6 +11,7 @@ const Reservation = db.reservation
 const Occupied_room = db.occupied_room
 const Favorite = db.favorite
 const Comment = db.comment
+const Bill = db.bill
 
 const controllers = require("../controllers/controller.js")
 const userControllers = require("../controllers/user.controller.js");
@@ -303,7 +304,7 @@ exports.userReservations = async (req, res) => {
             [Op.or]: ['located', 'waiting']
         }, 
     }
-    let dataReservation = await controllers.FindManyData(Reservation, condition)
+    let dataReservation = await userControllers.UserReservations(Reservation, Bill, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
@@ -320,7 +321,7 @@ exports.ownerReservations = async (req, res) => {
     let condition = {
         owner_id: accountData.owner_id
     }
-    let dataReservation = await userControllers.OwnerReservations(Reservation, Room, Hotel, condition)
+    let dataReservation = await userControllers.OwnerReservations(Reservation, Room, Hotel, Bill, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
@@ -539,7 +540,7 @@ exports.reservationInfo = async (req, res) => {
     let condition = {
         reservation_id: req.params.reservation_id
     }
-    let reservationData = await userControllers.ReservationInfo(Reservation, Comment, Room, Hotel, condition)
+    let reservationData = await userControllers.ReservationInfo(Reservation, Comment, Room, Hotel, Bill, condition)
     if (reservationData.code === -1) {
         return res.status(400).send({message: "Unable to get reservation information"})
     }

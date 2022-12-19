@@ -24,7 +24,7 @@ exports.createBill = async (req, res, next) => {
 exports.calculatePrice = async (req, res, next) => {
     let roomCondition = {
         room_id: {
-            [Op.or]: req.body.rooms
+            [Op.or]: req.body.room_id
         }
     }
 
@@ -38,9 +38,9 @@ exports.calculatePrice = async (req, res, next) => {
         totalRoomsPrice += roomData[i].price;
     }
 
-    let check_in = new Date(req.body.check_in)
-    let check_out = new Date(req.body.check_out)
-    let totalDays = billControllers.checkInCheckOutTotalDays(check_in, check_out)
+    let date_in = new Date(controllers.GetDateTimeFromDate(req.body.date_in))
+    let date_out = new Date(controllers.GetDateTimeFromDate(req.body.date_out))
+    let totalDays = billControllers.checkInCheckOutTotalDays(date_in, date_out)
 
     return res.status(200).send({ totalRoomsPrice, totalDays, total_price: totalRoomsPrice * totalDays })
 }

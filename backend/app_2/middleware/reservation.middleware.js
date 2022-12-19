@@ -9,9 +9,11 @@ const User = db.user
 const Owner = db.owner
 const Reservation = db.reservation
 const Occupied_room = db.occupied_room
+const Bill = db.bill
 
 const controllers = require("../controllers/controller.js")
 const reservationControllers = require("../controllers/reservation.controller.js")
+const billControllers = require("../controllers/bill.controller.js")
 
 exports.checkInfoReservation = async (req, res, next) => {
     const accountData = req.bookingHub_account_info
@@ -99,7 +101,8 @@ exports.createReservation = async (req, res) => {
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "Unable to create reservation1", err: dataReservation.err })
     }
-
+    
+    // add vao occupied room
     let valueOccupiedRoom = []
     for (let i = 0; i < req.body.room_id.length; i++) {
         valueOccupiedRoom.push({
@@ -113,7 +116,17 @@ exports.createReservation = async (req, res) => {
         return res.status(400).send({ message: "Unable to create reservation (room is not exist)", err: dataOccupiedRoom.err })
     }
 
-    return res.status(200).send({ reservation: dataReservation, room: dataOccupiedRoom })
+    // add total price cua bill
+    let total_price = await billControllers.totalPriceOfReservation(dataReservation.reservation_id);
+    let valueBill = {
+        total_price: total_price,
+        reservation_id: dataReservation.reservation_id
+    }
+    let dataBill = await controllers.CreateData(Bill, valueBill);
+    if (dataBill.code === -2) {
+        return res.status(400).send({ message: "Unable to create bill", err: dataBill.err })
+    }
+    return res.status(200).send({ reservation: dataReservation, room: dataOccupiedRoom, bill: dataBill })
 }
 
 exports.isBelongToOwner = async (req, res, next) => {
@@ -252,6 +265,17 @@ exports.checkOut = async (req, res) => {
     if (result.code === -2) {
         return res.status(400).send({ message: "Unable to check out", err: result.err })
     }
+    
+    // update amount price cua bill
+    let amount_paid = await billControllers.totalPriceOfReservation(req.body.reservation_id);
+    let value2 = {
+        amount_paid: amount_paid
+    }
+    let dataBill = await controllers.UpdateData(Bill, value2, condition);
+    if (dataBill.code === -2) {
+        return res.status(400).send({ message: "Unable to create bill", err: dataBill.err })
+    }
+
     return res.status(200).send({ message: "Checked out!" })
 }
 

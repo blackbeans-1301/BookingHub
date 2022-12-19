@@ -40,6 +40,7 @@ exports.createHotel = async (req, res) => {
         address: req.body.address,
         phone: req.body.phone,
         fromCenter: req.body.fromCenter,
+        email: req.body.email,
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
         criteria: req.body.criteria
     }
@@ -111,6 +112,7 @@ exports.updateHotel = async (req, res) => {
         description: req.body.description,
         address: req.body.address,
         phone: req.body.phone,
+        email: req.body.email,
         fromCenter: req.body.fromCenter,
         province: hotelControllers.GetHotelVietnamese(hotelControllers.removeVietnameseTones(req.body.province).toLowerCase()),
     }
@@ -254,7 +256,7 @@ exports.hotelReservations = async (req, res) => {
     let condition = {
         hotel_id: req.params.hotel_id
     }
-    let dataReservation = await hotelControllers.HotelReservations(Reservation, Room, condition)
+    let dataReservation = await hotelControllers.HotelReservations(Reservation, Room, Bill, Comment, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
@@ -306,7 +308,7 @@ exports.getHotelByCriteria = async (req, res) => {
     }
     // kiem tra rating va khoi tao gia tri rating
     let ratingDefault = 0;
-    let priceDefault = 1;
+    let priceDefault = 0;
     if (req.body.rating !== undefined && parseFloat(req.body.rating) > 1) {
         ratingDefault = parseFloat(req.body.rating)
         if (ratingDefault < 1 || ratingDefault > 5) {
@@ -322,7 +324,7 @@ exports.getHotelByCriteria = async (req, res) => {
     // lay ra room theo rating, so phong, so nguoi
     for (let h = 0; h < data.length; h++) {
         delete data[h].dataValues.Rooms
-        if (data[h].dataValues.totalCapacity < req.body.number_of_guest || data[h].dataValues.totalEmptyRoom < req.body.number_of_room
+        if (data[h].dataValues.totalCapacity < parseFloat(req.body.number_of_guest) || data[h].dataValues.totalEmptyRoom < parseFloat(req.body.number_of_room)
             || data[h].dataValues.rating < ratingDefault) {
             data.splice(h, 1)
             h--
@@ -407,5 +409,5 @@ exports.calculateIncome = async function (req, res) {
         totalIncome += data[i].total_price
     }
 
-    return res.status(200).send({ totalIncome })
+    return res.status(200).send({ totalIncome: totalIncome.toFixed(1) })
 }
