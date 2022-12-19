@@ -90,7 +90,7 @@ exports.createRoom = async (req, res) => {
 // READ ROOM
 exports.getHotelRoomList = async (req, res) => {
     let condition = {
-        hotel_id: req.body.hotel.hotel_id
+        hotel_id: req.body.hotel_id
     }
     let roomData = await roomControllers.GetHotelRoomList(Room, Image, Hotel, condition);
     if (roomData.code === -2) {
