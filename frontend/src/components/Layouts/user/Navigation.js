@@ -5,6 +5,8 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import FlightOutlinedIcon from "@material-ui/icons/FlightOutlined"
 import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined"
 import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined"
+import EventSeatIcon from '@mui/icons-material/EventSeat'
+import HistoryIcon from '@mui/icons-material/History'
 import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
 import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
 import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
@@ -17,17 +19,22 @@ export default function Navigation() {
   const [open, setOpen] = useState(true)
   const [showModal, setShowModal] = useState(false)
 
-  const menu = [
-    // {
-    //   title: "BookingHub",
-    //   icon: <img src={Logo} />
-    // },
+  const userMenu = [
+    {
+      title: "History",
+      icon: <HistoryIcon />,
+      gap: true,
+      link: `${process.env.API_URL}/user/history`,
+    },
+    {
+      title: "Reservation",
+      icon: <EventSeatIcon />,
+      gap: true,
+      link: `${process.env.API_URL}/user/reservation`,
+    },
+  ]
 
-    // {
-    //   title: "Sign In",
-    //   icon: <AccountCircleIcon />,
-    //   //   gap: true,
-    // },
+  const menu = [
     {
       title: "Flights",
       icon: <FlightOutlinedIcon />,
@@ -74,37 +81,40 @@ export default function Navigation() {
           className="rounded-full w-20 flex items-center justify-center h-20 my-4 mx-auto"
         />
 
-        {/* <div className="py-3 mb-4 mt-20">
-          <span
-            className="fixed top-28 left-10 p-1 rounded flex justify-end cursor-pointer hover:bg-white hover:text-colorText"
-            onClick={() => setOpen(!open)}
-          >
-            <MenuOutlinedIcon />
-          </span>
-        </div> */}
+        <div className="mt-10 flex flex-col w-full gap-4 relative">
+          {userMenu.map((menuItem, index) => (
+            <div
+              key={index}
+              className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
+                ${menuItem.gap ? "mt-6" : "mt-2"}`}
+              onClick={() => redirect(menuItem.link)}
+            >
+              <span className={`material-icons md-48`}>{menuItem.icon}</span>
 
-        {/* <div
-          className={`group flex items-center justify-center gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
-                `}
-          onClick={() => {
-            console.log("click on login");
-            setShowModal(true);
-          }}
-        >
-          <span className={`material-icons md-48`}>
-            <AccountCircleIcon />
-          </span>
+              <span
+                className={`title font-semibold text-gray-900 px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+              >
+                {menuItem.title}
+              </span>
 
-          <h2
-            className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
+              {/* <h2
+                className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
                              group-hover:block group-hover:px-2 group-hover:py-1 group-hover:duration-300 group-hover:w-fit 
                               `}
-          >
-            Sign in
-          </h2>
-        </div> */}
-
-        <div className="mt-10 flex flex-col w-full gap-4 relative">
+              >
+                {menuItem.title}
+              </h2> */}
+              {/* <span
+                style={{ transitionDelay: `${index + 3}00ms` }}
+                className={`${
+                  !open && "opacity-0 translate-x-28 overflow-hidden"
+                } duration-500`}
+              >
+                {menuItem.title}
+              </span> */}
+            </div>
+          ))}
+          <div className="border-b mx-4"></div>
           {menu.map((menuItem, index) => (
             <div
               key={index}

@@ -13,33 +13,34 @@ export default function Header() {
 
   return (
     <Fragment>
-      <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
+      <div className="bg-white flex w-screen h-16 z-10 md:w-auto drop-shadow-lg">
         <div className="flex justify-between items-center w-full h-full">
-          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
+          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" onClick={() => { redirect(process.env.API_URL) }} />
           <div className="flex">
 
             <button
-              className="rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
+              className="font-semibold text-md border-green-400 py-1 px-4 m-2 hover:text-primary"
               onClick={() => {
                 console.log(process.env.API_URL)
                 redirect(`${process.env.API_URL}/owner/main`)
               }
               }
             >
-              <DescriptionIcon />
-              <span className="hidden lg:inline">List your place</span>
-
+              <span className="hidden lg:inline">Own a hotel?</span>
             </button>
 
             <button
-              className="rounded-full font-bold text-lg border-primary border-2 py-1 px-4 m-2 hover:text-white hover:bg-primary"
+              className="rounded-md font-bold text-sm border-primary border py-1 px-4 m-2 hover:text-white hover:bg-primary"
               onClick={() => {
                 console.log("click on login")
                 setShowModal(true)
               }}
             >
-              <AccountCircleIcon />
-              <span className="hidden lg:inline">Sign in</span>
+              <div className="flex center">
+
+                <AccountCircleIcon />
+                <span className="hidden lg:inline lg:font-semibold lg:ml-2">Sign in</span>
+              </div>
 
             </button>
           </div>

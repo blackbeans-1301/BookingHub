@@ -15,16 +15,6 @@ export default function OwnerHeader() {
           <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
           <div className="flex">
             <button
-              className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
-              onClick={() => {
-                redirect(`${process.env.API_URL}`)
-              }
-              }
-            >
-              <UndoIcon /> Return to main page
-            </button>
-
-            <button
               className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() => {
                 redirect(`${process.env.API_URL}/owner/OwnerProfilePage`)

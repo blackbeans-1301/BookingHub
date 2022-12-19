@@ -7,6 +7,9 @@ import {
   LOGIN_URL,
   REGISTER_URL,
   RESET_PASSWORD_URL,
+  FORGOT_PASSWORD_URL,
+  RESET_PASSWORD_BY_CODE_URL,
+  UPDATE_USER_INFO
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -67,7 +70,49 @@ export const getUserInfor = async (setInfor, tokenStr) => {
     })
     .catch((err) => {
       console.log("ERROR: ====", err)
-      return err.response.status
+      return err
+    })
+
+  return response
+}
+
+export const getUserInfoEdited = async (tokenStr) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  }
+
+  const response = axios
+    .get(GET_USER_INFOR_URL, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err
+    })
+
+  return response
+}
+
+export const updateUserInfo = async (data, tokenStr) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  }
+
+  console.log(data, tokenStr)
+
+  const response = axios
+    .put(UPDATE_USER_INFO, data, options)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      return err
     })
 
   return response
@@ -89,6 +134,47 @@ export const resetPassword = async (data, tokenStr) => {
     .catch((err) => {
       console.log("ERROR: ====", err)
       return err.response.data.Message
+    })
+
+  return response
+}
+
+
+export const resetPasswordWithVerificationCode = async (data) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
+  const response = axios
+    .put(RESET_PASSWORD_BY_CODE_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
+export const forgotPassword = async (data) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+  const response = axios
+    .put(FORGOT_PASSWORD_URL, data, options)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err
     })
 
   return response
