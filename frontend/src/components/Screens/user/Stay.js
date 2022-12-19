@@ -11,7 +11,6 @@ export default function Stay() {
 
       <Reason />
       <NearbyHotel />
-
     </div>
   )
 }

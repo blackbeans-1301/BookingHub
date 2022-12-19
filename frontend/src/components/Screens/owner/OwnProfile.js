@@ -1,24 +1,25 @@
-import * as React from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import { useState } from "react";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
+import * as React from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import { useState } from "react"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import { redirect } from "../../../utils"
 
 export default function OwnProfile() {
-  const [toggleState, setToggleState] = useState(1);
-  const [showEditNameForm, setShowEditNameForm] = useState(false);
-  const [showEditNumberForm, setShowEditNumberForm] = useState(false);
-  const [showEditBirthdayForm, setShowEditBirthdayForm] = useState(false);
-  const [showEditGenderForm, setShowEditGenderForm] = useState(false);
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
-  const [birthday, setBirthday] = useState(new Date());
-  const [expiration, setExpiration] = useState(new Date());
-  const { birth } = birthday;
-  const { expirationDate } = expiration;
+  const [toggleState, setToggleState] = useState(1)
+  const [showEditNameForm, setShowEditNameForm] = useState(false)
+  const [showEditNumberForm, setShowEditNumberForm] = useState(false)
+  const [showEditBirthdayForm, setShowEditBirthdayForm] = useState(false)
+  const [showEditGenderForm, setShowEditGenderForm] = useState(false)
+  const [showPaymentForm, setShowPaymentForm] = useState(false)
+  const [birthday, setBirthday] = useState(new Date())
+  const [expiration, setExpiration] = useState(new Date())
+  const { birth } = birthday
+  const { expirationDate } = expiration
 
   const toggleTab = (index) => {
-    setToggleState(index);
-  };
+    setToggleState(index)
+  }
 
   return (
     <div>
@@ -45,7 +46,7 @@ export default function OwnProfile() {
             <EditIcon />
           </button>
         </div>
-        
+
         {/* <div className="flex mt-3">
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 w-5/6">
               <CameraAltIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
@@ -238,7 +239,7 @@ export default function OwnProfile() {
                     className="w-full pr-3 pl-2 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
                     value={birth}
                     onChange={(birth) => {
-                      setBirthday({ birth });
+                      setBirthday({ birth })
                     }}
                     options={{
                       altFormat: "d/m/Y",
@@ -357,7 +358,7 @@ export default function OwnProfile() {
                   className="w-full pr-3 pl-2 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-primary focus:ring-primary-500 focus: ring-2"
                   value={expirationDate}
                   onChange={(expirationDate) => {
-                    setExpiration({ expirationDate });
+                    setExpiration({ expirationDate })
                   }}
                   options={{
                     altFormat: "m/Y",
@@ -433,6 +434,15 @@ export default function OwnProfile() {
           </div>
         </div>
       </div>
+
+      <div className="ml-4 text-red-700 cursor-pointer text-2xl font-bold" onClick={() => {
+        const isBrowser = typeof window !== "undefined" && window
+        if (isBrowser) {
+          localStorage.removeItem("ownerToken")
+          window.location.reload()
+        }
+        redirect(process.env.API_URL)
+      }}>Logout.</div>
     </div>
-  );
+  )
 }

@@ -97,7 +97,7 @@ export default function CreateRoom() {
   const [images, setImages] = useState([])
 
   let imagesURLs = []
-  const ownerToken = getLSItem("token")
+  const ownerToken = getLSItem("ownerToken")
   //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken)
@@ -155,8 +155,9 @@ export default function CreateRoom() {
     redirect(`${process.env.API_URL}/owner/ListRoomPage`)
   }
 
-  const handleGetRoomInfor = (values) => {
-    const token = getLSItem("token")
+  const requestCreateRoom = (values) => {
+    console.log(values)
+    const token = getLSItem("ownerToken")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createRoomApi(postData, token)
@@ -205,7 +206,7 @@ export default function CreateRoom() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("value", values)
-      handleGetRoomInfor(values)
+      requestCreateRoom(values)
     },
   })
 

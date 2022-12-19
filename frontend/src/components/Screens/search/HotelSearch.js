@@ -1,19 +1,19 @@
-import * as React from "react";
-import { useState } from "react";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
-import { redirect } from "../../../utils";
+import * as React from "react"
+import { useState } from "react"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import { redirect } from "../../../utils"
 
 export default function HotelSearch({ hotel, dateIn, dateOut }) {
-  const [arriveDay, setArriveDay] = useState(new Date());
-  const [leaveDay, setLeaveDay] = useState(new Date());
+  const [arriveDay, setArriveDay] = useState(new Date())
+  const [leaveDay, setLeaveDay] = useState(new Date())
 
-  const { arrive } = arriveDay;
-  const { leave } = leaveDay;
+  const { arrive } = arriveDay
+  const { leave } = leaveDay
 
-  console.log("hotel", hotel, typeof hotel);
-  console.log("len", hotel.length);
-  let numberHotel = hotel.length;
+  console.log("hotel", hotel, typeof hotel)
+  console.log("len", hotel.length)
+  let numberHotel = hotel.length
 
   return (
     // listContainer
@@ -42,7 +42,7 @@ export default function HotelSearch({ hotel, dateIn, dateOut }) {
                 className="p-1 text-sm bg-white text-right w-24"
                 value={arrive}
                 onChange={(arrive) => {
-                  setArriveDay({ arrive });
+                  setArriveDay({ arrive })
                 }}
                 options={{
                   altFormat: "d/m/Y",
@@ -60,7 +60,7 @@ export default function HotelSearch({ hotel, dateIn, dateOut }) {
                 className="p-1 text-sm bg-white text-right w-24"
                 value={leave}
                 onChange={(leave) => {
-                  setLeaveDay({ leave });
+                  setLeaveDay({ leave })
                 }}
                 options={{
                   altFormat: "d/m/Y",
@@ -145,9 +145,9 @@ export default function HotelSearch({ hotel, dateIn, dateOut }) {
                       <button
                         className="bg-sky-300 font-bold px-2 py-1 hover:text-white hover:bg-sky-600 cursor-pointer"
                         onClick={() => {
-                          console.log("item ", index, item);
-                          console.log('hotel id', item.hotel_id);
-                          redirect(`http://localhost:8000/user/HotelPage?x=${item.hotel_id}/${dateIn}/${dateOut}`)
+                          console.log("item ", index, item)
+                          console.log('hotel id', item.hotel_id)
+                          redirect(`${process.env.API_URL}/user/HotelPage?x=${item.hotel_id}/${dateIn}/${dateOut}`)
                         }}
                       >
                         See availability
@@ -155,11 +155,11 @@ export default function HotelSearch({ hotel, dateIn, dateOut }) {
                     </div>
                   </div>
                 </div>
-              );
+              )
             })
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }

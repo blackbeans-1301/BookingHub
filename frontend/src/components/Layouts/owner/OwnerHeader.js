@@ -18,8 +18,7 @@ export default function OwnerHeader() {
               className="flex rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() => {
                 redirect(`${process.env.API_URL}/owner/OwnerProfilePage`)
-              }
-              }
+              }}
             >
               <img
                 className="w-7 h-7 rounded-full mr-2"

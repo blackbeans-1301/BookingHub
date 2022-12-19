@@ -23,8 +23,7 @@ export default function Header() {
               onClick={() => {
                 console.log(process.env.API_URL)
                 redirect(`${process.env.API_URL}/owner/main`)
-              }
-              }
+              }}
             >
               <span className="hidden lg:inline">Own a hotel?</span>
             </button>
@@ -47,7 +46,7 @@ export default function Header() {
         </div>
       </div>
 
-      <Login isVisible={showModal} isClose={() => setShowModal(false)} />
+      <Login isVisible={showModal} isOwner={0} isClose={() => setShowModal(false)} />
     </Fragment>
   )
 }
