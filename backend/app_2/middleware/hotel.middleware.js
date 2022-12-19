@@ -357,8 +357,15 @@ exports.getHotelByCriteria = async (req, res) => {
     }
 
     return res.status(200).send(data)
-
 }
+
+// exports.searchByKeyword = async (req, res) => {
+//     let condition = {}
+//     let hotelData = await controllers.FindManyData(Hotel, condition)
+//     if (hotelData.code === -2) {
+        
+//     }
+// }
 
 exports.calculateIncome = async function (req, res) {
     let data = await Bill.findAll({

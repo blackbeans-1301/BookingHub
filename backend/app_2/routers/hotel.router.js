@@ -26,7 +26,9 @@ router.get('/:hotel_id', hotelMiddleware.getInfoHotel)
 // Get hotel's reservations
 router.get('/hotelReservations/:hotel_id', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.hotelReservations);
 
-
+// // Get hotel by keyword
+// router.get('/hotelByKeyWord/:keyword', hotelMiddleware.searchByKeyword)
+// thu nhap
 router.get('/:hotel_id/income', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.calculateIncome);
 
 // 
