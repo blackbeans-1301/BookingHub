@@ -8,6 +8,8 @@ export const IMAGE_CLOUD_API = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/im
 
 export const DOMAIN_URL = "http://localhost:3000/api"
 
+export const BASE_URL = "http://localhost:3000"
+
 // API for user------------------------------------------
 
 export const LOGIN_URL = `${DOMAIN_URL}/user/login`
@@ -48,6 +50,8 @@ export const UPDATE_HOTEL_URL = `${DOMAIN_URL}/hotel/update`
 
 export const SEARCH_HOTEL_BY_CRITERIA_URL = `${DOMAIN_URL}/hotel/hotelCriteria`
 
+export const GET_ALL_RESERVATIONS_OF_HOTEL_URL = `${DOMAIN_URL}/hotel/hotelReservations`
+
 // API for room------------------------------------------------
 
 export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`
@@ -55,3 +59,11 @@ export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`
 export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`
 
 export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`
+
+// API for reservation
+
+export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`;
+
+export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`;
+
+export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`;

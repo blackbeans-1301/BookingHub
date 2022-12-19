@@ -41,6 +41,14 @@
   margin-left: 4px;
 }
 
+.owner-nav {
+  width: 15%;
+}
+
+.owner-content {
+  width: 85%;
+}
+
 .content {
   width: 92%;
   transition: width 0.5s;

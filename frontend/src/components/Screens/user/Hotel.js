@@ -4,21 +4,22 @@ import NearbyHotel from "./nearbyHotel/NearbyHotel";
 import HotelImg from "../../Items/HotelImg";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
+import { getHotelById } from "../../../apis/hotelApi";
 
-export default function Hotel() {
+export default function Hotel({id}) {
   const [arriveDay, setArriveDay] = useState(new Date());
   const [leaveDay, setLeaveDay] = useState(new Date());
   const [room, setRoom] = useState(1);
   const [adult, setAdult] = useState(1);
   const [child, setChild] = useState(0);
   const [open, setOpen] = useState(false);
-  const [hotel, setHotel] = useState([]);
+  const [hotel, setHotel] = useState();
 
   const { arrive } = arriveDay;
   const { leave } = leaveDay;
@@ -62,6 +63,27 @@ export default function Hotel() {
     setChild((prevCount) => prevCount + 1);
   };
 
+  console.log('hotel id', id);
+
+  useEffect(() => {
+    getHotelById(id, setHotel);
+  }, [])
+
+  const callApi = async () => {
+    const response = await getHotelById(id);
+    console.log('res', response);
+    setHotel(response);
+
+    if (response.status === 200) {
+    } else if (response.status === 400) {
+      console.log(response.status, response);
+      // toast.error(response.message);
+    }
+  };
+  callApi();
+
+  console.log('hotel', hotel);
+
   return (
     // hotelContainer
     <div className="flex justify-center mt-4">
@@ -72,14 +94,14 @@ export default function Hotel() {
         <div className="w-full">
           {/* hotelTitle */}
           <h1 className="text-2xl font-bold text-sky-600">
-            The Hanoi Club Hotel & Residences
+            {hotel !== undefined && hotel.name}
           </h1>
 
-          <span className="">8.2/10 Very good</span>
+          <span className="">{hotel !== undefined && hotel.rating}/10 Very good</span>
           {/* hotelAddress */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
-            <span>Elton ST 125 New York</span>
+            <span>{hotel !== undefined && hotel.address}</span>
           </div>
 
           <div className="">
@@ -108,7 +130,7 @@ export default function Hotel() {
           {/* hotelDetails */}
           <div className="">
             {/* hotelDetailText */}
-            <h1 className="">Stay in the heart of Krakow</h1>
+            <h1 className="">{hotel !== undefined && hotel.description}</h1>
 
             {/* hotelDesc */}
             <p className="">Located a 5-minute walk from the...</p>

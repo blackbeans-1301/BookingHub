@@ -13,11 +13,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         date_in: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             allowNull: false
         },
         date_out: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATE,
             allowNull: false
         },
         check_in: {
@@ -65,6 +65,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'reservation_id'
         });
         Reservation.hasOne(models.comment, {
+            foreignKey: 'reservation_id',
+            onDelete: 'RESTRICT',
+            onUpdate: 'CASCADE'
+        })
+        Reservation.hasOne(models.bill, {
             foreignKey: 'reservation_id',
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'

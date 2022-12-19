@@ -6,6 +6,7 @@ import {
   GET_HOTEL_BY_ID_URL,
   UPDATE_HOTEL_URL,
   SEARCH_HOTEL_BY_CRITERIA_URL,
+  GET_ALL_RESERVATIONS_OF_HOTEL_URL,
 } from "../configs/api";
 
 export const getAllProvinces = (setAll) => {
@@ -60,24 +61,64 @@ export const getAllHotels = (setAllHotels, tokenStr) => {
 };
 
 // function get hotel by id
-export const getHotelById = (id, setHotelInfor, tokenStr) => {
+// export const getHotelById = (id, setHotel) => {
+//   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
+//   console.log("url", URL);
+
+//   // var myHeaders = new Headers();
+//   // myHeaders.append("Authorization", `Bearer ${tokenStr}`);
+
+//   var requestOptions = {
+//     method: "GET",
+//     // headers: myHeaders,
+//     // redirect: "follow",
+//   };
+
+//   // fetch(URL, requestOptions)
+//   //   .then((response) => response.json())
+//   //   .then((data) => {
+//   //     setHotelInfor(data);
+//   //     return data;
+//   //   });
+
+//   const response = axios.get(URL).then((res) => {
+//     console.log("res==", res);
+//     setHotel(res.data);
+//     return res.data;
+//   })
+//   .catch((err) => {
+//     console.log("ERROR: ====", err);
+//       return err.response.data.Message;
+//   });
+//   return response;
+// };
+
+export const getHotelById = async (id) => {
   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
   console.log("url", URL);
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${tokenStr}`);
 
-  var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
+  // const options = {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //   },
+  // };
 
-  fetch(URL, requestOptions)
-    .then((response) => response.json())
-    .then((data) => {
-      setHotelInfor(data);
-      return data;
+  const response = await axios
+    .get(URL)
+    .then((res) => {
+      console.log("res==", res);
+    //   setStatus(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err);
+      return {
+        status: err.response.status,
+        message: err.response.data.message
+    };
     });
+  return response;
 };
 
 // function update information of a hotel
@@ -102,7 +143,7 @@ export const updateHotelInfor = (data, tokenStr) => {
 };
 
 // function search hotels by some criterias
-export const searchHotelByCriteria = (data, setHotels) => {
+export const searchHotelByCriteria = (data, setHotel) => {
   const options = {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -113,11 +154,35 @@ export const searchHotelByCriteria = (data, setHotels) => {
     .put(SEARCH_HOTEL_BY_CRITERIA_URL, data, options)
     .then((res) => {
       console.log("RESPONSE:", res);
-      setHotels(res);
+      setHotel(res.data);
+      return res.data;
     })
     .catch((err) => {
       console.log("ERROR:", err);
     });
 
-    return response;
+  return response;
 };
+
+// function get all reservation of a hotel
+export const getReservationOfHotel = (hotelID, token, setReservation) => {
+  let URL = `${GET_ALL_RESERVATIONS_OF_HOTEL_URL}/${hotelID}`;
+  console.log("url", URL);
+
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = axios.get(URL, options).then((res) => {
+    console.log("res==", res);
+    setReservation(res.data);
+    return res.data;
+  })
+  .catch((err) => {
+    console.log("ERROR: ====", err);
+      return err.response.data.Message;
+  });
+  return response;
+}

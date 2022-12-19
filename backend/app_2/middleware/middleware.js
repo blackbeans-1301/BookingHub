@@ -16,7 +16,7 @@ exports.UpdateDatabase = async (req, res, next) => {
     let value1 = {
         status: "canceled"
     }
-    let difference = new Date(Date.now() - (60*60*12*1000))
+    let difference = new Date(Date.now() - (60*60*24*1000))
     let condition1 = {
         status: "waiting",
         date_in: {
@@ -42,7 +42,7 @@ exports.UpdateDatabase = async (req, res, next) => {
         resetCode: null,
         timeOfResetCode: null
     }
-    let difference2 = new Date(Date.now() - (60*5*1000));
+    let difference2 = new Date(Date.now() - (60*10*1000));
     let condition3 = {
         resetCode: {
             [Op.ne]: null

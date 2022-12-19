@@ -1,8 +1,6 @@
 import * as React from "react"
-import { useState } from "react"
-import _ from "lodash"
-import OwnerLayout from "../../components/Layouts/OwnerLayout"
 import CreateRoom from "../../components/Screens/owner/CreateRoom"
+import OwnerLayout from "../../components/Layouts/owner/OwnerLayout"
 
 export default function CreateHotelPage() {
   return (

@@ -9,7 +9,8 @@ import { getAllHotels } from "../../../apis/hotelApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
-
+import { FormatDateToGB } from "../../Common/CommonFunc"
+// test
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
   const [showInfoModal, setShowInfoModal] = useState(false)
@@ -21,7 +22,7 @@ export default function ListHotel() {
     description: "",
     province: "",
   })
-
+  // huydang to do
   const token = getLSItem("token")
   useEffect(() => {
     getAllHotels(setAllHotels, token)
@@ -60,7 +61,7 @@ export default function ListHotel() {
       <div className="container mx-auto px-4 sm:px-8">
         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
           <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-            <table className="min-w-full leading-normal">
+            {allHotels === undefined ? <div>There's no hotels</div> : <table className="min-w-full leading-normal">
               <thead>
                 <tr>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
@@ -86,8 +87,7 @@ export default function ListHotel() {
               </thead>
 
               <tbody>
-                {allHotels !== undefined &&
-                  allHotels.map((hotel, index) => {
+                {allHotels.map((hotel, index) => {
                     return (
                       <tr key={index}>
                         {/* column 1: id */}
@@ -114,14 +114,14 @@ export default function ListHotel() {
                         {/* column 7: created date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.createdAt}
+                            {FormatDateToGB(hotel.createdAt)}
                           </p>
                         </td>
 
                         {/* column 8: updated date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {hotel.updatedAt}
+                            {FormatDateToGB(hotel.updatedAt)}
                           </p>
                         </td>
 
@@ -166,13 +166,24 @@ export default function ListHotel() {
                             >
                               List rooms
                             </button>
+
+                            <button
+                              className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                              onClick={() => {
+                                setLSItem("hotelID", hotel.hotel_id)
+                                redirect(`${process.env.API_URL}/owner/ListReservationPage`)
+                              }}
+                            >
+                              List reservations
+                            </button>
                           </p>
                         </td>
                       </tr>
                     )
                   })}
               </tbody>
-            </table>
+            </table>}
+            
           </div>
         </div>
       </div>

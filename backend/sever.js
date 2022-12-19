@@ -2,6 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const path = require('path')
 const cors = require("cors")
+require('dotenv').config()
 const app = express()
 
 var corsOptions = {
@@ -25,10 +26,11 @@ app.use("/api/hotel", require("./app_2/routers/hotel.router.js"))
 app.use("/api/room", require('./app_2/routers/room.router.js'))
 app.use("/api/reservation", require("./app_2/routers/reservation.router.js"))
 app.use("/api/comment", require("./app_2/routers/comment.router.js"))
+app.use("/api/bill", require("./app_2/routers/bill.router.js"))
 
-// app.get('/', function (req, res) {
-//     res.sendFile(path.join(__dirname, 'public/index.html'))
-// })
+app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {

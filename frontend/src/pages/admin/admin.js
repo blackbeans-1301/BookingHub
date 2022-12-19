@@ -1,13 +1,11 @@
 import * as React from "react";
-import Navigation from "../../components/Layouts/LayoutComponent/Navigation";
-// import Main from "../../components/Screens/Main";
-// import Header from "../../components/Layouts/Header";
-import Header from "../../components/Layouts/LayoutComponent/Header";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import SearchIcon from "@material-ui/icons/Search";
 import RotateLeftSharpIcon from "@material-ui/icons/RotateLeftSharp";
 import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
+import Header from "../../components/Layouts/user/Header";
+import Navigation from "../../components/Layouts/user/Navigation";
 
 const AdminPage = () => {
   return (

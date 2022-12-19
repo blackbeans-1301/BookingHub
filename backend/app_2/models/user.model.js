@@ -58,6 +58,10 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'RESTRICT',
             onUpdate: 'CASCADE'
         })
+        User.belongsToMany(models.hotel, { 
+            through: models.favorite,
+            foreignKey: 'user_id'
+        });
     }
     return User;
 };

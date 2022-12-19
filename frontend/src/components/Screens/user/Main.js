@@ -8,16 +8,11 @@ import SearchIcon from "@material-ui/icons/Search"
 import Carousel from "react-elastic-carousel"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { searchHotelByCriteria } from "../../../apis/hotelApi"
 import { FormatDate } from "../../Common/CommonFunc"
-import { useEffect } from "react"
-import Slider from "../../Items/Slider"
-import dataSlider from "../../Layouts/dataSlider"
-import CarouselItem from "../../Items/CarouselItem"
-import Item from "../../Items/Item"
-import Reason from "../../../components/Layouts/LayoutComponent/Reason"
 import NearbyHotel from "./nearbyHotel/NearbyHotel"
 import PopularCities from "../../Items/PopularCities"
+import Reason from "../../Layouts/user/Reason"
+import { redirect } from "../../../utils"
 
 export default function Main() {
   const [destination, setDestination] = useState()
@@ -96,6 +91,10 @@ export default function Main() {
     console.log("child", child)
     console.log("room", room)
 
+    let date_in = FormatDate(arriveDay.arrive);
+    let date_out = FormatDate(leaveDay.leave);
+    let guest = adult + child;
+
     let data = {
       date_in: FormatDate(arriveDay.arrive),
       date_out: FormatDate(leaveDay.leave),
@@ -108,14 +107,13 @@ export default function Main() {
     //   searchHotelByCriteria(data, setHotel);
     // }, [])
 
-    let searchResult = searchHotelByCriteria(data, setHotel)
-    console.log("search result: ", searchResult, "hotels", hotel)
+    // let searchResult = searchHotelByCriteria(data, setHotel)
+    // console.log("search result: ", searchResult, "hotels", hotel)
+
+    redirect(`http://localhost:8000/user/SearchHotelPage?x=${destination}/${date_in}/${date_out}/room${room}/guest${guest}`);
   }
 
   return (
-    // <Fragment>
-    //   <div className="flex-1 h-screen absolute right-0">
-    //     <Header />
     <div className="w-full">
       <div className="m-4">
         <div className="font-bold text-xl m-4 mb-4 text-colorText">

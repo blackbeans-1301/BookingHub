@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const db = require("../models/index.js")
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -11,9 +9,12 @@ const User = db.user
 const Owner = db.owner
 const Reservation = db.reservation
 const Occupied_room = db.occupied_room
+const Favorite = db.favorite
+const Comment = db.comment
 
 const controllers = require("../controllers/controller.js")
 const userControllers = require("../controllers/user.controller.js");
+const { Op } = require('sequelize')
 
 // Dang ky account
 exports.register = async (req, res) => {
@@ -76,7 +77,9 @@ exports.login = async (req, res) => {
     if (req.body.password === undefined) {
         return res.status(400).send({ message: "Missing password field!" })
     }
-
+    if (req.body.password === "") {
+        return res.status(400).send({ message: "Password is empty!" })
+    }
     // kiem tra xem co email trong database khong
     let condition = {
         email: req.body.email
@@ -93,7 +96,10 @@ exports.login = async (req, res) => {
     if (!dataAccount.length) {
         return res.status(400).send({ message: "Email or password is incorrect!" })
     }
-
+    
+    if (dataAccount[0].dataValues.password === null) {
+        return res.status(400).send({ message: "This account should be login by Google" })
+    }
     // kiem tra mat khau
     if (!bcrypt.compareSync(req.body.password, dataAccount[0].dataValues.password)) {
         return res.status(400).send({ message: "Email or password is incorrect!" })
@@ -250,6 +256,9 @@ exports.resetPassword = async (req, res) => {
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
     // kiem tra mat khau cu dung khong
+    if (accountData.password === null) {
+        return res.status(400).send({ message: "The google's account can't reset password" })
+    }
     if (!bcrypt.compareSync(req.body.password, accountData.password)) {
         return res.status(400).send({ message: "Wrong old password" })
     }
@@ -263,7 +272,6 @@ exports.resetPassword = async (req, res) => {
     let salt = bcrypt.genSaltSync(10)
     let newPasswordHash = bcrypt.hashSync(req.body.newPassword, salt)
 
-    let result
     let value = {
         password: newPasswordHash
     }
@@ -302,6 +310,25 @@ exports.userReservations = async (req, res) => {
     return res.status(200).send(dataReservation)
 }
 
+// get list reservations of owner
+exports.ownerReservations = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+    if (!isOwner) {
+        return res.status(400).send({ message: "Account is not Owner" })
+    }
+    let condition = {
+        owner_id: accountData.owner_id
+    }
+    let dataReservation = await userControllers.OwnerReservations(Reservation, Room, Hotel, condition)
+    if (dataReservation.code === -2) {
+        return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
+    }
+    for (var reservation of dataReservation) {
+        reservation.dataValues.Hotel = reservation.dataValues.Rooms[0].dataValues.Hotel
+    }
+    return res.status(200).send(dataReservation)
+}
 // forget password
 exports.sendEmail = async (req, res) => {
     // create code
@@ -366,6 +393,10 @@ exports.resetPasswordByCode = async (req, res) => {
         return res.status(400).send({ message: "Wrong email", err: dataAccount.err })
     }
 
+    // kiem tra code het han chua
+    if (dataAccount.resetCode === null) {
+        return res.status(400).send({ message: "Code was expired"})
+    }
     // kiem tra code dung khong
     if (req.body.code !== dataAccount.resetCode) {
         return res.status(400).send({ message: "Wrong code"})
@@ -395,3 +426,127 @@ exports.resetPasswordByCode = async (req, res) => {
     }
     return res.status(200).send({message: "Reset password successfully"})
 }
+
+// favorite
+exports.addFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't add favorite"})
+    }
+    const value = {
+        user_id: accountData.user_id,
+        hotel_id: req.body.hotel_id
+    }
+
+    let favoriteData = await controllers.CreateData(Favorite, value);
+    if (favoriteData.code === -2) {
+        return res.status(400).send({message: "Unable to create Favorite", err: favoriteData.err})
+    } 
+    delete favoriteData.user_id;
+    return res.status(200).send(favoriteData);
+}
+
+exports.delFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't delete favorite"})
+    }
+
+    let condition = {
+        user_id: accountData.user_id,
+        hotel_id: req.body.hotel_id
+    }
+    let resultDelete = await controllers.DeleteData(Favorite, condition);
+    if (resultDelete.code === -2) {
+        return res.status(400).send({message: "Unable to delete hotel", err: resultDelete.err})
+    }
+    if (!resultDelete) {
+        return res.status(400).send({message: "Unable to delete hotel"})
+    }
+    return res.status(200).send({message: "Delete favorite successfully"}) 
+}
+
+exports.getFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't get favorite list"})
+    }
+    let condition = {
+        user_id: accountData.user_id
+    }
+    let hotelData = await userControllers.GetFavoriteList(User, Hotel, Image, condition);
+    if (hotelData.code === -2) {
+        return res.status(400).send({message: "Unable to delete hotel", err: hotelData.err})
+    }
+    
+    return res.status(200).send(hotelData.Hotels) 
+}
+
+exports.checkFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't check favorite"})
+    }
+    let condition = {
+        user_id: accountData.user_id,
+        hotel_id: req.params.hotel_id
+    } 
+    let dataHotel = await controllers.FindOneData(Favorite, condition) 
+    if (dataHotel.code === -2) {
+        return res.status(400).send({message: "Unable to check favorite", err: hotelData.err})
+    }
+    if (dataHotel.code === -1) {
+        return res.status(200).send({code: 0})
+    }
+    return res.status(200).send({code: 1})
+}
+exports.getHistory = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't get history list"})
+    }
+
+    let condition = {
+        user_id: accountData.user_id,
+        status: {
+            [Op.or]: ['completed', 'canceled']
+        }
+    }
+    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, condition);
+    if (reservationData.code === -2) {
+        return res.status(400).send({message: "Unable to get history list", err: reservationData.err})
+    }
+    for (let reservation of reservationData) {
+        reservation.dataValues.Hotel = reservation.dataValues.Rooms[0].dataValues.Hotel
+        delete reservation.dataValues.Rooms
+        delete reservation.dataValues.user_id
+    }
+    
+    return res.status(200).send(reservationData);
+}
+
+exports.reservationInfo = async (req, res) => {
+    let condition = {
+        reservation_id: req.params.reservation_id
+    }
+    let reservationData = await userControllers.ReservationInfo(Reservation, Comment, Room, Hotel, condition)
+    if (reservationData.code === -1) {
+        return res.status(400).send({message: "Unable to get reservation information"})
+    }
+    if (reservationData.code === -2) {
+        return res.status(400).send({message: "Unable to get reservation information", err: reservationData.err})
+    }
+    delete reservationData.user_id
+    return res.status(400).send(reservationData)
+} 
+
