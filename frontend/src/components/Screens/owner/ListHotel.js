@@ -22,7 +22,7 @@ export default function ListHotel() {
     description: "",
     province: "",
   })
-
+  // huydang to do
   const token = getLSItem("token")
   useEffect(() => {
     getAllHotels(setAllHotels, token)
