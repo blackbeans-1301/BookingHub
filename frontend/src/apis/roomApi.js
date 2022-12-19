@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_ROOM_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api"
+import { CREATE_ROOM_URL, GET_ALL_ROOMS_BY_CRITERIA_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api"
 
 export const createRoomApi = (data, tokenStr) => {
   const options = {
@@ -81,6 +81,28 @@ export const updateRoomInfor = (data, tokenStr) => {
     .catch((err) => {
       console.log("ERROR: ====", err)
       return err.response.data.Message
+    })
+
+  return response
+}
+
+export const getAllRoomsByCriteria = (data, setRooms) => {
+  const options = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+  }
+
+  const response = axios
+    .put(GET_ALL_ROOMS_BY_CRITERIA_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      setRooms(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.message
     })
 
   return response

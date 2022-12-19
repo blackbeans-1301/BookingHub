@@ -21,12 +21,14 @@ const SearchHotelPage = ({ location }) => {
   let queryArr = queryString.split('/');
   console.log('query arr', queryArr);
 
+  const dateIn = FormatDate(queryArr[1]);
+  const dateOut = FormatDate(queryArr[2]);
   let data = {
     date_in: FormatDate(queryArr[1]),
     date_out: FormatDate(queryArr[2]),
     province: queryArr[0].replace("%20", " "),
-    number_of_room: queryArr[3].substring(4),
-    number_of_guest: queryArr[4].substring(5),
+    number_of_room: parseFloat(queryArr[3].substring(4)),
+    number_of_guest: parseFloat(queryArr[4].substring(5)),
   }
 
   console.log('data', data)
@@ -39,7 +41,7 @@ const SearchHotelPage = ({ location }) => {
 
   return (
     <Layout>
-      <HotelSearch hotel={hotel}/>
+      <HotelSearch hotel={hotel} dateIn={dateIn} dateOut={dateOut} />
     </Layout>
   );
 };
