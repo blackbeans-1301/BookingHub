@@ -72,7 +72,7 @@ exports.GetHistory = (Reservation, Room, Image, Hotel, condition) => {
     })
 };
 
-exports.ReservationInfo = (Reservation, Comment, Room, Hotel, condition) => {
+exports.ReservationInfo = (Reservation, Comment, Room, Hotel, Bill, condition) => {
     return Reservation.findOne({
         where: condition,
         include: [{
@@ -82,6 +82,8 @@ exports.ReservationInfo = (Reservation, Comment, Room, Hotel, condition) => {
             }]
         }, {
             model: Comment
+        }, {
+            model: Bill
         }]
     }).then(data => {
         if (data === null) {
@@ -93,7 +95,19 @@ exports.ReservationInfo = (Reservation, Comment, Room, Hotel, condition) => {
     })
 }
 
-exports.OwnerReservations = (Reservation, Room, Hotel, condition) => {
+exports.UserReservations = (Reservation, Bill, condition) => {
+    return Reservation.findAll({
+        where: condition,
+        include: [{
+            model: Bill,
+        }]
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        return { code: -2, err: err.message }
+    })
+}
+exports.OwnerReservations = (Reservation, Room, Hotel, Bill, condition) => {
     return Reservation.findAll({
         include: [{
             model: Room,
@@ -101,6 +115,8 @@ exports.OwnerReservations = (Reservation, Room, Hotel, condition) => {
                 model: Hotel,
                 where: condition
             }]
+        },{
+            model: Bill
         }]
     }).then(data => {
         return data;

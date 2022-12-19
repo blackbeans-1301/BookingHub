@@ -42,11 +42,15 @@ exports.GetHotelInfo = (hotelModel, imageModel, condition) => {
     })
 }
 
-exports.HotelReservations = (Reservation, Room, condition) => {
+exports.HotelReservations = (Reservation, Room, Bill, Comment, condition) => {
     return Reservation.findAll({
         include: [{
             model: Room,
             where: condition
+        }, {
+            model: Comment
+        }, {
+            model: Bill
         }]
     }).then(data => {
         return data;
