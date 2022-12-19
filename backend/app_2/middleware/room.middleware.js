@@ -185,10 +185,29 @@ exports.updateRoom = async (req, res) => {
     return res.status(200).send({ message: "Update successful" })
 }
 
+// delete room
+exports.deleteRoom = async (req, res) => {
+    let condition = {
+        room_id: req.body.room_id
+    }
+    let occupiedRoomData = await controllers.FindManyData(Occupied_room, condition);
+    if (occupiedRoomData.code === -2) {
+        return res.status(400).send({message: "Can't find occupied room", err: occupiedRoomData.err})
+    }
+    if (occupiedRoomData.length) {
+        return res.status(400).send({message: "Can't be delete in this time"})
+    } 
+    let resultImage = await controllers.DeleteData(Image, condition);
+    let resultRoom = await controllers.DeleteData(Room, condition);
+    return res.status(200).send({message: "Delete room successfully"})
+
+}
 exports.getRoomByCriteria = async (req, res) => {
     if ( req.body.date_in === undefined || req.body.date_out === undefined) {
             return res.status(400).send({ message: "Unable to get rooms (missing field)"})
         }
+    req.body.date_in = controllers.GetDateTimeFromDate(req.body.date_in)
+    req.body.date_out = controllers.GetDateTimeFromDate(req.body.date_out)        
     let condition1 = {
         hotel_id: req.body.hotel_id
     }

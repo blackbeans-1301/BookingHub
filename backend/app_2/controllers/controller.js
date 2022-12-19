@@ -30,6 +30,15 @@ exports.FormatDateTime = (date) => {
     return dateFormat; 
 }
 
+exports.GetDateTimeFromDate = (dateStr) => {
+    var date = new Date(dateStr)
+    var DD = String(date.getDate()).padStart(2, '0');
+    var MM = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var YYYY = date.getFullYear();
+    dateFormat = YYYY + '-' + MM + '-' + DD + ' ' + '00' + ':' + '00' + ':' + '00';
+    return dateFormat; 
+}
+
 exports.CreateData = (model, value) => {
     return model.create(value).then(data => {
         return data.dataValues

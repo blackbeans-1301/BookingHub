@@ -16,7 +16,7 @@ router.get('/auth/google/callback',
     });
 
 // register an user account:
-router.post('/register', userMiddleware.register);
+router.post('/register', userMiddleware.register); 
 
 // login an account
 router.post('/login', userMiddleware.login);
@@ -54,12 +54,16 @@ router.delete('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.del
 // get favorite
 router.get('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
 
+// check favorite
+router.get('/checkFavorite/:hotel_id', userMiddleware.authenticateJWT, userMiddleware.checkFavorite)
+
 // get history
 router.get('/history', userMiddleware.authenticateJWT, userMiddleware.getHistory)
 
 // get Reservation
 router.get('/reservationOwner/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, userMiddleware.reservationInfo)
 router.get('/reservationUser/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToUser, userMiddleware.reservationInfo)
+
 // TODO: delete a user (cai nay chua xong)
 //router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
 

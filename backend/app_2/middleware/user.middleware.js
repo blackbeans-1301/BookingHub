@@ -79,7 +79,9 @@ exports.login = async (req, res) => {
     if (req.body.password === undefined) {
         return res.status(400).send({ message: "Missing password field!" })
     }
-
+    if (req.body.password === "") {
+        return res.status(400).send({ message: "Password is empty!" })
+    }
     // kiem tra xem co email trong database khong
     let condition = {
         email: req.body.email
@@ -96,7 +98,10 @@ exports.login = async (req, res) => {
     if (!dataAccount.length) {
         return res.status(400).send({ message: "Email or password is incorrect!" })
     }
-
+    
+    if (dataAccount[0].dataValues.password === null) {
+        return res.status(400).send({ message: "This account should be login by Google" })
+    }
     // kiem tra mat khau
     if (!bcrypt.compareSync(req.body.password, dataAccount[0].dataValues.password)) {
         return res.status(400).send({ message: "Email or password is incorrect!" })
@@ -253,6 +258,9 @@ exports.resetPassword = async (req, res) => {
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
     // kiem tra mat khau cu dung khong
+    if (accountData.password === null) {
+        return res.status(400).send({ message: "The google's account can't reset password" })
+    }
     if (!bcrypt.compareSync(req.body.password, accountData.password)) {
         return res.status(400).send({ message: "Wrong old password" })
     }
@@ -368,6 +376,10 @@ exports.resetPasswordByCode = async (req, res) => {
         return res.status(400).send({ message: "Wrong email", err: dataAccount.err })
     }
 
+    // kiem tra code het han chua
+    if (dataAccount.resetCode === null) {
+        return res.status(400).send({ message: "Code was expired"})
+    }
     // kiem tra code dung khong
     if (req.body.code !== dataAccount.resetCode) {
         return res.status(400).send({ message: "Wrong code"})
@@ -398,6 +410,7 @@ exports.resetPasswordByCode = async (req, res) => {
     return res.status(200).send({message: "Reset password successfully"})
 }
 
+// favorite
 exports.addFavorite = async (req, res) => {
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
@@ -458,6 +471,26 @@ exports.getFavorite = async (req, res) => {
     return res.status(200).send(hotelData.Hotels) 
 }
 
+exports.checkFavorite = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+
+    if (isOwner) {
+        return res.status(400).send({message: "Owner can't check favorite"})
+    }
+    let condition = {
+        user_id: accountData.user_id,
+        hotel_id: req.params.hotel_id
+    } 
+    let dataHotel = await controllers.FindOneData(Favorite, condition) 
+    if (dataHotel.code === -2) {
+        return res.status(400).send({message: "Unable to check favorite", err: hotelData.err})
+    }
+    if (dataHotel.code === -1) {
+        return res.status(200).send({code: 0})
+    }
+    return res.status(200).send({code: 1})
+}
 exports.getHistory = async (req, res) => {
     const accountData = req.bookingHub_account_info
     const isOwner = req.bookingHub_account_isOwner
@@ -499,3 +532,4 @@ exports.reservationInfo = async (req, res) => {
     delete reservationData.user_id
     return res.status(400).send(reservationData)
 } 
+
