@@ -92,3 +92,19 @@ exports.ReservationInfo = (Reservation, Comment, Room, Hotel, condition) => {
         return {code: -2, err: err.message}
     })
 }
+
+exports.OwnerReservations = (Reservation, Room, Hotel, condition) => {
+    return Reservation.findAll({
+        include: [{
+            model: Room,
+            include: [{
+                model: Hotel,
+                where: condition
+            }]
+        }]
+    }).then(data => {
+        return data;
+    }).catch(err => {
+        return { code: -2, err: err.message }
+    })
+}

@@ -310,6 +310,25 @@ exports.userReservations = async (req, res) => {
     return res.status(200).send(dataReservation)
 }
 
+// get list reservations of owner
+exports.ownerReservations = async (req, res) => {
+    const accountData = req.bookingHub_account_info
+    const isOwner = req.bookingHub_account_isOwner
+    if (!isOwner) {
+        return res.status(400).send({ message: "Account is not Owner" })
+    }
+    let condition = {
+        owner_id: accountData.owner_id
+    }
+    let dataReservation = await userControllers.OwnerReservations(Reservation, Room, Hotel, condition)
+    if (dataReservation.code === -2) {
+        return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
+    }
+    for (var reservation of dataReservation) {
+        reservation.dataValues.Hotel = reservation.dataValues.Rooms[0].dataValues.Hotel
+    }
+    return res.status(200).send(dataReservation)
+}
 // forget password
 exports.sendEmail = async (req, res) => {
     // create code

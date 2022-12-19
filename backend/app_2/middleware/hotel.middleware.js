@@ -359,13 +359,23 @@ exports.getHotelByCriteria = async (req, res) => {
     return res.status(200).send(data)
 }
 
-// exports.searchByKeyword = async (req, res) => {
-//     let condition = {}
-//     let hotelData = await controllers.FindManyData(Hotel, condition)
-//     if (hotelData.code === -2) {
-        
-//     }
-// }
+exports.searchByKeyword = async (req, res) => {
+    let condition = {}
+    let hotelData = await controllers.FindManyData(Hotel, condition)
+    if (hotelData.code === -2) {
+        return res.status(400).send({ message: "Unable to get hotel", err: hotelData.err })
+    }
+    let searchHotel = []
+    console.log(req.params.keyword);
+    for (let hotel of hotelData) {
+        if (hotelControllers.removeVietnameseTones(hotel.dataValues.province).toLowerCase().includes(req.params.keyword)
+            || hotelControllers.removeVietnameseTones(hotel.dataValues.name).toLowerCase().includes(req.params.keyword)
+            || hotelControllers.removeVietnameseTones(hotel.dataValues.address).toLowerCase().includes(req.params.keyword)) {
+            searchHotel.push(hotel);
+        }
+    }
+    return res.status(200).send(searchHotel);
+}
 
 exports.calculateIncome = async function (req, res) {
     let data = await Bill.findAll({

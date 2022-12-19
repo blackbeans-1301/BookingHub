@@ -39,6 +39,9 @@ router.get('/avatar', userMiddleware.authenticateJWT, userMiddleware.getAvatar)
 // Get user's reservations
 router.get('/userReservations', userMiddleware.authenticateJWT, userMiddleware.userReservations);
 
+// Get owner's reservations
+router.get('/ownerReservations', userMiddleware.authenticateJWT, userMiddleware.ownerReservations);
+
 // forget password
 router.put('/forgetPassword', userMiddleware.sendEmail);
 
