@@ -99,8 +99,8 @@ export default function Main() {
       date_in: FormatDate(arriveDay.arrive),
       date_out: FormatDate(leaveDay.leave),
       province: destination,
-      number_of_room: room,
-      number_of_guest: adult + child,
+      number_of_room: parseFloat(room),
+      number_of_guest: parseFloat(adult + child),
     }
 
     // useEffect(() => {

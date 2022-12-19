@@ -9,12 +9,16 @@ const HotelPage = ({ location }) => {
   const locationStr = location.search;
   console.log('location', locationStr);
   const len = locationStr.length;
-  const hotelId = locationStr.substring(3);
-  console.log('hotelId', hotelId);
+  const queryStr = locationStr.substring(3);
+  const queryArr = queryStr.split("/");
+  const hotelId = queryArr[0];
+  const dateIn = queryArr[1];
+  const dateOut = queryArr[2];
+  console.log('hotelId', hotelId, dateIn, dateOut);
 
   return (
     <Layout>
-      <Hotel id={hotelId} />
+      <Hotel id={hotelId} dateIn={dateIn} dateOut={dateOut} />
     </Layout>
   );
 };

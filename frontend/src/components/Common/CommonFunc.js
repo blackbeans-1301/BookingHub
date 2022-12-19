@@ -18,3 +18,12 @@ exports.FormatDateToGB = (date) => {
     let dateInput = new Date(date);
     return dateInput.toLocaleDateString('en-GB'); 
 }
+
+exports.FormatDateToGBShort = (date) => { 
+    let dateInput = new Date(date);
+    return dateInput.toLocaleDateString('en-GB', {
+        day : 'numeric',
+        month : 'short',
+        year : 'numeric'
+    }); 
+}

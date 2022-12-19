@@ -11,8 +11,11 @@ import TagFacesIcon from "@material-ui/icons/TagFaces";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
 import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
 import { getHotelById } from "../../../apis/hotelApi";
+import { getAllRoomsByCriteria } from "../../../apis/roomApi";
+import { FormatDate, FormatDateToGBShort } from "../../Common/CommonFunc";
+import { getCommentsOfHotel } from "../../../apis/commentApi";
 
-export default function Hotel({id}) {
+export default function Hotel({ id, dateIn, dateOut }) {
   const [arriveDay, setArriveDay] = useState(new Date());
   const [leaveDay, setLeaveDay] = useState(new Date());
   const [room, setRoom] = useState(1);
@@ -20,6 +23,8 @@ export default function Hotel({id}) {
   const [child, setChild] = useState(0);
   const [open, setOpen] = useState(false);
   const [hotel, setHotel] = useState();
+  const [listRoom, setListRoom] = useState();
+  const [listComment, setListComment] = useState();
 
   const { arrive } = arriveDay;
   const { leave } = leaveDay;
@@ -63,26 +68,43 @@ export default function Hotel({id}) {
     setChild((prevCount) => prevCount + 1);
   };
 
-  console.log('hotel id', id);
+  console.log("hotel id", id);
 
   useEffect(() => {
     getHotelById(id, setHotel);
-  }, [])
+  }, []);
 
-  const callApi = async () => {
-    const response = await getHotelById(id);
-    console.log('res', response);
-    setHotel(response);
+  // const callApi = async () => {
+  //   const response = await getHotelById(id);
+  //   console.log('res', response);
+  //   setHotel(response);
 
-    if (response.status === 200) {
-    } else if (response.status === 400) {
-      console.log(response.status, response);
-      // toast.error(response.message);
-    }
+  //   if (response.status === 200) {
+  //   } else if (response.status === 400) {
+  //     console.log(response.status, response);
+  //     // toast.error(response.message);
+  //   }
+  // };
+  // callApi();
+
+  console.log("hotel", hotel);
+
+  const data = {
+    hotel_id: id,
+    date_in: FormatDate(dateIn),
+    date_out: FormatDate(dateOut),
   };
-  callApi();
 
-  console.log('hotel', hotel);
+  console.log("post data", data);
+  useEffect(() => {
+    getAllRoomsByCriteria(data, setListRoom);
+  }, []);
+  console.log("all room", listRoom);
+
+  useEffect(() => {
+    getCommentsOfHotel(id, setListComment);
+  }, []);
+  console.log("comments", listComment);
 
   return (
     // hotelContainer
@@ -97,7 +119,9 @@ export default function Hotel({id}) {
             {hotel !== undefined && hotel.name}
           </h1>
 
-          <span className="">{hotel !== undefined && hotel.rating}/10 Very good</span>
+          <span className="">
+            {hotel !== undefined && hotel.rating}/10 Very good
+          </span>
           {/* hotelAddress */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
@@ -255,7 +279,59 @@ export default function Hotel({id}) {
         </div>
 
         <div className="mt-6 flex flex-wrap">
-          <div className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2">
+          {listRoom === undefined || listRoom.length === 0 ? (
+            <div>There is no rooms</div>
+          ) : (
+            listRoom.map((item, index) => {
+              return (
+                <div
+                  className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2"
+                  key={index}
+                >
+                  <img
+                    src="https://cache.marriott.com/content/dam/marriott-renditions/TNASI/tnasi-guestroom-5428-hor-wide.jpg?output-quality=70&interpolation=progressive-bilinear&downsize=1336px:*"
+                    className="w-full object-cover"
+                  />
+                  <h3 className="font-bold text-lg text-sky-600 mt-2">
+                    {item.room_name}
+                  </h3>
+
+                  <div className="flex flex-col">
+                    <span className="text-sm">{item.criteria}</span>
+                    <span className="text-sm">
+                      Number of beds: {item.number_of_bed}
+                    </span>
+                    <span className="text-sm">Capacity: {item.capacity}</span>
+                    <span className="text-sm">{item.description}</span>
+                  </div>
+
+                  <span className="text-xs font-semibold text-white bg-green-600 p-1 rounded">
+                    37% off
+                  </span>
+
+                  <div className="flex justify-between mt-4 items-center">
+                    <div className="flex flex-col">
+                      <span className="text-lg font-bold">${item.price}</span>
+                      <span className="text-sm text-gray-400">
+                        ${item.price} total
+                      </span>
+                      <span className="text-sm text-gray-400">
+                        includes taxes & fees
+                      </span>
+                    </div>
+
+                    <div className="">
+                      <button className="text-black bg-sky-300 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded">
+                        Reserve
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+
+          {/* <div className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2">
             <img
               src="https://cache.marriott.com/content/dam/marriott-renditions/TNASI/tnasi-guestroom-5428-hor-wide.jpg?output-quality=70&interpolation=progressive-bilinear&downsize=1336px:*"
               className="w-full object-cover"
@@ -487,144 +563,56 @@ export default function Hotel({id}) {
                 </button>
               </div>
             </div>
-          </div>
-
-          <div className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2">
-            <img
-              src="https://cache.marriott.com/content/dam/marriott-renditions/TNASI/tnasi-guestroom-5428-hor-wide.jpg?output-quality=70&interpolation=progressive-bilinear&downsize=1336px:*"
-              className="w-full object-cover"
-            />
-            <h3 className="font-bold text-lg text-sky-600 mt-2">
-              Superior Double Room
-            </h3>
-            <span className="text-sm text-gray-400">
-              4.3/5 guest room rating
-            </span>
-
-            <div className="flex flex-col">
-              <span className="text-sm">City view</span>
-              <span className="text-sm">1 King bed</span>
-              <span className="text-sm">Free wifi</span>
-            </div>
-
-            <span className="text-xs font-semibold text-white bg-green-600 p-1 rounded">
-              37% off
-            </span>
-
-            <div className="flex justify-between mt-4 items-center">
-              <div className="flex flex-col">
-                <span className="text-lg font-bold">$76</span>
-                <span className="text-sm text-gray-400">$173 total</span>
-                <span className="text-sm text-gray-400">
-                  includes taxes & fees
-                </span>
-              </div>
-
-              <div className="">
-                <button className="text-black bg-sky-300 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded">
-                  Reserve
-                </button>
-              </div>
-            </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold text-sky-600 mb-6">Reviews</h1>
-          <div className="flex">
-            <div className="flex-1">
-              <div className="flex items-center">
-                <span className="text-6xl font-bold mr-2">8.2</span>
-                <div className="flex flex-col">
-                  <span className="text-lg font-bold">Very Good</span>
-                  <span className="text-sky-600">368 reviews</span>
+          {listComment === undefined ? (
+            <div>There is no comments for this hotel.</div>
+          ) : (
+            <div className="flex">
+              <div className="flex-1">
+                <div className="flex items-center">
+                  <span className="text-6xl font-bold mr-2">{hotel.rating.toFixed(1)}</span>
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold">Very Good</span>
+                    <span className="text-sky-600">{listComment.length} reviews</span>
+                  </div>
                 </div>
+              </div>
+
+              <div className="flex3">
+                {listComment.map((item, index) => {
+                  return (
+                    <div className="bg-sky-100 rounded-lg p-2 flex flex-col my-2" key={index}>
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col">
+                          <span className="text-lg font-bold">{item.rating}/5 Good</span>
+                          <span className="font-bold text-sky-600 text-xl">
+                            {item.Reservation.User.firstName} {item.Reservation.User.lastName}
+                          </span>
+                        </div>
+                        <span className="text-gray-400">
+                          <AccessTimeOutlinedIcon /> {item.createdAt}
+                        </span>
+                      </div>
+
+                      <span className="text-gray-500">
+                        <TagFacesIcon /> Liked
+                      </span>
+                      <p className="ml-2">
+                        {item.content}
+                      </p>
+                      <span className="text-gray-400 text-sm">
+                        Stayed in {FormatDateToGBShort(item.Reservation.check_in)}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            <div className="flex3">
-              <div className="bg-sky-100 rounded-lg p-2 flex flex-col my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-lg font-bold">8/10 Good</span>
-                    <span className="font-bold text-sky-600 text-xl">
-                      
-                       Adrian
-                    </span>
-                  </div>
-                  <span className="text-gray-400">
-                    <AccessTimeOutlinedIcon /> Aug 10, 2022
-                  </span>
-                </div>
-
-                <span className="text-gray-500">
-                  <TagFacesIcon /> Liked
-                </span>
-                <p className="ml-2">
-                  Nice place but place looks old. Need an upgrade. But it’s
-                  value for money. Arranged a taxi pick up at the airport but
-                  never showed up! Really disappointing
-                </p>
-                <span className="text-gray-400 text-sm">
-                  Stayed 1 night in Aug 2022
-                </span>
-              </div>
-
-              <div className="bg-sky-100 rounded-lg p-2 flex flex-col my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-lg font-bold">8/10 Good</span>
-                    <span className="font-bold text-sky-600 text-xl">
-                      
-                       Adrian
-                    </span>
-                  </div>
-                  <span className="text-gray-400">
-                    <AccessTimeOutlinedIcon /> Aug 10, 2022
-                  </span>
-                </div>
-
-                <span className="text-gray-500">
-                  <TagFacesIcon /> Liked
-                </span>
-                <p className="ml-2">
-                  Nice place but place looks old. Need an upgrade. But it’s
-                  value for money. Arranged a taxi pick up at the airport but
-                  never showed up! Really disappointing
-                </p>
-                <span className="text-gray-400 text-sm">
-                  Stayed 1 night in Aug 2022
-                </span>
-              </div>
-
-              <div className="bg-sky-100 rounded-lg p-2 flex flex-col my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col">
-                    <span className="text-lg font-bold">8/10 Good</span>
-                    <span className="font-bold text-sky-600 text-xl">
-                      
-                       Adrian
-                    </span>
-                  </div>
-                  <span className="text-gray-400">
-                    <AccessTimeOutlinedIcon /> Aug 10, 2022
-                  </span>
-                </div>
-
-                <span className="text-gray-500">
-                  <TagFacesIcon /> Liked
-                </span>
-                <p className="ml-2">
-                  Nice place but place looks old. Need an upgrade. But it’s
-                  value for money. Arranged a taxi pick up at the airport but
-                  never showed up! Really disappointing
-                </p>
-                <span className="text-gray-400 text-sm">
-                  Stayed 1 night in Aug 2022
-                </span>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

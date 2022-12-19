@@ -4,7 +4,7 @@ import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 import { redirect } from "../../../utils";
 
-export default function HotelSearch({ hotel }) {
+export default function HotelSearch({ hotel, dateIn, dateOut }) {
   const [arriveDay, setArriveDay] = useState(new Date());
   const [leaveDay, setLeaveDay] = useState(new Date());
 
@@ -147,7 +147,7 @@ export default function HotelSearch({ hotel }) {
                         onClick={() => {
                           console.log("item ", index, item);
                           console.log('hotel id', item.hotel_id);
-                          redirect(`http://localhost:8000/user/HotelPage?x=${item.hotel_id}`)
+                          redirect(`http://localhost:8000/user/HotelPage?x=${item.hotel_id}/${dateIn}/${dateOut}`)
                         }}
                       >
                         See availability
