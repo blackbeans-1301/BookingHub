@@ -53,7 +53,7 @@ exports.GetFavoriteList = (userModel, hotelModel, imageModel, condition) => {
 }
 
 
-exports.GetHistory = (Reservation, Room, Image, Hotel, Bill, condition) => {
+exports.GetHistory = (Reservation, Room, Image, Hotel, Bill, Comment, condition) => {
     return Reservation.findAll({
         where: condition,
         include: [{
@@ -66,6 +66,8 @@ exports.GetHistory = (Reservation, Room, Image, Hotel, Bill, condition) => {
             }]
         }, {
             model: Bill
+        }, {
+            model: Comment
         }]
     }).then(data => {
         return data;
@@ -97,7 +99,7 @@ exports.ReservationInfo = (Reservation, Comment, Room, Hotel, Bill, condition) =
     })
 }
 
-exports.UserReservations = (Reservation, Room, Image, Hotel, Bill, condition) => {
+exports.UserReservations = (Reservation, Room, Image, Hotel, Bill, Comment, condition) => {
     return Reservation.findAll({
         where: condition,
         include: [{
@@ -110,6 +112,8 @@ exports.UserReservations = (Reservation, Room, Image, Hotel, Bill, condition) =>
             }]
         }, {
             model: Bill
+        }, {
+            model: Comment
         }]
     }).then(data => {
         return data;

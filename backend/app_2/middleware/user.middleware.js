@@ -15,6 +15,7 @@ const Bill = db.bill
 
 const controllers = require("../controllers/controller.js")
 const userControllers = require("../controllers/user.controller.js");
+const hotelControllers = require("../controllers/hotel.controller.js")
 const { Op } = require('sequelize')
 
 // Dang ky account
@@ -305,7 +306,7 @@ exports.userReservations = async (req, res) => {
         }, 
     }
     //Reservation, Room, Image, Hotel, Bill,condition
-    let dataReservation = await userControllers.UserReservations(Reservation, Room, Image, Hotel, Bill, condition)
+    let dataReservation = await userControllers.UserReservations(Reservation, Room, Image, Hotel, Bill, Comment, condition)
     if (dataReservation.code === -2) {
         return res.status(400).send({ message: "An error occurred", err: dataReservation.err })
     }
@@ -315,7 +316,7 @@ exports.userReservations = async (req, res) => {
         delete reservation.dataValues.Rooms
         delete reservation.dataValues.user_id
     }
-    
+
     return res.status(200).send(dataReservation)
 }
 
@@ -493,7 +494,9 @@ exports.getFavorite = async (req, res) => {
     if (hotelData.code === -2) {
         return res.status(400).send({message: "Unable to delete hotel", err: hotelData.err})
     }
-    
+    for (let h = 0; h < hotelData.Hotels.length; h++) { 
+        hotelData.Hotels[h].dataValues.classification = hotelControllers.Classification(hotelData.Hotels[h].dataValues.rating);
+    }
     return res.status(200).send(hotelData.Hotels) 
 }
 
@@ -531,7 +534,7 @@ exports.getHistory = async (req, res) => {
             [Op.or]: ['completed', 'canceled']
         }
     }
-    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, Bill,condition);
+    let reservationData = await userControllers.GetHistory(Reservation, Room, Image, Hotel, Bill, Comment, condition);
     if (reservationData.code === -2) {
         return res.status(400).send({message: "Unable to get history list", err: reservationData.err})
     }

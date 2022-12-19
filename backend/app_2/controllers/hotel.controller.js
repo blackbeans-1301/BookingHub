@@ -92,6 +92,14 @@ exports.GetHotelByAddress = (Hotel, Image, condition) => {
         return { code: -2, err: err.message }
     })
 }
+
+exports.Classification = (rating) => {
+    if (rating < 1) return "Not yet"
+    if (rating >= 1 && rating < 2) return "Very bad"
+    if (rating >= 2 && rating < 3) return "Bad"
+    if (rating >= 3 && rating < 4) return "Good"
+    if (rating >= 4) return "Very good"
+}
 exports.GetHotelVietnamese = (province) => {
     if (province === "an giang" || province === "tinh an giang") return "An Giang";
     if (province === "ba ria - vung tau" || province === "tinh ba ria - vung tau") return "Bà Rịa – Vũng Tàu";

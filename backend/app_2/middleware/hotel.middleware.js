@@ -96,6 +96,8 @@ exports.getInfoHotel = async (req, res) => {
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable get hotel information", err: hotelData.err })
     }
+    hotelData.classification = hotelControllers.Classification(hotelData.rating);
+  
     return res.status(200).send(hotelData)
 }
 
@@ -214,6 +216,9 @@ exports.hotelByAddress = async (req, res) => {
     let hotelData = await hotelControllers.GetHotelByAddress(Hotel, Image, condition)
     if (hotelData.code === -2) {
         return res.status(400).send({ message: "Unable to get hotel by address", err: hotelData.err })
+    }
+    for (let h = 0; h < hotelData.length; h++) { 
+        hotelData[h].dataValues.classification = hotelControllers.Classification(hotelData[h].dataValues.rating);
     }
     return res.status(200).send(hotelData)
 }
@@ -357,7 +362,9 @@ exports.getHotelByCriteria = async (req, res) => {
             h--
         }
     }
-
+    for (let h = 0; h < data.length; h++) { 
+        data[h].dataValues.classification = hotelControllers.Classification(data[h].dataValues.rating);
+    } 
     return res.status(200).send(data)
 }
 
