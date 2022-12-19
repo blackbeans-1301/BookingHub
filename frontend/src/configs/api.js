@@ -22,6 +22,8 @@ export const RESET_PASSWORD_URL = `${DOMAIN_URL}/user/resetPassword`
 
 export const RESET_PASSWORD_BY_CODE_URL = `${DOMAIN_URL}/user/resetPasswordByCode`
 
+export const UPDATE_USER_INFO = `${DOMAIN_URL}/user/update`
+
 export const FORGOT_PASSWORD_URL = `${DOMAIN_URL}/user/forgetPassword`
 
 // API for register with Google-------------------------------------

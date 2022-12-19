@@ -6,15 +6,26 @@ import Layout from "../../components/Layouts"
 import Profile from "../../components/Screens/user/Profile"
 import { getLSItem } from "../../utils"
 import { getUserInfor } from "../../apis/userApi"
-import { toast } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import { date } from "yup"
+import { parse, isDate } from "date-fns"
 import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import ToastMessage from "../../components/Items/ToastMessage"
-import { resetPassword } from "../../apis/userApi"
+import { resetPassword, getUserInfoEdited, updateUserInfo } from "../../apis/userApi"
 
+
+function parseDateString(value, originalValue) {
+  const parsedDate = isDate(originalValue)
+    ? originalValue
+    : parse(originalValue, "yyyy-MM-dd", new Date())
+
+  return parsedDate
+}
+
+const today = new Date()
 
 const changePasswordValidationSchema = yup.object({
   oldPassword: yup
@@ -25,42 +36,84 @@ const changePasswordValidationSchema = yup.object({
     .required("Enter your email"),
 })
 
+const editInfoValidationSchema = yup.object({
+  firstName: yup
+    .string()
+    .required("Enter your email"),
+  lastName: yup
+    .string()
+    .required("Enter your email"),
+  dateOfBirth: yup
+    .date().transform(parseDateString).max(today).required("Enter your date of birth. Please enter a valid date."),
+  gender: yup
+    .string()
+    .required("Enter your email"),
+  phoneNumber: yup
+    .string()
+    .required("Enter your email"),
+})
+
 
 const ProfilePage = () => {
   const email = getLSItem("email")
   const [userData, setUserData] = useState()
   const [modalActive, setModalActive] = useState("")
   const [error, setError] = useState("")
-
+  const [editedStatus, setEditedStatus] = useState(false)
 
   useEffect(() => {
     const getUserData = async () => {
-      const data = await getUserInfor(setUserData(userData), getLSItem("token"))
-      console.log(data)
+      const data = await getUserInfoEdited(getLSItem("token"))
+      setUserData(data)
     }
 
-    // getUserData()
+    getUserData()
   }, [])
 
   const changePasswordFormik = useFormik({
-    initialValues: {
-      oldPassword: "",
-      newPassword: "",
-    },
     validationSchema: changePasswordValidationSchema,
     onSubmit: (values) => {
       requestChangePassword(values.oldPassword, values.newPassword)
     },
   })
 
-  const requestChangePassword = async (oldPassword, newPassword) => {
+  const editInfoFormik = useFormik({
+    initialValues: {
+      firstName: userData ? userData.firstName : '',
+      lastName: userData ? userData.lastName : '',
+      gender: userData ? userData.gender : '',
+      phoneNumber: userData ? userData.phone_number : '',
+    },
+    validationSchema: editInfoValidationSchema,
+    onSubmit: (values) => {
+      requestUpdateInfo(values)
+    },
+    enableReinitialze: true,
+  })
 
+  const requestUpdateInfo = async (values) => {
+    const data = {
+      dob: values.dateOfBirth,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      gender: values.gender,
+      phone_number: values.phoneNumber,
+    }
+
+    const response = await updateUserInfo(data, getLSItem("token"))
+    console.log(response)
+    if (response !== undefined) {
+      toast.success(response.message)
+    } else {
+      toast.error("Error updating information. Plase try again later...")
+    }
+  }
+
+  const requestChangePassword = async (oldPassword, newPassword) => {
     const data = {
       password: oldPassword,
       newPassword,
     }
-
-    console.log(data, getLSItem("token"))
 
     const response = await resetPassword(data, getLSItem("token"))
     console.log(response)
@@ -83,7 +136,7 @@ const ProfilePage = () => {
           <div className="text-white text-md pt-12">
             Account email
             <br />
-            <span className="text-lg font-bold">{email ?? 'blackbeans.1301@gmail.com'}</span>
+            <span className="text-lg font-bold">{userData ? userData.email : "error getting data"}</span>
           </div>
         </div>
         <div>
@@ -99,15 +152,18 @@ const ProfilePage = () => {
               <div className="mt-8">
                 <h1>Name</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
-                  <h1 className="text-xl font-bold">{userData?.fullName ?? "(not set)"}</h1>
-                  <h1>edit</h1>
+                  <h1 className="text-xl font-bold">{userData ? `${userData.firstName + " " + userData.lastName}` : "not set"}</h1>
+                  <h1 onClick={() => {
+                    setModalActive("update")
+                  }}
+                    className="cursor-pointer">edit</h1>
                 </div>
               </div>
 
               <div className="mt-8">
                 <h1>Email</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
-                  <h1 className="text-xl font-bold">{userData?.email ?? "(not set)"}</h1>
+                  <h1 className="text-xl font-bold">{userData ? userData.email : "(not set)"}</h1>
                   <h1></h1>
                 </div>
               </div>
@@ -115,16 +171,22 @@ const ProfilePage = () => {
               <div className="mt-8">
                 <h1>Gender</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
-                  <h1 className="text-xl font-bold">{userData?.fullName ?? "(not set)"}</h1>
-                  <h1>edit</h1>
+                  <h1 className="text-xl font-bold">{userData ? userData.gender : "(not set)"}</h1>
+                  <h1 onClick={() => {
+                    setModalActive("update")
+                  }}
+                    className="cursor-pointer">edit</h1>
                 </div>
               </div>
 
               <div className="mt-8">
                 <h1>Phone number</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
-                  <h1 className="text-xl font-bold">{userData?.fullName ?? "(not set)"}</h1>
-                  <h1>edit</h1>
+                  <h1 className="text-xl font-bold">{userData ? userData.phone_number : "(not set)"}</h1>
+                  <h1 onClick={() => {
+                    setModalActive("update")
+                  }}
+                    className="cursor-pointer">edit</h1>
                 </div>
               </div>
             </div>
@@ -154,16 +216,6 @@ const ProfilePage = () => {
                   <CancelIcon />
                 </button>
               </div>
-
-              {/* <div>
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Email</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="email"
-                />
-              </div>
-            </div> */}
 
               <form
                 className="flex flex-col m-4"
@@ -230,13 +282,145 @@ const ProfilePage = () => {
                   Confirm
                 </button>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
 
-              {/* <button
-              type="submit"
-              className="font-bold text-lg mb-4 pl-4 pr-4 bg-light-primary w-full text-colorText py-2 rounded-full hover:bg-primary hover:text-white"
-            >
-              Send
-            </button> */}
+      {modalActive === "update" && (
+        <div className="w-full h-full fixed top-0" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div className="flex justify-center mt-12">
+            <div className="bg-white w-1/2 p-2 rounded flex flex-col m-2 z-10 top-20">
+              <div className="flex justify-between m-2">
+                <h2 className="font-bold text-3xl text-colorText">
+                  Change password
+                </h2>
+                <button
+                  className="text-light-close text-xl place-self-end hover:text-close-color"
+                  onClick={() => { setModalActive("") }}
+                >
+                  <CancelIcon />
+                </button>
+              </div>
+              <form
+                className="flex flex-col m-4"
+                onSubmit={editInfoFormik.handleSubmit}
+              >
+                <FormControl className="my-2">
+                  <Typography variant="subtitle1">First name</Typography>
+                  <TextField
+                    sx={{
+                      height: "85px",
+                    }}
+                    placeholder="First name"
+                    name="firstName"
+                    value={editInfoFormik.values.firstName}
+                    error={
+                      editInfoFormik.touched.firstName &&
+                      Boolean(editInfoFormik.errors.firstName)
+                    }
+                    onChange={editInfoFormik.handleChange}
+                    helperText={
+                      editInfoFormik.touched.firstName &&
+                      editInfoFormik.errors.firstName
+                    }
+                  />
+                </FormControl>
+
+
+                <FormControl className="my-2">
+                  <Typography variant="subtitle1">Last name</Typography>
+                  <TextField
+                    sx={{
+                      height: "85px",
+                    }}
+                    placeholder="Last name"
+                    name="lastName"
+                    value={editInfoFormik.values.lastName}
+                    error={
+                      editInfoFormik.touched.lastName &&
+                      Boolean(editInfoFormik.errors.lastName)
+                    }
+                    onChange={editInfoFormik.handleChange}
+                    helperText={
+                      editInfoFormik.touched.lastName &&
+                      editInfoFormik.errors.lastName
+                    }
+                  />
+                </FormControl>
+
+                <FormControl className="my-2">
+                  <Typography variant="subtitle1">Gender</Typography>
+                  <TextField
+                    sx={{
+                      height: "85px",
+                    }}
+                    placeholder="Gender"
+                    name="gender"
+                    value={editInfoFormik.values.gender}
+                    error={
+                      editInfoFormik.touched.gender &&
+                      Boolean(editInfoFormik.errors.gender)
+                    }
+                    onChange={editInfoFormik.handleChange}
+                    helperText={
+                      editInfoFormik.touched.gender &&
+                      editInfoFormik.errors.gender
+                    }
+                  />
+                </FormControl>
+
+                <FormControl className="my-2">
+                  <Typography variant="subtitle1">Date of birth</Typography>
+                  <TextField
+                    sx={{
+                      height: "85px",
+                    }}
+                    placeholder="Date of birth"
+                    name="dateOfBirth"
+                    value={editInfoFormik.values.dateOfBirth}
+                    error={
+                      editInfoFormik.touched.dateOfBirth &&
+                      Boolean(editInfoFormik.errors.dateOfBirth)
+                    }
+                    onChange={editInfoFormik.handleChange}
+                    helperText={
+                      editInfoFormik.touched.dateOfBirth &&
+                      editInfoFormik.errors.dateOfBirth
+                    }
+                  />
+                </FormControl>
+
+                <FormControl className="my-2">
+                  <Typography variant="subtitle1">Phone number</Typography>
+                  <TextField
+                    sx={{
+                      height: "85px",
+                    }}
+                    placeholder="EX: 0123456789"
+                    name="phoneNumber"
+                    value={editInfoFormik.values.phoneNumber}
+                    error={
+                      editInfoFormik.touched.phoneNumber &&
+                      Boolean(editInfoFormik.errors.phoneNumber)
+                    }
+                    onChange={editInfoFormik.handleChange}
+                    helperText={
+                      editInfoFormik.touched.phoneNumber &&
+                      editInfoFormik.errors.phoneNumber
+                    }
+                  />
+                </FormControl>
+
+                <div className="text-red-700 font-bold text-center">{error}</div>
+                <button
+                  variant="contained"
+                  className="bg-sky-300 text-xl font-bold rounded-full mt-6 hover:bg-sky-500 hover:text-white py-2"
+                  type="submit"
+                >
+                  Confirm
+                </button>
+              </form>
             </div>
           </div>
         </div>
