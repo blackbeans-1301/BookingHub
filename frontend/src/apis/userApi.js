@@ -13,7 +13,9 @@ import {
   CHECK_FAVORITE_HOTEL_URL,
   GET_HISTORY_URL,
   ADD_FAVORITE_HOTEL_URL,
-  GET_ALL_RESERVATIONS_OF_USER_URL
+  GET_ALL_RESERVATIONS_OF_USER_URL,
+  CREATE_RESERVATION_API,
+  GET_TOTAL_PRICE
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -232,8 +234,8 @@ export const googleRegister = async () => {
 }
 
 export const checkFavoriteHotel = async (token, hotelID, setStatus) => {
-  let URL = `${CHECK_FAVORITE_HOTEL_URL}/${hotelID}`;
-  console.log("URL", URL);
+  let URL = `${CHECK_FAVORITE_HOTEL_URL}/${hotelID}`
+  console.log("URL", URL)
 
   const options = {
     headers: {
@@ -245,8 +247,8 @@ export const checkFavoriteHotel = async (token, hotelID, setStatus) => {
     .get(URL, options)
     .then((res) => {
       console.log("RESPONSE ==== : ", res)
-      setStatus(res.data.code);
-      return res.data.code;
+      setStatus(res.data.code)
+      return res.data.code
     })
     .catch((err) => {
       console.log("ERROR: ====", err)
@@ -261,23 +263,23 @@ export const getHistory = async (token, setHistory) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  }
 
   const response = await axios
     .get(GET_HISTORY_URL, options)
     .then((res) => {
-      console.log("res==", res);
-      setHistory(res.data);
-      return res.data;
+      console.log("res==", res)
+      setHistory(res.data)
+      return res.data
     })
     .catch((err) => {
-      console.log("ERROR: ====", err);
+      console.log("ERROR: ====", err)
       return {
         status: err.response.status,
         message: err.response.data.message
-    };
-    });
-  return response;
+      }
+    })
+  return response
 }
 
 export const getReservations = async (token, setReservation) => {
@@ -285,23 +287,23 @@ export const getReservations = async (token, setReservation) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  };
+  }
 
   const response = await axios
     .get(GET_ALL_RESERVATIONS_OF_USER_URL, options)
     .then((res) => {
-      console.log("res==", res);
-      setReservation(res.data);
-      return res.data;
+      console.log("res==", res)
+      setReservation(res.data)
+      return res.data
     })
     .catch((err) => {
-      console.log("ERROR: ====", err);
+      console.log("ERROR: ====", err)
       return {
         status: err.response.status,
         message: err.response.data.message
-    };
-    });
-  return response;
+      }
+    })
+  return response
 }
 
 export const addFavoriteHotel = async (token, data) => {
