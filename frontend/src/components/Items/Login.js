@@ -61,7 +61,9 @@ const resetPasswordValidationSchema = yup.object({
   newPassword: yup.string().required("Enter New password"),
   repeatPassword: yup.string().required("Enter Repeat Password"),
 })
-export default function Login({ isVisible, isClose }) {
+
+
+export default function Login({ isVisible, isClose, isOwner }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
   const [recoverEmail, setRecoverEmail] = useState()
@@ -79,7 +81,11 @@ export default function Login({ isVisible, isClose }) {
       const response = await loginAPI(postData)
       const type = typeof response
       if (type === "object") {
-        setLSItem("token", response.assessToken)
+        if (isOwner === 0)
+          setLSItem("token", response.assessToken)
+        else
+          setLSItem("ownerToken", response.assessToken)
+
         console.log('token', getLSItem('token'))
         toast.success("Login successfully")
         setTimeout(redirectFunc, 3000)
@@ -93,8 +99,9 @@ export default function Login({ isVisible, isClose }) {
     const data = {
       email: values.email,
       password: values.password,
-      isOwner: 0,
+      isOwner,
     }
+
     setIsLoading(true)
     getToken(data)
   }

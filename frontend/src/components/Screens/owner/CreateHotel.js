@@ -147,9 +147,9 @@ export default function CreateHotel() {
   }
 
   const handleGetHotelInfor = (values) => {
-    const token = getLSItem("token")
+    const token = getLSItem("ownerToken")
     console.log("token", token)
-    const signUp = async (postData) => {
+    const createHotel = async (postData) => {
       const response = await createHotelApi(postData, token)
       console.log("response", response)
       console.log("type", typeof response)
@@ -175,7 +175,7 @@ export default function CreateHotel() {
       imgURL: values.imgURL,
     }
     setIsLoading(true)
-    signUp(data)
+    createHotel(data)
   }
 
   const formik = useFormik({

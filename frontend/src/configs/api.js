@@ -64,11 +64,11 @@ export const GET_ALL_ROOMS_BY_CRITERIA_URL = `${DOMAIN_URL}/room/roomCriteria`
 
 // API for reservation
 
-export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`;
+export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`
 
-export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`;
+export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`
 
-export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`;
+export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`
 
 // API for comments ------------------------
 

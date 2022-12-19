@@ -34,7 +34,7 @@ export default function PlacePageHeader() {
         </div>
       </div>
 
-      <Login isVisible={showModal} isClose={() => setShowModal(false)} />
+      <Login isVisible={showModal} isOwner={1} isClose={() => setShowModal(false)} />
     </Fragment>
   )
 }

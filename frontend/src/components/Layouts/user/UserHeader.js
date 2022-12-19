@@ -40,6 +40,15 @@ export default function UserHeader() {
           <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" onClick={() => { redirect(process.env.API_URL) }} />
           <div className="flex">
             <button
+              className="font-semibold text-md border-green-400 py-1 px-4 m-2 hover:text-primary"
+              onClick={() => {
+                console.log(process.env.API_URL)
+                redirect(`${process.env.API_URL}/owner/main`)
+              }}
+            >
+              <span className="hidden lg:inline">Own a hotel?</span>
+            </button>
+            <button
               className="flex relative rounded-full font-bold text-lg border-green-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-green-400"
               onClick={() =>
                 setShowUserModal(true)
