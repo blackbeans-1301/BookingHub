@@ -10,7 +10,7 @@ import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
 import { FormatDateToGB } from "../../Common/CommonFunc"
-//rep tin nhan b ơi
+// test
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState()
   const [showInfoModal, setShowInfoModal] = useState(false)
@@ -22,7 +22,7 @@ export default function ListHotel() {
     description: "",
     province: "",
   })
-
+  // huydang to do
   const token = getLSItem("token")
   useEffect(() => {
     getAllHotels(setAllHotels, token)

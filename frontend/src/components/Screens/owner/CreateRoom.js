@@ -176,7 +176,7 @@ export default function CreateRoom() {
     const hotelID = 0
     formik.values.criteria = criterias.toString()
     const data = {
-      hotel: values.hotel,
+      hotel: {hotel_id: values.hotel},
       room_name: values.room_name,
       criteria: values.criteria,
       number_of_bed: values.number_of_bed,
@@ -198,7 +198,7 @@ export default function CreateRoom() {
       number_of_bed: "",
       type_of_room: "",
       price: "",
-      capacity: "", 
+      capacity: "",
       description: "",
       imgURL: [],
     },
@@ -294,12 +294,17 @@ export default function CreateRoom() {
             sx={{
               height: "85px",
             }}
-            placeholder="Enter the maximum of people..."
+            placeholder="Enter the capacity..."
             name="capacity"
             value={formik.values.capacity}
-            error={formik.touched.capacity && Boolean(formik.errors.capacity)}
+            error={
+              formik.touched.capacity &&
+              Boolean(formik.errors.capacity)
+            }
             onChange={formik.handleChange}
-            helperText={formik.touched.capacity && formik.errors.capacity}
+            helperText={
+              formik.touched.capacity && formik.errors.capacity
+            }
           />
         </FormControl>
 

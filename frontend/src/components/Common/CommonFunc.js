@@ -14,7 +14,7 @@ exports.FormatDate = (date) => {
     return dateInput.toLocaleDateString('en-CA'); 
 }
 
-exports.FormatDateToGB = (date) => {
+exports.FormatDateToGB = (date) => { 
     let dateInput = new Date(date);
     return dateInput.toLocaleDateString('en-GB'); 
 }

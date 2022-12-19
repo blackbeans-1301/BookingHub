@@ -104,7 +104,7 @@ export default function ListRoom() {
               </thead>
 
               <tbody>
-                {allRooms === undefined ? <div>There's no rooms</div> :
+                {allRooms === undefined ? <h1>There's no rooms.</h1> :
                   allRooms.map((room, index) => {
                     return (
                       <tr key={index}>

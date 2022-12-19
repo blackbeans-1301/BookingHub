@@ -63,7 +63,7 @@ const validationSchema = yup.object({
   address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
   province: yup.string().required("Province is required"),
-  phone: yup.string().required("Phone is required"),
+  phone: yup.string().required("Phone number is required"),
   fromCenter: yup.string().required("This field is required"),
   criteria: yup.array(),
   imgURL: yup.array().required("Image field is required"),
@@ -271,12 +271,12 @@ export default function CreateHotel() {
         </FormControl>
 
         <FormControl className="my-2">
-          <Typography variant="subtitle1">Distance from center (m)</Typography>
+          <Typography variant="subtitle1">Distance to center(m)</Typography>
           <TextField
             sx={{
               height: "85px",
             }}
-            placeholder="Enter the distance from center..."
+            placeholder="Enter the distance to center..."
             name="fromCenter"
             value={formik.values.fromCenter}
             error={formik.touched.fromCenter && Boolean(formik.errors.fromCenter)}
