@@ -24,13 +24,13 @@ export default function Navigation() {
       title: "History",
       icon: <HistoryIcon />,
       gap: true,
-      link: `${process.env.API_URL}/user/history`,
+      link: `${process.env.API_URL}/user/HistoryPage`,
     },
     {
       title: "Reservation",
       icon: <EventSeatIcon />,
       gap: true,
-      link: `${process.env.API_URL}/user/reservation`,
+      link: `${process.env.API_URL}/user/ReservationPage`,
     },
   ]
 
@@ -72,7 +72,9 @@ export default function Navigation() {
       >
         <img
           src={Logo}
-          className="rounded-full w-20 flex items-center justify-center h-20 my-4 mx-auto"
+          className="rounded-full w-10 flex items-center justify-center h-10 my-4 mx-auto"
+          width="50px"
+          height="50px"
         />
 
         <div className="mt-10 flex flex-col w-full gap-4 relative">

@@ -32,6 +32,10 @@ export const UPDATE_USER_INFO = `${DOMAIN_URL}/user/update`
 
 export const FORGOT_PASSWORD_URL = `${DOMAIN_URL}/user/forgetPassword`
 
+export const GET_HISTORY_URL = `${DOMAIN_URL}/user/history`
+
+export const GET_ALL_RESERVATIONS_OF_USER_URL = `${DOMAIN_URL}/user/userReservations`
+
 // API for register with Google-------------------------------------
 
 export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`
@@ -81,3 +85,17 @@ export const CREATE_COMMENT_URL = `${DOMAIN_URL}/comment/create`
 export const GET_COMMENTS_OF_HOTEL_URL = `${DOMAIN_URL}/comment/hotelComments`
 
 export const GET_COMMENTS_OF_RESERVATION_URL = `${DOMAIN_URL}/comment/reservationComment`
+
+// API for favorite------------------------
+
+export const ADD_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/addFavorite`
+
+export const CHECK_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/checkFavorite`
+
+export const GET_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/getFavorite`
+
+export const DELETE_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/delFavorite`
+
+// API for search function
+
+export const SEARCH_HOTEL_BY_KEYWORD_URL = `${DOMAIN_URL}/hotel/hotelByKeyWord`

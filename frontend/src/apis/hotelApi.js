@@ -7,6 +7,7 @@ import {
   UPDATE_HOTEL_URL,
   SEARCH_HOTEL_BY_CRITERIA_URL,
   GET_ALL_RESERVATIONS_OF_HOTEL_URL,
+  SEARCH_HOTEL_BY_KEYWORD_URL,
 } from "../configs/api";
 
 export const getAllProvinces = (setAll) => {
@@ -185,4 +186,12 @@ export const getReservationOfHotel = (hotelID, token, setReservation) => {
       return err.response.data.Message;
   });
   return response;
+}
+
+export const searchHotelByKeyword = (keyword) => {
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+  const response = axios.get(`${SEARCH_HOTEL_BY_KEYWORD_URL}/${keyword}`)
+
+  return response 
 }
