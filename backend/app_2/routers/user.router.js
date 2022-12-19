@@ -67,7 +67,4 @@ router.get('/history', userMiddleware.authenticateJWT, userMiddleware.getHistory
 router.get('/reservationOwner/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToOwner, userMiddleware.reservationInfo)
 router.get('/reservationUser/:reservation_id', userMiddleware.authenticateJWT, reservationMiddleware.isBelongToUser, userMiddleware.reservationInfo)
 
-// TODO: delete a user (cai nay chua xong)
-//router.delete('/delete', userMiddleware.authenticateJWT, userMiddleware.deleteUser);
-
 module.exports = router

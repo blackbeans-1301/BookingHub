@@ -8,8 +8,9 @@ exports.totalPriceOfReservation = async function (id) {
     for (let i = 0; i < reservationData.number_of_rooms; i++) {
         total_price += reservationData.Rooms[i].price;
     }
-    total_price *= this.checkInCheckOutTotalDays(reservationData.check_in, reservationData.check_out);
-
+    
+    let a = this.checkInCheckOutTotalDays(reservationData.date_in, reservationData.date_out);
+    total_price *= a
     return total_price;
 }
 

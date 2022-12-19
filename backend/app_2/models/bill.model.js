@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         total_price : {
             type: DataTypes.DOUBLE,
             allowNull: false
+        },
+        amount_paid: {
+            type: DataTypes.DOUBLE,
+            defaultValue: 0,
+            allowNull: false
         }
     });
 
