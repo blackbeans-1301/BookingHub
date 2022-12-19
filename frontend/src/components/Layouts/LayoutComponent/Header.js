@@ -13,9 +13,9 @@ export default function Header() {
 
   return (
     <Fragment>
-      <div className="bg-white flex w-screen z-10 md:w-auto w-full drop-shadow-lg">
+      <div className="bg-white flex w-screen z-10 md:w-auto drop-shadow-lg">
         <div className="flex justify-between items-center w-full h-full">
-          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" />
+          <img className="md:cursor-pointer h-12" src={textLogo} alt="logo" onClick={() => { redirect() }} />
           <div className="flex">
 
             <button
