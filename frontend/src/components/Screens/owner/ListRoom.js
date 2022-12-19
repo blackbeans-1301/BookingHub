@@ -106,7 +106,7 @@ export default function ListRoom() {
               </thead>
 
               <tbody>
-                {allRooms !== undefined &&
+                {allRooms.length !== 0 &&
                   allRooms.map((room, index) => {
                     return (
                       <tr>
