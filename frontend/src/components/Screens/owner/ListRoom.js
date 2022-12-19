@@ -1,20 +1,20 @@
-import * as React from "react"
-import { useState, useEffect } from "react"
-import EditIcon from "@material-ui/icons/Edit"
-import SearchIcon from "@material-ui/icons/Search"
-import DeleteIcon from "@material-ui/icons/Delete"
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp"
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
-import InfoRoomModal from "../../Items/InfoRoomModal"
-import { getAllRoomsApi } from "../../../apis/roomApi"
-import { getLSItem, setLSItem, redirect } from "../../../utils"
-import VerifyModal from "../../Items/VerifyModal"
-
+import * as React from "react";
+import { useState, useEffect } from "react";
+import EditIcon from "@material-ui/icons/Edit";
+import SearchIcon from "@material-ui/icons/Search";
+import DeleteIcon from "@material-ui/icons/Delete";
+import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
+import InfoRoomModal from "../../Items/InfoRoomModal";
+import { getAllRoomsApi } from "../../../apis/roomApi";
+import { getLSItem, setLSItem, redirect } from "../../../utils";
+import VerifyModal from "../../Items/VerifyModal";
+import { FormatDateToGB } from "../../Common/CommonFunc";
 
 export default function ListRoom() {
-  const [allRooms, setAllRooms] = useState()
-  const [showInfoModal, setShowInfoModal] = useState(false)
-  const [hotel, setHotel] = useState()
+  const [allRooms, setAllRooms] = useState();
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [hotel, setHotel] = useState();
   const [roomDetail, setRoomDetail] = useState({
     name: "",
     address: "",
@@ -22,27 +22,25 @@ export default function ListRoom() {
     Images: "",
     description: "",
     province: "",
-  })
+  });
 
-  const token = getLSItem("token")
-  const hotelID = getLSItem("hotelID")
+  const token = getLSItem("token");
+  const hotelID = getLSItem("hotelID");
 
   const data = {
-    hotel: {
-      hotel_id: hotelID,
-    },
-  }
+    hotel_id: hotelID,
+  };
 
   useEffect(() => {
-    console.log("in use effects")
-    getAllRoomsApi(setAllRooms, data, token)
-  }, [])
+    console.log("in use effects");
+    getAllRoomsApi(setAllRooms, data, token);
+  }, []);
 
-  console.log("all rooms", allRooms)
+  console.log("all rooms", allRooms);
 
   function directToUpdatePage(id) {
-    setLSItem("hotelID", id)
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
+    setLSItem("hotelID", id);
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -65,117 +63,117 @@ export default function ListRoom() {
       </div>
 
       <h1 className="font-bold text-2xl mb-3 text-colorText mt-3">
-        List of stays
+        List of rooms
       </h1>
 
-      <div class="container mx-auto px-4 sm:px-8">
-        <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-          <div class="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
-            <table class="min-w-full leading-normal">
+      <div className="container mx-auto px-4 sm:px-8">
+        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+          <div className="inline-block min-w-full shadow-md rounded-lg overflow-hidden">
+            <table className="min-w-full leading-normal">
               <thead>
                 <tr>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     No
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Room
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Hotel name
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Address
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Room type
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Price
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Created date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Updated date
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Actions
                   </th>
-                  <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                 </tr>
               </thead>
 
               <tbody>
-                {allRooms !== undefined &&
+                {allRooms === undefined ? <div>There's no rooms</div> :
                   allRooms.map((room, index) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         {/* column 1: id */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
                         {/* column 2: room */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.room_name}
                           </p>
                         </td>
 
                         {/* column 3: hotel's name */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.name}
                           </p>
                         </td>
 
                         {/* column 5: address */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.address}
                           </p>
                         </td>
 
                         {/* column 6: room type */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.type_of_room}
                           </p>
                         </td>
 
                         {/* column 7: price */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
                             {room.price}
                           </p>
-                          <p class="text-gray-600 whitespace-no-wrap">USD</p>
+                          <p className="text-gray-600 whitespace-no-wrap">USD</p>
                         </td>
 
                         {/* column 8: posted date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
-                            {room.createdAt}
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
+                            {FormatDateToGB(room.createdAt)}
                           </p>
                         </td>
 
                         {/* column 8: posted date */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p class="text-gray-900 whitespace-no-wrap">
-                            {room.updatedAt}
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">
+                            {FormatDateToGB(room.updatedAt)}
                           </p>
                         </td>
 
                         {/* column 9: actions */}
-                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                           <div className="flex">
                             <button
                               type="button"
-                              class="inline-block mx-px text-green-300 hover:text-green-500"
+                              className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setRoomDetail(room)
-                                setTimeout(setShowInfoModal(true), 2000)
+                                setRoomDetail(room);
+                                setTimeout(setShowInfoModal(true), 2000);
                               }}
                             >
                               <EditIcon />
@@ -183,21 +181,21 @@ export default function ListRoom() {
 
                             <button
                               type="button"
-                              class="inline-block mx-px text-rose-300 hover:text-rose-500"
+                              className="inline-block mx-px text-rose-300 hover:text-rose-500"
                             >
                               <DeleteIcon />
                             </button>
 
                             <button
                               type="button"
-                              class="inline-block mx-px text-gray-400 hover:text-gray-600"
+                              className="inline-block mx-px text-gray-400 hover:text-gray-600"
                             >
                               <MoreVertSharpIcon />
                             </button>
                           </div>
                         </td>
                       </tr>
-                    )
+                    );
                   })}
               </tbody>
             </table>
@@ -213,5 +211,5 @@ export default function ListRoom() {
         />
       )}
     </div>
-  )
+  );
 }

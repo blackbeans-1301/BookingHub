@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CANCEL_URL, CHECK_IN_URL, CHECK_OUT_URL } from "../configs/api";
 
-export const checkIn = (token, data) => {
+export const checkIn = async (token, data) => {
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -9,7 +9,7 @@ export const checkIn = (token, data) => {
     },
   };
 
-  const response = axios
+  const response = await axios
     .put(CHECK_IN_URL, data, options)
     .then((res) => {
       console.log("res==", res);
@@ -18,12 +18,15 @@ export const checkIn = (token, data) => {
     })
     .catch((err) => {
       console.log("ERROR: ====", err);
-      return err.response.data.Message;
+      return {
+        status: err.response.status,
+        message: err.response.data.message
+    };
     });
   return response;
 };
 
-export const checkOut = (token, data) => {
+export const checkOut = async (token, data) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -31,7 +34,7 @@ export const checkOut = (token, data) => {
       },
     };
   
-    const response = axios
+    const response = await axios
       .put(CHECK_OUT_URL, data, options)
       .then((res) => {
         console.log("res==", res);
@@ -40,12 +43,15 @@ export const checkOut = (token, data) => {
       })
       .catch((err) => {
         console.log("ERROR: ====", err);
-        return err.response.data.Message;
+        return {
+          status: err.response.status,
+          message: err.response.data.message
+      };
       });
     return response;
   };
 
-export const cancelReservation = (token, data) => {
+  export const cancelReservation = async (token, data) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -53,7 +59,7 @@ export const cancelReservation = (token, data) => {
       },
     };
   
-    const response = axios
+    const response = await axios
       .put(CANCEL_URL, data, options)
       .then((res) => {
         console.log("res==", res);
@@ -62,7 +68,10 @@ export const cancelReservation = (token, data) => {
       })
       .catch((err) => {
         console.log("ERROR: ====", err);
-        return err.response.data.Message;
+        return {
+          status: err.response.status,
+          message: err.response.data.message
+      };
       });
     return response;
   };

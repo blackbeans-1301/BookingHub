@@ -1,25 +1,42 @@
 import * as React from "react";
 import ToastMessage from "./ToastMessage";
 import CancelIcon from "@material-ui/icons/Cancel";
-import { checkIn } from "../../apis/reservationApi";
+import { checkIn, checkOut } from "../../apis/reservationApi";
 import { getLSItem } from "../../utils";
+import { toast } from "react-toastify";
 
-export default function VerifyModal({
-  isVisible,
-  isClose,
-  detail,
-  type,
-  id,
-}) {
+export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
   const token = getLSItem("token");
-  console.log('reservation_id', id);
+  console.log("reservation_id", id);
+
+  const data = {
+    reservation_id: id,
+  };
 
   const verifyFunction = () => {
-    const callApi = async (token, id) => {
-      const response = await checkIn(token, id);
-      console.log(response);
-    };
-    callApi(token, id);
+    if (type == "checkIn") {
+      const callApi = async (token, data) => {
+        const response = await checkIn(token, data);
+        console.log(response);
+
+        if (response.status === 200) {
+        } else if (response.status === 400) {
+          toast.error(response.message);
+        }
+      };
+      callApi(token, data);
+    } else if (type == "checkOut") {
+      const callApi = async (token, data) => {
+        const response = await checkOut(token, data);
+        console.log(response);
+
+        if (response.status === 200) {
+        } else if (response.status === 400) {
+          toast.error(response.message);
+        }
+      };
+      callApi(token, data);
+    }
   };
 
   if (!isVisible) return null;

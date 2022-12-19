@@ -79,6 +79,7 @@ const validationSchema = yup.object({
     .min(0)
     .required("This field is required"),
   price: yup.number().min(0).required("This field is required"),
+  capacity: yup.number().integer().min(0).required("This field is required"),
   criteria: yup.string(),
   description: yup.string().required("This field is required"),
   imgURL: yup.array().required("Image field is required"),
@@ -181,6 +182,7 @@ export default function CreateRoom() {
       number_of_bed: values.number_of_bed,
       type_of_room: values.type_of_room,
       price: values.price,
+      capacity: values.capacity,
       description: values.description,
       imgURL: values.imgURL,
     }
@@ -196,6 +198,7 @@ export default function CreateRoom() {
       number_of_bed: "",
       type_of_room: "",
       price: "",
+      capacity: "", 
       description: "",
       imgURL: [],
     },
@@ -282,6 +285,21 @@ export default function CreateRoom() {
             helperText={
               formik.touched.number_of_bed && formik.errors.number_of_bed
             }
+          />
+        </FormControl>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Capacity</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter the maximum of people..."
+            name="capacity"
+            value={formik.values.capacity}
+            error={formik.touched.capacity && Boolean(formik.errors.capacity)}
+            onChange={formik.handleChange}
+            helperText={formik.touched.capacity && formik.errors.capacity}
           />
         </FormControl>
 
