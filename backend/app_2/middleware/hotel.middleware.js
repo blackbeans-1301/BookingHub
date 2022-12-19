@@ -368,11 +368,10 @@ exports.searchByKeyword = async (req, res) => {
         return res.status(400).send({ message: "Unable to get hotel", err: hotelData.err })
     }
     let searchHotel = []
-    console.log(req.params.keyword);
     for (let hotel of hotelData) {
-        if (hotelControllers.removeVietnameseTones(hotel.dataValues.province).toLowerCase().includes(req.params.keyword)
-            || hotelControllers.removeVietnameseTones(hotel.dataValues.name).toLowerCase().includes(req.params.keyword)
-            || hotelControllers.removeVietnameseTones(hotel.dataValues.address).toLowerCase().includes(req.params.keyword)) {
+        if (hotelControllers.removeVietnameseTones(hotel.dataValues.province).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())
+            || hotelControllers.removeVietnameseTones(hotel.dataValues.name).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())
+            || hotelControllers.removeVietnameseTones(hotel.dataValues.address).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())) {
             searchHotel.push(hotel);
         }
     }
