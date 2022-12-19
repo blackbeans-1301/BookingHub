@@ -2,6 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const path = require('path')
 const cors = require("cors")
+require('dotenv').config()
 const app = express()
 
 var corsOptions = {
@@ -38,6 +39,7 @@ app.listen(PORT, () => {
 
 
 const db = require("./app_2/models")
+
 // db.sequelize.sync({ force: true })
 db.sequelize.sync();
 //db.sequelize.sync({ alter: true });
