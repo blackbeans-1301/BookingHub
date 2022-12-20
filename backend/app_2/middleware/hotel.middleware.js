@@ -14,8 +14,6 @@ const Comment = db.comment
 
 const hotelControllers = require("../controllers/hotel.controller.js")
 const controllers = require("../controllers/controller.js")
-const { bill } = require("../models/index.js")
-
 
 // tao hotel
 exports.createHotel = async (req, res) => {
@@ -354,20 +352,12 @@ exports.getHotelByCriteria = async (req, res) => {
 
 exports.searchByKeyword = async (req, res) => {
     let condition = {}
-    let hotelData = await controllers.FindManyData(Hotel, condition)
-    if (hotelData.code === -2) {
-        return res.status(400).send({ message: "Unable to get hotel", err: hotelData.err })
-    }
+    let provinces = hotelControllers.GetProvinceArray();
     let searchHotel = []
-    for (let hotel of hotelData) {
-        if (hotelControllers.removeVietnameseTones(hotel.dataValues.province).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())
-            || hotelControllers.removeVietnameseTones(hotel.dataValues.name).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())
-            || hotelControllers.removeVietnameseTones(hotel.dataValues.address).toLowerCase().includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())) {
-            searchHotel.push(hotel);
+    for (let p of provinces) {
+        if (p.includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())) {
+            searchHotel.push(hotelControllers.removeVietnameseTones(hotelControllers.GetHotelVietnamese(p)));
         }
-    }
-    for (let hotel of searchHotel) {
-        hotel.dataValues.province = hotelControllers.removeVietnameseTones(hotel.dataValues.province)
     }
     
     return res.status(200).send(searchHotel);
