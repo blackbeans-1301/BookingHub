@@ -15,7 +15,7 @@ export default function FavoriteItem({ hotel }) {
     console.log(response)
     if (typeof response === 'object') {
       toast.success("Success!")
-      redirect(process.env.API_URL)
+      redirect(`${process.env.API_URL}/user/FavoritesPage`)
     } else {
       toast.error("Error! Please try again.")
     }

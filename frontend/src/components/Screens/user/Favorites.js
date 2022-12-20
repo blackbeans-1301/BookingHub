@@ -21,12 +21,14 @@ export default function Favorites() {
   }, [])
 
   if (!hotels) {
-    return null
+    return <div className="min-h-screen flex pt-12 justify-center">
+      <div className="text-xl text-red-700 font-semibold">You are not signed in! Sign in first to see you favorites.</div>
+    </div>
   }
 
   return (
     <div className="min-h-screen w-full lg:container flex justify-center">
-      <div className="container p-40  pb-0 pt-12 px-52">
+      <div className="container p-40  pb-0 pt-12 px-24">
         <h1 className="text-4xl font-bold text-gray-700 ">My favorite hotels</h1>
         {hotels.length === 0 ? <div className="mt-8 text-xl">There's no data about you favorite hotels! <span className="">Go to explore now.</span></div>
           : <div className="mt-12">
