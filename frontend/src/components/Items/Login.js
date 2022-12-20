@@ -92,7 +92,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
         setTimeout(redirectFunc, 1000)
       } else {
         console.log("login failed")
-        toast.error("Error signing uin! Please try again!")
+        toast.error("Error login! Please try again!")
 
       }
       setIsLoading(false)
@@ -161,7 +161,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
       dob: "",
       gender: "",
       phone_number: "",
-      isOwner: 1,
+      isOwner,
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
@@ -204,7 +204,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
   })
 
   const sendEmail = async () => {
-    const response = await forgotPassword({ email: recoverEmail, isOwner: 0 })
+    const response = await forgotPassword({ email: recoverEmail, isOwner })
     console.log(response)
     if (response.message === 'Send code to email successfully') {
       setActive("confirm")
@@ -214,7 +214,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
   const requestNewPassword = async (verificationCode, password) => {
     const data = {
       code: verificationCode,
-      isOwner: 0,
+      isOwner,
       email: recoverEmail,
       newPassword: password,
     }
@@ -330,21 +330,24 @@ export default function Login({ isVisible, isClose, isOwner }) {
                 Sign up
               </span>
             </div>
-            <div className="text-center text-gray-500 flex center justify-center">
-              <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
-              or
-              <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
-            </div>
-            <div className="flex justify-center">
-              <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
-                onClick={() => {
-                  console.log("go to google")
-                  redirect(`https://localhost:3000/api/user/auth/google/`)
-                }}
-              >
-                <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />
+            {isOwner !== 1 && <div>
+              <div className="text-center text-gray-500 flex center justify-center">
+                <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
+                or
+                <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
               </div>
-            </div>
+              <div className="flex justify-center">
+                <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
+                  onClick={() => {
+                    console.log("go to google")
+                    redirect(`https://localhost:3000/api/user/auth/google/`)
+                  }}
+                >
+                  <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />
+                </div>
+              </div>
+            </div>}
+
           </div>
         )}
 
