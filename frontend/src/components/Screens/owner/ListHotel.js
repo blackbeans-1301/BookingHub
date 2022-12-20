@@ -1,22 +1,22 @@
-import * as React from "react";
-import { useState } from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InfoIcon from "@material-ui/icons/Info";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import { getAllHotels } from "../../../apis/hotelApi";
-import { useEffect } from "react";
-import InfoHotelModal from "../../Items/InfoHotelModal";
-import { getLSItem, redirect, setLSItem } from "../../../utils";
-import { FormatDateToGB } from "../../Common/CommonFunc";
-import VerifyModal from "../../Items/VerifyModal";
+import * as React from "react"
+import { useState } from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import InfoIcon from "@material-ui/icons/Info"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import { getAllHotels } from "../../../apis/hotelApi"
+import { useEffect } from "react"
+import InfoHotelModal from "../../Items/InfoHotelModal"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
+import { FormatDateToGB } from "../../Common/CommonFunc"
+import VerifyModal from "../../Items/VerifyModal"
 // test
 export default function ListHotel() {
-  const [allHotels, setAllHotels] = useState();
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [showVerifyModal, setShowVerifyModal] = useState(false);
-  const [hotelID, setHotelID] = useState();
+  const [allHotels, setAllHotels] = useState()
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [showVerifyModal, setShowVerifyModal] = useState(false)
+  const [hotelID, setHotelID] = useState()
   const [hotelDetail, setHotelDetail] = useState({
     name: "",
     address: "",
@@ -24,17 +24,17 @@ export default function ListHotel() {
     Images: "",
     description: "",
     province: "",
-  });
+  })
   // huydang to do
-  const token = getLSItem("ownerToken");
+  const token = getLSItem("ownerToken")
   useEffect(() => {
-    getAllHotels(setAllHotels, token);
-  }, []);
-  console.log("all hotels", allHotels);
+    getAllHotels(setAllHotels, token)
+  }, [])
+  console.log("all hotels", allHotels)
 
   function directToUpdatePage(id) {
-    setLSItem("hotelID", id);
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
+    setLSItem("hotelID", id)
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
   return (
@@ -138,8 +138,8 @@ export default function ListHotel() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
                               onClick={() => {
-                                setHotelDetail(hotel);
-                                setTimeout(setShowInfoModal(true), 2000);
+                                setHotelDetail(hotel)
+                                setTimeout(setShowInfoModal(true), 2000)
                               }}
                             >
                               <InfoIcon />
@@ -149,8 +149,8 @@ export default function ListHotel() {
                               type="button"
                               className="inline-block mx-px text-rose-300 hover:text-rose-500"
                               onClick={() => {
-                                setShowVerifyModal(true);
-                                setHotelID(hotel.hotel_id);
+                                setShowVerifyModal(true)
+                                setHotelID(hotel.hotel_id)
                               }}
                             >
                               <DeleteIcon />
@@ -170,10 +170,10 @@ export default function ListHotel() {
                             <button
                               className="px-3 py-1 text-colorText rounded-sm border-2 border-primary my-4 hover:bg-primary hover:text-white mr-2"
                               onClick={() => {
-                                setLSItem("hotelID", hotel.hotel_id);
+                                setLSItem("hotelID", hotel.hotel_id)
                                 redirect(
                                   `${process.env.API_URL}/owner/ListRoomPage`
-                                );
+                                )
                               }}
                             >
                               List rooms
@@ -182,10 +182,10 @@ export default function ListHotel() {
                             <button
                               className="px-3 py-1 text-colorText rounded-sm border-2 border-primary my-4 hover:bg-primary hover:text-white"
                               onClick={() => {
-                                setLSItem("hotelID", hotel.hotel_id);
+                                setLSItem("hotelID", hotel.hotel_id)
                                 redirect(
-                                  `${process.env.API_URL}/owner/list-reservation`
-                                );
+                                  `${process.env.API_URL}/owner/ListReservation`
+                                )
                               }}
                             >
                               List reservations
@@ -193,7 +193,7 @@ export default function ListHotel() {
                           </p>
                         </td>
                       </tr>
-                    );
+                    )
                   })}
                 </tbody>
               </table>
@@ -220,5 +220,5 @@ export default function ListHotel() {
         />
       )}
     </div>
-  );
+  )
 }

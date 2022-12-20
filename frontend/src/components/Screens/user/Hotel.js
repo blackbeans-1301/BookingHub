@@ -6,6 +6,9 @@ import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_blue.css"
 import { useState, useEffect } from "react"
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
+import StarIcon from '@mui/icons-material/Star'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline"
 import { date } from "yup"
 import CancelIcon from "@material-ui/icons/Cancel"
@@ -28,6 +31,7 @@ import { toSafeInteger } from "lodash"
 import { toast } from "react-toastify"
 import ToastMessage from "../../Items/ToastMessage"
 import BookingModal from "../../Items/BookingModal"
+import { checkUserLikedHotel, addFavoriteHotel, removeHotelFavorite } from "../../../apis/userApi"
 
 
 function parseDateString(value, originalValue) {
@@ -77,6 +81,8 @@ export default function Hotel({ id, dateIn, dateOut }) {
   const [listRoomToReserve, setListRoomToReserve] = useState([])
   const [roomStatus, setRoomStatus] = useState([])
   const [error, setError] = useState("")
+  const [liked, setLiked] = useState(false)
+  let starArray = []
 
   const { arrive } = arriveDay
   const { leave } = leaveDay
@@ -155,7 +161,15 @@ export default function Hotel({ id, dateIn, dateOut }) {
 
   useEffect(() => {
     getAllRoomsByCriteria(data, setListRoom)
+    const checkUserLikeHotel = async () => {
+      const response = await checkUserLikedHotel(getLSItem("token"), id)
+      console.log("response", response)
+      setLiked(response.code != 0)
+    }
+
+    checkUserLikeHotel()
   }, [])
+
   useEffect(() => {
     getCommentsOfHotel(id, setListComment)
   }, [])
@@ -181,7 +195,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
       let roomStatusTemp = roomStatus
       roomStatusTemp[listRoomId.indexOf(roomId)] = "reserve"
 
-      setRoomStatus(['reserve', 'reserve', 'reserve'])
+      setRoomStatus(['reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve'])
       setListRoomToReserve(listRoomTemp)
       setLSItem("roomsToReserve", listRoomTemp)
     } else {
@@ -202,115 +216,178 @@ export default function Hotel({ id, dateIn, dateOut }) {
     return null
   }
 
-  console.log(listRoom)
+  for (var i = 0; i < hotel.rating; i++) {
+    starArray.push(0)
+  }
+  console.log(hotel)
+
+  const checkAvailable = async () => {
+    const data = {
+      hotel_id: hotel.hotel_id,
+      date_in: FormatDate(arrive),
+      date_out: FormatDate(leave)
+    }
+
+    const response = await getAllRoomsByCriteria(data, setListRoom)
+
+    console.log(response)
+  }
+
+  const heartClicked = async (type) => {
+    if (type === "like") {
+      const response = await addFavoriteHotel(getLSItem("token"), { hotel_id: id })
+      if (response) {
+        toast.success("Success")
+        setLiked(true)
+      }
+
+      else
+        toast.error("Error")
+    } else {
+      const response = await removeHotelFavorite(getLSItem("token"), { hotel_id: id })
+      if (response) {
+        toast.success("Success")
+        setLiked(false)
+      }
+      else
+        toast.error("Error")
+    }
+  }
 
   return (
     // hotelContainer
     <div className="flex justify-center mt-4">
       <ToastMessage />
       {/* hotelWrapper */}
-      <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4">
+
+      <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4 mt-8">
+        <div className="flex justify-between">
+          <div>
+            <div className="flex items-center">
+              <div className="px-2 py-1 text-sm bg-gray-400 rounded-md">Hotel</div>
+              {starArray.map(item => {
+                return <StarIcon className="text-yellow-500" />
+              })}
+            </div>
+            <div className="text-2xl text-primary font-bold">{hotel.name}</div>
+            <div>
+              <LocationOnIcon className="text-primary text-xl" />
+              <span>{hotel.address}</span>
+            </div>
+          </div>
+          <div className="">
+            <div className="flex justify-end">
+              {liked ? <FavoriteIcon className="cursor-pointer" onClick={() => {
+                heartClicked("dislike")
+              }} /> : <FavoriteBorderIcon className="cursor-pointer" onClick={() => {
+                heartClicked("like")
+              }} />}
+            </div>
+            <div className="mt-2 px-4 py-2 rounded-md border border-primary hover:bg-primary hover:text-white cursor-pointer"
+              onClick={() => {
+                const isBrowser = typeof window !== "undefined"
+                if (isBrowser)
+                  window.scrollBy(0, 1300)
+              }}
+            >
+              <div>Reserve</div>
+            </div>
+          </div>
+        </div>
+        <div className="text-sky-700">
+          Excellent location - {hotel.fromCenter}m from center
+        </div>
+
         <HotelImg images={hotel.Images.length != 0 ? hotel.Images : [
           { imgURL: "https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg" },
           { imgURL: "https://media-cdn.tripadvisor.com/media/photo-s/25/04/93/1e/blossom-hotel-houston.jpg" }
         ]} />
 
         <div className="w-full">
-          {/* hotelTitle */}
-
-          <div className="flex justify-between mt-8">
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-primary">
-                {hotel.name}
-              </h1>
-
-              <span className="">
-                {hotel.rating}/5  {hotel.classification} rated
-              </span>
-            </div>
-
-            <div className="text-red-500 mr-10">
-              {/* {isFavorite === false ? (
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setIsFavorite(true);
-                  }}
-                >
-                  <FavoriteBorderIcon />
-                </span>
-              ) : (
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setIsFavorite(false);
-                  }}
-                >
-                  <FavoriteIcon />
-                </span>
-              )} */}
-            </div>
-          </div>
-
-          {/* hotelAddress */}
-          <div className="flex items-center gap-2.5">
-            <LocationOnIcon />
-            <span>{hotel.address}</span>
-          </div>
-
           <div className="">
-            <h2 className="font-bold text-lg">Popular amenities</h2>
-            <div className="flex justify-around">
-              <div className="flex flex-col w-5/12">
-                <span className="">Pool</span>
-                <span className="">Free Wifi</span>
-              </div>
-              <div className="flex flex-col w-5/12">
-                <span className="">Restaurant</span>
-                <span className="">Gym</span>
-              </div>
-            </div>
-          </div>
-          {/* hotelDistance */}
-          <span className="text-sky-500">
-            Excellent location - 500m from center
-          </span>
-          <br />
-          {/* hotelPriceHighlight */}
-          <span className="text-green-600">
-            Book a stay over $114 at this property and get a free airport taxi
-          </span>
-
-          {/* hotelDetails */}
-          <div className="">
-            {/* hotelDetailText */}
             <h1 className="">{hotel.description}</h1>
-
-            {/* hotelDesc */}
-            <p className="">Located a 5-minute walk from the...</p>
           </div>
         </div>
 
-        <div className="mt-6 flex flex-wrap">
+        <div className="">
+          <h2 className="font-bold text-lg text-primary">Most popular facilities</h2>
+          <div className="mt-2">
+            <div>{hotel.criteria}</div>
+          </div>
+        </div>
+        <div className="border-b my-2"></div>
+        <div className="text-2xl font-bold text-primary">Availability</div>
+
+        <div className="bg-sky-100 p-4">
+          <div className="mb-1">
+            When would you like to stay at {hotel.name}?
+          </div>
+          <div className="mb-4 text-sm">
+            There may be Genius rates available. See them by entering your dates.
+          </div>
+
+          <div className="flex">
+            <div className="mr-8">
+              <div className="text-md font-bold text-primary mb-2">Date in</div>
+              <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-2 mt-2 pointer-events-none" />
+              <Flatpickr
+                className="w-full mr-2 pl-10 py-2 font-semibold placeholder-gray-500 border-none text-colorText rounded-md ring-2 ring-gray-300 focus:ring-primary-500 focus:ring-2"
+                value={arrive}
+                onChange={(arrive) => {
+                  setArriveDay({ arrive })
+                }}
+                options={{
+                  altFormat: "d/m/Y",
+                  altInput: true,
+                }}
+                placeholder="Arrive day"
+              />
+            </div>
+            <div className="mr-12">
+              <div className="text-md font-bold text-primary mb-2">Date out</div>
+              <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-2 mt-2 pointer-events-none" />
+              <Flatpickr
+                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-md border-none ring-2 ring-gray-300 focus:ring-primary-500 focus:ring-2"
+                value={leave}
+                onChange={(leave) => {
+                  setLeaveDay({ leave })
+                }}
+                options={{
+                  altFormat: "d/m/Y",
+                  altInput: true,
+                }}
+                placeholder="Leave day"
+              />
+            </div>
+
+            <div className="flex items-end">
+              <div className="px-4 py-2 border border-primary hover:bg-primary rounded-md hover:text-white cursor-pointer"
+                onClick={checkAvailable}
+              >Check availability</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-2 flex flex-wrap justify-center">
           {listRoom === undefined || listRoom.length === 0 ? (
             <div>There is no rooms</div>
-          ) : (
-            listRoom.map((item, index) => {
+          ) : (<div className="flex flex-wrap ml-12">
+            {listRoom.map((item, index) => {
               var status = roomStatus[index]
               return (
                 <div
-                  className="w-1/4 border-2 border-sky-300 rounded-lg p-2 m-2"
+                  className="w-[30%] bg-primary rounded-md p-2 m-2 relative"
                   key={index}
                 >
                   <img
                     src={item.Images.length != 0 ? item.Images[0].imgURL : "https://www.thespruce.com/thmb/2_Q52GK3rayV1wnqm6vyBvgI3Ew=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/put-together-a-perfect-guest-room-1976987-hero-223e3e8f697e4b13b62ad4fe898d492d.jpg"}
-                    className="w-full object-cover"
+                    className="w-full object-cover rounded-md"
                   />
-                  <h3 className="font-bold text-lg text-sky-600 mt-2">
+                  <h3 className="font-bold text-lg text-white mt-2 ">
                     {item.room_name}
                   </h3>
 
-                  <div className="flex flex-col">
+                  <div className="flex flex-col text-gray-200">
                     <span className="text-sm">{item.criteria}</span>
                     <span className="text-sm">
                       Number of beds: {item.number_of_bed}
@@ -319,13 +396,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
                     <span className="text-sm">{item.description}</span>
                   </div>
 
-                  <span className="text-xs font-semibold text-white bg-green-600 p-1 rounded">
-                    37% off
-                  </span>
 
                   <div className="flex justify-between mt-4 items-center">
                     <div className="flex flex-col">
-                      <span className="text-lg font-bold">${item.price}</span>
+                      <span className="text-lg font-bold text-white hover:text-yellow-400">${item.price}</span>
                       <span className="text-sm text-gray-400">
                         ${item.price} total
                       </span>
@@ -335,8 +409,8 @@ export default function Hotel({ id, dateIn, dateOut }) {
                     </div>
 
 
-                    <div className="">
-                      <button className={"text-black bg-sky-500 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded"} onClick={
+                    <div className="absolute bottom-4 right-3">
+                      <button className={"text-black bg-sky-200 hover:text-white hover:bg-sky-600 font-bold px-2 py-1 rounded"} onClick={
                         () => handleButtonReserveClicked(item.room_id)
                       }>
                         {status}
@@ -345,10 +419,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
                   </div>
                 </div>
               )
-            })
-          )}
+            })}
+          </div>)}
         </div>
-        <div className="ml-4 mb-12">
+        <div className="ml-4 mb-12 mt-4">
           <h1 className="px-4 w-44 py-2 bg-primary text-white font-bold text-md rounded-md cursor-pointer" onClick={() => {
             if (!getLSItem("token")) {
               toast.error("You must login first!")

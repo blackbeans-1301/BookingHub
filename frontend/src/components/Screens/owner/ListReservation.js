@@ -6,6 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import InfoIcon from "@material-ui/icons/Info"
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
 import { getReservationOfHotel } from "../../../apis/hotelApi"
+import { getOwnerReservation } from "../../../apis/userApi"
 import { useEffect } from "react"
 import InfoHotelModal from "../../Items/InfoHotelModal"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
@@ -35,7 +36,13 @@ const ListReservation = () => {
   const token = getLSItem("ownerToken")
   const hotelID = getLSItem("hotelID")
   useEffect(() => {
-    getReservationOfHotel(hotelID, token, setReservation)
+    const getAllReservation = async () => {
+      const response = await getOwnerReservation(token)
+      console.log(response)
+      setReservation(response)
+    }
+
+    getAllReservation()
   }, [])
 
   console.log("reservations", reservation)

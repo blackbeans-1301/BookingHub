@@ -36,6 +36,9 @@ export const GET_HISTORY_URL = `${DOMAIN_URL}/user/history`
 
 export const GET_ALL_RESERVATIONS_OF_USER_URL = `${DOMAIN_URL}/user/userReservations`
 
+export const CHECK_USER_LIKE_HOTEL = `${DOMAIN_URL}/user/checkFavorite/`
+
+
 // API for register with Google-------------------------------------
 
 export const GOOGLE_REGISTER_URL = `${DOMAIN_URL}/user/auth/google`
@@ -81,6 +84,8 @@ export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`
 export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`
 
 export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`
+
+export const GET_OWNER_RESERVATION = `${DOMAIN_URL}/hotel/ownerHotels`
 
 // API for comments ------------------------
 

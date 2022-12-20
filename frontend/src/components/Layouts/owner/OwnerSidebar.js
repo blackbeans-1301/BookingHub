@@ -32,7 +32,7 @@ export default function OwnerSidebar() {
     {
       title: "Reservations",
       icon: <TodayIcon />,
-      link: `${process.env.API_URL}/owner/list-reservation`,
+      link: `${process.env.API_URL}/owner/ListReservation`,
     },
     // {
     //   title: "Travel Restrictions",
