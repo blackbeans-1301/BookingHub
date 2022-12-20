@@ -1,13 +1,13 @@
-import * as yup from "yup";
-import React, { Fragment } from "react";
-import { useState } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
-import GoogleIcon from "@mui/icons-material/Google";
+import * as yup from "yup"
+import React, { Fragment } from "react"
+import { useState } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
+import GoogleIcon from "@mui/icons-material/Google"
 // import axios, { Axios } from "axios";
-import { useFormik } from "formik";
-import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
+import { useFormik } from "formik"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
+import TextField from "@material-ui/core/TextField"
 import {
   loginAPI,
   getInformation,
@@ -15,30 +15,30 @@ import {
   getUserInfor,
   forgotPassword,
   resetPasswordWithVerificationCode,
-} from "../../apis/userApi";
-import { toast } from "react-toastify";
-import { LoadingButton } from "@mui/lab";
-import ToastMessage from "./ToastMessage";
-import { parse, isDate } from "date-fns";
-import { date } from "yup";
-import { getLSItem, setLSItem, redirect } from "../../utils";
+} from "../../apis/userApi"
+import { toast } from "react-toastify"
+import { LoadingButton } from "@mui/lab"
+import ToastMessage from "./ToastMessage"
+import { parse, isDate } from "date-fns"
+import { date } from "yup"
+import { getLSItem, setLSItem, redirect } from "../../utils"
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
     ? originalValue
-    : parse(originalValue, "yyyy-MM-dd", new Date());
+    : parse(originalValue, "yyyy-MM-dd", new Date())
 
-  return parsedDate;
+  return parsedDate
 }
 
-const today = new Date();
+const today = new Date()
 const loginValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
   password: yup.string().required("Enter your password"),
-});
+})
 
 const registerValidationSchema = yup.object({
   email: yup
@@ -54,61 +54,61 @@ const registerValidationSchema = yup.object({
     .required("Enter your date of birth. Please enter a valid date."),
   gender: yup.string().required("Enter your gender"),
   phone_number: yup.string().required("Enter your phone number"),
-});
+})
 
 const forgotPassValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
-});
+})
 
 const resetPasswordValidationSchema = yup.object({
   verificationCode: yup.string().required("Enter verification code"),
   newPassword: yup.string().required("Enter New password"),
   repeatPassword: yup.string().required("Enter Repeat Password"),
-});
+})
 
 export default function Login({ isVisible, isClose, isOwner }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [active, setActive] = useState("signin");
-  const [recoverEmail, setRecoverEmail] = useState();
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
+  const [active, setActive] = useState("signin")
+  const [recoverEmail, setRecoverEmail] = useState()
+  const [error, setError] = useState("")
 
   const redirectFunc = () => {
     redirect(
       isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`
-    );
-  };
+    )
+  }
 
   const handleLogin = (values) => {
     const getToken = async (postData) => {
-      const response = await loginAPI(postData);
-      const type = typeof response;
+      const response = await loginAPI(postData)
+      const type = typeof response
       if (type === "object") {
-        if (isOwner === 0) setLSItem("token", response.assessToken);
-        else setLSItem("ownerToken", response.assessToken);
+        if (isOwner === 0) setLSItem("token", response.assessToken)
+        else setLSItem("ownerToken", response.assessToken)
 
-        console.log("token", getLSItem("token"));
-        toast.success("Login successfully");
+        console.log("token", getLSItem("token"))
+        toast.success("Login successfully")
 
-        setTimeout(redirectFunc, 1000);
+        setTimeout(redirectFunc, 1000)
       } else {
-        console.log("login failed");
-        toast.error("Error login! Please try again!");
+        console.log("login failed")
+        toast.error("Error login! Please try again!")
       }
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       email: values.email,
       password: values.password,
       isOwner,
-    };
+    }
 
-    setIsLoading(true);
-    getToken(data);
-  };
+    setIsLoading(true)
+    getToken(data)
+  }
 
   const loginFormik = useFormik({
     initialValues: {
@@ -117,26 +117,26 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: loginValidationSchema,
     onSubmit: (values) => {
-      handleLogin(values);
+      handleLogin(values)
     },
-  });
+  })
 
   const handleRegister = (values) => {
     const signUp = async (postData) => {
-      const response = await registerAPI(postData);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await registerAPI(postData)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type === "object") {
-        toast.success("Sign up successfully");
-        setActive("signin");
+        toast.success("Sign up successfully")
+        setActive("signin")
       } else {
-        console.log("Sign up failed");
-        toast.error("Error signing up! Please try again!");
+        console.log("Sign up failed")
+        toast.error("Error signing up! Please try again!")
       }
 
-      setIsLoading(false);
-    };
+      setIsLoading(false)
+    }
 
     const data = {
       email: values.email,
@@ -147,10 +147,10 @@ export default function Login({ isVisible, isClose, isOwner }) {
       gender: values.gender,
       phone_number: values.phone_number,
       isOwner,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
   const registerFormik = useFormik({
     initialValues: {
@@ -165,9 +165,9 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
-      handleRegister(values);
+      handleRegister(values)
     },
-  });
+  })
 
   const forgotPassFormik = useFormik({
     initialValues: {
@@ -175,10 +175,10 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
-      setRecoverEmail(values.email);
-      sendEmail();
+      setRecoverEmail(values.email)
+      sendEmail()
     },
-  });
+  })
 
   const resetPasswordFormik = useFormik({
     initialValues: {
@@ -189,26 +189,26 @@ export default function Login({ isVisible, isClose, isOwner }) {
     validationSchema: resetPasswordValidationSchema,
     onSubmit: (values) => {
       if (values.verificationCode.toString().trim().length !== 6) {
-        setError("Not a valid code!");
-        return;
+        setError("Not a valid code!")
+        return
       }
 
       if (values.newPassword !== values.repeatPassword) {
-        setError("Password not match, please retype again!");
-        return;
+        setError("Password not match, please retype again!")
+        return
       }
-      setError("");
-      requestNewPassword(values.verificationCode, values.newPassword);
+      setError("")
+      requestNewPassword(values.verificationCode, values.newPassword)
     },
-  });
+  })
 
   const sendEmail = async () => {
-    const response = await forgotPassword({ email: recoverEmail, isOwner });
-    console.log(response);
+    const response = await forgotPassword({ email: recoverEmail, isOwner })
+    console.log(response)
     if (response.message === "Send code to email successfully") {
-      setActive("confirm");
+      setActive("confirm")
     }
-  };
+  }
 
   const requestNewPassword = async (verificationCode, password) => {
     const data = {
@@ -216,20 +216,20 @@ export default function Login({ isVisible, isClose, isOwner }) {
       isOwner,
       email: recoverEmail,
       newPassword: password,
-    };
-    console.log(data);
-    const response = await resetPasswordWithVerificationCode(data);
-
-    console.log(response);
-    if (response.message === "Reset password successfully") {
-      toast.success("Reset password successfully! Going to login.");
-      setActive("signin");
-    } else {
-      toast.error("Wrong verification code! Please try again.");
     }
-  };
+    console.log(data)
+    const response = await resetPasswordWithVerificationCode(data)
 
-  if (!isVisible) return null;
+    console.log(response)
+    if (response.message === "Reset password successfully") {
+      toast.success("Reset password successfully! Going to login.")
+      setActive("signin")
+    } else {
+      toast.error("Wrong verification code! Please try again.")
+    }
+  }
+
+  if (!isVisible) return null
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -340,8 +340,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   <div
                     className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
                     onClick={() => {
-                      console.log("go to google");
-                      redirect(`${process.env.API_URL}/api/user/auth/google`);
+                      console.log("go to google")
+                      redirect(`${process.env.SERVER_API_URL}/api/user/auth/google`)
                     }}
                   >
                     <span className="font-bold">Google</span>{" "}
@@ -733,5 +733,5 @@ export default function Login({ isVisible, isClose, isOwner }) {
         )}
       </div>
     </div>
-  );
+  )
 }

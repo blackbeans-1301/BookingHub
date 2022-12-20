@@ -4,7 +4,7 @@ import CancelIcon from "@material-ui/icons/Cancel"
 import { useEffect, useState } from "react"
 import Layout from "../../components/Layouts"
 import Profile from "../../components/Screens/user/Profile"
-import { getLSItem } from "../../utils"
+import { getLSItem, redirect } from "../../utils"
 import { getUserInfor } from "../../apis/userApi"
 import { toast, ToastContainer } from "react-toastify"
 import { date } from "yup"
@@ -104,6 +104,7 @@ const ProfilePage = () => {
     console.log(response)
     if (response !== undefined) {
       toast.success(response.message)
+      setTimeout(() => redirect(`${process.env.API_URL}/user/ProfilePage`), 1000)
     } else {
       toast.error("Error updating information. Plase try again later...")
     }
@@ -153,10 +154,6 @@ const ProfilePage = () => {
                 <h1>Name</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
                   <h1 className="text-xl font-bold">{userData ? `${userData.firstName + " " + userData.lastName}` : "not set"}</h1>
-                  <h1 onClick={() => {
-                    setModalActive("update")
-                  }}
-                    className="cursor-pointer">edit</h1>
                 </div>
               </div>
 
@@ -180,30 +177,23 @@ const ProfilePage = () => {
                 <h1>Gender</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
                   <h1 className="text-xl font-bold">{userData ? userData.gender : "(not set)"}</h1>
-                  <h1 onClick={() => {
-                    setModalActive("update")
-                  }}
-                    className="cursor-pointer">edit</h1>
+
                 </div>
               </div>
 
               <div className="mt-8">
                 <h1>Phone number</h1>
                 <div className="flex w-80 justify-between border-b mt-2">
-                  <h1 className="text-xl font-bold">{userData ? userData.phone_number : "(not set)"}</h1>
-                  <h1 onClick={() => {
-                    setModalActive("update")
-                  }}
-                    className="cursor-pointer">edit</h1>
+                  <h1 className="text-xl font-bold">{userData ? `(+84) ${userData.phone_number}` : "(not set)"}</h1>
                 </div>
               </div>
             </div>
             <div className="">
               <h1 className="rounded-lg py-4 px-12 bg-primary text-white text-xl font-bold cursor-pointer"
                 onClick={() => {
-                  setModalActive("changePW")
+                  setModalActive("update")
                 }}
-              >Change Password</h1>
+              >Edit Profile</h1>
             </div>
           </div>
         </div>
@@ -301,7 +291,7 @@ const ProfilePage = () => {
             <div className="bg-white w-1/2 p-2 rounded flex flex-col m-2 z-10 top-20">
               <div className="flex justify-between m-2">
                 <h2 className="font-bold text-3xl text-colorText">
-                  Change password
+                  Edit Profile
                 </h2>
                 <button
                   className="text-light-close text-xl place-self-end hover:text-close-color"

@@ -170,10 +170,10 @@ export default function Main() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full px-8">
       <div className="m-4">
-        <div className="font-bold text-xl m-4 mb-4 text-colorText">
-          Find the stay
+        <div className="font-bold text-3xl m-4 mb-0 text-primary mt-8">
+          Book a stay with free cancellation - search now.
         </div>
         <div className="drop-shadow-sm p-2 flex justify-center">
           <div className="relative w-60 flex items-center text-gray-400 focus-within:text-gray-600">
@@ -302,7 +302,7 @@ export default function Main() {
           </div>
 
           <button
-            className="px-2 rounded-full bg-white ml-4 h-24 w-24 text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200"
+            className="px-2 rounded-full bg-white ml-4 h-24 w-24 text-colorText flex items-center border-2 border-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200"
             onClick={() => handleSearch()}
           >
             <SearchIcon />

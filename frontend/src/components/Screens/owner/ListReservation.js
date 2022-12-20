@@ -1,39 +1,48 @@
-import * as React from "react";
-import { useState } from "react";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InfoIcon from "@material-ui/icons/Info";
-import { getReservationOfHotel } from "../../../apis/hotelApi";
-import { useEffect } from "react";
-import { getLSItem, redirect, setLSItem } from "../../../utils";
-import ReservationInforModal from "../../Items/ReservationInforModal";
-import { Fragment } from "react";
-import VerifyModal from "../../Items/VerifyModal";
-import { FormatDateToGB } from "../../Common/CommonFunc";
+import * as React from "react"
+import { useState } from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import InfoIcon from "@material-ui/icons/Info"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import { getReservationOfHotel } from "../../../apis/hotelApi"
+import { getOwnerReservation } from "../../../apis/userApi"
+import { useEffect } from "react"
+import InfoHotelModal from "../../Items/InfoHotelModal"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
+import ReservationInforModal from "../../Items/ReservationInforModal"
+import { Fragment } from "react"
+import VerifyModal from "../../Items/VerifyModal"
+import { FormatDateToGB } from "../../Common/CommonFunc"
 
 const ListReservation = () => {
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [reservation, setReservation] = useState();
-  const [showVerifyModal, setShowVerifyModal] = useState(false);
-  const [verifyContent, setVerifyContent] = useState();
-  const [type, setType] = useState();
-  const [verified, setVerified] = useState(false);
-  const [reservationID, setReservationID] = useState();
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [reservation, setReservation] = useState()
+  const [showVerifyModal, setShowVerifyModal] = useState(false)
+  const [verifyContent, setVerifyContent] = useState()
+  const [type, setType] = useState()
+  const [verified, setVerified] = useState(false)
+  const [reservationID, setReservationID] = useState()
 
-  const token = getLSItem("ownerToken");
-  const hotelID = getLSItem("hotelID");
+  const token = getLSItem("ownerToken")
   useEffect(() => {
-    getReservationOfHotel(hotelID, token, setReservation);
-  }, []);
+    const getAllReservation = async () => {
+      const response = await getOwnerReservation(token)
+      console.log(response)
+      setReservation(response)
+    }
 
-  console.log("reservations", reservation);
+    getAllReservation()
+  }, [])
 
   function directToUpdatePage(id) {
-    setLSItem("hotelID", id);
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
+    setLSItem("hotelID", id)
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
-  console.log("verified", verified);
+  if (reservation === null || reservation === undefined) {
+    return null
+  }
 
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -151,10 +160,10 @@ const ListReservation = () => {
                                   item.status === "waiting"
                                     ? "text-sky-400 "
                                     : item.status === "canceled"
-                                    ? "text-red-400"
-                                    : item.status === "completed"
-                                    ? "text-green-400"
-                                    : "text-amber-400"
+                                      ? "text-red-400"
+                                      : item.status === "completed"
+                                        ? "text-green-400"
+                                        : "text-amber-400"
                                 }
                               >
                                 {item.status.toUpperCase()}
@@ -168,7 +177,7 @@ const ListReservation = () => {
                                 type="button"
                                 className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
                                 onClick={() => {
-                                  setTimeout(setShowInfoModal(true), 2000);
+                                  setTimeout(setShowInfoModal(true), 2000)
                                 }}
                               >
                                 <InfoIcon />
@@ -181,14 +190,14 @@ const ListReservation = () => {
                               <button
                                 className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white font-semibold"
                                 onClick={() => {
-                                  console.log("click check in");
+                                  console.log("click check in")
                                   setVerifyContent(
                                     "This guest will be checked in. You can't undo this action."
-                                  );
-                                  setShowVerifyModal(true);
-                                  setType("checkIn");
-                                  console.log("verified", verified);
-                                  setReservationID(item.reservation_id);
+                                  )
+                                  setShowVerifyModal(true)
+                                  setType("checkIn")
+                                  console.log("verified", verified)
+                                  setReservationID(item.reservation_id)
                                 }}
                               >
                                 Check-in
@@ -197,14 +206,14 @@ const ListReservation = () => {
                               <button
                                 className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white font-semibold"
                                 onClick={() => {
-                                  console.log("click check out");
+                                  console.log("click check out")
                                   setVerifyContent(
                                     "This guest will be checked out. You can't undo this action."
-                                  );
-                                  setShowVerifyModal(true);
-                                  setType("checkOut");
-                                  console.log("verified", verified);
-                                  setReservationID(item.reservation_id);
+                                  )
+                                  setShowVerifyModal(true)
+                                  setType("checkOut")
+                                  console.log("verified", verified)
+                                  setReservationID(item.reservation_id)
                                 }}
                               >
                                 Check-out
@@ -231,7 +240,7 @@ const ListReservation = () => {
                           />
                         )}
                       </Fragment>
-                    );
+                    )
                   })}
               </tbody>
             </table>
@@ -239,7 +248,7 @@ const ListReservation = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ListReservation;
+export default ListReservation

@@ -1,22 +1,22 @@
-import * as React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { toast } from "react-toastify";
-import ToastMessage from "./ToastMessage";
-import { redirect, getLSItem, setLSItem } from "../../utils";
-import { FormatDateToGBShort } from "../Common/CommonFunc";
-import CallIcon from "@material-ui/icons/Call";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
-import EditIcon from "@material-ui/icons/Edit";
-import StarIcon from "@material-ui/icons/Star";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { addFavoriteHotel, checkFavoriteHotel } from "../../apis/userApi";
-import TagFacesIcon from "@material-ui/icons/TagFaces";
-import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
-import Rate from "./Rate";
-import { createComment } from "../../apis/commentApi";
+import * as React from "react"
+import { useState } from "react"
+import { useEffect } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
+import { toast } from "react-toastify"
+import ToastMessage from "./ToastMessage"
+import { redirect, getLSItem, setLSItem } from "../../utils"
+import { FormatDateToGBShort } from "../Common/CommonFunc"
+import CallIcon from "@material-ui/icons/Call"
+import LocationOnIcon from "@material-ui/icons/LocationOn"
+import EditIcon from "@material-ui/icons/Edit"
+import StarIcon from "@material-ui/icons/Star"
+import FavoriteIcon from "@material-ui/icons/Favorite"
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder"
+import { addFavoriteHotel, checkFavoriteHotel } from "../../apis/userApi"
+import TagFacesIcon from "@material-ui/icons/TagFaces"
+import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined"
+import Rate from "./Rate"
+import { createComment } from "../../apis/commentApi"
 
 export default function UserReservationModal({
   isVisible,
@@ -24,22 +24,22 @@ export default function UserReservationModal({
   detail,
   type,
 }) {
-  const [favorite, setFavorite] = useState(0);
-  const [rating, setRating] = useState(0);
-  const [review, setReview] = useState("");
+  console.log(detail)
+  const [favorite, setFavorite] = useState(0)
+  const [rating, setRating] = useState(0)
+  const [review, setReview] = useState("")
 
   const token = getLSItem("token")
   const hotelID = detail && detail.Hotel.hotel_id
 
   useEffect(() => {
+    console.log(hotelID)
     checkFavoriteHotel(token, hotelID, setFavorite)
   }, [])
 
   const data = {
     hotel_id: hotelID,
   }
-
-  console.log('detail', detail)
 
   const handleChangeReview = (event) => {
     setReview(event.target.value)

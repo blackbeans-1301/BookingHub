@@ -34,12 +34,12 @@ const data = [
 export default function Reason() {
   return (
     <div className="m-8">
-      <h1 className="font-bold text-xl text-gray-600">Here's why you choose bookinghub</h1>
-      <div className="flex justify-between m-12">
+      <h1 className="font-bold text-2xl text-primary">Here's why you choose bookinghub</h1>
+      <div className="flex justify-between my-8">
         {data.map(
           (card, index) => {
             return (
-              <div className="inline-block w-1/5 h-40 rounded-md border border-blue-900" key={index}>
+              <div className="inline-block w-72 h-48 rounded-md border border-blue-900">
                 <div className="ml-2">
                   <div className="p-2">
                     {card.icon}

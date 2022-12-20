@@ -16,7 +16,9 @@ import {
   CREATE_RESERVATION_API,
   GET_TOTAL_PRICE,
   GET_FAVORITE_HOTEL_URL,
-  DELETE_FAVORITE_HOTEL_URL
+  DELETE_FAVORITE_HOTEL_URL,
+  GET_OWNER_RESERVATION,
+  CHECK_USER_LIKE_HOTEL
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -73,6 +75,47 @@ export const getUserInfor = async (setInfor, tokenStr) => {
     .then((res) => {
       console.log("RESPONSE ==== : ", res)
       setInfor(res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err
+    })
+
+  return response
+}
+
+export const getOwnerReservation = async (tokenStr) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  }
+
+  const response = axios
+    .get(GET_OWNER_RESERVATION, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err
+    })
+
+  return response
+}
+
+export const checkUserLikedHotel = async (tokenStr, hotelId) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${tokenStr}`,
+    },
+  }
+
+  const response = axios
+    .get(`${CHECK_USER_LIKE_HOTEL}${hotelId}`, options)
+    .then((res) => {
       return res.data
     })
     .catch((err) => {
@@ -351,7 +394,7 @@ export const addFavoriteHotel = async (token, data) => {
   return response
 }
 
-export const removeHotelFavorite = async (data, token) => {
+export const removeHotelFavorite = async (token, data) => {
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
