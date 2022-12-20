@@ -10,7 +10,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import Hotel from "../Screens/user/Hotel"
 import { FormatDateToGB, FormatDate, FormatDateTime, FormatDateToGBShort } from "../Common/CommonFunc"
 import { toast } from "react-toastify"
-import { getLSItem } from "../../utils"
+import { getLSItem, redirect } from "../../utils"
 
 export default function BookingModal({ isVisible, isClose, roomList, availableRooms, hotel }) {
   const [arriveDay, setArriveDay] = useState(new Date())
@@ -96,6 +96,7 @@ export default function BookingModal({ isVisible, isClose, roomList, availableRo
     console.log(response)
     if (typeof response === 'object') {
       toast.success("Create reservation successfully!")
+      redirect(`${process.env.API_URL}/user/ReservationPage`)
     } else {
       toast.error("Error Create reservation! try again later.")
     }

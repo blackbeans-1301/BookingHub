@@ -230,7 +230,7 @@ const ListReservation = () => {
                                   setReservationID(item.reservation_id)
                                 }}
                               >
-                                Checkout
+                                Check-out
                               </button>
                             </p>
                           </td>
