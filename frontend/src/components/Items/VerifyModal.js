@@ -1,45 +1,49 @@
-import * as React from "react";
-import ToastMessage from "./ToastMessage";
-import CancelIcon from "@material-ui/icons/Cancel";
-import { checkIn, checkOut } from "../../apis/reservationApi";
-import { getLSItem } from "../../utils";
-import { toast } from "react-toastify";
+import * as React from "react"
+import ToastMessage from "./ToastMessage"
+import CancelIcon from "@material-ui/icons/Cancel"
+import { checkIn, checkOut } from "../../apis/reservationApi"
+import { getLSItem, redirect } from "../../utils"
+import { toast } from "react-toastify"
 
 export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
-  const token = getLSItem("token");
-  console.log("reservation_id", id);
+  const token = getLSItem("ownerToken")
+  console.log("reservation_id", id)
 
   const data = {
     reservation_id: id,
-  };
+  }
 
   const verifyFunction = () => {
     if (type == "checkIn") {
       const callApi = async (token, data) => {
-        const response = await checkIn(token, data);
-        console.log(response);
+        const response = await checkIn(token, data)
+        console.log(response)
 
-        if (response.status === 200) {
+        if (response.message === "Checked in!") {
+          toast.success("Check In Success")
+          setTimeout(() => redirect(`${process.env.API_URL}/owner/list-reservation`), 1500)
         } else if (response.status === 400) {
-          toast.error(response.message);
+          toast.error(response.message)
         }
-      };
-      callApi(token, data);
+      }
+      callApi(token, data)
     } else if (type == "checkOut") {
       const callApi = async (token, data) => {
-        const response = await checkOut(token, data);
-        console.log(response);
+        const response = await checkOut(token, data)
+        console.log(response)
 
-        if (response.status === 200) {
+        if (response.message === "Checked out!") {
+          toast.success("Check Out Success")
+          setTimeout(() => redirect(`${process.env.API_URL}/owner/list-reservation`), 1500)
         } else if (response.status === 400) {
-          toast.error(response.message);
+          toast.error(response.message)
         }
-      };
-      callApi(token, data);
+      }
+      callApi(token, data)
     }
-  };
+  }
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-4/12 flex flex-col z-20 h-5/6 rounded-4xl">
@@ -80,5 +84,5 @@ export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

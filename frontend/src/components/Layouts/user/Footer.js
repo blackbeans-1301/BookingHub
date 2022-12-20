@@ -6,7 +6,7 @@ import LinkedInIcon from "@material-ui/icons/LinkedIn"
 
 export default function Footer() {
   return (
-    <footer className="bg-sky-500 text-white mt-10 z-10 flex w-screen md:w-auto w-full">
+    <footer className="bg-primary-light text-white mt-10 z-10 flex w-screen md:w-auto w-full">
       <div className="content-center md:px-8 xl:px-8 py-8 w-full h-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 ">
           <div className="">

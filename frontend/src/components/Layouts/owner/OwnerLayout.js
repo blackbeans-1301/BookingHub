@@ -5,7 +5,7 @@ import { getLSItem } from "../../../utils"
 import OwnerSidebar from "./OwnerSidebar"
 
 export default function OwnerLayout({ children }) {
-  const login = getLSItem("token")
+  const login = getLSItem("ownerToken")
   console.log("login", login)
 
   return (
@@ -16,6 +16,7 @@ export default function OwnerLayout({ children }) {
         {/* <OwnerHeader /> */}
         {children}
       </div>
+
     </div>
   )
 }
