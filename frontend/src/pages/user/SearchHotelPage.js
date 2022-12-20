@@ -4,6 +4,7 @@ import HotelSearch from "../../components/Screens/search/HotelSearch"
 import { FormatDate } from "../../components/Common/CommonFunc"
 import { searchHotelByCriteria } from "../../apis/hotelApi"
 import { useState, useEffect } from "react"
+import { subString } from "../../utils"
 
 const SearchHotelPage = ({ location }) => {
   const [hotel, setHotel] = useState([])
@@ -26,8 +27,8 @@ const SearchHotelPage = ({ location }) => {
     date_in: FormatDate(queryArr[1]),
     date_out: FormatDate(queryArr[2]),
     province: queryArr[0].replace("%20", " "),
-    number_of_room: parseFloat(queryArr[3].substring(4)),
-    number_of_guest: parseFloat(queryArr[4].substring(5)),
+    number_of_room: parseFloat(subString(queryArr[3], 4)),
+    number_of_guest: parseFloat(subString(queryArr[4], 5)),
   }
 
   console.log('data', data)
