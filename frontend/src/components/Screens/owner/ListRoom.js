@@ -38,10 +38,10 @@ export default function ListRoom() {
 
   console.log("all rooms", allRooms)
 
-  function directToUpdatePage(id) {
-    setLSItem("hotelID", id)
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
+  if (!allRooms) {
+    return null
   }
+
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
       <div className="flex mt-3">

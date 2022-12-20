@@ -158,6 +158,10 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
     setHotels(response)
   }
 
+  if (!hotels) {
+    return null
+  }
+
 
   return (
     // listContainer
@@ -379,7 +383,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
             >
               <div className="my-2 justify-between">
                 <div className="flex justify-center items-center">
-                  <div className="text-white font-semibold">Confirm</div>
+                  <div className="text-white font-semibold">Search</div>
                 </div>
               </div>
             </div>
@@ -395,7 +399,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
             {numberHotel == 0 ? (
               <div>
                 <h1 className="flex items-center justify-center text-lg text-sky-600 font-bold">
-                  No hotels were founded
+                  No hotels were founded in { }
                 </h1>
               </div>
             ) : (
@@ -408,7 +412,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
                     {/* siImg */}
                     <div className="rounded-l-lg h-64 overflow-hidden w-72">
                       <img
-                        src={item.Images[0].imgURL}
+                        src={item.Images.length != 0 ? item.Images[0].imgURL : "https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg"}
                         alt=""
                         className="object-cover w-96 h-96"
                       />

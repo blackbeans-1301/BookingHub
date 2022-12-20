@@ -210,7 +210,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
       <ToastMessage />
       {/* hotelWrapper */}
       <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4">
-        <HotelImg images={hotel.Images} />
+        <HotelImg images={hotel.Images.length != 0 ? hotel.Images : [
+          { imgURL: "https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg" },
+          { imgURL: "https://media-cdn.tripadvisor.com/media/photo-s/25/04/93/1e/blossom-hotel-houston.jpg" }
+        ]} />
 
         <div className="w-full">
           {/* hotelTitle */}
@@ -300,7 +303,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
                   key={index}
                 >
                   <img
-                    src={item.Images[0].imgURL}
+                    src={item.Images.length != 0 ? item.Images[0].imgURL : "https://www.thespruce.com/thmb/2_Q52GK3rayV1wnqm6vyBvgI3Ew=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/put-together-a-perfect-guest-room-1976987-hero-223e3e8f697e4b13b62ad4fe898d492d.jpg"}
                     className="w-full object-cover"
                   />
                   <h3 className="font-bold text-lg text-sky-600 mt-2">
