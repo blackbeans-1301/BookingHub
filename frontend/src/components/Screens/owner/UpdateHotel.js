@@ -159,7 +159,7 @@ export default function UpdateHotel() {
       const type = typeof response
       if (type === "object") {
         toast.success("Sign up successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Sign up failed")
         toast.error(response)

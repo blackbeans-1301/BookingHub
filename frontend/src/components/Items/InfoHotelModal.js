@@ -147,7 +147,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       const type = typeof response
       if (type === "object") {
         toast.success("Update hotel details successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Update hotel details failed")
         toast.error(response)
