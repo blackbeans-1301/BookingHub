@@ -69,77 +69,12 @@ export default function Hotel({ id, dateIn, dateOut }) {
   const [active, setActive] = useState("")
   const [adult, setAdult] = useState(1)
   const [child, setChild] = useState(0)
-  const [open, setOpen] = useState(false)
   const [hotel, setHotel] = useState()
   const [listRoom, setListRoom] = useState()
   const [listRoomId, setListRoomId] = useState()
   const [listComment, setListComment] = useState()
   const [listRoomToReserve, setListRoomToReserve] = useState([])
   const [roomStatus, setRoomStatus] = useState([])
-  const [error, setError] = useState("")
-
-  const { arrive } = arriveDay
-  const { leave } = leaveDay
-
-  const reservationInfoFormik = useFormik({
-    initialValues: {
-      date_in: "",
-      date_out: "",
-      name: "",
-      email: "",
-      phone: "",
-      description: "",
-      room_id: listRoomToReserve,
-    },
-    validationSchema: reservationInfoValidationSchema,
-    onSubmit: (values) => {
-      requestCreateReservation(values)
-    },
-    enableReinitialze: true,
-  })
-
-  const requestCreateReservation = async (values) => {
-
-  }
-
-  //   room
-  const decreaseRoom = () => {
-    if (room > 0) {
-      setRoom((prevCount) => prevCount - 1)
-    } else {
-      setRoom(0)
-    }
-  }
-
-  const increaseRoom = () => {
-    setRoom((prevCount) => prevCount + 1)
-  }
-
-  //   adult
-  const decreaseAdult = () => {
-    if (room > 0) {
-      setAdult((prevCount) => prevCount - 1)
-    } else {
-      setAdult(0)
-    }
-  }
-
-  const increaseAdult = () => {
-    setAdult((prevCount) => prevCount + 1)
-  }
-
-  //   children
-  const decreaseChild = () => {
-    if (room > 0) {
-      setChild((prevCount) => prevCount - 1)
-    } else {
-      setChild(0)
-    }
-  }
-
-  const increaseChild = () => {
-    setChild((prevCount) => prevCount + 1)
-  }
 
   useEffect(() => {
     getHotelById(id, setHotel)
@@ -205,10 +140,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
   console.log(listRoom)
 
   return (
-    // hotelContainer
+    // hotel Container
     <div className="flex justify-center mt-4">
       <ToastMessage />
-      {/* hotelWrapper */}
+      {/* hotel Wrapper */}
       <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4">
         <HotelImg images={hotel.Images.length != 0 ? hotel.Images : [
           { imgURL: "https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg" },
@@ -216,7 +151,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
         ]} />
 
         <div className="w-full">
-          {/* hotelTitle */}
+          {/* hotel Title */}
 
           <div className="flex justify-between mt-8">
             <div className="flex flex-col">
@@ -230,29 +165,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
             </div>
 
             <div className="text-red-500 mr-10">
-              {/* {isFavorite === false ? (
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setIsFavorite(true);
-                  }}
-                >
-                  <FavoriteBorderIcon />
-                </span>
-              ) : (
-                <span
-                  className="cursor-pointer"
-                  onClick={() => {
-                    setIsFavorite(false);
-                  }}
-                >
-                  <FavoriteIcon />
-                </span>
-              )} */}
             </div>
           </div>
 
-          {/* hotelAddress */}
+          {/* hotel Address */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
             <span>{hotel.address}</span>
@@ -271,11 +187,13 @@ export default function Hotel({ id, dateIn, dateOut }) {
               </div>
             </div>
           </div>
+
           {/* hotelDistance */}
           <span className="text-sky-500">
             Excellent location - 500m from center
           </span>
           <br />
+
           {/* hotelPriceHighlight */}
           <span className="text-green-600">
             Book a stay over $114 at this property and get a free airport taxi

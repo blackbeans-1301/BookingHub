@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
 import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
 import InfoRoomModal from "../../Items/InfoRoomModal";
 import { getAllRoomsApi } from "../../../apis/roomApi";
@@ -14,7 +13,6 @@ import { FormatDateToGB } from "../../Common/CommonFunc";
 export default function ListRoom() {
   const [allRooms, setAllRooms] = useState();
   const [showInfoModal, setShowInfoModal] = useState(false);
-  const [hotel, setHotel] = useState();
   const [showVerifyModal, setShowVerifyModal] = useState(false);
   const [roomid, setRoomid] = useState();
   const [roomDetail, setRoomDetail] = useState({
@@ -112,42 +110,36 @@ export default function ListRoom() {
                   allRooms.map((room, index) => {
                     return (
                       <tr key={index}>
-                        {/* column 1: id */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
-                        {/* column 2: room */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.room_name}
                           </p>
                         </td>
 
-                        {/* column 3: hotel's name */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.name}
                           </p>
                         </td>
 
-                        {/* column 5: address */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.Hotel.address}
                           </p>
                         </td>
 
-                        {/* column 6: room type */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.type_of_room}
                           </p>
                         </td>
 
-                        {/* column 7: price */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.price}
@@ -157,21 +149,18 @@ export default function ListRoom() {
                           </p>
                         </td>
 
-                        {/* column 8: posted date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {FormatDateToGB(room.createdAt)}
                           </p>
                         </td>
 
-                        {/* column 8: posted date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {FormatDateToGB(room.updatedAt)}
                           </p>
                         </td>
 
-                        {/* column 9: actions */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                           <div className="flex">
                             <button

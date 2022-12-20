@@ -1,5 +1,4 @@
 import axios from "axios"
-import qs from "qs"
 
 import {
   GET_USER_INFOR_URL,

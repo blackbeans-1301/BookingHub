@@ -1,17 +1,15 @@
 import * as React from "react";
 import { useState } from "react";
-import EditIcon from "@material-ui/icons/Edit";
 import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
 import InfoIcon from "@material-ui/icons/Info";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
 import { getAllHotels } from "../../../apis/hotelApi";
 import { useEffect } from "react";
 import InfoHotelModal from "../../Items/InfoHotelModal";
 import { getLSItem, redirect, setLSItem } from "../../../utils";
 import { FormatDateToGB } from "../../Common/CommonFunc";
 import VerifyModal from "../../Items/VerifyModal";
-// test
+
 export default function ListHotel() {
   const [allHotels, setAllHotels] = useState();
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -25,17 +23,12 @@ export default function ListHotel() {
     description: "",
     province: "",
   });
-  // huydang to do
+
   const token = getLSItem("ownerToken");
   useEffect(() => {
     getAllHotels(setAllHotels, token);
   }, []);
   console.log("all hotels", allHotels);
-
-  function directToUpdatePage(id) {
-    setLSItem("hotelID", id);
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
-  }
 
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto">
@@ -96,42 +89,36 @@ export default function ListHotel() {
                   {allHotels.map((hotel, index) => {
                     return (
                       <tr key={index}>
-                        {/* column 1: id */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {index + 1}
                           </p>
                         </td>
 
-                        {/* column 3: hotel's name */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.name}
                           </p>
                         </td>
 
-                        {/* column 5: address */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {hotel.address}
                           </p>
                         </td>
 
-                        {/* column 7: created date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {FormatDateToGB(hotel.createdAt)}
                           </p>
                         </td>
 
-                        {/* column 8: updated date */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {FormatDateToGB(hotel.updatedAt)}
                           </p>
                         </td>
 
-                        {/* column 9: actions */}
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                           <div className="flex">
                             <button
@@ -156,12 +143,6 @@ export default function ListHotel() {
                               <DeleteIcon />
                             </button>
 
-                            {/* <button
-                              type="button"
-                              className="inline-block mx-px text-gray-400 hover:text-gray-600"
-                            >
-                              <MoreVertSharpIcon />
-                            </button> */}
                           </div>
                         </td>
 

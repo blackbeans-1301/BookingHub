@@ -1,42 +1,19 @@
-import * as React from "react"
-import { Fragment } from "react"
-import { useState } from "react"
-import BookingModal from "../../Items/BookingModal"
-// import InfoIcon from "@material-ui/icons/Info";
-import SearchIcon from "@material-ui/icons/Search"
-import DeleteIcon from "@material-ui/icons/Delete"
-import InfoIcon from "@material-ui/icons/Info"
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
-import { getAllHotels } from "../../../apis/hotelApi"
-import { useEffect } from "react"
-import InfoHotelModal from "../../Items/InfoHotelModal"
-import { getLSItem, redirect, setLSItem } from "../../../utils"
-import { FormatDateToGB } from "../../Common/CommonFunc"
-import { getHistory, getReservations } from "../../../apis/userApi"
-import { toast } from "react-toastify"
-import { GET_USER_INFOR_URL } from "../../../configs/api"
-import UserReservationModal from "../../Items/UserReservationModal"
-import { set } from "lodash"
-import { SetColorForString } from "../../Common/CommonFunc"
+import * as React from "react";
+import { Fragment } from "react";
+import { useState } from "react";
+
+import InfoIcon from "@material-ui/icons/Info";
+
+import { useEffect } from "react";
+import { getLSItem, redirect, setLSItem } from "../../../utils";
+import { FormatDateToGB } from "../../Common/CommonFunc";
+import { getHistory, getReservations } from "../../../apis/userApi";
+import UserReservationModal from "../../Items/UserReservationModal";
 
 export default function Reservation() {
-  const [showModal, setShowModal] = useState(false)
-  const [allHotels, setAllHotels] = useState()
-  const [showInfoModal, setShowInfoModal] = useState(false)
-  const [listReservation, setListReservation] = useState()
-  const [hotelDetail, setHotelDetail] = useState({
-    name: "",
-    address: "",
-    criteria: "",
-    Images: "",
-    description: "",
-    province: "",
-  })
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [listReservation, setListReservation] = useState();
 
-  function directToUpdatePage(id) {
-    setLSItem("hotelID", id)
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
-  }
 
   const token = getLSItem("token")
 
@@ -45,14 +22,6 @@ export default function Reservation() {
   }, [])
 
   console.log("reservations", listReservation)
-
-  //   function setColor(str) {
-  //     let res;
-  //     if (str.toUpperCase() === "CANCELED") {
-  //         res = `<span className="text-red-400">CANCELED</span>`;
-  //     }
-  //     return res;
-  //   }
 
   return (
     <Fragment>
@@ -106,14 +75,12 @@ export default function Reservation() {
                     {listReservation.map((item, index) => {
                       return (
                         <tr key={index}>
-                          {/* column 1: id */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {index + 1}
                             </p>
                           </td>
 
-                          {/* column 3: hotel's name */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.reservation_id}
@@ -126,28 +93,24 @@ export default function Reservation() {
                             </p>
                           </td>
 
-                          {/* column 5: address */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.name}
                             </p>
                           </td>
 
-                          {/* column 7: created date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.phone}
                             </p>
                           </td>
 
-                          {/* column 8: updated date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.number_of_rooms}
                             </p>
                           </td>
 
-                          {/* column 9: actions */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                             {item.check_in === null
                               ? "____"
