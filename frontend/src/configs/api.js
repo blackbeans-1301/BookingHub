@@ -60,6 +60,8 @@ export const SEARCH_HOTEL_BY_CRITERIA_URL = `${DOMAIN_URL}/hotel/hotelCriteria`
 
 export const GET_ALL_RESERVATIONS_OF_HOTEL_URL = `${DOMAIN_URL}/hotel/hotelReservations`
 
+export const DELETE_HOTEL_URL = `${DOMAIN_URL}/hotel/delete`
+
 // API for room------------------------------------------------
 
 export const CREATE_ROOM_URL = `${DOMAIN_URL}/room/create`
@@ -69,6 +71,8 @@ export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`
 export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`
 
 export const GET_ALL_ROOMS_BY_CRITERIA_URL = `${DOMAIN_URL}/room/roomCriteria`
+
+export const DELETE_ROOM_URL = `${DOMAIN_URL}/room/delete`
 
 // API for reservation
 
