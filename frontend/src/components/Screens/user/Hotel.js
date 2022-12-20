@@ -73,7 +73,6 @@ export default function Hotel({ id, dateIn, dateOut }) {
   const [active, setActive] = useState("")
   const [adult, setAdult] = useState(1)
   const [child, setChild] = useState(0)
-  const [open, setOpen] = useState(false)
   const [hotel, setHotel] = useState()
   const [listRoom, setListRoom] = useState()
   const [listRoomId, setListRoomId] = useState()
@@ -254,8 +253,10 @@ export default function Hotel({ id, dateIn, dateOut }) {
     }
   }
 
+  console.log(listRoom)
+
   return (
-    // hotelContainer
+    // hotel Container
     <div className="flex justify-center mt-4">
       <ToastMessage />
       {/* hotelWrapper */}
@@ -376,13 +377,16 @@ export default function Hotel({ id, dateIn, dateOut }) {
               var status = roomStatus[index]
               return (
                 <div
-                  className="w-[30%] bg-primary rounded-md p-2 m-2 relative"
+                  className="w-72 bg-primary rounded-md p-2 m-2 relative"
                   key={index}
                 >
-                  <img
-                    src={item.Images.length != 0 ? item.Images[0].imgURL : "https://www.thespruce.com/thmb/2_Q52GK3rayV1wnqm6vyBvgI3Ew=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/put-together-a-perfect-guest-room-1976987-hero-223e3e8f697e4b13b62ad4fe898d492d.jpg"}
-                    className="w-full object-cover rounded-md"
-                  />
+                  <div style={{ width: "100%", height: "180px", overflow: "hidden", borderRadius: "10px" }}>
+                    <img
+                      src={item.Images.length != 0 ? item.Images[0].imgURL : "https://www.thespruce.com/thmb/2_Q52GK3rayV1wnqm6vyBvgI3Ew=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/put-together-a-perfect-guest-room-1976987-hero-223e3e8f697e4b13b62ad4fe898d492d.jpg"}
+                      className="w-full object-cover rounded-md"
+                    />
+                  </div>
+
                   <h3 className="font-bold text-lg text-white mt-2 ">
                     {item.room_name}
                   </h3>

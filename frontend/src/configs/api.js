@@ -85,7 +85,7 @@ export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`
 
 export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`
 
-export const GET_OWNER_RESERVATION = `${DOMAIN_URL}/hotel/ownerHotels`
+export const GET_OWNER_RESERVATION = `${DOMAIN_URL}/user/ownerReservations`
 
 // API for comments ------------------------
 

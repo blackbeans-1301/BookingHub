@@ -1,11 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react"
 import Logo from "../../../assets/images/logo.png"
 import textLogo from "../../../assets/images/text-logo.png"
-import LoginModal from "../../Items/LoginModal"
 import Login from "../../Items/Login"
-// import Button from "../Items/Button";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle"
-import DescriptionIcon from "@material-ui/icons/Description"
 import { getInformation } from "../../../apis/userApi"
 import { toast } from "react-toastify"
 import UserOption from "../../Items/UserOption"

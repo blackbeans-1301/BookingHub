@@ -361,8 +361,8 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
                         }
                       >
                         {pr !== undefined &&
-                          pr.map((p) => {
-                            return <MenuItem value={p.name}>{p.name}</MenuItem>
+                          pr.map((p, index) => {
+                            return <MenuItem value={p.name} key={index}>{p.name}</MenuItem>
                           })}
                       </Select>
                     </FormControl>

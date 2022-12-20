@@ -31,8 +31,6 @@ import NatureIcon from "@material-ui/icons/Nature"
 import RestaurantMenuIcon from "@material-ui/icons/RestaurantMenu"
 import ChildCareIcon from "@material-ui/icons/ChildCare"
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz"
-import CloudUploadIcon from "@material-ui/icons/CloudUpload"
-import API from "../../../services/ownerService"
 import _ from "lodash"
 import {
   createHotelApi,
@@ -76,8 +74,7 @@ export default function UpdateHotel() {
   const [acceptTnC, setAcceptTnC] = useState(false)
   const [criterias, setCriterias] = useState([])
   const [all, setAll] = useState()
-  const [province, setProvince] = useState("")
-  const [images, setImages] = useState([])
+
   const [hotelInfor, setHotelInfor] = useState()
 
   let imagesURLs = []
@@ -90,11 +87,6 @@ export default function UpdateHotel() {
   const token = getLSItem("ownerToken")
   const hotelID = getLSItem("hotelID")
 
-  // change criterias state
-  const handleChange = (event) => {
-    setAcceptTnC(event.target.checked)
-  }
-
   const handleCriteriaChange = (event) => {
     const index = criterias.indexOf(event.target.value)
     if (index === -1) {
@@ -104,10 +96,6 @@ export default function UpdateHotel() {
         criterias.filter((criteria) => criteria !== event.target.value)
       )
     }
-  }
-
-  const handleChangeProvince = (event) => {
-    setProvince(event.target.value)
   }
 
   //   handle upload images

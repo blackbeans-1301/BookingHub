@@ -57,7 +57,6 @@ import {
 } from "../../../assets/data/RoomCriteriaData"
 import { getLSItem, redirect, setLSItem } from "../../../utils"
 
-
 const validationSchema = yup.object({
   hotel: yup
     .object({
@@ -93,22 +92,14 @@ export default function CreateRoom() {
   const [acceptTnC, setAcceptTnC] = useState(false)
   const [criterias, setCriterias] = useState([])
   const [allHotels, setAllHotels] = useState()
-  const [province, setProvince] = useState("")
-  const [images, setImages] = useState([])
 
   let imagesURLs = []
   const ownerToken = getLSItem("ownerToken")
-  //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken)
   }, [])
   console.log("all hotels", allHotels)
   console.log(criterias)
-
-  // change criterias state
-  const handleChange = (event) => {
-    setAcceptTnC(event.target.checked)
-  }
 
   const handleCriteriaChange = (event) => {
     const index = criterias.indexOf(event.target.value)
@@ -144,7 +135,6 @@ export default function CreateRoom() {
         .then((res) => res.json())
         .then((res) => imagesURLs.push(res.url))
     }
-    console.log("img urls", imagesURLs)
     formik.values.imgURL = imagesURLs
 
     setUploading(false)
@@ -166,7 +156,7 @@ export default function CreateRoom() {
       const type = typeof response
       if (type === "object") {
         toast.success("Create a new room successfully")
-        setTimeout(redirectFunc, 1000)
+        // setTimeout(redirectFunc, 1000)
       } else {
         console.log("Create a new room failed")
         toast.error(response)
@@ -187,6 +177,9 @@ export default function CreateRoom() {
       description: values.description,
       imgURL: values.imgURL,
     }
+
+    console.log("data", data)
+
     setIsLoading(true)
     signUp(data)
   }
@@ -228,8 +221,12 @@ export default function CreateRoom() {
               error={formik.touched.hotel && !!formik.errors.hotel}
             >
               {allHotels !== undefined &&
-                allHotels.map((p) => {
-                  return <MenuItem value={p}>{p.name}</MenuItem>
+                allHotels.map((p, index) => {
+                  return (
+                    <MenuItem value={p} key={index}>
+                      {p.name}
+                    </MenuItem>
+                  )
                 })}
             </Select>
           </FormControl>
@@ -298,14 +295,9 @@ export default function CreateRoom() {
             placeholder="Enter the capacity..."
             name="capacity"
             value={formik.values.capacity}
-            error={
-              formik.touched.capacity &&
-              Boolean(formik.errors.capacity)
-            }
+            error={formik.touched.capacity && Boolean(formik.errors.capacity)}
             onChange={formik.handleChange}
-            helperText={
-              formik.touched.capacity && formik.errors.capacity
-            }
+            helperText={formik.touched.capacity && formik.errors.capacity}
           />
         </FormControl>
 
@@ -364,6 +356,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -384,6 +377,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -404,6 +398,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -424,6 +419,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -444,6 +440,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -464,6 +461,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -484,6 +482,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -504,6 +503,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -524,6 +524,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -544,6 +545,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -564,6 +566,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -584,6 +587,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -604,6 +608,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}
@@ -624,6 +629,7 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
             )
           })}

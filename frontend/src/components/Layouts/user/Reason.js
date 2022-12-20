@@ -37,7 +37,7 @@ export default function Reason() {
       <h1 className="font-bold text-2xl text-primary">Here's why you choose bookinghub</h1>
       <div className="flex justify-between my-8">
         {data.map(
-          card => {
+          (card, index) => {
             return (
               <div className="inline-block w-72 h-48 rounded-md border border-blue-900">
                 <div className="ml-2">

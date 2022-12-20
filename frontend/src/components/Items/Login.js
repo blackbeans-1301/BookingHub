@@ -2,18 +2,21 @@ import * as yup from "yup"
 import React, { Fragment } from "react"
 import { useState } from "react"
 import CancelIcon from "@material-ui/icons/Cancel"
-import GoogleIcon from '@mui/icons-material/Google'
+import GoogleIcon from "@mui/icons-material/Google"
 // import axios, { Axios } from "axios";
 import { useFormik } from "formik"
 import FormControl from "@material-ui/core/FormControl"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI, getUserInfor, forgotPassword, resetPasswordWithVerificationCode } from "../../apis/userApi"
+import {
+  loginAPI,
+  getInformation,
+  registerAPI,
+  getUserInfor,
+  forgotPassword,
+  resetPasswordWithVerificationCode,
+} from "../../apis/userApi"
 import { toast } from "react-toastify"
-import { useSetRecoilState } from "recoil"
-import { userState } from "../../store/atoms/userState"
-import { tokenState } from "../../store/atoms/tokenState"
-import * as Promise from "bluebird"
 import { LoadingButton } from "@mui/lab"
 import ToastMessage from "./ToastMessage"
 import { parse, isDate } from "date-fns"
@@ -45,7 +48,10 @@ const registerValidationSchema = yup.object({
   password: yup.string().required("Enter your password"),
   firstName: yup.string().required("Enter your firstName"),
   lastName: yup.string().required("Enter your lastName"),
-  dob: date().transform(parseDateString).max(today).required("Enter your date of birth. Please enter a valid date."),
+  dob: date()
+    .transform(parseDateString)
+    .max(today)
+    .required("Enter your date of birth. Please enter a valid date."),
   gender: yup.string().required("Enter your gender"),
   phone_number: yup.string().required("Enter your phone number"),
 })
@@ -63,17 +69,16 @@ const resetPasswordValidationSchema = yup.object({
   repeatPassword: yup.string().required("Enter Repeat Password"),
 })
 
-
 export default function Login({ isVisible, isClose, isOwner }) {
   const [isLoading, setIsLoading] = useState(false)
   const [active, setActive] = useState("signin")
   const [recoverEmail, setRecoverEmail] = useState()
   const [error, setError] = useState("")
-  // const setToken = ,useSetRecoilState(tokenState)
-  // const setUser = useSetRecoilState(userState)
 
   const redirectFunc = () => {
-    redirect(isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`)
+    redirect(
+      isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`
+    )
   }
 
   const handleLogin = (values) => {
@@ -81,19 +86,16 @@ export default function Login({ isVisible, isClose, isOwner }) {
       const response = await loginAPI(postData)
       const type = typeof response
       if (type === "object") {
-        if (isOwner === 0)
-          setLSItem("token", response.assessToken)
-        else
-          setLSItem("ownerToken", response.assessToken)
+        if (isOwner === 0) setLSItem("token", response.assessToken)
+        else setLSItem("ownerToken", response.assessToken)
 
-        console.log('token', getLSItem('token'))
+        console.log("token", getLSItem("token"))
         toast.success("Login successfully")
 
         setTimeout(redirectFunc, 1000)
       } else {
         console.log("login failed")
         toast.error("Error login! Please try again!")
-
       }
       setIsLoading(false)
     }
@@ -107,7 +109,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
     setIsLoading(true)
     getToken(data)
   }
-
 
   const loginFormik = useFormik({
     initialValues: {
@@ -151,7 +152,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
     signUp(data)
   }
 
-  {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */ }
   const registerFormik = useFormik({
     initialValues: {
       email: "",
@@ -165,14 +165,13 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
-      // console.log("value" + values);
       handleRegister(values)
     },
   })
 
   const forgotPassFormik = useFormik({
     initialValues: {
-      email: ""
+      email: "",
     },
     validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
@@ -206,7 +205,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
   const sendEmail = async () => {
     const response = await forgotPassword({ email: recoverEmail, isOwner })
     console.log(response)
-    if (response.message === 'Send code to email successfully') {
+    if (response.message === "Send code to email successfully") {
       setActive("confirm")
     }
   }
@@ -222,7 +221,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
     const response = await resetPasswordWithVerificationCode(data)
 
     console.log(response)
-    if (response.message === 'Reset password successfully') {
+    if (response.message === "Reset password successfully") {
       toast.success("Reset password successfully! Going to login.")
       setActive("signin")
     } else {
@@ -330,24 +329,27 @@ export default function Login({ isVisible, isClose, isOwner }) {
                 Sign up
               </span>
             </div>
-            {isOwner !== 1 && <div>
-              <div className="text-center text-gray-500 flex center justify-center">
-                <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
-                or
-                <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
-              </div>
-              <div className="flex justify-center">
-                <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
-                  onClick={() => {
-                    console.log("go to google")
-                    redirect(`${process.env.API_URL}/api/user/auth/google`)
-                  }}
-                >
-                  <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />
+            {isOwner !== 1 && (
+              <div>
+                <div className="text-center text-gray-500 flex center justify-center">
+                  <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
+                  or
+                  <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
+                </div>
+                <div className="flex justify-center">
+                  <div
+                    className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
+                    onClick={() => {
+                      console.log("go to google")
+                      redirect(`${process.env.SERVER_API_URL}/api/user/auth/google`)
+                    }}
+                  >
+                    <span className="font-bold">Google</span>{" "}
+                    <GoogleIcon className="ml-2" />
+                  </div>
                 </div>
               </div>
-            </div>}
-
+            )}
           </div>
         )}
 
@@ -385,7 +387,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.firstName && registerFormik.errors.firstName
+                    registerFormik.touched.firstName &&
+                    registerFormik.errors.firstName
                   }
                 />
               </FormControl>
@@ -405,7 +408,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.lastName && registerFormik.errors.lastName
+                    registerFormik.touched.lastName &&
+                    registerFormik.errors.lastName
                   }
                 />
               </FormControl>
@@ -465,7 +469,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.gender && registerFormik.errors.gender
+                    registerFormik.touched.gender &&
+                    registerFormik.errors.gender
                   }
                 />
               </FormControl>
@@ -485,7 +490,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.phone_number && registerFormik.errors.phone_number
+                    registerFormik.touched.phone_number &&
+                    registerFormik.errors.phone_number
                   }
                 />
               </FormControl>
@@ -571,16 +577,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
               </button>
             </div>
 
-            {/* <div>
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Email</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="email"
-                />
-              </div>
-            </div> */}
-
             <form
               className="flex flex-col m-4"
               onSubmit={forgotPassFormik.handleSubmit}
@@ -652,7 +648,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
               className="flex flex-col m-4"
               onSubmit={resetPasswordFormik.handleSubmit}
             >
-
               <FormControl className="my-2">
                 <Typography variant="subtitle2">Verification code</Typography>
                 <TextField

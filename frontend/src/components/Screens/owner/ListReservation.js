@@ -16,7 +16,6 @@ import VerifyModal from "../../Items/VerifyModal"
 import { FormatDateToGB } from "../../Common/CommonFunc"
 
 const ListReservation = () => {
-  const [allHotels, setAllHotels] = useState()
   const [showInfoModal, setShowInfoModal] = useState(false)
   const [reservation, setReservation] = useState()
   const [showVerifyModal, setShowVerifyModal] = useState(false)
@@ -24,17 +23,8 @@ const ListReservation = () => {
   const [type, setType] = useState()
   const [verified, setVerified] = useState(false)
   const [reservationID, setReservationID] = useState()
-  const [hotelDetail, setHotelDetail] = useState({
-    name: "",
-    address: "",
-    criteria: "",
-    Images: "",
-    description: "",
-    province: "",
-  })
 
   const token = getLSItem("ownerToken")
-  const hotelID = getLSItem("hotelID")
   useEffect(() => {
     const getAllReservation = async () => {
       const response = await getOwnerReservation(token)
@@ -45,16 +35,14 @@ const ListReservation = () => {
     getAllReservation()
   }, [])
 
-  console.log("reservations", reservation)
-
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
     redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
-  function checkInFunction() { }
-
-  console.log("verified", verified)
+  if (reservation === null || reservation === undefined) {
+    return null
+  }
 
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -123,35 +111,30 @@ const ListReservation = () => {
                     return (
                       <Fragment key={index}>
                         <tr>
-                          {/* column 1: id */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {index + 1}
                             </p>
                           </td>
 
-                          {/* column 3: room's name */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.number_of_rooms}
                             </p>
                           </td>
 
-                          {/* column 5: address */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.name}
                             </p>
                           </td>
 
-                          {/* column 7: created date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.email}
                             </p>
                           </td>
 
-                          {/* column 8: updated date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.phone}
@@ -172,37 +155,33 @@ const ListReservation = () => {
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {item.status}
+                              <span
+                                className={
+                                  item.status === "waiting"
+                                    ? "text-sky-400 "
+                                    : item.status === "canceled"
+                                      ? "text-red-400"
+                                      : item.status === "completed"
+                                        ? "text-green-400"
+                                        : "text-amber-400"
+                                }
+                              >
+                                {item.status.toUpperCase()}
+                              </span>
                             </p>
                           </td>
 
-                          {/* column 9: actions */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                             <span className="flex">
                               <button
                                 type="button"
                                 className="inline-block mx-px text-green-300 hover:text-green-500 mr-2"
                                 onClick={() => {
-                                  // setHotelDetail(hotel);
                                   setTimeout(setShowInfoModal(true), 2000)
                                 }}
                               >
                                 <InfoIcon />
                               </button>
-
-                              <button
-                                type="button"
-                                className="inline-block mx-px text-rose-300 hover:text-rose-500"
-                              >
-                                <DeleteIcon />
-                              </button>
-
-                              {/* <button
-                                type="button"
-                                className="inline-block mx-px text-gray-400 hover:text-gray-600"
-                              >
-                                <MoreVertSharpIcon />
-                              </button> */}
                             </span>
                           </td>
 

@@ -182,7 +182,7 @@ export default function Main() {
                 border: 'none',
                 width: '200px',
               }}
-              className="w-60"
+              className="w-60 z-10"
               value={hotel}
               debounceTimeout={1000}
               loadOptions={loadOptions}

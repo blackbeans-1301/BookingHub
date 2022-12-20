@@ -45,10 +45,24 @@ export default function NearbyHotel() {
 
   return (
     <div className="ml-8">
-      <h1 className="text-2xl font-bold text-primary">Stays near you</h1>
-      <h1 className="font-sans">From Sun, {FormatDateToGBShort(startDate)} - {FormatDateToGBShort(endDate)}</h1>
-      <Slider {...settings} arrows={true} style={{ width: "95%" }} className="mt-4">
-        {nearbyHotel.map((item) => <HotelCard data={item} dateIn={FormatDate(startDate)} dateOut={FormatDate(endDate)} />)}
+      <h1 className="text-2xl font-bold text-gray-600">Stays near you</h1>
+      <h1 className="font-sans">
+        From Sun, {FormatDateToGBShort(startDate)} -{" "}
+        {FormatDateToGBShort(endDate)}
+      </h1>
+      <Slider
+        {...settings}
+        style={{ width: "95%" }}
+        className="mt-4"
+      >
+        {nearbyHotel.map((item, index) => (
+          <HotelCard
+            key={index}
+            data={item}
+            dateIn={FormatDate(startDate)}
+            dateOut={FormatDate(endDate)}
+          />
+        ))}
       </Slider>
     </div>
   )

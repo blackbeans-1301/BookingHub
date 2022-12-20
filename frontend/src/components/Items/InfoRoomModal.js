@@ -28,7 +28,6 @@ import SportsCricketIcon from "@material-ui/icons/SportsCricket"
 import DirectionsBusIcon from "@material-ui/icons/DirectionsBus"
 import TerrainIcon from "@material-ui/icons/Terrain"
 import GTranslateIcon from "@material-ui/icons/GTranslate"
-
 import _ from "lodash"
 import {
   getAllProvinces,
@@ -67,30 +66,23 @@ import {
 } from "../../assets/data/RoomCriteriaData"
 import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi"
 import { redirect, getLSItem, setLSItem } from "../../utils"
+import { FormatDateToGBShort } from "../Common/CommonFunc"
 
 const validationSchema = yup.object({
   room_name: yup.string().required("Enter your room's name"),
-  // address: yup.string().required("Enter your hotel's address"),
   description: yup.string().required("Enter the hotel's description"),
-  // province: yup.string().required("Province is required"),
   criteria: yup.string(),
   imgURL: yup.array(),
-  // type_of_room: yup.string().required("This field is required"),
   price: yup.string().required("Price is required"),
   number_of_bed: yup.string().required("Number of bed is required"),
 })
 
 export default function InfoRoomModal({ isVisible, isClose, detail }) {
-  const [progress, setProgress] = useState(0)
   const [isUploading, setUploading] = useState(false)
   const [uploadedImages, setUploadedImages] = useState([])
   const [isLoading, setIsLoading] = useState(false)
-  const [acceptTnC, setAcceptTnC] = useState(false)
   const [criterias, setCriterias] = useState([])
   const [all, setAll] = useState()
-  const [province, setProvince] = useState("")
-  const [images, setImages] = useState([])
-  const [hotelInfor, setHotelInfor] = useState()
   const [imgFile, setImgFile] = useState()
   const [toggleState, setToggleState] = useState(1)
 
@@ -98,25 +90,12 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
     setToggleState(index)
   }
 
-  //   const [detail, setDetail] = useState();
-
   useEffect(() => {
     getAllProvinces(setAll)
   }, [])
 
   let imagesURLs = []
-  const pr = all
   let checkedCriterias = detail.criteria.split(",")
-  // console.log("arr criteria", checkedCriterias);
-
-  //   setCriterias(checkedCriterias);
-  //   const token = localStorage.getItem("token");
-  //   const hotelID = localStorage.getItem("hotelID");
-
-  // change criterias state
-  const handleChange = (event) => {
-    setAcceptTnC(event.target.checked)
-  }
 
   const handleCriteriaChange = (event) => {
     const index = criterias.indexOf(event.target.value)
@@ -127,10 +106,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
         criterias.filter((criteria) => criteria !== event.target.value)
       )
     }
-  }
-
-  const handleChangeProvince = (event) => {
-    setProvince(event.target.value)
   }
 
   //   handle upload images
@@ -157,23 +132,20 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
       getImg.then((res) => res.json()).then((res) => imagesURLs.push(res.url))
     }
 
-    // console.log("img urls", imagesURLs[0].imgURL);
     formik.values.imgURL = imagesURLs
 
     setUploading(false)
   }
 
-  // console.log("img files", detail.Images[0].imgURL);
   const redirectFunc = () => {
     redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
   const handleGetHotelInfor = (values) => {
-    // const token = localStorage.getItem("token")
     const token = getLSItem('ownerToken')
     console.log("token", token)
     const signUp = async (postData) => {
-      const response = await updateHotelInfor(postData, token)
+      const response = await updateRoomInfor(postData, token)
       console.log("response", response)
       console.log("type", typeof response)
       const type = typeof response
@@ -197,8 +169,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
       price: values.price,
       number_of_bed: values.number_of_bed,
       description: values.description,
-      // address: values.address,
-      // type_of_room: values.type_of_room,
       imgURL: values.imgURL,
     }
     setIsLoading(true)
@@ -209,9 +179,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
     initialValues: {
       room_name: detail.room_name,
       description: detail.description,
-      // address: detail.Hotel.address,
       price: detail.price,
-      // type_of_room: detail.type_of_room,
       number_of_bed: detail.number_of_bed,
       criteria: "",
       imgURL: detail.Images,
@@ -224,11 +192,11 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
   })
 
   if (!isVisible) return null
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
         <div className="bg-white p-2 rounded flex flex-col m-2 overflow-y-scroll">
-          {/* <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1> */}
           <div className="flex justify-between ">
             <h2 className="font-bold text-2xl text-colorText ml-4 mt-2">
               Room {detail.name}
@@ -344,7 +312,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       </span>
                       Created at:
                     </span>{" "}
-                    {detail.createdAt}
+                    {FormatDateToGBShort(detail.createdAt)}
                   </div>
 
                   <div className="m-2 text-lg">
@@ -354,7 +322,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       </span>
                       Last modified at:
                     </span>{" "}
-                    {detail.updatedAt}
+                    {FormatDateToGBShort(detail.updatedAt)}
                   </div>
 
                   <div className="m-2 text-lg">
@@ -375,8 +343,8 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       Amenities:
                     </span>{" "}
                     <ul className="ml-4">
-                      {checkedCriterias.map((item) => (
-                        <li>
+                      {checkedCriterias.map((item, index) => (
+                        <li key={index}>
                           <span className="text-green-500 font-bold mr-1">
                             <CheckIcon />
                           </span>
@@ -395,7 +363,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                     </span>{" "}
                     {detail.Images.length !== 0 ? (
                       detail.Images.map((item, index) => {
-                        return <img src={item.imgURL} className="m-2" />
+                        return <img src={item.imgURL} className="m-2" key={index}/>
                       })
                     ) : (
                       <div>This hotel has no images</div>
@@ -447,27 +415,6 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                       }
                     />
                   </FormControl>
-
-                  {/* <FormControl className="my-2">
-                    <Typography variant="subtitle1">Room's type</Typography>
-                    <TextField
-                      sx={{
-                        height: "85px",
-                      }}
-                      placeholder="Enter your hotel's type..."
-                      name="type_of_room"
-                      value={formik.values.type_of_room}
-                      error={
-                        formik.touched.type_of_room &&
-                        Boolean(formik.errors.type_of_room)
-                      }
-                      onChange={formik.handleChange}
-                      helperText={
-                        formik.touched.type_of_room &&
-                        formik.errors.type_of_room
-                      }
-                    />
-                  </FormControl> */}
 
                   <FormControl className="my-2">
                     <Typography variant="subtitle1">Number of beds</Typography>
@@ -556,6 +503,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -576,6 +524,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -596,6 +545,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -616,6 +566,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -636,6 +587,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -656,6 +608,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -676,6 +629,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -696,6 +650,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -716,6 +671,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -736,6 +692,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -756,6 +713,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -776,6 +734,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -796,6 +755,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}
@@ -816,6 +776,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
                             />
                           }
                           label={<Fragment>{item.name}</Fragment>}
+                          key={index}
                         />
                       )
                     })}

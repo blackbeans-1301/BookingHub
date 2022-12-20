@@ -11,8 +11,7 @@ export default function FavoriteItem({ hotel }) {
 
   const unlikeHotel = async () => {
     const data = { hotel_id: hotel.hotel_id }
-    const response = await removeHotelFavorite(data, getLSItem("token"))
-    console.log(response)
+    const response = await removeHotelFavorite(getLSItem("token"), data)
     if (typeof response === 'object') {
       toast.success("Success!")
       redirect(`${process.env.API_URL}/user/FavoritesPage`)
