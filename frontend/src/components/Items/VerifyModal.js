@@ -4,15 +4,20 @@ import CancelIcon from "@material-ui/icons/Cancel"
 import { checkIn, checkOut } from "../../apis/reservationApi"
 import { getLSItem, redirect } from "../../utils"
 import { toast } from "react-toastify"
+import { deleteHotelApi } from "../../apis/hotelApi"
 
 export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
   const token = getLSItem("ownerToken")
-  console.log("reservation_id", id)
+  console.log('token', token)
+  console.log("_id", id)
 
   const data = {
     reservation_id: id,
   }
 
+  const hotelData = {
+    hotel_id: id,
+  }
   const verifyFunction = () => {
     if (type == "checkIn") {
       const callApi = async (token, data) => {
@@ -40,6 +45,19 @@ export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
         }
       }
       callApi(token, data)
+    } else if (type == "delete") {
+      const callApi = async (token, hotelData) => {
+        const response = await deleteHotelApi(token, hotelData)
+        console.log(response)
+
+      //   if (response.message === "Delete successfully") {
+      //     toast.success("Delete successfully")
+      //     setTimeout(() => redirect(`${process.env.API_URL}/owner/ListHotelPage`), 1500)
+      //   } else if (response.status === 400) {
+      //     toast.error(response.message)
+      //   }
+      }
+      callApi(token, hotelData)
     }
   }
 

@@ -8,6 +8,7 @@ import {
   SEARCH_HOTEL_BY_CRITERIA_URL,
   GET_ALL_RESERVATIONS_OF_HOTEL_URL,
   SEARCH_HOTEL_BY_KEYWORD_URL,
+  DELETE_HOTEL_URL,
 } from "../configs/api";
 
 export const getAllProvinces = (setAll) => {
@@ -82,15 +83,17 @@ export const getHotelById = (id, setHotel) => {
   //     return data;
   //   });
 
-  const response = axios.get(URL).then((res) => {
-    console.log("res==", res);
-    setHotel(res.data);
-    return res.data;
-  })
-  .catch((err) => {
-    console.log("ERROR: ====", err);
+  const response = axios
+    .get(URL)
+    .then((res) => {
+      console.log("res==", res);
+      setHotel(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err);
       return err.response.data.Message;
-  });
+    });
   return response;
 };
 
@@ -176,22 +179,54 @@ export const getReservationOfHotel = (hotelID, token, setReservation) => {
     },
   };
 
-  const response = axios.get(URL, options).then((res) => {
-    console.log("res==", res);
-    setReservation(res.data);
-    return res.data;
-  })
-  .catch((err) => {
-    console.log("ERROR: ====", err);
+  const response = axios
+    .get(URL, options)
+    .then((res) => {
+      console.log("res==", res);
+      setReservation(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err);
       return err.response.data.Message;
-  });
+    });
   return response;
-}
+};
 
 export const searchHotelByKeyword = (keyword) => {
   // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-  const response = axios.get(`${SEARCH_HOTEL_BY_KEYWORD_URL}/${keyword}`)
+  const response = axios.get(`${SEARCH_HOTEL_BY_KEYWORD_URL}/${keyword}`);
 
-  return response 
-}
+  return response;
+};
+
+export const deleteHotelApi = (token, data) => {
+  console.log("deleting token", token);
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+  const response = axios
+    .delete(DELETE_HOTEL_URL, data, options)
+    .then((res) => {
+      console.log("RES==", res);
+    })
+    .catch((err) => {
+      console.log("ERR==", err);
+    });
+  return response;
+
+  // const requestOptions = {
+  //   method: "DELETE",
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
+  //     "Content-Type": "application/x-www-form-urlencoded",
+  //   },
+  // };
+  // fetch(DELETE_HOTEL_URL, data, requestOptions)
+  //   .then((res) => console.log("RES==", res))
+  //   .catch((err) => console.log("ERR==", err));
+};

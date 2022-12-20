@@ -129,6 +129,7 @@ exports.authenticateJWT = async (req, res, next) => {
     const authHeader = req.header('Authorization')
     // cat chuoi "bearer" ra chi lay token
     const token = authHeader && authHeader.split(' ')[1]
+    console.log('token', token)
 
     if (!token) {
         return res.status(401).send({ message: "Unauthorized!" })
