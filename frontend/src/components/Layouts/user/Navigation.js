@@ -5,6 +5,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle"
 import FlightOutlinedIcon from "@material-ui/icons/FlightOutlined"
 import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined"
 import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined"
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import EventSeatIcon from '@mui/icons-material/EventSeat'
 import HistoryIcon from '@mui/icons-material/History'
 import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
@@ -38,16 +39,12 @@ export default function Navigation() {
     {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
-      link: `${process.env.API_URL}/user/StayPage`,
+      link: `${process.env.API_URL}`,
     },
     {
       title: "Things to do",
       icon: <RowingOutlinedIcon />,
       link: `${process.env.API_URL}/user/ThingsToDoPage`,
-    },
-    {
-      title: "Packages",
-      icon: <BeachAccessOutlinedIcon />,
     },
     {
       title: "Explore",
@@ -57,11 +54,15 @@ export default function Navigation() {
     {
       title: "Travel Restrictions",
       icon: <PolicyOutlinedIcon />,
+      link: `${process.env.API_URL}/user/TravelRestrictionPage`,
     },
+  ]
+
+  const privacy = [
     {
-      title: "Trips",
-      icon: <BookOutlinedIcon />,
-      link: `${process.env.API_URL}/user/TripsPage`,
+      title: "Privacy",
+      icon: <VerifiedUserIcon />,
+      link: `${process.env.API_URL}/user/PrivacyPage`,
     },
   ]
 
@@ -72,35 +73,37 @@ export default function Navigation() {
       >
         <img
           src={Logo}
-          className="rounded-full w-10 flex items-center justify-center h-10 my-4 mx-auto"
+          className="rounded-full w-10 cursor-pointer flex items-center justify-center h-10 my-4 mx-auto"
           width="50px"
           height="50px"
+          onClick={() => redirect(process.env.API_URL)}
         />
 
         <div className="mt-10 flex flex-col w-full gap-4 relative">
-          {userMenu.map((menuItem, index) => (
-            <div
-              key={index}
-              className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
+          <div>
+            {userMenu.map((menuItem, index) => (
+              <div
+                key={index}
+                className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2 mb-2
                 ${menuItem.gap ? "mt-6" : "mt-2"}`}
-              onClick={() => redirect(menuItem.link)}
-            >
-              <span className={`material-icons md-48`}>{menuItem.icon}</span>
-
-              <span
-                className={`title font-semibold text-gray-900 px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+                onClick={() => redirect(menuItem.link)}
               >
-                {menuItem.title}
-              </span>
+                <span className={`material-icons md-48`}>{menuItem.icon}</span>
 
-              {/* <h2
+                <span
+                  className={`title font-semibold text-gray-900 px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+                >
+                  {menuItem.title}
+                </span>
+
+                {/* <h2
                 className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
                              group-hover:block group-hover:px-2 group-hover:py-1 group-hover:duration-300 group-hover:w-fit 
                               `}
               >
                 {menuItem.title}
               </h2> */}
-              {/* <span
+                {/* <span
                 style={{ transitionDelay: `${index + 3}00ms` }}
                 className={`${
                   !open && "opacity-0 translate-x-28 overflow-hidden"
@@ -108,41 +111,54 @@ export default function Navigation() {
               >
                 {menuItem.title}
               </span> */}
-            </div>
-          ))}
+              </div>
+            ))}
+          </div>
+
+
           <div className="border-b mx-4"></div>
-          {menu.map((menuItem, index) => (
-            <div
-              key={index}
-              className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2
-                ${menuItem.gap ? "mt-6" : "mt-2"}`}
-              onClick={() => redirect(menuItem.link)}
-            >
-              <span className={`material-icons md-48`}>{menuItem.icon}</span>
+          <div className="">
 
-              <span
-                className={`title font-semibold text-gray-900 px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+            {menu.map((menuItem, index) => (
+              <div
+                key={index}
+                className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2 mb-4
+                ${menuItem.gap ? "mt-6" : "mt-26"}`}
+                onClick={() => redirect(menuItem.link)}
               >
-                {menuItem.title}
-              </span>
+                <span className={`material-icons md-48`}>{menuItem.icon}</span>
 
-              {/* <h2
-                className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
-                             group-hover:block group-hover:px-2 group-hover:py-1 group-hover:duration-300 group-hover:w-fit 
-                              `}
+                <span
+                  className={`title font-semibold px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText`}
+                >
+                  {menuItem.title}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-b mx-4"></div>
+
+          <div className="">
+
+            {privacy.map((menuItem, index) => (
+              <div
+                key={index}
+                className={`group flex gap-3.5 hover:bg-white rounded-md hover:text-colorText cursor-pointer p-2 mb-4
+                ${menuItem.gap ? "mt-6" : "mt-26"}`}
+                onClick={() => redirect(menuItem.link)}
               >
-                {menuItem.title}
-              </h2> */}
-              {/* <span
-                style={{ transitionDelay: `${index + 3}00ms` }}
-                className={`${
-                  !open && "opacity-0 translate-x-28 overflow-hidden"
-                } duration-500`}
-              >
-                {menuItem.title}
-              </span> */}
-            </div>
-          ))}
+                <div className={`material-icons md-48`}>{menuItem.icon}</div>
+
+                <div
+                  className={`title font-semibold px-1 hidden duration-300 w-fit text-sm text-white group-hover:text-colorText h-max`}
+                >
+                  {menuItem.title}
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
       {/* <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} /> */}
