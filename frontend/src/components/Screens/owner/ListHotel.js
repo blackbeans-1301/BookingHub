@@ -35,12 +35,12 @@ export default function ListHotel() {
   }
 
   return (
-    <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
+    <div className="m-4 bg-white w-screen z-10 md:w-auto">
       <div className="flex mt-3">
         <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 w-5/6">
           <SearchIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
           <input
-            className="md:w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+            className="md:w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl border-none ring-gray-300 focus:ring-primary-500 focus: ring-2"
             type="text"
             placeholder="Search..."
           />
@@ -158,7 +158,7 @@ export default function ListHotel() {
                       <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           <button
-                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                            className="px-3 py-1 text-colorText rounded-sm border-2 border-primary my-4 hover:bg-primary hover:text-white mr-2"
                             onClick={() => {
                               setLSItem("hotelID", hotel.hotel_id)
                               redirect(`${process.env.API_URL}/owner/ListRoomPage`)
@@ -168,7 +168,7 @@ export default function ListHotel() {
                           </button>
 
                           <button
-                            className="px-3 py-1 text-colorText rounded-full border-2 border-primary my-4 hover:bg-primary hover:text-white"
+                            className="px-3 py-1 text-colorText rounded-sm border-2 border-primary my-4 hover:bg-primary hover:text-white"
                             onClick={() => {
                               setLSItem("hotelID", hotel.hotel_id)
                               redirect(`${process.env.API_URL}/owner/list-reservation`)
