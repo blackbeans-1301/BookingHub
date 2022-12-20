@@ -52,7 +52,7 @@ router.put('/resetPasswordByCode', userMiddleware.resetPasswordByCode);
 router.post('/addFavorite', userMiddleware.authenticateJWT, userMiddleware.addFavorite)
 
 // delete user's favorite
-router.delete('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.delFavorite)
+router.post('/delFavorite', userMiddleware.authenticateJWT, userMiddleware.delFavorite)
 
 // get favorite
 router.get('/getFavorite', userMiddleware.authenticateJWT, userMiddleware.getFavorite)
