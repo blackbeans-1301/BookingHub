@@ -72,6 +72,8 @@ export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`
 
 export const GET_ALL_ROOMS_BY_CRITERIA_URL = `${DOMAIN_URL}/room/roomCriteria`
 
+export const DELETE_ROOM_URL = `${DOMAIN_URL}/room/delete`
+
 // API for reservation
 
 export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`

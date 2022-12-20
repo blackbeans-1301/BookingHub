@@ -216,6 +216,7 @@ export default function ListHotel() {
           detail="This hotel will be deleted. This action can't undo. Are you sure?"
           type="delete"
           id={hotelID}
+          page="hotel"
         />
       )}
     </div>

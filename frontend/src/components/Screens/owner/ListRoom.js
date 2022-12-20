@@ -1,20 +1,22 @@
-import * as React from "react"
-import { useState, useEffect } from "react"
-import EditIcon from "@material-ui/icons/Edit"
-import SearchIcon from "@material-ui/icons/Search"
-import DeleteIcon from "@material-ui/icons/Delete"
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp"
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
-import InfoRoomModal from "../../Items/InfoRoomModal"
-import { getAllRoomsApi } from "../../../apis/roomApi"
-import { getLSItem, setLSItem, redirect } from "../../../utils"
-import VerifyModal from "../../Items/VerifyModal"
-import { FormatDateToGB } from "../../Common/CommonFunc"
+import * as React from "react";
+import { useState, useEffect } from "react";
+import EditIcon from "@material-ui/icons/Edit";
+import SearchIcon from "@material-ui/icons/Search";
+import DeleteIcon from "@material-ui/icons/Delete";
+import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
+import InfoRoomModal from "../../Items/InfoRoomModal";
+import { getAllRoomsApi } from "../../../apis/roomApi";
+import { getLSItem, setLSItem, redirect } from "../../../utils";
+import VerifyModal from "../../Items/VerifyModal";
+import { FormatDateToGB } from "../../Common/CommonFunc";
 
 export default function ListRoom() {
-  const [allRooms, setAllRooms] = useState()
-  const [showInfoModal, setShowInfoModal] = useState(false)
-  const [hotel, setHotel] = useState()
+  const [allRooms, setAllRooms] = useState();
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [hotel, setHotel] = useState();
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [roomid, setRoomid] = useState();
   const [roomDetail, setRoomDetail] = useState({
     name: "",
     address: "",
@@ -22,24 +24,24 @@ export default function ListRoom() {
     Images: "",
     description: "",
     province: "",
-  })
+  });
 
-  const token = getLSItem("ownerToken")
-  const hotelID = getLSItem("hotelID")
+  const token = getLSItem("ownerToken");
+  const hotelID = getLSItem("hotelID");
 
   const data = {
     hotel_id: hotelID,
-  }
+  };
 
   useEffect(() => {
-    console.log("in use effects")
-    getAllRoomsApi(setAllRooms, data, token)
-  }, [])
+    console.log("in use effects");
+    getAllRoomsApi(setAllRooms, data, token);
+  }, []);
 
-  console.log("all rooms", allRooms)
+  console.log("all rooms", allRooms);
 
   if (!allRooms) {
-    return null
+    return null;
   }
 
   return (
@@ -104,7 +106,9 @@ export default function ListRoom() {
               </thead>
 
               <tbody>
-                {allRooms === undefined ? <h1>There's no rooms.</h1> :
+                {allRooms === undefined ? (
+                  <h1>There's no rooms.</h1>
+                ) : (
                   allRooms.map((room, index) => {
                     return (
                       <tr key={index}>
@@ -148,7 +152,9 @@ export default function ListRoom() {
                           <p className="text-gray-900 whitespace-no-wrap">
                             {room.price}
                           </p>
-                          <p className="text-gray-600 whitespace-no-wrap">USD</p>
+                          <p className="text-gray-600 whitespace-no-wrap">
+                            USD
+                          </p>
                         </td>
 
                         {/* column 8: posted date */}
@@ -172,8 +178,8 @@ export default function ListRoom() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setRoomDetail(room)
-                                setTimeout(setShowInfoModal(true), 2000)
+                                setRoomDetail(room);
+                                setTimeout(setShowInfoModal(true), 2000);
                               }}
                             >
                               <EditIcon />
@@ -182,6 +188,10 @@ export default function ListRoom() {
                             <button
                               type="button"
                               className="inline-block mx-px text-rose-300 hover:text-rose-500"
+                              onClick={() => {
+                                setShowVerifyModal(true);
+                                setRoomid(room.room_id);
+                              }}
                             >
                               <DeleteIcon />
                             </button>
@@ -195,8 +205,9 @@ export default function ListRoom() {
                           </div>
                         </td>
                       </tr>
-                    )
-                  })}
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
@@ -210,6 +221,18 @@ export default function ListRoom() {
           detail={roomDetail}
         />
       )}
+
+      {showVerifyModal && (
+        <VerifyModal
+          isVisible={showVerifyModal}
+          isClose={() => setShowVerifyModal(false)}
+          detail="This room will be deleted. This action can't undo. Are you sure?"
+          type="delete"
+          id={roomid}
+          hotelID={hotelID}
+          page="room"
+        />
+      )}
     </div>
-  )
+  );
 }

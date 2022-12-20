@@ -210,12 +210,14 @@ export const deleteHotelApi = (token, data) => {
     },
   };
   const response = axios
-    .delete(DELETE_HOTEL_URL, data, options)
+    .post(DELETE_HOTEL_URL, data, options)
     .then((res) => {
       console.log("RES==", res);
+      return res;
     })
     .catch((err) => {
       console.log("ERR==", err);
+      return err;
     });
   return response;
 

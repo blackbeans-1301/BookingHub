@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_ROOM_URL, GET_ALL_ROOMS_BY_CRITERIA_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api"
+import { CREATE_ROOM_URL, DELETE_ROOM_URL, GET_ALL_ROOMS_BY_CRITERIA_URL, GET_ALL_ROOMS_URL, UPDATE_ROOM_URL } from "../configs/api"
 
 export const createRoomApi = (data, tokenStr) => {
   const options = {
@@ -107,3 +107,24 @@ export const getAllRoomsByCriteria = (data, setRooms) => {
 
   return response
 }
+
+export const deleteRoomApi = (token, data) => {
+  console.log("deleting token", token);
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+  const response = axios
+    .post(DELETE_ROOM_URL, data, options)
+    .then((res) => {
+      console.log("RES==", res);
+      return res;
+    })
+    .catch((err) => {
+      console.log("ERR==", err);
+      return err;
+    });
+  return response;
+};
