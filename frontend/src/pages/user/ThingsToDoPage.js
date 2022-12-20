@@ -5,7 +5,7 @@ import ThingsToDo from "../../components/Screens/user/ThingsToDo"
 const ThingsToDoPage = () => {
   return (
     <Layout>
-      {/* <ThingsToDo /> */}
+      <ThingsToDo />
     </Layout>
   )
 }
