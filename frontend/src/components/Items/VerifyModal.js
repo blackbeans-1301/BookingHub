@@ -2,7 +2,7 @@ import * as React from "react"
 import ToastMessage from "./ToastMessage"
 import CancelIcon from "@material-ui/icons/Cancel"
 import { checkIn, checkOut } from "../../apis/reservationApi"
-import { getLSItem } from "../../utils"
+import { getLSItem, redirect } from "../../utils"
 import { toast } from "react-toastify"
 
 export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
@@ -19,7 +19,9 @@ export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
         const response = await checkIn(token, data)
         console.log(response)
 
-        if (response.status === 200) {
+        if (response.message === "Checked in!") {
+          toast.success("Check In Success")
+          setTimeout(() => redirect(`${process.env.API_URL}/owner/list-reservation`), 1500)
         } else if (response.status === 400) {
           toast.error(response.message)
         }
@@ -30,7 +32,9 @@ export default function VerifyModal({ isVisible, isClose, detail, type, id }) {
         const response = await checkOut(token, data)
         console.log(response)
 
-        if (response.status === 200) {
+        if (response.message === "Checked out!") {
+          toast.success("Check Out Success")
+          setTimeout(() => redirect(`${process.env.API_URL}/owner/list-reservation`), 1500)
         } else if (response.status === 400) {
           toast.error(response.message)
         }

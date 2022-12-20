@@ -472,7 +472,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
         </div>
         <div className="ml-4 mb-12">
           <h1 className="px-4 w-44 py-2 bg-primary text-white font-bold text-md rounded-md cursor-pointer" onClick={() => {
-            if (!getLSItem(token)) {
+            if (!getLSItem("token")) {
               toast.error("You must login first!")
               return
             }
