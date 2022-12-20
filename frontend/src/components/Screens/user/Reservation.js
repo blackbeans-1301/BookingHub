@@ -46,13 +46,13 @@ export default function Reservation() {
 
   console.log("reservations", listReservation);
 
-//   function setColor(str) {
-//     let res;
-//     if (str.toUpperCase() === "CANCELED") {
-//         res = `<span className="text-red-400">CANCELED</span>`;
-//     }
-//     return res;
-//   }
+  //   function setColor(str) {
+  //     let res;
+  //     if (str.toUpperCase() === "CANCELED") {
+  //         res = `<span className="text-red-400">CANCELED</span>`;
+  //     }
+  //     return res;
+  //   }
 
   return (
     <Fragment>
@@ -122,7 +122,7 @@ export default function Reservation() {
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {/* {item.Hotel.name} */}
+                              {item.Hotel.name}
                             </p>
                           </td>
 
@@ -168,7 +168,19 @@ export default function Reservation() {
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {/* {SetColorForString(item.status)} */}
+                              <span
+                                className={
+                                  item.status === "waiting"
+                                    ? "text-sky-400 "
+                                    : item.status === "canceled"
+                                    ? "text-red-400"
+                                    : item.status === "completed"
+                                    ? "text-green-400"
+                                    : "text-amber-400"
+                                }
+                              >
+                                {item.status.toUpperCase()}
+                              </span>
                             </p>
                           </td>
 
@@ -190,6 +202,7 @@ export default function Reservation() {
                               isVisible={showInfoModal}
                               isClose={() => setShowInfoModal(false)}
                               detail={item}
+                              type="reservation"
                             />
                           )}
                         </tr>
