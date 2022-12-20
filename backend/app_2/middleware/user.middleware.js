@@ -53,6 +53,7 @@ exports.register = async (req, res) => {
         member_since: controllers.GetCurrentDate(),
         gender: req.body.gender,
         phone_number: req.body.phone_number,
+        imgURL: req.body.imgURL
     }
     let dataAccount
     if (!parseInt(req.body.isOwner)) {
