@@ -17,8 +17,8 @@ router.put('/hotelByAddress', hotelMiddleware.hotelByAddress)
 // get hotel by criteria
 router.put('/hotelCriteria', hotelMiddleware.getHotelByCriteria)
 
-// TODO: delete a hotel
-router.delete('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.deleteHotel )
+// delete a hotel
+router.post('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.deleteHotel )
 
 // get hotel's info (cai nay luon o duoi cung)
 router.get('/:hotel_id', hotelMiddleware.getInfoHotel)

@@ -13,7 +13,7 @@ router.put('/update', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBel
 router.post('/list', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.getHotelRoomList)
 
 // delete room
-router.delete('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.deleteRoom )
+router.post('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, roomMiddleware.deleteRoom )
 
 // get room by criteria
 router.put('/roomCriteria', roomMiddleware.getRoomByCriteria)
