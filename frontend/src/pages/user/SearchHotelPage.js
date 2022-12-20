@@ -41,7 +41,7 @@ const SearchHotelPage = ({ location }) => {
 
   return (
     <Layout>
-      <HotelSearch hotel={hotel} dateIn={dateIn} dateOut={dateOut} />
+      <HotelSearch hotels={hotel} dateIn={dateIn} dateOut={dateOut} setHotels={setHotel} />
     </Layout>
   )
 }
