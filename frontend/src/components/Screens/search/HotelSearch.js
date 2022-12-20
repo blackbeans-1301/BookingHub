@@ -32,7 +32,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
   })
   const [searchValue, setSearchValue] = useState("")
   const [startPrice, setStartPrice] = useState(0)
-  const [endPrice, setEndPrice] = useState(0)
+  const [endPrice, setEndPrice] = useState(100000)
   const [score, setScore] = useState()
   const [searched, setSearched] = useState(false)
 
@@ -143,20 +143,18 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
   }
 
   const confirmCondition = async () => {
-    const data = score != 0 ? {
-      rating: score + 1,
+    const data = {
+      rating: score,
       province: getLSItem("destination"),
       date_in: getLSItem("date_in"),
       date_out: getLSItem("date_out"),
       number_of_room: getLSItem("room"),
-      number_of_guest: getLSItem("guest")
-    } : {
-      province: getLSItem("destination"),
-      date_in: getLSItem("date_in"),
-      date_out: getLSItem("date_out"),
-      number_of_room: getLSItem("room"),
-      number_of_guest: getLSItem("guest")
+      number_of_guest: getLSItem("guest"),
+      price_from: startPrice === 0 ? 0 : startPrice,
+      price_to: endPrice,
     }
+
+    console.log(data)
     const response = await searchHotelByCriteria(data, setListHotels)
     setHotels(response)
   }
@@ -359,6 +357,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
                   <div className="text-primary font-semibold">From </div>
                   <input type="number" onChange={(event) => {
                     setStartPrice(event.target.value)
+                    console.log(event.target.value)
                   }}
                     className="focus:outline-0 py-1 px-1 w-32 border border-primary mb-2 rounded-md"
                   />
@@ -368,6 +367,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
                   <div className="text-primary font-semibold">To </div>
                   <input type="number" onChange={(event) => {
                     setEndPrice(event.target.value)
+                    console.log(event.target.value)
                   }}
                     className="focus:outline-0 py-1 px-1 w-32 border border-primary mb-2 rounded-md"
                   />
