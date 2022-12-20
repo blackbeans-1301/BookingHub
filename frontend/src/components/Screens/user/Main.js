@@ -12,7 +12,7 @@ import { FormatDate } from "../../Common/CommonFunc"
 import NearbyHotel from "./nearbyHotel/NearbyHotel"
 import PopularCities from "../../Items/PopularCities"
 import Reason from "../../Layouts/user/Reason"
-import { redirect } from "../../../utils"
+import { redirect, setLSItem } from "../../../utils"
 import { Autocomplete, TextField } from "@mui/material"
 
 import { useDebounce } from "use-debounce"
@@ -132,6 +132,12 @@ export default function Main() {
 
     // let searchResult = searchHotelByCriteria(data, setHotel)
     // console.log("search result: ", searchResult, "hotels", hotel)
+
+    setLSItem("destination", destination)
+    setLSItem("date_in", date_in)
+    setLSItem("date_out", date_out)
+    setLSItem("room", room)
+    setLSItem("guest", guest)
 
     redirect(`${process.env.API_URL}/user/SearchHotelPage?x=${destination}/${date_in}/${date_out}/room${room}/guest${guest}`)
   }
