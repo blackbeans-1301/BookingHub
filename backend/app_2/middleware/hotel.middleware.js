@@ -356,7 +356,7 @@ exports.searchByKeyword = async (req, res) => {
     let searchHotel = []
     for (let p of provinces) {
         if (p.includes(hotelControllers.removeVietnameseTones(req.params.keyword).toLowerCase())) {
-            searchHotel.push(hotelControllers.removeVietnameseTones(hotelControllers.GetHotelVietnamese(p)));
+            searchHotel.push({province: hotelControllers.removeVietnameseTones(hotelControllers.GetHotelVietnamese(p))});
         }
     }
     
