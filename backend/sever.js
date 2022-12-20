@@ -43,3 +43,4 @@ const db = require("./app_2/models")
 // db.sequelize.sync();
 db.sequelize.sync({ alter: true });
 
+
