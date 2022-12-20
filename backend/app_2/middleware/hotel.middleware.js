@@ -313,18 +313,22 @@ exports.getHotelByCriteria = async (req, res) => {
     }
     // kiem tra rating va khoi tao gia tri rating
     let ratingDefault = 0;
-    let priceDefault = 0;
-    if (req.body.rating !== undefined && parseFloat(req.body.rating) > 1) {
+    let priceFromDefault = 0;
+    let priceToDefault = 9999999
+    if (req.body.rating !== undefined) {
         ratingDefault = parseFloat(req.body.rating)
-        if (ratingDefault < 1 || ratingDefault > 5) {
-            return res.status(400).send({ message: "Rating must be between 1 and 5" })
+        if (ratingDefault < 0 || ratingDefault > 5) {
+            return res.status(400).send({ message: "Rating must be between 0 and 5" })
         }
     }
-    if (req.body.price !== undefined) {
-        priceDefault = parseFloat(req.body.price)
-        if (priceDefault < 1 || priceDefault > 6) {
-            return res.status(400).send({ message: "Price must be between 1 and 6" })
-        }
+    if (req.body.price_from !== undefined) {
+        priceFromDefault = parseFloat(req.body.price_from)
+    }
+    if (req.body.price_to !== undefined) {
+        priceToDefault = parseFloat(req.body.price_to)
+    }
+    if (req.body.price_from > req.body.to) {
+        return res.status(400).send({message: "price_to can't be less then price_from"})
     }
     // lay ra room theo rating, so phong, so nguoi
     for (let h = 0; h < data.length; h++) {
@@ -337,27 +341,7 @@ exports.getHotelByCriteria = async (req, res) => {
     }
     // lay ra room theo price
     for (let h = 0; h < data.length; h++) {
-        if (priceDefault === 1 && (data[h].dataValues.startPrice > 50 || data[h].dataValues.startPrice < 0)) {
-            data.splice(h, 1)
-            h--
-        }
-        if (priceDefault === 2 && (data[h].dataValues.startPrice > 200 || data[h].dataValues.startPrice < 50)) {
-            data.splice(h, 1)
-            h--
-        }
-        if (priceDefault === 3 && (data[h].dataValues.startPrice > 400 || data[h].dataValues.startPrice < 200)) {
-            data.splice(h, 1)
-            h--
-        }
-        if (priceDefault === 4 && (data[h].dataValues.startPrice > 600 || data[h].dataValues.startPrice < 400)) {
-            data.splice(h, 1)
-            h--
-        }
-        if (priceDefault === 5 && (data[h].dataValues.startPrice > 1000 || data[h].dataValues.startPrice < 600)) {
-            data.splice(h, 1)
-            h--
-        }
-        if (priceDefault === 6 && data[h].dataValues.startPrice < 1000) {
+        if (data[h].dataValues.startPrice < priceFromDefault || data[h].dataValues.startPrice > priceToDefault) {
             data.splice(h, 1)
             h--
         }
