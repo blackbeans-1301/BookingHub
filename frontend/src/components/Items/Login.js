@@ -1,41 +1,44 @@
-import * as yup from "yup"
-import React, { Fragment } from "react"
-import { useState } from "react"
-import CancelIcon from "@material-ui/icons/Cancel"
-import GoogleIcon from '@mui/icons-material/Google'
+import * as yup from "yup";
+import React, { Fragment } from "react";
+import { useState } from "react";
+import CancelIcon from "@material-ui/icons/Cancel";
+import GoogleIcon from "@mui/icons-material/Google";
 // import axios, { Axios } from "axios";
-import { useFormik } from "formik"
-import FormControl from "@material-ui/core/FormControl"
-import Typography from "@material-ui/core/Typography"
-import TextField from "@material-ui/core/TextField"
-import { loginAPI, getInformation, registerAPI, getUserInfor, forgotPassword, resetPasswordWithVerificationCode } from "../../apis/userApi"
-import { toast } from "react-toastify"
-import { useSetRecoilState } from "recoil"
-import { userState } from "../../store/atoms/userState"
-import { tokenState } from "../../store/atoms/tokenState"
-import * as Promise from "bluebird"
-import { LoadingButton } from "@mui/lab"
-import ToastMessage from "./ToastMessage"
-import { parse, isDate } from "date-fns"
-import { date } from "yup"
-import { getLSItem, setLSItem, redirect } from "../../utils"
+import { useFormik } from "formik";
+import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import {
+  loginAPI,
+  getInformation,
+  registerAPI,
+  getUserInfor,
+  forgotPassword,
+  resetPasswordWithVerificationCode,
+} from "../../apis/userApi";
+import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
+import ToastMessage from "./ToastMessage";
+import { parse, isDate } from "date-fns";
+import { date } from "yup";
+import { getLSItem, setLSItem, redirect } from "../../utils";
 
 function parseDateString(value, originalValue) {
   const parsedDate = isDate(originalValue)
     ? originalValue
-    : parse(originalValue, "yyyy-MM-dd", new Date())
+    : parse(originalValue, "yyyy-MM-dd", new Date());
 
-  return parsedDate
+  return parsedDate;
 }
 
-const today = new Date()
+const today = new Date();
 const loginValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
   password: yup.string().required("Enter your password"),
-})
+});
 
 const registerValidationSchema = yup.object({
   email: yup
@@ -45,69 +48,67 @@ const registerValidationSchema = yup.object({
   password: yup.string().required("Enter your password"),
   firstName: yup.string().required("Enter your firstName"),
   lastName: yup.string().required("Enter your lastName"),
-  dob: date().transform(parseDateString).max(today).required("Enter your date of birth. Please enter a valid date."),
+  dob: date()
+    .transform(parseDateString)
+    .max(today)
+    .required("Enter your date of birth. Please enter a valid date."),
   gender: yup.string().required("Enter your gender"),
   phone_number: yup.string().required("Enter your phone number"),
-})
+});
 
 const forgotPassValidationSchema = yup.object({
   email: yup
     .string()
     .email("Let enter a valid email")
     .required("Enter your email"),
-})
+});
 
 const resetPasswordValidationSchema = yup.object({
   verificationCode: yup.string().required("Enter verification code"),
   newPassword: yup.string().required("Enter New password"),
   repeatPassword: yup.string().required("Enter Repeat Password"),
-})
-
+});
 
 export default function Login({ isVisible, isClose, isOwner }) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [active, setActive] = useState("signin")
-  const [recoverEmail, setRecoverEmail] = useState()
-  const [error, setError] = useState("")
-  // const setToken = ,useSetRecoilState(tokenState)
-  // const setUser = useSetRecoilState(userState)
+  const [isLoading, setIsLoading] = useState(false);
+  const [active, setActive] = useState("signin");
+  const [recoverEmail, setRecoverEmail] = useState();
+  const [error, setError] = useState("");
 
   const redirectFunc = () => {
-    redirect(isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`)
-  }
+    redirect(
+      isOwner === 0 ? process.env.API_URL : `${process.env.API_URL}/owner/main`
+    );
+  };
 
   const handleLogin = (values) => {
     const getToken = async (postData) => {
-      const response = await loginAPI(postData)
-      const type = typeof response
+      const response = await loginAPI(postData);
+      const type = typeof response;
       if (type === "object") {
-        if (isOwner === 0)
-          setLSItem("token", response.assessToken)
-        else
-          setLSItem("ownerToken", response.assessToken)
+        if (isOwner === 0) setLSItem("token", response.assessToken);
+        else setLSItem("ownerToken", response.assessToken);
 
-        console.log('token', getLSItem('token'))
-        toast.success("Login successfully")
+        console.log("token", getLSItem("token"));
+        toast.success("Login successfully");
 
-        setTimeout(redirectFunc, 1000)
+        setTimeout(redirectFunc, 1000);
       } else {
-        console.log("login failed")
-        toast.error("Error login! Please try again!")
-
+        console.log("login failed");
+        toast.error("Error login! Please try again!");
       }
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
     const data = {
       email: values.email,
       password: values.password,
       isOwner,
-    }
+    };
 
-    setIsLoading(true)
-    getToken(data)
-  }
-
+    setIsLoading(true);
+    getToken(data);
+  };
 
   const loginFormik = useFormik({
     initialValues: {
@@ -116,26 +117,26 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: loginValidationSchema,
     onSubmit: (values) => {
-      handleLogin(values)
+      handleLogin(values);
     },
-  })
+  });
 
   const handleRegister = (values) => {
     const signUp = async (postData) => {
-      const response = await registerAPI(postData)
-      console.log("response", response)
-      console.log("type", typeof response)
-      const type = typeof response
+      const response = await registerAPI(postData);
+      console.log("response", response);
+      console.log("type", typeof response);
+      const type = typeof response;
       if (type === "object") {
-        toast.success("Sign up successfully")
-        setActive("signin")
+        toast.success("Sign up successfully");
+        setActive("signin");
       } else {
-        console.log("Sign up failed")
-        toast.error("Error signing up! Please try again!")
+        console.log("Sign up failed");
+        toast.error("Error signing up! Please try again!");
       }
 
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
     const data = {
       email: values.email,
@@ -146,12 +147,11 @@ export default function Login({ isVisible, isClose, isOwner }) {
       gender: values.gender,
       phone_number: values.phone_number,
       isOwner,
-    }
-    setIsLoading(true)
-    signUp(data)
-  }
+    };
+    setIsLoading(true);
+    signUp(data);
+  };
 
-  {/* email, password, firstName, lastName, dob, gender, phone_number, isOwner. */ }
   const registerFormik = useFormik({
     initialValues: {
       email: "",
@@ -165,21 +165,20 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
-      // console.log("value" + values);
-      handleRegister(values)
+      handleRegister(values);
     },
-  })
+  });
 
   const forgotPassFormik = useFormik({
     initialValues: {
-      email: ""
+      email: "",
     },
     validationSchema: forgotPassValidationSchema,
     onSubmit: (values) => {
-      setRecoverEmail(values.email)
-      sendEmail()
+      setRecoverEmail(values.email);
+      sendEmail();
     },
-  })
+  });
 
   const resetPasswordFormik = useFormik({
     initialValues: {
@@ -190,26 +189,26 @@ export default function Login({ isVisible, isClose, isOwner }) {
     validationSchema: resetPasswordValidationSchema,
     onSubmit: (values) => {
       if (values.verificationCode.toString().trim().length !== 6) {
-        setError("Not a valid code!")
-        return
+        setError("Not a valid code!");
+        return;
       }
 
       if (values.newPassword !== values.repeatPassword) {
-        setError("Password not match, please retype again!")
-        return
+        setError("Password not match, please retype again!");
+        return;
       }
-      setError("")
-      requestNewPassword(values.verificationCode, values.newPassword)
+      setError("");
+      requestNewPassword(values.verificationCode, values.newPassword);
     },
-  })
+  });
 
   const sendEmail = async () => {
-    const response = await forgotPassword({ email: recoverEmail, isOwner })
-    console.log(response)
-    if (response.message === 'Send code to email successfully') {
-      setActive("confirm")
+    const response = await forgotPassword({ email: recoverEmail, isOwner });
+    console.log(response);
+    if (response.message === "Send code to email successfully") {
+      setActive("confirm");
     }
-  }
+  };
 
   const requestNewPassword = async (verificationCode, password) => {
     const data = {
@@ -217,20 +216,20 @@ export default function Login({ isVisible, isClose, isOwner }) {
       isOwner,
       email: recoverEmail,
       newPassword: password,
-    }
-    console.log(data)
-    const response = await resetPasswordWithVerificationCode(data)
+    };
+    console.log(data);
+    const response = await resetPasswordWithVerificationCode(data);
 
-    console.log(response)
-    if (response.message === 'Reset password successfully') {
-      toast.success("Reset password successfully! Going to login.")
-      setActive("signin")
+    console.log(response);
+    if (response.message === "Reset password successfully") {
+      toast.success("Reset password successfully! Going to login.");
+      setActive("signin");
     } else {
-      toast.error("Wrong verification code! Please try again.")
+      toast.error("Wrong verification code! Please try again.");
     }
-  }
+  };
 
-  if (!isVisible) return null
+  if (!isVisible) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -330,24 +329,27 @@ export default function Login({ isVisible, isClose, isOwner }) {
                 Sign up
               </span>
             </div>
-            {isOwner !== 1 && <div>
-              <div className="text-center text-gray-500 flex center justify-center">
-                <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
-                or
-                <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
-              </div>
-              <div className="flex justify-center">
-                <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
-                  onClick={() => {
-                    console.log("go to google")
-                    redirect(`${process.env.API_URL}/api/user/auth/google`)
-                  }}
-                >
-                  <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />
+            {isOwner !== 1 && (
+              <div>
+                <div className="text-center text-gray-500 flex center justify-center">
+                  <div className="w-1/2 h-4 border-b border-gray-200 mr-4"></div>
+                  or
+                  <div className="w-1/2 h-4 border-b border-gray-200 ml-4"></div>
+                </div>
+                <div className="flex justify-center">
+                  <div
+                    className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
+                    onClick={() => {
+                      console.log("go to google");
+                      redirect(`${process.env.API_URL}/api/user/auth/google`);
+                    }}
+                  >
+                    <span className="font-bold">Google</span>{" "}
+                    <GoogleIcon className="ml-2" />
+                  </div>
                 </div>
               </div>
-            </div>}
-
+            )}
           </div>
         )}
 
@@ -385,7 +387,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.firstName && registerFormik.errors.firstName
+                    registerFormik.touched.firstName &&
+                    registerFormik.errors.firstName
                   }
                 />
               </FormControl>
@@ -405,7 +408,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.lastName && registerFormik.errors.lastName
+                    registerFormik.touched.lastName &&
+                    registerFormik.errors.lastName
                   }
                 />
               </FormControl>
@@ -465,7 +469,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.gender && registerFormik.errors.gender
+                    registerFormik.touched.gender &&
+                    registerFormik.errors.gender
                   }
                 />
               </FormControl>
@@ -485,7 +490,8 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.phone_number && registerFormik.errors.phone_number
+                    registerFormik.touched.phone_number &&
+                    registerFormik.errors.phone_number
                   }
                 />
               </FormControl>
@@ -571,16 +577,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
               </button>
             </div>
 
-            {/* <div>
-              <div className="p-2 mb-4">
-                <label className="text-colorText">Email</label>
-                <input
-                  className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
-                  type="email"
-                />
-              </div>
-            </div> */}
-
             <form
               className="flex flex-col m-4"
               onSubmit={forgotPassFormik.handleSubmit}
@@ -652,7 +648,6 @@ export default function Login({ isVisible, isClose, isOwner }) {
               className="flex flex-col m-4"
               onSubmit={resetPasswordFormik.handleSubmit}
             >
-
               <FormControl className="my-2">
                 <Typography variant="subtitle2">Verification code</Typography>
                 <TextField
@@ -738,5 +733,5 @@ export default function Login({ isVisible, isClose, isOwner }) {
         )}
       </div>
     </div>
-  )
+  );
 }

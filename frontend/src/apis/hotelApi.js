@@ -67,21 +67,10 @@ export const getHotelById = (id, setHotel) => {
   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
   console.log("url", URL);
 
-  // var myHeaders = new Headers();
-  // myHeaders.append("Authorization", `Bearer ${tokenStr}`);
-
   var requestOptions = {
     method: "GET",
-    // headers: myHeaders,
-    // redirect: "follow",
+    
   };
-
-  // fetch(URL, requestOptions)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     setHotelInfor(data);
-  //     return data;
-  //   });
 
   const response = axios
     .get(URL)
@@ -96,34 +85,6 @@ export const getHotelById = (id, setHotel) => {
     });
   return response;
 };
-
-// export const getHotelById = async (id) => {
-//   let URL = `${GET_HOTEL_BY_ID_URL}/${id}`;
-//   console.log("url", URL);
-
-//   // const options = {
-//   //   headers: {
-//   //     Authorization: `Bearer ${token}`,
-//   //     "Content-Type": "application/x-www-form-urlencoded",
-//   //   },
-//   // };
-
-//   const response = await axios
-//     .get(URL)
-//     .then((res) => {
-//       console.log("res==", res);
-//     //   setStatus(res.data);
-//       return res.data;
-//     })
-//     .catch((err) => {
-//       console.log("ERROR: ====", err);
-//       return {
-//         status: err.response.status,
-//         message: err.response.data.message
-//     };
-//     });
-//   return response;
-// };
 
 // function update information of a hotel
 export const updateHotelInfor = (data, tokenStr) => {
@@ -220,15 +181,4 @@ export const deleteHotelApi = (token, data) => {
       return err;
     });
   return response;
-
-  // const requestOptions = {
-  //   method: "DELETE",
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //     "Content-Type": "application/x-www-form-urlencoded",
-  //   },
-  // };
-  // fetch(DELETE_HOTEL_URL, data, requestOptions)
-  //   .then((res) => console.log("RES==", res))
-  //   .catch((err) => console.log("ERR==", err));
 };

@@ -17,9 +17,6 @@ import Logo from "../../../assets/images/logo.png"
 import { redirect } from "../../../utils"
 
 export default function Navigation() {
-  const [open, setOpen] = useState(true)
-  const [showModal, setShowModal] = useState(false)
-
   const userMenu = [
     {
       title: "History",
@@ -95,22 +92,6 @@ export default function Navigation() {
                 >
                   {menuItem.title}
                 </span>
-
-                {/* <h2
-                className={`absolute 2xl:left-28 xl:left-28 lg:left-20 md:left-16 sm:left-2 z-20 bg-white font-semibold whitespace-pre text-gray-900 rounded-md drop-shadow-lg px-2 py-1 w-0 hidden
-                             group-hover:block group-hover:px-2 group-hover:py-1 group-hover:duration-300 group-hover:w-fit 
-                              `}
-              >
-                {menuItem.title}
-              </h2> */}
-                {/* <span
-                style={{ transitionDelay: `${index + 3}00ms` }}
-                className={`${
-                  !open && "opacity-0 translate-x-28 overflow-hidden"
-                } duration-500`}
-              >
-                {menuItem.title}
-              </span> */}
               </div>
             ))}
           </div>
@@ -161,42 +142,6 @@ export default function Navigation() {
 
         </div>
       </div>
-      {/* <LoginModal isVisible={showModal} isClose={() => setShowModal(false)} /> */}
     </Fragment>
-
-    // // {`${
-    // //   open ? "w-72" : "w-20"
-    // // } bg-primary relative fixed top-0 left-0 bottom-0 duration-1000 p-2 overflow-y-auto text-center shadow h-full`}
-    // <div className="fixed h-screen w-250px">
-    //   <div
-    //     className={`bg-primary relative fixed top-0 left-0 bottom-0 duration-1000 p-2 overflow-y-auto text-center shadow h-full`}
-    //   >
-    //     <span
-    //       className={`cursor-pointer top-20 p-2 m-5 mt-20 border-2 border-primary hover:bg-white ${
-    //         !open && "rotate-180"
-    //       }`}
-    //       onClick={() => setOpen(!open)}
-    //     >
-    //       <MenuOutlinedIcon />
-    //     </span>
-
-    //     <div className="flex items-center justify-center mt-6 mb-6">
-    //       <img
-    //         className={`h-10 w-10 rounded-full duration-1000 ${
-    //           open && "rotate-[360deg]"
-    //         }`}
-    //         src={Logo}
-    //       />
-    //       <span
-    //         className={`${
-    //           !open && "hidden"
-    //         } origin-left duration-200 ml-10 font-bold text-lg`}
-    //       >
-    //         BookingHub
-    //       </span>
-    //     </div>
-
-    //   </div>
-    // </div>
   )
 }

@@ -18,7 +18,6 @@ export default function Support() {
         </p>
 
         {bookingDetails.map((item, index) => {
-          //   console.log("item", item.title, item.content, index);
           return (
             <div className="w-11/12 ml-6 mb-6" key={index}>
               <button className="bg-white border focus:outline-none shadow text-gray-600 rounded focus:ring ring-gray-200 group w-full">

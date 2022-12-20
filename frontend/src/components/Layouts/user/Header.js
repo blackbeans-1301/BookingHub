@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react"
-import Logo from "../../../assets/images/logo.png"
 import textLogo from "../../../assets/images/text-logo.png"
-import LoginModal from "../../Items/LoginModal"
 import Login from "../../Items/Login"
 // import Button from "../Items/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle"

@@ -7,70 +7,13 @@ import "flatpickr/dist/themes/material_blue.css"
 import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
 
 export default function CreateTripModal({ isVisible, isClose }) {
-  const [usernameLogin, setUsernameLogin] = useState("")
-  const [passwordLogin, setPasswordLogin] = useState("")
   const [arriveDay, setArriveDay] = useState(new Date())
   const [leaveDay, setLeaveDay] = useState(new Date())
 
   const { arrive } = arriveDay
   const { leave } = leaveDay
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "get",
-  //     url: "http://localhost:8080/login",
-  //   }).then((response) => {
-  //     console.log("response", response);
-  //     if (response.data.loggedIn === true) {
-  //       setLoginStatus(response.data.user[0].username);
-  //     }
-  //   });
-  // }, []);
-
-  const [fullname, setFullname] = useState("")
-  const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-
-  const [user, setUser] = useState({})
-
   if (!isVisible) return null
-
-  // function submit sign in btn
-  // const login = () => {
-  //   console.log("login");
-  //   axios({
-  //     method: "post",
-  //     url: "http://localhost:8080/login",
-  //     data: {
-  //       username: usernameLogin,
-  //       password: passwordLogin,
-  //     },
-  //   }).then((res) => {
-  //     if (res.data.message) {
-  //       setLoginStatus(res.data.message);
-  //     } else {
-  //       setLoginStatus(res.data[0].username);
-  //     }
-  //     console.log("res", res);
-  //   });
-  // };
-
-  // function submit sign up btn
-  const signUpFunc = () => {
-    console.log("register")
-
-    axios({
-      method: "post",
-      url: "http://localhost:8080/register",
-      data: {
-        fullname: fullname,
-        username: username,
-        email: email,
-        password: password,
-      },
-    }).then((res) => console.log("res", res))
-  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -93,9 +36,6 @@ export default function CreateTripModal({ isVisible, isClose }) {
                 className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
                 type="username"
                 name="username"
-                onChange={(e) => {
-                  setUsernameLogin(e.target.value)
-                }}
               />
               <p className="text-red-500 hidden">Wrong username</p>
             </div>
@@ -106,9 +46,6 @@ export default function CreateTripModal({ isVisible, isClose }) {
                 className="w-full py-2 bg-gray-100 text-colorText px-1 outline-none"
                 type="password"
                 name="password"
-                onChange={(e) => {
-                  setPasswordLogin(e.target.value)
-                }}
               />
               <p className="text-red-500 hidden">Wrong password</p>
             </div>
@@ -147,21 +84,6 @@ export default function CreateTripModal({ isVisible, isClose }) {
               </div>
             </div>
 
-            {/* <div className="p-2 mb-4 flex justify-between">
-              <div>
-                <input className="mr-2" type="checkbox" id="remember" />
-                <label className="text-colorText" for="remember">
-                  Remember me
-                </label>
-              </div>
-
-              <span
-                className="font-bold text-light-primary hover:text-primary"
-                onClick={() => setActive("forgot")}
-              >
-                Forgot password ?
-              </span>
-            </div> */}
           </div>
           <button
             type="submit"
@@ -170,17 +92,6 @@ export default function CreateTripModal({ isVisible, isClose }) {
           >
             Save
           </button>
-
-          {/* <div className="mb-4 flex justify-center">
-            <span>You don't have account ? </span>
-            <span
-              className="font-bold text-light-primary hover:text-primary"
-              onClick={() => setActive("signup")}
-            >
-              {" "}
-              Save
-            </span>
-          </div> */}
         </div>
       </form>
     </div>

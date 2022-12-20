@@ -1,16 +1,10 @@
 import * as React from "react";
-import * as yup from "yup";
 import { useState } from "react";
 import { useEffect } from "react";
 import CancelIcon from "@material-ui/icons/Cancel";
-import { getAllProvinces } from "../../apis/hotelApi";
-import { useFormik } from "formik";
 import { toast } from "react-toastify";
-import { IMAGE_CLOUD_API } from "../../configs/api";
 import ToastMessage from "./ToastMessage";
-import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi";
 import { redirect, getLSItem, setLSItem } from "../../utils";
-import { ListItem } from "@material-ui/core";
 import { FormatDateToGBShort } from "../Common/CommonFunc";
 import CallIcon from "@material-ui/icons/Call";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -21,7 +15,6 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { addFavoriteHotel, checkFavoriteHotel } from "../../apis/userApi";
 import TagFacesIcon from "@material-ui/icons/TagFaces";
 import AccessTimeOutlinedIcon from "@material-ui/icons/AccessTimeOutlined";
-import { FaStar } from "react-icons/fa";
 import Rate from "./Rate";
 import { createComment } from "../../apis/commentApi";
 
@@ -32,23 +25,8 @@ export default function UserReservationModal({
   type,
 }) {
   const [favorite, setFavorite] = useState(0);
-  const [currentValue, setCurrentValue] = useState(0);
-  const [hoverValue, setHoverValue] = useState(0);
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
-  const stars = Array(5).fill(0);
-
-  const handleClick = (value) => {
-    setCurrentValue(value);
-  };
-
-  const handleMouseOver = (value) => {
-    setHoverValue(value);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverValue(undefined);
-  };
 
   const token = getLSItem("token");
   const hotelID = detail.Hotel.hotel_id;
@@ -99,7 +77,7 @@ export default function UserReservationModal({
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
         <div className="bg-white p-2 rounded flex flex-col m-2 overflow-y-scroll">
           <ToastMessage />
-          {/* <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1> */}
+
           <div className="flex justify-between ">
             <h2 className="font-bold text-2xl text-colorText ml-4 mt-2">
               Reservation Details
@@ -182,27 +160,11 @@ export default function UserReservationModal({
                     </div>
                   </div>
 
-                  <div className="flex">
-                    <div className="flex flex-col m-2 w-40">
-                      <span className="text-sm">Price: </span>
-                      <span className="text-lg font-bold text-sky-600">
-                        100$
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col m-2 w-40">
-                      <span className="text-sm">Discount: </span>
-                      <span className="text-lg font-bold text-green-600">
-                        20%
-                      </span>
-                    </div>
-                  </div>
-
                   <div className="flex flex-col m-2 justify-end">
                     <span className="text-lg font-semibold text-green-600">
                       Total price:{" "}
                     </span>
-                    <span className="text-xl font-bold">80$</span>
+                    <span className="text-xl font-bold">{detail.Bill.total_price}$</span>
                   </div>
                 </div>
 
@@ -390,15 +352,3 @@ export default function UserReservationModal({
     </div>
   );
 }
-
-const styles = {
-  stars: {
-    display: "flex",
-    flexDirection: "row",
-  },
-};
-
-const colors = {
-  orange: "#FFBA5A",
-  grey: "#a9a9a9",
-};

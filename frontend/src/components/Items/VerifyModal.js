@@ -108,7 +108,6 @@ export default function VerifyModal({
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-4/12 flex flex-col z-20 h-5/6 rounded-4xl">
         <div className="bg-white p-2 rounded flex flex-col m-2">
-          {/* <h1 className="font-bold text-2xl m-5">Update information for a hotel</h1> */}
           <div className="flex justify-between ">
             <h2 className="font-bold text-2xl text-colorText ml-4 mt-2">
               Verify

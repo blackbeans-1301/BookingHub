@@ -46,14 +46,6 @@ export default function History() {
 
   console.log("history", listHistory);
 
-  //   function setColor(str) {
-  //     let res;
-  //     if (str.toUpperCase() === "CANCELED") {
-  //         res = `<span className="text-red-400">CANCELED</span>`;
-  //     }
-  //     return res;
-  //   }
-
   return (
     <Fragment>
       <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -105,15 +97,13 @@ export default function History() {
                   <tbody>
                     {listHistory.map((item, index) => {
                       return (
-                        <tr key={index}>
-                          {/* column 1: id */}
+                        <tr key={index}>           
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {index + 1}
                             </p>
                           </td>
 
-                          {/* column 3: hotel's name */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.reservation_id}
@@ -126,28 +116,24 @@ export default function History() {
                             </p>
                           </td>
 
-                          {/* column 5: address */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.name}
                             </p>
                           </td>
 
-                          {/* column 7: created date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.phone}
                             </p>
                           </td>
 
-                          {/* column 8: updated date */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               {item.number_of_rooms}
                             </p>
                           </td>
 
-                          {/* column 9: actions */}
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
                             {item.check_in === null
                               ? "____"

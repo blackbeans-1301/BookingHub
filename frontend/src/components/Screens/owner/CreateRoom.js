@@ -1,29 +1,29 @@
-import * as React from "react"
-import * as yup from "yup"
-import { useState } from "react"
-import { useEffect } from "react"
-import RestaurantIcon from "@material-ui/icons/Restaurant"
-import RoomServiceIcon from "@material-ui/icons/RoomService"
-import WifiIcon from "@material-ui/icons/Wifi"
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
-import InfoIcon from "@material-ui/icons/Info"
-import TvIcon from "@material-ui/icons/Tv"
-import BathtubIcon from "@material-ui/icons/Bathtub"
-import WeekendIcon from "@material-ui/icons/Weekend"
-import HttpsIcon from "@material-ui/icons/Https"
-import KingBedIcon from "@material-ui/icons/KingBed"
-import SportsCricketIcon from "@material-ui/icons/SportsCricket"
-import DirectionsBusIcon from "@material-ui/icons/DirectionsBus"
-import TerrainIcon from "@material-ui/icons/Terrain"
-import GTranslateIcon from "@material-ui/icons/GTranslate"
-import _ from "lodash"
-import { Field, useFormik, Form, Formik } from "formik"
-import FormControl from "@material-ui/core/FormControl"
-import Typography from "@material-ui/core/Typography"
-import TextField from "@material-ui/core/TextField"
-import { LoadingButton } from "@mui/lab"
-import { toast } from "react-toastify"
-import { Fragment } from "react"
+import * as React from "react";
+import * as yup from "yup";
+import { useState } from "react";
+import { useEffect } from "react";
+import RestaurantIcon from "@material-ui/icons/Restaurant";
+import RoomServiceIcon from "@material-ui/icons/RoomService";
+import WifiIcon from "@material-ui/icons/Wifi";
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
+import InfoIcon from "@material-ui/icons/Info";
+import TvIcon from "@material-ui/icons/Tv";
+import BathtubIcon from "@material-ui/icons/Bathtub";
+import WeekendIcon from "@material-ui/icons/Weekend";
+import HttpsIcon from "@material-ui/icons/Https";
+import KingBedIcon from "@material-ui/icons/KingBed";
+import SportsCricketIcon from "@material-ui/icons/SportsCricket";
+import DirectionsBusIcon from "@material-ui/icons/DirectionsBus";
+import TerrainIcon from "@material-ui/icons/Terrain";
+import GTranslateIcon from "@material-ui/icons/GTranslate";
+import _ from "lodash";
+import { Field, useFormik, Form, Formik } from "formik";
+import FormControl from "@material-ui/core/FormControl";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import { LoadingButton } from "@mui/lab";
+import { toast } from "react-toastify";
+import { Fragment } from "react";
 import {
   Box,
   FormControlLabel,
@@ -31,14 +31,14 @@ import {
   FormLabel,
   FormGroup,
   TextareaAutosize,
-} from "@mui/material"
-import InputLabel from "@mui/material/InputLabel"
-import MenuItem from "@mui/material/MenuItem"
-import Select, { SelectChangeEvent } from "@mui/material/Select"
-import { IMAGE_CLOUD_API } from "../../../configs/api"
-import ToastMessage from "../../Items/ToastMessage"
-import { createRoomApi } from "../../../apis/roomApi"
-import { getAllHotels } from "../../../apis/hotelApi"
+} from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { IMAGE_CLOUD_API } from "../../../configs/api";
+import ToastMessage from "../../Items/ToastMessage";
+import { createRoomApi } from "../../../apis/roomApi";
+import { getAllHotels } from "../../../apis/hotelApi";
 import {
   GeneralCriteria,
   FBCriteria,
@@ -54,9 +54,8 @@ import {
   TransportCriteria,
   ViewCriteria,
   LanguageCriteria,
-} from "../../../assets/data/RoomCriteriaData"
-import { getLSItem, redirect, setLSItem } from "../../../utils"
-
+} from "../../../assets/data/RoomCriteriaData";
+import { getLSItem, redirect, setLSItem } from "../../../utils";
 
 const validationSchema = yup.object({
   hotel: yup
@@ -83,99 +82,91 @@ const validationSchema = yup.object({
   criteria: yup.string(),
   description: yup.string().required("This field is required"),
   imgURL: yup.array().required("Image field is required"),
-})
+});
 
 export default function CreateRoom() {
-  const [progress, setProgress] = useState(0)
-  const [isUploading, setUploading] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [acceptTnC, setAcceptTnC] = useState(false)
-  const [criterias, setCriterias] = useState([])
-  const [allHotels, setAllHotels] = useState()
-  const [province, setProvince] = useState("")
-  const [images, setImages] = useState([])
+  const [progress, setProgress] = useState(0);
+  const [isUploading, setUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [acceptTnC, setAcceptTnC] = useState(false);
+  const [criterias, setCriterias] = useState([]);
+  const [allHotels, setAllHotels] = useState();
 
-  let imagesURLs = []
-  const ownerToken = getLSItem("ownerToken")
-  //   console.log("owner token", ownerToken);
+  let imagesURLs = [];
+  const ownerToken = getLSItem("ownerToken");
   useEffect(() => {
-    getAllHotels(setAllHotels, ownerToken)
-  }, [])
-  console.log("all hotels", allHotels)
-  console.log(criterias)
-
-  // change criterias state
-  const handleChange = (event) => {
-    setAcceptTnC(event.target.checked)
-  }
+    getAllHotels(setAllHotels, ownerToken);
+  }, []);
+  console.log("all hotels", allHotels);
+  console.log(criterias);
 
   const handleCriteriaChange = (event) => {
-    const index = criterias.indexOf(event.target.value)
+    const index = criterias.indexOf(event.target.value);
     if (index === -1) {
-      setCriterias([...criterias, event.target.value])
+      setCriterias([...criterias, event.target.value]);
     } else {
       setCriterias(
         criterias.filter((criteria) => criteria !== event.target.value)
-      )
+      );
     }
-  }
+  };
 
   //   handle upload images
   const handleUpload = async (e) => {
-    let { files } = e.target
-    console.log("files", files)
+    let { files } = e.target;
+    console.log("files", files);
 
-    const uploadName = "jqlebxmc"
+    const uploadName = "jqlebxmc";
 
-    let formData = new FormData()
+    let formData = new FormData();
 
-    setUploadedImages([])
+    setUploadedImages([]);
 
-    setUploading(true)
+    setUploading(true);
     for (let i = 0; i < files.length; i++) {
-      let file = files[i]
-      formData.append("file", file)
-      formData.append("upload_preset", uploadName)
+      let file = files[i];
+      formData.append("file", file);
+      formData.append("upload_preset", uploadName);
       fetch(IMAGE_CLOUD_API, {
         method: "POST",
         body: formData,
       })
         .then((res) => res.json())
-        .then((res) => imagesURLs.push(res.url))
+        .then((res) => imagesURLs.push(res.url));
     }
-    console.log("img urls", imagesURLs)
-    formik.values.imgURL = imagesURLs
+    console.log("img urls", imagesURLs);
+    formik.values.imgURL = imagesURLs;
 
-    setUploading(false)
-  }
+    setUploading(false);
+  };
 
-  const test = "email:a@gmail.com"
+  const test = "email:a@gmail.com";
   const redirectFunc = () => {
-    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
-  }
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`);
+  };
 
   const requestCreateRoom = (values) => {
-    console.log(values)
-    const token = getLSItem("ownerToken")
-    console.log("token", token)
+    console.log(values);
+    const token = getLSItem("ownerToken");
+    console.log("token", token);
     const signUp = async (postData) => {
-      const response = await createRoomApi(postData, token)
-      console.log("response", response)
-      console.log("type", typeof response)
-      const type = typeof response
+      const response = await createRoomApi(postData, token);
+      console.log("response", response);
+      console.log("type", typeof response);
+      const type = typeof response;
       if (type === "object") {
-        toast.success("Create a new room successfully")
-        setTimeout(redirectFunc, 1000)
+        toast.success("Create a new room successfully");
+        setTimeout(redirectFunc, 1000);
       } else {
-        console.log("Create a new room failed")
-        toast.error(response)
+        console.log("Create a new room failed");
+        toast.error(response);
       }
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
-    const hotelID = 0
-    formik.values.criteria = criterias.toString()
+    const hotelID = 0;
+    formik.values.criteria = criterias.toString();
     const data = {
       hotel: values.hotel,
       room_name: values.room_name,
@@ -186,10 +177,10 @@ export default function CreateRoom() {
       capacity: values.capacity,
       description: values.description,
       imgURL: values.imgURL,
-    }
-    setIsLoading(true)
-    signUp(data)
-  }
+    };
+    setIsLoading(true);
+    signUp(data);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -205,10 +196,10 @@ export default function CreateRoom() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("value", values)
-      requestCreateRoom(values)
+      console.log("value", values);
+      requestCreateRoom(values);
     },
-  })
+  });
 
   return (
     <div>
@@ -228,8 +219,12 @@ export default function CreateRoom() {
               error={formik.touched.hotel && !!formik.errors.hotel}
             >
               {allHotels !== undefined &&
-                allHotels.map((p) => {
-                  return <MenuItem value={p}>{p.name}</MenuItem>
+                allHotels.map((p, index) => {
+                  return (
+                    <MenuItem value={p} key={index}>
+                      {p.name}
+                    </MenuItem>
+                  );
                 })}
             </Select>
           </FormControl>
@@ -298,14 +293,9 @@ export default function CreateRoom() {
             placeholder="Enter the capacity..."
             name="capacity"
             value={formik.values.capacity}
-            error={
-              formik.touched.capacity &&
-              Boolean(formik.errors.capacity)
-            }
+            error={formik.touched.capacity && Boolean(formik.errors.capacity)}
             onChange={formik.handleChange}
-            helperText={
-              formik.touched.capacity && formik.errors.capacity
-            }
+            helperText={formik.touched.capacity && formik.errors.capacity}
           />
         </FormControl>
 
@@ -364,8 +354,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -384,8 +375,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -404,8 +396,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -424,8 +417,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -444,8 +438,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -464,8 +459,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -484,8 +480,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -504,8 +501,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -524,8 +522,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -544,8 +543,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -564,8 +564,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -584,8 +585,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -604,8 +606,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
 
           <p className="font-bold">
@@ -624,8 +627,9 @@ export default function CreateRoom() {
                   />
                 }
                 label={<Fragment>{item.name}</Fragment>}
+                key={index}
               />
-            )
+            );
           })}
         </FormGroup>
 
@@ -650,5 +654,5 @@ export default function CreateRoom() {
         </LoadingButton>
       </form>
     </div>
-  )
+  );
 }

@@ -35,7 +35,7 @@ export default function HotelCard(props) {
         <div className="">
           <div className="font-bold text-primary font-sans">{data.name}</div>
           <div className="">
-            {starList.length > 0 ? starList.map(item => <StarIcon style={{ width: "16px" }} className="text-primary" />) : "No rating yet"}
+            {starList.length > 0 ? starList.map((item, index) => <StarIcon style={{ width: "16px" }} className="text-primary" key={index} />) : "No rating yet"}
             <div className="inline-block ml-2 font-sans p-1 bg-primary text-white rounded-md font-bold">{data.rating.toFixed(1)} </div>
           </div>
           <div className="text-sm">{data.province}</div>
