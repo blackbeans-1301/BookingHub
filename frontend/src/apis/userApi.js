@@ -353,7 +353,6 @@ export const addFavoriteHotel = async (token, data) => {
 }
 
 export const removeHotelFavorite = async (data, token) => {
-  console.log(token, data)
   const options = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -362,10 +361,10 @@ export const removeHotelFavorite = async (data, token) => {
   }
 
   const response = axios
-    .delete(DELETE_FAVORITE_HOTEL_URL, data, options)
+    .post(DELETE_FAVORITE_HOTEL_URL, data, options)
     .then((res) => {
       console.log("RESPONSE ==== : ", res)
-      return res.data
+      return res
     })
     .catch((err) => {
       console.log("ERROR: ====", err)

@@ -64,7 +64,16 @@ const Explore = () => {
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
       <h1 className="font-bold text-2xl mb-3">this is explore page</h1>
 
-      <div className="flex mt-3">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d953718.736782537!2d105.09079113216902!3d20.974037036735588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135008e13800a29%3A0x2987e416210b90d!2sHanoi%2C%20Vietnam!5e0!3m2!1sen!2s!4v1671537828233!5m2!1sen!2s"
+        width="1280"
+        height="800"
+        // style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+      {/* <div className="flex mt-3">
         <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 w-5/6">
           <CameraAltIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
           <input
@@ -154,7 +163,7 @@ const Explore = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
