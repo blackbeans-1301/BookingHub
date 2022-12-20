@@ -4,14 +4,13 @@ import { popularCities } from "../../data/PopularCities.data"
 import CityCard from "./CityCard"
 
 export default function PopularCities() {
+
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
   }
 
   return (
@@ -22,27 +21,5 @@ export default function PopularCities() {
         {popularCities.map((item) => <CityCard data={item} />)}
       </Slider>
     </div>
-  )
-}
-
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "red" }}
-      onClick={onClick}
-    />
-  )
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block", background: "green" }}
-      onClick={onClick}
-    />
   )
 }

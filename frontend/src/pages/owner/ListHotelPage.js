@@ -1,7 +1,6 @@
 import * as React from "react";
-import OwnerLayout from "../../components/Layouts/OwnerLayout";
 import ListHotel from "../../components/Screens/owner/ListHotel";
-
+import OwnerLayout from "../../components/Layouts/owner/OwnerLayout";
 
 const ListHotelPage = () => {
   return (

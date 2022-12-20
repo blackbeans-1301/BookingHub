@@ -1,5 +1,5 @@
 import * as React from "react"
-import Reason from "../../Layouts/LayoutComponent/Reason"
+import Reason from "../../Layouts/user/Reason"
 import NearbyHotel from "../../Screens/user/nearbyHotel/NearbyHotel"
 
 export default function Stay() {
@@ -11,7 +11,6 @@ export default function Stay() {
 
       <Reason />
       <NearbyHotel />
-
     </div>
   )
 }

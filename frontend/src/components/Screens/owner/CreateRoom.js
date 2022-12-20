@@ -79,6 +79,7 @@ const validationSchema = yup.object({
     .min(0)
     .required("This field is required"),
   price: yup.number().min(0).required("This field is required"),
+  capacity: yup.number().integer().min(0).required("This field is required"),
   criteria: yup.string(),
   description: yup.string().required("This field is required"),
   imgURL: yup.array().required("Image field is required"),
@@ -96,7 +97,7 @@ export default function CreateRoom() {
   const [images, setImages] = useState([])
 
   let imagesURLs = []
-  const ownerToken = getLSItem("token")
+  const ownerToken = getLSItem("ownerToken")
   //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken)
@@ -151,11 +152,12 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    redirect(`${process.env.API_URL}/owner/ListRoomPage`)
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
-  const handleGetRoomInfor = (values) => {
-    const token = getLSItem("token")
+  const requestCreateRoom = (values) => {
+    console.log(values)
+    const token = getLSItem("ownerToken")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createRoomApi(postData, token)
@@ -164,7 +166,7 @@ export default function CreateRoom() {
       const type = typeof response
       if (type === "object") {
         toast.success("Create a new room successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Create a new room failed")
         toast.error(response)
@@ -181,6 +183,7 @@ export default function CreateRoom() {
       number_of_bed: values.number_of_bed,
       type_of_room: values.type_of_room,
       price: values.price,
+      capacity: values.capacity,
       description: values.description,
       imgURL: values.imgURL,
     }
@@ -196,13 +199,14 @@ export default function CreateRoom() {
       number_of_bed: "",
       type_of_room: "",
       price: "",
+      capacity: "",
       description: "",
       imgURL: [],
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("value", values)
-      handleGetRoomInfor(values)
+      requestCreateRoom(values)
     },
   })
 
@@ -281,6 +285,26 @@ export default function CreateRoom() {
             onChange={formik.handleChange}
             helperText={
               formik.touched.number_of_bed && formik.errors.number_of_bed
+            }
+          />
+        </FormControl>
+
+        <FormControl className="my-2">
+          <Typography variant="subtitle1">Capacity</Typography>
+          <TextField
+            sx={{
+              height: "85px",
+            }}
+            placeholder="Enter the capacity..."
+            name="capacity"
+            value={formik.values.capacity}
+            error={
+              formik.touched.capacity &&
+              Boolean(formik.errors.capacity)
+            }
+            onChange={formik.handleChange}
+            helperText={
+              formik.touched.capacity && formik.errors.capacity
             }
           />
         </FormControl>

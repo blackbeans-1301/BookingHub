@@ -18,6 +18,10 @@ router.put('/hotelByAddress', hotelMiddleware.hotelByAddress)
 router.put('/hotelCriteria', hotelMiddleware.getHotelByCriteria)
 
 // TODO: delete a hotel
+<<<<<<< Updated upstream
+=======
+router.delete('/delete', userMiddleware.authenticateJWT, hotelMiddleware.isHotelBelongToOwner, hotelMiddleware.deleteHotel )
+>>>>>>> Stashed changes
 
 // get hotel's info (cai nay luon o duoi cung)
 router.get('/:hotel_id', hotelMiddleware.getInfoHotel)

@@ -1,33 +1,33 @@
-import React from "react";
-import { useQueryParam, NumberParam, StringParam } from "use-query-params";
-import * as queryString from "query-string";
-import { setLSItem, getLSItem, redirect } from "../../utils";
+import React from "react"
+import { useQueryParam, NumberParam, StringParam } from "use-query-params"
+import * as queryString from "query-string"
+import { setLSItem, getLSItem, redirect } from "../../utils"
 
 const GoogleAuthPage = ({ location }) => {
-  console.log("location", location.search);
-  let param = new URLSearchParams(location.search);
-  let paramString = param.toString();
+  console.log("location", location.search)
+  let param = new URLSearchParams(location.search)
+  let paramString = param.toString()
   //   const [foo, setFoo] = useQueryParam('foo', StringParam);
   //   const [foo1, setFoo1] = useQueryParam('foo1', StringParam);
-  console.log('type', typeof param, param);
-  console.log('string', paramString);
+  console.log('type', typeof param, param)
+  console.log('string', paramString)
 
-  let token = paramString.substring(2);
-  setLSItem("token", token);
-  console.log("get token", getLSItem('token'));
+  let token = paramString.substring(2)
+  setLSItem("token", token)
+  console.log("get token", getLSItem('token'))
 
   setTimeout(() => {
-    redirect("http://localhost:8000")
-  }, 100);
+    redirect(process.env.API_URL)
+  }, 100)
 
   return (
     <div>
       {/* <h1>parameter1 is {param}</h1> */}
     </div>
-  );
-};
+  )
+}
 
-export default GoogleAuthPage;
+export default GoogleAuthPage
 
 // import React from "react";
 // import { useQueryParam, NumberParam, StringParam } from "use-query-params";
