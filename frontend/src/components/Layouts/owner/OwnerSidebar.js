@@ -1,15 +1,15 @@
-import React, { Fragment, useState } from "react";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
-import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined";
-import TodayIcon from "@material-ui/icons/Today";
-import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined";
-import BookOutlinedIcon from "@material-ui/icons/BookOutlined";
-import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined";
-import Logo from "../../../assets/images/logo.png";
-import { redirect } from "../../../utils";
+import React, { Fragment, useState } from "react"
+import AccountCircleIcon from "@material-ui/icons/AccountCircle"
+import AddCircleIcon from "@material-ui/icons/AddCircle"
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline"
+import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered"
+import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
+import TodayIcon from "@material-ui/icons/Today"
+import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
+import BookOutlinedIcon from "@material-ui/icons/BookOutlined"
+import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined"
+import Logo from "../../../assets/images/logo.png"
+import { redirect } from "../../../utils"
 
 export default function OwnerSidebar() {
   const menu = [
@@ -32,7 +32,7 @@ export default function OwnerSidebar() {
     {
       title: "Reservations",
       icon: <TodayIcon />,
-      link: `${process.env.API_URL}/owner/ListReservationPage`,
+      link: `${process.env.API_URL}/owner/list-reservation`,
     },
     // {
     //   title: "Travel Restrictions",
@@ -43,7 +43,7 @@ export default function OwnerSidebar() {
     //   icon: <BookOutlinedIcon />,
     //   link: `${process.env.API_URL}/user/TripsPage`,
     // },
-  ];
+  ]
 
   return (
     <Fragment>
@@ -77,5 +77,5 @@ export default function OwnerSidebar() {
         </div>
       </div>
     </Fragment>
-  );
+  )
 }

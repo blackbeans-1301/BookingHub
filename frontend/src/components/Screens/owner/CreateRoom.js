@@ -97,7 +97,7 @@ export default function CreateRoom() {
   const [images, setImages] = useState([])
 
   let imagesURLs = []
-  const ownerToken = getLSItem("token")
+  const ownerToken = getLSItem("ownerToken")
   //   console.log("owner token", ownerToken);
   useEffect(() => {
     getAllHotels(setAllHotels, ownerToken)
@@ -152,11 +152,12 @@ export default function CreateRoom() {
 
   const test = "email:a@gmail.com"
   const redirectFunc = () => {
-    redirect(`${process.env.API_URL}/owner/ListRoomPage`)
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
   }
 
-  const handleGetRoomInfor = (values) => {
-    const token = getLSItem("token")
+  const requestCreateRoom = (values) => {
+    console.log(values)
+    const token = getLSItem("ownerToken")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createRoomApi(postData, token)
@@ -165,7 +166,7 @@ export default function CreateRoom() {
       const type = typeof response
       if (type === "object") {
         toast.success("Create a new room successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Create a new room failed")
         toast.error(response)
@@ -176,7 +177,7 @@ export default function CreateRoom() {
     const hotelID = 0
     formik.values.criteria = criterias.toString()
     const data = {
-      hotel: {hotel_id: values.hotel},
+      hotel: values.hotel,
       room_name: values.room_name,
       criteria: values.criteria,
       number_of_bed: values.number_of_bed,
@@ -205,7 +206,7 @@ export default function CreateRoom() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log("value", values)
-      handleGetRoomInfor(values)
+      requestCreateRoom(values)
     },
   })
 

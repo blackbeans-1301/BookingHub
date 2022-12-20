@@ -6,9 +6,9 @@ export const IMAGE_CLOUD_API = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/im
 
 // Common variables--------------------------------------
 
-export const DOMAIN_URL = "http://localhost:3000/api"
+// export const DOMAIN_URL = `${process.env.API_URL}/api`
 
-export const BASE_URL = "http://localhost:3000"
+export const DOMAIN_URL = "http://localhost:3000/api"
 
 // API for user------------------------------------------
 
@@ -21,6 +21,20 @@ export const GET_USER_INFOR_URL = `${DOMAIN_URL}/user/info`
 export const UPDATE_USER_INFOR_URL = `${DOMAIN_URL}/user/updateUser`
 
 export const RESET_PASSWORD_URL = `${DOMAIN_URL}/user/resetPassword`
+
+export const RESET_PASSWORD_BY_CODE_URL = `${DOMAIN_URL}/user/resetPasswordByCode`
+
+export const GET_TOTAL_PRICE = `${DOMAIN_URL}/bill/calculate`
+
+export const CREATE_RESERVATION_API = `${DOMAIN_URL}/reservation/create`
+
+export const UPDATE_USER_INFO = `${DOMAIN_URL}/user/update`
+
+export const FORGOT_PASSWORD_URL = `${DOMAIN_URL}/user/forgetPassword`
+
+export const GET_HISTORY_URL = `${DOMAIN_URL}/user/history`
+
+export const GET_ALL_RESERVATIONS_OF_USER_URL = `${DOMAIN_URL}/user/userReservations`
 
 // API for register with Google-------------------------------------
 
@@ -54,10 +68,34 @@ export const GET_ALL_ROOMS_URL = `${DOMAIN_URL}/room/list`
 
 export const UPDATE_ROOM_URL = `${DOMAIN_URL}/room/update`
 
+export const GET_ALL_ROOMS_BY_CRITERIA_URL = `${DOMAIN_URL}/room/roomCriteria`
+
 // API for reservation
 
-export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`;
+export const CHECK_IN_URL = `${DOMAIN_URL}/reservation/checkIn`
 
-export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`;
+export const CHECK_OUT_URL = `${DOMAIN_URL}/reservation/checkOut`
 
-export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`;
+export const CANCEL_URL = `${DOMAIN_URL}/reservation/cancel`
+
+// API for comments ------------------------
+
+export const CREATE_COMMENT_URL = `${DOMAIN_URL}/comment/create`
+
+export const GET_COMMENTS_OF_HOTEL_URL = `${DOMAIN_URL}/comment/hotelComments`
+
+export const GET_COMMENTS_OF_RESERVATION_URL = `${DOMAIN_URL}/comment/reservationComment`
+
+// API for favorite------------------------
+
+export const ADD_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/addFavorite`
+
+export const CHECK_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/checkFavorite`
+
+export const GET_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/getFavorite`
+
+export const DELETE_FAVORITE_HOTEL_URL = `${DOMAIN_URL}/user/delFavorite`
+
+// API for search function
+
+export const SEARCH_HOTEL_BY_KEYWORD_URL = `${DOMAIN_URL}/hotel/hotelByKeyWord`

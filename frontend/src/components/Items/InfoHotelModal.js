@@ -138,7 +138,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
 
   const handleGetHotelInfor = (values) => {
     // const token = localStorage.getItem("token");
-    const token = getLSItem('token')
+    const token = getLSItem('ownerToken')
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await updateHotelInfor(postData, token)
@@ -147,7 +147,7 @@ export default function InfoHotelModal({ isVisible, isClose, detail }) {
       const type = typeof response
       if (type === "object") {
         toast.success("Update hotel details successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Update hotel details failed")
         toast.error(response)

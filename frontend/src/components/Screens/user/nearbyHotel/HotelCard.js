@@ -5,7 +5,7 @@ import StarIcon from '@mui/icons-material/Star'
 
 export default function HotelCard(props) {
   const data = props.data
-  console.log(data)
+  //console.log(data)
   let starList = []
 
   for (let i = 0; i < data.star; i++) {

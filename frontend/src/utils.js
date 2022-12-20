@@ -13,3 +13,9 @@ export function redirect(route) {
   if (isBrowser)
     window.location = route
 }
+export function subString(value, index) {
+  const isBrowser = typeof window !== "undefined"
+  if (isBrowser) {
+    return value.substring(index)
+  }
+}

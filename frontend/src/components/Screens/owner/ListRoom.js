@@ -1,20 +1,20 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import EditIcon from "@material-ui/icons/Edit";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import InfoRoomModal from "../../Items/InfoRoomModal";
-import { getAllRoomsApi } from "../../../apis/roomApi";
-import { getLSItem, setLSItem, redirect } from "../../../utils";
-import VerifyModal from "../../Items/VerifyModal";
-import { FormatDateToGB } from "../../Common/CommonFunc";
+import * as React from "react"
+import { useState, useEffect } from "react"
+import EditIcon from "@material-ui/icons/Edit"
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import RemoveCircleOutlineSharpIcon from "@material-ui/icons/RemoveCircleOutlineSharp"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import InfoRoomModal from "../../Items/InfoRoomModal"
+import { getAllRoomsApi } from "../../../apis/roomApi"
+import { getLSItem, setLSItem, redirect } from "../../../utils"
+import VerifyModal from "../../Items/VerifyModal"
+import { FormatDateToGB } from "../../Common/CommonFunc"
 
 export default function ListRoom() {
-  const [allRooms, setAllRooms] = useState();
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [hotel, setHotel] = useState();
+  const [allRooms, setAllRooms] = useState()
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [hotel, setHotel] = useState()
   const [roomDetail, setRoomDetail] = useState({
     name: "",
     address: "",
@@ -22,25 +22,25 @@ export default function ListRoom() {
     Images: "",
     description: "",
     province: "",
-  });
+  })
 
-  const token = getLSItem("token");
-  const hotelID = getLSItem("hotelID");
+  const token = getLSItem("ownerToken")
+  const hotelID = getLSItem("hotelID")
 
   const data = {
     hotel_id: hotelID,
-  };
+  }
 
   useEffect(() => {
-    console.log("in use effects");
-    getAllRoomsApi(setAllRooms, data, token);
-  }, []);
+    console.log("in use effects")
+    getAllRoomsApi(setAllRooms, data, token)
+  }, [])
 
-  console.log("all rooms", allRooms);
+  console.log("all rooms", allRooms)
 
   function directToUpdatePage(id) {
-    setLSItem("hotelID", id);
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
+    setLSItem("hotelID", id)
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
   return (
     <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
@@ -172,8 +172,8 @@ export default function ListRoom() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setRoomDetail(room);
-                                setTimeout(setShowInfoModal(true), 2000);
+                                setRoomDetail(room)
+                                setTimeout(setShowInfoModal(true), 2000)
                               }}
                             >
                               <EditIcon />
@@ -195,7 +195,7 @@ export default function ListRoom() {
                           </div>
                         </td>
                       </tr>
-                    );
+                    )
                   })}
               </tbody>
             </table>
@@ -211,5 +211,5 @@ export default function ListRoom() {
         />
       )}
     </div>
-  );
+  )
 }

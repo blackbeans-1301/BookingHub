@@ -18,7 +18,7 @@ export default function PlacePageHeader() {
               className="rounded-full font-bold text-lg border-red-400 border-2 py-1 px-4 m-2 hover:text-white hover:bg-red-400"
               onClick={() => { redirect(`${process.env.API_URL}`) }}
             >
-              <UndoIcon /> Return to main page
+              <UndoIcon /> Return to bookinghub
             </button>
 
             <button
@@ -34,7 +34,7 @@ export default function PlacePageHeader() {
         </div>
       </div>
 
-      <Login isVisible={showModal} isClose={() => setShowModal(false)} />
+      <Login isVisible={showModal} isOwner={1} isClose={() => setShowModal(false)} />
     </Fragment>
   )
 }

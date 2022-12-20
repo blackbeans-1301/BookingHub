@@ -87,7 +87,7 @@ export default function UpdateHotel() {
 
   console.log(criterias)
 
-  const token = getLSItem("token")
+  const token = getLSItem("ownerToken")
   const hotelID = getLSItem("hotelID")
 
   // change criterias state
@@ -150,7 +150,7 @@ export default function UpdateHotel() {
   }
 
   const handleGetHotelInfor = (values) => {
-    const token = getLSItem("token")
+    const token = getLSItem("ownerToken")
     console.log("token", token)
     const signUp = async (postData) => {
       const response = await createHotelApi(postData, token)
@@ -159,7 +159,7 @@ export default function UpdateHotel() {
       const type = typeof response
       if (type === "object") {
         toast.success("Sign up successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Sign up failed")
         toast.error(response)
