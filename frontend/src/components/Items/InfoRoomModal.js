@@ -179,7 +179,7 @@ export default function InfoRoomModal({ isVisible, isClose, detail }) {
       const type = typeof response
       if (type === "object") {
         toast.success("Update room details successfully")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Update room details failed")
         toast.error(response)

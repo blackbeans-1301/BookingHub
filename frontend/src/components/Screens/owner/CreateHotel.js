@@ -161,7 +161,7 @@ export default function CreateHotel() {
       const type = typeof response
       if (type === "object") {
         toast.success("Create a new hotel successfully.")
-        setTimeout(redirectFunc, 3000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Create a new hotel failed.")
         toast.error(response)

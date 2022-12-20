@@ -1,13 +1,20 @@
 import * as React from "react"
 import EditIcon from "@material-ui/icons/Edit"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Flatpickr from "react-flatpickr"
 import "flatpickr/dist/themes/material_blue.css"
 import { redirect } from "../../../utils"
+import { getUserInfoEdited } from "../../../apis/userApi"
+import { getLSItem } from "../../../utils"
+import { selectorFamily } from "recoil"
+import ToastMessage from "../../Items/ToastMessage"
+import { updateUserInfo } from "../../../apis/userApi"
+import { toast } from "react-toastify"
 
 export default function OwnProfile() {
   const [toggleState, setToggleState] = useState(1)
-  const [showEditNameForm, setShowEditNameForm] = useState(false)
+  const [showEditFirstNameForm, setShowEditFirstNameForm] = useState(false)
+  const [showEditLastNameForm, setShowEditLastNameForm] = useState(false)
   const [showEditNumberForm, setShowEditNumberForm] = useState(false)
   const [showEditBirthdayForm, setShowEditBirthdayForm] = useState(false)
   const [showEditGenderForm, setShowEditGenderForm] = useState(false)
@@ -16,25 +23,70 @@ export default function OwnProfile() {
   const [expiration, setExpiration] = useState(new Date())
   const { birth } = birthday
   const { expirationDate } = expiration
+  const [ownerData, setOwnerData] = useState()
+
+  const [firstName, setFirstName] = useState()
+  const [lastName, setLastName] = useState()
+  const [dob, setdob] = useState()
+  const [phoneNumber, setPhoneNumber] = useState()
+  const [gender, setGender] = useState()
+
+  let ownerProfile
 
   const toggleTab = (index) => {
     setToggleState(index)
   }
 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getUserInfoEdited(getLSItem("ownerToken"))
+      console.log(data)
+      setOwnerData(data)
+      ownerProfile = data
+
+      setFirstName(data.firstName)
+      setLastName(data.lastName)
+      setdob(data.dob)
+      setPhoneNumber(data.phone_number)
+      setGender(data.gender)
+    }
+    getData()
+  }, [])
+
+  const updateProfile = async (event) => {
+    event.preventDefault()
+
+    const data = {
+      firstName,
+      lastName,
+      dob,
+      phone_number: phoneNumber,
+      gender
+    }
+
+    const response = await updateUserInfo(data, getLSItem("ownerToken"))
+
+    if (response.message === "Updated successfully") {
+      toast.success(response.message)
+    } else {
+      toast.error("Failed to update info, please try again!")
+    }
+  }
+
+  if (!ownerData)
+    return null
+
   return (
     <div>
-      <div className="flex items-center justify-between m-4 bg-light-primary w-screen z-10 md:w-auto w-full">
-        <div>
-          <h1 className="font-bold text-2xl mb-3 m-4">
-            Hello, <span>Loan</span>
+      <ToastMessage />
+      <div className="flex items-center justify-between pt-8 px-12 bg-primary-light w-screen z-10 md:w-auto text-white">
+        <div className="pb-12">
+          <h1 className="font-bold text-3xl mb-3 m-4">
+            Hello, <span>{ownerData.firstName + ' ' + ownerData.lastName}</span>
           </h1>
           <div className="m-4">
             <p className="font-bold">Account Email</p>
-            <p className="">nguyenloan15062002@gmail.com</p>
-          </div>
-          <div className="m-4">
-            <p className="font-bold">Name</p>
-            <p className="">Nguyen Loan</p>
+            <p className="">{ownerData.email}</p>
           </div>
         </div>
         <div className="mr-10 relative">
@@ -66,37 +118,43 @@ export default function OwnProfile() {
           </div> */}
       </div>
 
-      <div className="flex flex-col relative w-screen md:w-auto w-full bg-light-primary break-all border-2 m-4">
+      <div className="flex flex-col relative w-screen md:w-auto bg-primary-light break-all">
         <div className="flex">
           <div
             className={
               toggleState === 1
-                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-white border-b-2 border-primary font-bold"
-                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-light-primary"
+                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 text-white font-bold"
+                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-primary-light text-gray-300"
             }
             onClick={() => toggleTab(1)}
           >
-            Dashboard
+            <div className={toggleState === 1 ? "border-b-2 mx-36" : ""}>
+              Dashboard
+            </div>
           </div>
           <div
             className={
               toggleState === 2
-                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-white border-b-2 border-primary font-bold"
-                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-light-primary"
+                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 text-white font-bold"
+                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-primary-light text-gray-300"
             }
             onClick={() => toggleTab(2)}
           >
-            General settings
+            <div className={toggleState === 2 ? "border-b-2 mx-36" : ""}>
+              Gereral settings
+            </div>
           </div>
           <div
             className={
               toggleState === 3
-                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-white border-b-2 border-primary font-bold"
-                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-light-primary"
+                ? "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 text-white font-bold"
+                : "p-2.5 text-center w-6/12 cursor-pointer box-content relative outline-0 bg-primary-light text-gray-300"
             }
             onClick={() => toggleTab(3)}
           >
-            Payment details
+            <div className={toggleState === 3 ? "border-b-2 mx-36" : ""}>
+              Payment
+            </div>
           </div>
         </div>
 
@@ -128,37 +186,91 @@ export default function OwnProfile() {
               <h2 className="font-bold text-xl ml-2 mb-4">Login details</h2>
               <div className="ml-4">
                 <div
-                  className={showEditNameForm === false ? "block" : "hidden"}
+                  className={showEditFirstNameForm === false ? "block" : "hidden"}
                 >
-                  <p className="text-lg mb-2">Your name</p>
+                  <p className="text-lg mb-2">First name</p>
                   <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
-                    Nguyen Loan{" "}
-                    <button onClick={() => setShowEditNameForm(true)}>
+                    {ownerData.firstName} {" "}
+                    <button onClick={() => setShowEditFirstNameForm(true)}>
                       <EditIcon />
                     </button>{" "}
                   </div>
                 </div>
 
                 <form
-                  className={showEditNameForm === true ? "block" : "hidden"}
+                  className={showEditFirstNameForm === true ? "block" : "hidden"}
                 >
-                  <p className="text-lg mb-2">Your name</p>
+                  <p className="text-lg mb-2">First name</p>
                   <input
                     type="text"
                     autofocus
-                    value="Nguyen Loan"
+                    value={firstName || ""}
                     className="border-b-2 border-primary px-2 text-colorText w-full"
+                    onChange={(event) => {
+                      setFirstName(event.target.value)
+                    }}
                   />
                   <div className="flex mt-4">
                     <button
                       type="submit"
                       className="w-20 px-2 text-colorText bg-light-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={updateProfile}
                     >
                       Save
                     </button>
                     <button
                       className="w-20 px-2 text-colorText bg-white border-2 border-primary hover:text-white hover:bg-primary mr-4 rounded-full"
-                      onClick={() => setShowEditNameForm(false)}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowEditFirstNameForm(false)
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div className="ml-4">
+                <div
+                  className={showEditLastNameForm === false ? "block" : "hidden"}
+                >
+                  <p className="text-lg mb-2">Last name</p>
+                  <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
+                    {ownerData.lastName} {" "}
+                    <button onClick={() => setShowEditLastNameForm(true)}>
+                      <EditIcon />
+                    </button>{" "}
+                  </div>
+                </div>
+
+                <form
+                  className={showEditLastNameForm === true ? "block" : "hidden"}
+                >
+                  <p className="text-lg mb-2">Last name</p>
+                  <input
+                    type="text"
+                    autofocus
+                    value={lastName || ""}
+                    className="border-b-2 border-primary px-2 text-colorText w-full"
+                    onChange={(event) => {
+                      setLastName(event.target.value)
+                    }}
+                  />
+                  <div className="flex mt-4">
+                    <button
+                      type="submit"
+                      className="w-20 px-2 text-colorText bg-light-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={updateProfile}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="w-20 px-2 text-colorText bg-white border-2 border-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowEditLastNameForm(false)
+                      }}
                     >
                       Cancel
                     </button>
@@ -170,7 +282,7 @@ export default function OwnProfile() {
                 <div>
                   <p className="text-lg mb-2">Email</p>
                   <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
-                    nguyenloan15062002@gmail.com{" "}
+                    {ownerData.email}{" "}
                   </div>
                 </div>
               </div>
@@ -182,7 +294,7 @@ export default function OwnProfile() {
                   <p className="text-lg mb-2">Phone number</p>
                   <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
                     {" "}
-                    +84
+                    (+84) {ownerData.phone_number}
                     <button onClick={() => setShowEditNumberForm(true)}>
                       <EditIcon />
                     </button>{" "}
@@ -196,19 +308,26 @@ export default function OwnProfile() {
                   <input
                     type="text"
                     autofocus
-                    value="+84"
+                    value={phoneNumber ? `${phoneNumber}` : ""}
                     className="border-b-2 border-primary px-2 text-colorText w-full"
+                    onChange={(event) => {
+                      setPhoneNumber(event.target.value)
+                    }}
                   />
                   <div className="flex mt-4">
                     <button
                       type="submit"
                       className="w-20 px-2 text-colorText bg-light-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={updateProfile}
                     >
                       Save
                     </button>
                     <button
                       className="w-20 px-2 text-colorText bg-white border-2 border-primary hover:text-white hover:bg-primary mr-4 rounded-full"
-                      onClick={() => setShowEditNumberForm(false)}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowEditNumberForm(false)
+                      }}
                     >
                       Cancel
                     </button>
@@ -218,12 +337,12 @@ export default function OwnProfile() {
 
               <div className="ml-4 mt-4">
                 <div
-                  className={showEditNumberForm === false ? "block" : "hidden"}
+                  className={showEditBirthdayForm === false ? "block" : "hidden"}
                 >
                   <p className="text-lg mb-2">Birthday</p>
                   <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
                     {" "}
-                    01/01/1000
+                    {ownerData.dob}
                     <button onClick={() => setShowEditBirthdayForm(true)}>
                       <EditIcon />
                     </button>{" "}
@@ -252,12 +371,16 @@ export default function OwnProfile() {
                     <button
                       type="submit"
                       className="w-20 px-2 text-colorText bg-light-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={updateProfile}
                     >
                       Save
                     </button>
                     <button
                       className="w-20 px-2 text-colorText bg-white border-2 border-primary hover:text-white hover:bg-primary mr-4 rounded-full"
-                      onClick={() => setShowEditBirthdayForm(false)}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowEditBirthdayForm(false)
+                      }}
                     >
                       Cancel
                     </button>
@@ -267,12 +390,12 @@ export default function OwnProfile() {
 
               <div className="ml-4 mt-4">
                 <div
-                  className={showEditNumberForm === false ? "block" : "hidden"}
+                  className={showEditGenderForm === false ? "block" : "hidden"}
                 >
                   <p className="text-lg mb-2">Gender</p>
                   <div className="flex justify-between border-b-2 border-primary px-2 text-colorText">
                     {" "}
-                    Male
+                    {ownerData.gender}
                     <button onClick={() => setShowEditGenderForm(true)}>
                       <EditIcon />
                     </button>{" "}
@@ -285,7 +408,9 @@ export default function OwnProfile() {
                   <label for="gender" className="mr-4">
                     Gender
                   </label>
-                  <select name="gender" id="gender">
+                  <select name="gender" id="gender" onChange={(event) => {
+                    setGender(event.target.value)
+                  }}>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -295,12 +420,16 @@ export default function OwnProfile() {
                     <button
                       type="submit"
                       className="w-20 px-2 text-colorText bg-light-primary hover:text-white hover:bg-primary mr-4 rounded-full"
+                      onClick={updateProfile}
                     >
                       Save
                     </button>
                     <button
                       className="w-20 px-2 text-colorText bg-white border-2 border-primary hover:text-white hover:bg-primary mr-4 rounded-full"
-                      onClick={() => setShowEditGenderForm(false)}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        setShowEditGenderForm(false)
+                      }}
                     >
                       Cancel
                     </button>
@@ -435,14 +564,16 @@ export default function OwnProfile() {
         </div>
       </div>
 
-      <div className="ml-4 text-red-700 cursor-pointer text-2xl font-bold" onClick={() => {
-        const isBrowser = typeof window !== "undefined" && window
-        if (isBrowser) {
-          localStorage.removeItem("ownerToken")
-          window.location.reload()
-        }
-        redirect(process.env.API_URL)
-      }}>Logout.</div>
+      <div className="ml-4 text-red-700 cursor-pointer text-2xl font-bold pb-24" >
+        <span onClick={() => {
+          const isBrowser = typeof window !== "undefined" && window
+          if (isBrowser) {
+            localStorage.removeItem("ownerToken")
+            window.location.reload()
+          }
+          redirect(process.env.API_URL)
+        }}>Logout.</span>
+      </div>
     </div>
   )
 }
