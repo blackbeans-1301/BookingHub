@@ -102,7 +102,7 @@ exports.Classification = (rating) => {
 }
 exports.GetHotelVietnamese = (province) => {
     if (province === "an giang" || province === "tinh an giang") return "An Giang";
-    if (province === "ba ria - vung tau" || province === "tinh ba ria - vung tau") return "Bà Rịa – Vũng Tàu";
+    if (province === "ba ria   vung tau" || province === "tinh ba ria  vung tau") return "Bà Rịa – Vũng Tàu";
     if (province === "bac giang" || province === "tinh bac giang") return "Bắc Giang";
     if (province === "bac kan" || province === "tinh bac kan") return "Bắc Kạn";
     if (province === "bac lieu" || province === "tinh bac lieu") return "Bạc Liêu";
@@ -158,6 +158,7 @@ exports.GetHotelVietnamese = (province) => {
     if (province === "thua thien hue" || province === "tinh thua thien hue") return "Thừa Thiên Huế";
     if (province === "tien giang" || province === "tinh tien giang") return "Tiền Giang";
     if (province === "thanh pho ho chi minh" || province === "thanh pho ho chi minh") return "TP Hồ Chí Minh";
+    if (province === "sai gon" || province === "thanh pho sai gon") return "Sài Gòn";
     if (province === "tra vinh" || province === "tinh tra vinh") return "Trà Vinh";
     if (province === "tuyen quang" || province === "tinh tuyen quang") return "Tuyên Quang";
     if (province === "vinh long" || province === "tinh vinh long") return "Vĩnh Long";
@@ -166,6 +167,21 @@ exports.GetHotelVietnamese = (province) => {
     return "########"
 }
 
+exports.GetProvinceArray = () => {
+    return province = ["an giang", "ba ria vung tau", "bac giang", "bac kan", 
+    "bac lieu", "bac ninh", "ben tre", "binh dinh", "binh duong", "binh phuoc",
+    "binh thuan", "ca mau", "can tho", "cao bang","da nang","dak lak","dak nong","dien bien",
+    "dong nai","dong thap","gia lai","ha giang","ha noi",
+    "ha tinh","hai duong","hai phong","hau giang", "hoa binh",
+     "hung yen","khanh hoa","kien giang","kon tum","lai chau",
+     "lam dong","lang son","lao cai","long an","nam dinh",
+     "nghe an","ninh binh","ninh thuan","phu tho","phu yen",
+    "quang binh","quang nam","quang ngai", "quang ninh",
+    "quang tri", "soc trang", "son la","tay ninh","thai binh",
+     "thai nguyen","thanh hoa","thua thien hue","tien giang",
+    "thanh pho ho chi minh","sai gon","tra vinh","tuyen quang",
+    "vinh long","vinh phuc","yen bai"]
+}
 exports.removeVietnameseTones = (str) => {
     if (str === undefined || str === null) {
         return ""
