@@ -163,6 +163,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
   useEffect(() => {
     let roomStatusTemp = []
     let roomIdTemp = []
+
     for (var room in listRoom) {
       roomStatusTemp.push("reserve")
       roomIdTemp.push(listRoom[room].room_id)
@@ -197,38 +198,31 @@ export default function Hotel({ id, dateIn, dateOut }) {
     }
   }
 
-  // useEffect(() => {
-  //   checkFavoriteHotel(token, id, setFavorite);
-  // }, []);
-  // console.log("favorite", favorite);
+  if (!hotel) {
+    return null
+  }
 
-  // if (favorite !== undefined && favorite.code === 1) {
-  //   setIsFavorite(true);
-  // } else {
-  //   setIsFavorite(false);
-  // }
+  console.log(listRoom)
 
-  // {code: 0}
-  // chua dang nhap: {message:Forbidden}
   return (
     // hotelContainer
     <div className="flex justify-center mt-4">
       <ToastMessage />
       {/* hotelWrapper */}
       <div className="w-full max-w-5xl flex flex-col gap-2.5 mx-4">
-        <HotelImg />
+        <HotelImg images={hotel.Images} />
 
         <div className="w-full">
           {/* hotelTitle */}
 
-          <div className="flex justify-between">
+          <div className="flex justify-between mt-8">
             <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-sky-600">
-                {hotel !== undefined && hotel.name}
+              <h1 className="text-2xl font-bold text-primary">
+                {hotel.name}
               </h1>
 
               <span className="">
-                {hotel !== undefined && hotel.rating}/10 Very good
+                {hotel.rating}/5  {hotel.classification} rated
               </span>
             </div>
 
@@ -258,7 +252,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
           {/* hotelAddress */}
           <div className="flex items-center gap-2.5">
             <LocationOnIcon />
-            <span>{hotel !== undefined && hotel.address}</span>
+            <span>{hotel.address}</span>
           </div>
 
           <div className="">
@@ -287,131 +281,12 @@ export default function Hotel({ id, dateIn, dateOut }) {
           {/* hotelDetails */}
           <div className="">
             {/* hotelDetailText */}
-            <h1 className="">{hotel !== undefined && hotel.description}</h1>
+            <h1 className="">{hotel.description}</h1>
 
             {/* hotelDesc */}
             <p className="">Located a 5-minute walk from the...</p>
           </div>
         </div>
-
-        {/* <div className="">
-          <h1 className="text-lg font-bold text-sky-600">Choose your room</h1>
-          <div className="flex">
-            <div className="flex items-center ml-2">
-              <div className="relative flex items-center text-sky-300 focus-within:text-sky-600 mr-4">
-                <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-                <Flatpickr
-                  className="w-full pr-3 pl-10 py-2 font-semibold placeholder-sky-500 text-sky-300 rounded ring-2 ring-sky-300"
-                  value={arrive}
-                  onChange={(arrive) => {
-                    setArriveDay({ arrive })
-                  }}
-                  options={{
-                    altFormat: "d/m/Y",
-                    altInput: true,
-                  }}
-                  placeholder="Arrive day"
-                />
-              </div>
-
-              <div className="relative flex items-center text-sky-300 focus-within:text-sky-600 mr-4">
-                <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-                <Flatpickr
-                  className="w-full pr-3 pl-10 py-2 font-semibold placeholder-sky-500 text-sky-300 rounded ring-2 ring-sky-300"
-                  value={leave}
-                  onChange={(leave) => {
-                    setLeaveDay({ leave })
-                  }}
-                  options={{
-                    altFormat: "d/m/Y",
-                    altInput: true,
-                  }}
-                  placeholder="Leave day"
-                />
-              </div>
-            </div>
-
-            <div className="relative flex items-center text-sky-300 focus-within:text-sky-600 ml-2 cursor-pointer mr-4">
-              <PersonOutlineIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
-              <input
-                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-sky-500 text-sky-300 rounded ring-2 ring-sky-300"
-                type="value"
-                value={`${room} rooms, ${adult + child} people`}
-                onClick={() => setOpen(!open)}
-          
-              />
-
-              {open && (
-                <div className="absolute bg-white w-max top-12 border-cyan-100 rounded-md p-2 shadow-xl">
-                  <div className="w-56 flex justify-between px-2 m-2">
-                    <p className="w-20">Rooms</p>
-
-                   
-                    <div className="flex items-center gap-2.5">
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={decreaseRoom}
-                      >
-                        -
-                      </button>
-                      <span className="w-3">{room}</span>
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={increaseRoom}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="w-56 flex justify-between px-2 m-2">
-                    <p className="w-20">Adults</p>
-                    <div className="flex items-center gap-2.5">
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={decreaseAdult}
-                      >
-                        -
-                      </button>
-                      <span className="w-3">{adult}</span>
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={increaseAdult}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="w-56 flex justify-between px-2 m-2">
-                    <p className="w-20">Children</p>
-                    <div className="flex items-center gap-2.5">
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={decreaseChild}
-                      >
-                        -
-                      </button>
-                      <span className="w-3">{child}</span>
-                      <button
-                        className="w-8 h-8 border-2 text-sky-600 bg-white border-sky-600"
-                        onClick={increaseChild}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <button className="px-2 py-1 rounded bg-sky-300 hover:bg-sky-600 text-black hover:text-white font-semibold">
-              Check availability
-            </button>
-          </div>
-        </div> */}
-
-
 
         <div className="mt-6 flex flex-wrap">
           {listRoom === undefined || listRoom.length === 0 ? (
@@ -425,7 +300,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
                   key={index}
                 >
                   <img
-                    src="https://cache.marriott.com/content/dam/marriott-renditions/TNASI/tnasi-guestroom-5428-hor-wide.jpg?output-quality=70&interpolation=progressive-bilinear&downsize=1336px:*"
+                    src={item.Images[0].imgURL}
                     className="w-full object-cover"
                   />
                   <h3 className="font-bold text-lg text-sky-600 mt-2">
@@ -497,7 +372,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
                     {hotel.rating.toFixed(1)}
                   </span>
                   <div className="flex flex-col">
-                    <span className="text-lg font-bold">Very Good</span>
+                    <span className="text-lg font-bold">{hotel.classification} rated</span>
                     <span className="text-sky-600">
                       {listComment.length} reviews
                     </span>

@@ -1,39 +1,29 @@
 import * as React from "react"
 import Slider from "react-slick"
+import { PrevArrow, NextArrow } from "../Common/commonComp"
 
-const photos = [
-  {
-    src: "https://www.gannett-cdn.com/-mm-/05b227ad5b8ad4e9dcb53af4f31d7fbdb7fa901b/c=0-64-2119-1259/local/-/media/USATODAY/USATODAY/2014/08/13/1407953244000-177513283.jpg",
-  },
-  {
-    src: "https://theleela.com/prod/content/assets/styles/tl_1920_735/public/aio-banner/dekstop/deluxe-room-gurgaon-luxury-hotel.jpg?VersionId=wOgY36LtXp3fCvnDUp8ZYu_iIVWaO2j1&itok=XqyKMLlz",
-  },
-  {
-    src: "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
-  },
-]
-
-export default function HotelImg() {
+export default function HotelImg({ images }) {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
   }
 
   return (
-    <div className="ml-8">
+    <div className="ml-8 h-1/4 overflow-hidden flex items-center justify-center" style={{
+      width: "900px",
+      height: "600px",
+    }}>
       <Slider
         {...settings}
         arrows={true}
-        style={{ width: "95%" }}
+        style={{ width: "90%", height: "90%" }}
         className="mt-4"
       >
-        {photos.map((photo, item) => (
-          <img src={photo.src} key={item} />
+        {images.map((photo, item) => (
+          <img src={photo.imgURL} key={item} className="rounded-lg object-cover" />
         ))}
       </Slider>
     </div>

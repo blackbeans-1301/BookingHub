@@ -340,7 +340,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
                 <div className="flex center rounded-md cursor-pointer border px-8 py-2 my-8 border-gray-400"
                   onClick={() => {
                     console.log("go to google")
-                    redirect(`https://localhost:3000/api/user/auth/google/`)
+                    redirect(`${process.env.API_URL}/api/user/auth/google`)
                   }}
                 >
                   <span className="font-bold">Google</span> <GoogleIcon className="ml-2" />

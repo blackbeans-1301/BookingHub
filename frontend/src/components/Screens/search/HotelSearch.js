@@ -36,6 +36,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
   const [score, setScore] = useState()
   const [searched, setSearched] = useState(false)
 
+  console.log(hotels)
 
   const { arrive } = arriveDay
   const { leave } = leaveDay
@@ -153,8 +154,6 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
       price_from: startPrice === 0 ? 0 : startPrice,
       price_to: endPrice,
     }
-
-    console.log(data)
     const response = await searchHotelByCriteria(data, setListHotels)
     setHotels(response)
   }
@@ -389,7 +388,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
 
 
 
-          {/* ------------------listResult----------------- */}
+          {/* ------------------list hotel----------------- */}
           <div className="flex3 w-full">
             {/* SearchItem */}
 
@@ -403,55 +402,48 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
               hotels.map((item, index) => {
                 return (
                   <div
-                    className="p-2.5 border-2 border-sky-500 rounded-lg flex justify-between mb-2"
+                    className="bg-primary rounded-lg flex justify-between mb-4"
                     key={index}
                   >
                     {/* siImg */}
-                    <img
-                      src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/234762091.jpg?k=45540c95d66e3278d194a4a35994dd3491811d644b2a6cb3e3da1b187dfa7d06&o=&hp=1"
-                      alt=""
-                      className="w-40 h-40 object-cover"
-                    />
+                    <div className="rounded-l-lg h-64 overflow-hidden w-72">
+                      <img
+                        src={item.Images[0].imgURL}
+                        alt=""
+                        className="object-cover w-96 h-96"
+                      />
+                    </div>
+
 
                     {/* siDesc */}
-                    <div className="flex flex-col gap-1.5 flex2 ml-4">
+                    <div className="flex flex-col gap-1.5 flex2 p-2.5 pl-4 justify-center">
                       {/* siTitle */}
-                      <h1 className="text-lg text-sky-600 font-bold">
+                      <h1 className="text-2xl text-white font-bold">
                         {item.name}
                       </h1>
-                      <span className="text-sm text-white bg-green-500 p-1 rounded w-max">
-                        500m from center
-                      </span>
-                      <span className="">Free airport taxi</span>
-                      <span className="font-bold">{item.description}</span>
 
-                      <span className="mt-2">
+                      <span className="text-sm text-green-400 p-1 rounded w-max underline">
+                        {item.fromCenter}m from center
+                      </span>
+
+                      <span className="mt-1 text-white text-sm">
                         <span className="font-bold">Amenities: </span>
                         {item.criteria}
                       </span>
 
-                      <span className="font-bold text-green-600">
+                      <span className="font-bold text-green-400">
                         Free cancellation
-                      </span>
-                      <span className="text-sm text-green-600">
-                        You can cancel later, so lock in this great price today!
                       </span>
                     </div>
 
                     {/* siDetails */}
-                    <div className="flex flex-col flex-1 justify-between">
-                      {/* siRating */}
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Excellent</span>
-                        <button className="bg-blue-700 text-white font-bold p-1 border-0">
-                          {item.rating}
-                        </button>
-                      </div>
-
-                      {/* siDetailsTexts */}
-                      <div className="text-right flex flex-col gap-1">
-                        {/* siPrice */}
-                        <span className="text-xl font-semibold">
+                    <div className="flex flex-col flex-1 justify-center my-4 pl-2.5 pr-2.5 border-l-2">
+                      <div className="flex flex-col gap-1 justify-center">
+                        <div className="text-white text-2xl font-bold">{item.rating}/5</div>
+                        <div className="text-white font-bold">{item.classification} rated</div>
+                        <div className="border-b border-white"></div>
+                        <div className="text-white">From</div>
+                        <span className="text-xl font-semibold text-white">
                           ${item.startPrice}
                         </span>
                         {/* siTaxOp */}
@@ -460,7 +452,7 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
                         </span>
                         {/* siCheckButton */}
                         <button
-                          className="bg-sky-300 font-bold px-2 py-1 hover:text-white hover:bg-sky-600 cursor-pointer"
+                          className="bg-green-700 font-bold px-2 py-1 text-white rounded-sm hover:bg-sky-600 cursor-pointer"
                           onClick={() => {
                             console.log("item ", index, item)
                             console.log('hotel id', item.hotel_id)
@@ -478,6 +470,6 @@ export default function HotelSearch({ hotels, dateIn, dateOut, setHotels }) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   )
 }
