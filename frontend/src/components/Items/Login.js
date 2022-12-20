@@ -145,7 +145,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
       dob: values.dob,
       gender: values.gender,
       phone_number: values.phone_number,
-      isOwner: 1,
+      isOwner,
     }
     setIsLoading(true)
     signUp(data)
