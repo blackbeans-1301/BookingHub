@@ -21,6 +21,7 @@ import { SetColorForString } from "../../Common/CommonFunc"
 
 export default function History() {
   const [showModal, setShowModal] = useState(false)
+  const [modalData, setModalData] = useState()
   const [allHotels, setAllHotels] = useState()
   const [showInfoModal, setShowInfoModal] = useState(false)
   const [listHistory, setListHistory] = useState()
@@ -185,6 +186,7 @@ export default function History() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
+                                setModalData(item)
                                 setShowInfoModal(true)
                               }}
                             >
@@ -193,14 +195,12 @@ export default function History() {
                           </td>
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm"></td>
-                          {(
-                            <UserReservationModal
-                              isVisible={showInfoModal}
-                              isClose={() => setShowInfoModal(false)}
-                              detail={item}
-                              type="history"
-                            />
-                          )}
+                          <UserReservationModal
+                            isVisible={showInfoModal}
+                            isClose={() => setShowInfoModal(false)}
+                            detail={modalData}
+                            type="history"
+                          />
                         </tr>
                       )
                     })}
