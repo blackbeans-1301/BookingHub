@@ -148,13 +148,6 @@ export default function Main() {
     })
   }
 
-  // useEffect(() => {
-  //   if(keywords){
-  //     console.log("keywords", keywords)
-  //     getAdvanceList(keywords)
-  //   }
-  // },[keywords])
-
   const handleSearchChange = (value) => {
     setSearchValue(value)
   }
@@ -184,7 +177,6 @@ export default function Main() {
         </div>
         <div className="drop-shadow-sm p-2 flex justify-center">
           <div className="relative w-60 flex items-center text-gray-400 focus-within:text-gray-600">
-            {/* <LocalHotelIcon className="w-5 h-5 absolute ml-3 pointer-events-none" /> */}
             <AsyncPaginate
               styles={{
                 border: 'none',
@@ -199,34 +191,13 @@ export default function Main() {
               onInputChange={handleSearchChange}
               onChange={handleChange}
             />
-            {/* <Autocomplete
-            {...defaultProps}
-            sx={{
-              width: "100px"
-            }}
-              value={  hotel ? hotel : ""}
-              onChange={(e, newValue) => setHotel(newValue)}
-              inputValues={searchValue}
-              onInputChange={(e, newValue) => setSearchValue(newValue)}
-              renderInput={(param) => (<TextField {...param} label="Hotel" />)}
-            /> */}
-
-            {/* <input
-              className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
-              type="text"
-              placeholder="Find the destination..."
-              value={destination}
-              onChange={(e) => {
-                setDestination(e.target.value);
-              }}
-            /> */}
           </div>
 
           <div className="flex items-center ml-2">
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 mr-1">
               <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
               <Flatpickr
-                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+                className="w-full mr-2 pl-10 py-2 font-semibold placeholder-gray-500 border-none text-colorText rounded-md ring-2 ring-gray-300 focus:ring-primary-500 focus:ring-2"
                 value={arrive}
                 onChange={(arrive) => {
                   setArriveDay({ arrive })
@@ -242,7 +213,7 @@ export default function Main() {
             <div className="relative flex items-center text-gray-400 focus-within:text-gray-600">
               <EventAvailableOutlinedIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
               <Flatpickr
-                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+                className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-md border-none ring-2 ring-gray-300 focus:ring-primary-500 focus:ring-2"
                 value={leave}
                 onChange={(leave) => {
                   setLeaveDay({ leave })
@@ -259,7 +230,7 @@ export default function Main() {
           <div className="relative flex items-center text-gray-400 focus-within:text-gray-600 ml-2 cursor-pointer">
             <PersonOutlineIcon className="w-5 h-5 absolute ml-3 pointer-events-none" />
             <input
-              className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-2xl boder-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
+              className="w-full pr-3 pl-10 py-2 font-semibold placeholder-gray-500 text-colorText rounded-md border-none ring-2 ring-gray-300 focus:ring-primary-500 focus: ring-2"
               type="value"
               value={`${room} rooms, ${adult + child} people`}
               onClick={() => setOpen(!open)}
@@ -331,7 +302,7 @@ export default function Main() {
           </div>
 
           <button
-            className="px-2 rounded-full bg-white text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200"
+            className="px-2 rounded-full bg-white ml-4 h-24 w-24 text-colorText flex items-center ml-2 border-2 border-light-primary hover:bg-primary hover:text-white hover:shadow-md hover:shadow-gray-200"
             onClick={() => handleSearch()}
           >
             <SearchIcon />

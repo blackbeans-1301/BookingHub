@@ -28,50 +28,49 @@ export default function UserReservationModal({
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState("");
 
-  const token = getLSItem("token");
-  const hotelID = detail.Hotel.hotel_id;
+  const token = getLSItem("token")
+  const hotelID = detail && detail.Hotel.hotel_id
 
   useEffect(() => {
-    checkFavoriteHotel(token, hotelID, setFavorite);
-  }, []);
+    checkFavoriteHotel(token, hotelID, setFavorite)
+  }, [])
 
   const data = {
-    hotel_id: detail.Hotel.hotel_id,
-  };
+    hotel_id: hotelID,
+  }
 
-  console.log('detail', detail);
-  console.log("type", type);
+  console.log('detail', detail)
 
   const handleChangeReview = (event) => {
-    setReview(event.target.value);
-  };
+    setReview(event.target.value)
+  }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log("rating", rating);
-    console.log("review", review);
+    event.preventDefault()
+    event.stopPropagation()
+    console.log("rating", rating)
+    console.log("review", review)
     let data = {
       reservation_id: detail.reservation_id,
       content: review,
       rating: rating.toString(),
-    };
+    }
     const get = async () => {
-      const response = await createComment(token, data);
-      const type = typeof response;
+      const response = await createComment(token, data)
+      const type = typeof response
 
       if (type === "object") {
-        toast.success("Give a review successfully");
+        toast.success("Give a review successfully")
       } else {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong")
       }
-      console.log("response", response);
-      console.log("type", typeof response);
-    };
-    get();
-  };
+      console.log("response", response)
+      console.log("type", typeof response)
+    }
+    get()
+  }
 
-  if (!isVisible) return null;
+  if (!isVisible || !detail) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
@@ -148,10 +147,10 @@ export default function UserReservationModal({
                             detail.status === "waiting"
                               ? "text-sky-600 font-bold"
                               : detail.status === "canceled"
-                              ? "text-red-600 font-bold"
-                              : detail.status === "completed"
-                              ? "text-green-600 font-bold"
-                              : "text-amber-600 font-bold"
+                                ? "text-red-600 font-bold"
+                                : detail.status === "completed"
+                                  ? "text-green-600 font-bold"
+                                  : "text-amber-600 font-bold"
                           }
                         >
                           {detail.status.toUpperCase()}
@@ -213,16 +212,16 @@ export default function UserReservationModal({
                         className="text-red-400 cursor-pointer text-lg m-auto"
                         onClick={() => {
                           if (favorite === 0) {
-                            setFavorite(1);
-                            addFavoriteHotel(token, data);
+                            setFavorite(1)
+                            addFavoriteHotel(token, data)
                             toast.success(
                               "Add hotel to favorites successfully."
-                            );
+                            )
                           } else {
-                            setFavorite(0);
+                            setFavorite(0)
                             toast.success(
                               "Remove hotel from favorites successfully."
-                            );
+                            )
                           }
                         }}
                       >
@@ -350,5 +349,5 @@ export default function UserReservationModal({
         </div>
       </div>
     </div>
-  );
+  )
 }

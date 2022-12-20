@@ -1,10 +1,10 @@
-import * as React from "react";
-import CameraAltIcon from "@material-ui/icons/CameraAlt";
-import SearchIcon from "@material-ui/icons/Search";
+import * as React from "react"
+import CameraAltIcon from "@material-ui/icons/CameraAlt"
+import SearchIcon from "@material-ui/icons/Search"
 
 export default function ThingsToDo() {
   return (
-    <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
+    <div className="m-4 bg-white w-screen z-10 md:w-auto min-h-screen">
       <h1 className="font-bold text-2xl mb-3">
         Find the best things to do for your trip
       </h1>
@@ -27,5 +27,5 @@ export default function ThingsToDo() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -7,6 +7,7 @@ import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined"
 import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined"
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import EventSeatIcon from '@mui/icons-material/EventSeat'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import HistoryIcon from '@mui/icons-material/History'
 import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
 import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
@@ -14,10 +15,15 @@ import PolicyOutlinedIcon from "@material-ui/icons/PolicyOutlined"
 import BookOutlinedIcon from "@material-ui/icons/BookOutlined"
 import MenuOutlinedIcon from "@material-ui/icons/MenuOutlined"
 import Logo from "../../../assets/images/logo.png"
-import { redirect } from "../../../utils"
+import { redirect, getLSItem } from "../../../utils"
 
 export default function Navigation() {
-  const userMenu = [
+
+  const [open, setOpen] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+  const token = getLSItem("token")
+
+  const userMenu = token ? [
     {
       title: "History",
       icon: <HistoryIcon />,
@@ -30,18 +36,24 @@ export default function Navigation() {
       gap: true,
       link: `${process.env.API_URL}/user/ReservationPage`,
     },
-  ]
+    {
+      title: "Favorites",
+      icon: <FavoriteIcon />,
+      gap: true,
+      link: `${process.env.API_URL}/user/FavoritesPage`,
+    },
+  ] : [{
+    title: "Login",
+    icon: <AccountCircleIcon />,
+    gap: true,
+    link: `${process.env.API_URL}`,
+  }]
 
   const menu = [
     {
       title: "Stay",
       icon: <HotelOutlinedIcon />,
       link: `${process.env.API_URL}`,
-    },
-    {
-      title: "Things to do",
-      icon: <RowingOutlinedIcon />,
-      link: `${process.env.API_URL}/user/ThingsToDoPage`,
     },
     {
       title: "Explore",

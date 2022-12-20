@@ -15,17 +15,17 @@ export default function Reservation() {
   const [listReservation, setListReservation] = useState();
 
 
-  const token = getLSItem("token");
+  const token = getLSItem("token")
 
   useEffect(() => {
-    getReservations(token, setListReservation);
-  }, []);
+    getReservations(token, setListReservation)
+  }, [])
 
-  console.log("reservations", listReservation);
+  console.log("reservations", listReservation)
 
   return (
     <Fragment>
-      <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
+      <div className="m-4 bg-white z-10 md:w-auto min-h-screen">
         <h1 className="font-bold text-2xl mb-3">Reservations</h1>
         <div className="container mx-auto px-4 sm:px-8">
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -136,10 +136,10 @@ export default function Reservation() {
                                   item.status === "waiting"
                                     ? "text-sky-400 "
                                     : item.status === "canceled"
-                                    ? "text-red-400"
-                                    : item.status === "completed"
-                                    ? "text-green-400"
-                                    : "text-amber-400"
+                                      ? "text-red-400"
+                                      : item.status === "completed"
+                                        ? "text-green-400"
+                                        : "text-amber-400"
                                 }
                               >
                                 {item.status.toUpperCase()}
@@ -152,7 +152,7 @@ export default function Reservation() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setShowInfoModal(true);
+                                setShowInfoModal(true)
                               }}
                             >
                               <InfoIcon />
@@ -169,7 +169,7 @@ export default function Reservation() {
                             />
                           )}
                         </tr>
-                      );
+                      )
                     })}
                   </tbody>
                 </table>
@@ -179,5 +179,5 @@ export default function Reservation() {
         </div>
       </div>
     </Fragment>
-  );
+  )
 }
