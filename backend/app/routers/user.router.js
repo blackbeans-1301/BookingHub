@@ -11,7 +11,7 @@ router.get('/auth/google/callback',
     passport.authenticate('google', { session: false }),
     function (req, res) {
         let accessToken = req.user
-        let fe_link = `${process.env.FE_URL}/user/GoogleAuthPage?x=${accessToken}`
+        let fe_link = `${process.env.BASE_URL}/user/GoogleAuthPage?x=${accessToken}`
         res.redirect(fe_link)
     });
 
