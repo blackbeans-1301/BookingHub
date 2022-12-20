@@ -15,18 +15,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
-app.use(require("./app_2/middleware/middleware.js").UpdateDatabase)
+app.use(require("./app/middleware/middleware.js").UpdateDatabase)
 
 app.get("/", (req, res) => {
     res.json({ message: "H3L2 Sever!!!!!!!!" })
 })
 
-app.use("/api/user", require("./app_2/routers/user.router.js"))
-app.use("/api/hotel", require("./app_2/routers/hotel.router.js"))
-app.use("/api/room", require('./app_2/routers/room.router.js'))
-app.use("/api/reservation", require("./app_2/routers/reservation.router.js"))
-app.use("/api/comment", require("./app_2/routers/comment.router.js"))
-app.use("/api/bill", require("./app_2/routers/bill.router.js"))
+app.use("/api/user", require("./app/routers/user.router.js"))
+app.use("/api/hotel", require("./app/routers/hotel.router.js"))
+app.use("/api/room", require('./app/routers/room.router.js'))
+app.use("/api/reservation", require("./app/routers/reservation.router.js"))
+app.use("/api/comment", require("./app/routers/comment.router.js"))
+app.use("/api/bill", require("./app/routers/bill.router.js"))
 
 app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, 'public/index.html'))
@@ -38,7 +38,7 @@ app.listen(PORT, () => {
 })
 
 
-const db = require("./app_2/models")
+const db = require("./app/models")
 // db.sequelize.sync({ force: true })
 // db.sequelize.sync();
 db.sequelize.sync({ alter: true });
