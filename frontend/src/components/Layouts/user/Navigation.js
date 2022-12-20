@@ -7,6 +7,7 @@ import HotelOutlinedIcon from "@material-ui/icons/HotelOutlined"
 import RowingOutlinedIcon from "@material-ui/icons/RowingOutlined"
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser'
 import EventSeatIcon from '@mui/icons-material/EventSeat'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import HistoryIcon from '@mui/icons-material/History'
 import BeachAccessOutlinedIcon from "@material-ui/icons/BeachAccessOutlined"
 import LanguageOutlinedIcon from "@material-ui/icons/LanguageOutlined"
@@ -32,6 +33,12 @@ export default function Navigation() {
       icon: <EventSeatIcon />,
       gap: true,
       link: `${process.env.API_URL}/user/ReservationPage`,
+    },
+    {
+      title: "Favorites",
+      icon: <FavoriteIcon />,
+      gap: true,
+      link: `${process.env.API_URL}/user/FavoritesPage`,
     },
   ]
 

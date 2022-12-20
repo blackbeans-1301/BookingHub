@@ -15,7 +15,9 @@ import {
   ADD_FAVORITE_HOTEL_URL,
   GET_ALL_RESERVATIONS_OF_USER_URL,
   CREATE_RESERVATION_API,
-  GET_TOTAL_PRICE
+  GET_TOTAL_PRICE,
+  GET_FAVORITE_HOTEL_URL,
+  DELETE_FAVORITE_HOTEL_URL
 } from "../configs/api"
 
 export const loginAPI = async (data) => {
@@ -306,6 +308,28 @@ export const getReservations = async (token, setReservation) => {
   return response
 }
 
+export const getFavoriteHotels = async (token) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
+  const response = axios
+    .get(GET_FAVORITE_HOTEL_URL, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
 export const addFavoriteHotel = async (token, data) => {
   const options = {
     headers: {
@@ -319,6 +343,28 @@ export const addFavoriteHotel = async (token, data) => {
     .then((res) => {
       console.log("RESPONSE ==== : ", res)
       return res.data
+    })
+    .catch((err) => {
+      console.log("ERROR: ====", err)
+      return err.response.data.Message
+    })
+
+  return response
+}
+
+export const removeHotelFavorite = async (data, token) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  }
+
+  const response = axios
+    .post(DELETE_FAVORITE_HOTEL_URL, data, options)
+    .then((res) => {
+      console.log("RESPONSE ==== : ", res)
+      return res
     })
     .catch((err) => {
       console.log("ERROR: ====", err)

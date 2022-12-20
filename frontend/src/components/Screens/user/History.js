@@ -1,29 +1,29 @@
-import * as React from "react";
-import { Fragment } from "react";
-import { useState } from "react";
-import BookingModal from "../../Items/BookingModal";
+import * as React from "react"
+import { Fragment } from "react"
+import { useState } from "react"
+import BookingModal from "../../Items/BookingModal"
 // import InfoIcon from "@material-ui/icons/Info";
-import SearchIcon from "@material-ui/icons/Search";
-import DeleteIcon from "@material-ui/icons/Delete";
-import InfoIcon from "@material-ui/icons/Info";
-import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp";
-import { getAllHotels } from "../../../apis/hotelApi";
-import { useEffect } from "react";
-import InfoHotelModal from "../../Items/InfoHotelModal";
-import { getLSItem, redirect, setLSItem } from "../../../utils";
-import { FormatDateToGB } from "../../Common/CommonFunc";
-import { getHistory } from "../../../apis/userApi";
-import { toast } from "react-toastify";
-import { GET_USER_INFOR_URL } from "../../../configs/api";
-import UserReservationModal from "../../Items/UserReservationModal";
-import { set } from "lodash";
-import { SetColorForString } from "../../Common/CommonFunc";
+import SearchIcon from "@material-ui/icons/Search"
+import DeleteIcon from "@material-ui/icons/Delete"
+import InfoIcon from "@material-ui/icons/Info"
+import MoreVertSharpIcon from "@material-ui/icons/MoreVertSharp"
+import { getAllHotels } from "../../../apis/hotelApi"
+import { useEffect } from "react"
+import InfoHotelModal from "../../Items/InfoHotelModal"
+import { getLSItem, redirect, setLSItem } from "../../../utils"
+import { FormatDateToGB } from "../../Common/CommonFunc"
+import { getHistory } from "../../../apis/userApi"
+import { toast } from "react-toastify"
+import { GET_USER_INFOR_URL } from "../../../configs/api"
+import UserReservationModal from "../../Items/UserReservationModal"
+import { set } from "lodash"
+import { SetColorForString } from "../../Common/CommonFunc"
 
 export default function History() {
-  const [showModal, setShowModal] = useState(false);
-  const [allHotels, setAllHotels] = useState();
-  const [showInfoModal, setShowInfoModal] = useState(false);
-  const [listHistory, setListHistory] = useState();
+  const [showModal, setShowModal] = useState(false)
+  const [allHotels, setAllHotels] = useState()
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [listHistory, setListHistory] = useState()
   const [hotelDetail, setHotelDetail] = useState({
     name: "",
     address: "",
@@ -31,20 +31,20 @@ export default function History() {
     Images: "",
     description: "",
     province: "",
-  });
+  })
 
   function directToUpdatePage(id) {
-    setLSItem("hotelID", id);
-    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`);
+    setLSItem("hotelID", id)
+    redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
   }
 
-  const token = getLSItem("token");
+  const token = getLSItem("token")
 
   useEffect(() => {
-    getHistory(token, setListHistory);
-  }, []);
+    getHistory(token, setListHistory)
+  }, [])
 
-  console.log("history", listHistory);
+  console.log("history", listHistory)
 
   //   function setColor(str) {
   //     let res;
@@ -56,7 +56,7 @@ export default function History() {
 
   return (
     <Fragment>
-      <div className="m-4 bg-white w-screen z-10 md:w-auto w-full">
+      <div className="m-4 bg-white w-screen z-10 md:w-auto min-h-screen">
         <h1 className="font-bold text-2xl mb-3">History</h1>
         <div className="container mx-auto px-4 sm:px-8">
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -169,12 +169,12 @@ export default function History() {
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
                               <span className={item.status === "waiting"
-                                  ? "text-sky-400 "
-                                  : item.status === "canceled"
+                                ? "text-sky-400 "
+                                : item.status === "canceled"
                                   ? "text-red-400"
                                   : item.status === "completed"
-                                  ? "text-green-400"
-                                  : "text-amber-400"}>
+                                    ? "text-green-400"
+                                    : "text-amber-400"}>
                                 {item.status.toUpperCase()}
                               </span>
                             </p>
@@ -185,7 +185,7 @@ export default function History() {
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setShowInfoModal(true);
+                                setShowInfoModal(true)
                               }}
                             >
                               <InfoIcon />
@@ -202,7 +202,7 @@ export default function History() {
                             />
                           )}
                         </tr>
-                      );
+                      )
                     })}
                   </tbody>
                 </table>
@@ -212,5 +212,5 @@ export default function History() {
         </div>
       </div>
     </Fragment>
-  );
+  )
 }
