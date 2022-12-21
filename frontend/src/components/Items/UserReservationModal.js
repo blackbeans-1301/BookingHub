@@ -93,7 +93,7 @@ export default function UserReservationModal({
           </div>
           <ToastMessage />
 
-          <div className="flex flex-col relative w-screen md:w-auto w-full break-all border-2 m-4">
+          <div className="flex flex-col relative w-screen md:w-auto break-all border-2 m-4">
             <div className="border-2 border-sky-300 flex flex-col">
               <div className="flex">
                 <div className="flex-1 flex flex-col">
