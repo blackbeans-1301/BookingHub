@@ -124,9 +124,11 @@ exports.UserReservations = (Reservation, Room, Image, Hotel, Bill, Comment, cond
 exports.OwnerReservations = (Reservation, Room, Hotel, Bill, condition) => {
     return Reservation.findAll({
         include: [{
+            required: true,
             model: Room,
             include: [{
                 model: Hotel,
+                required: true,
                 where: condition
             }]
         },{
