@@ -156,7 +156,7 @@ export default function CreateRoom() {
       const type = typeof response
       if (type === "object") {
         toast.success("Create a new room successfully")
-        // setTimeout(redirectFunc, 1000)
+        setTimeout(redirectFunc, 1000)
       } else {
         console.log("Create a new room failed")
         toast.error(response)

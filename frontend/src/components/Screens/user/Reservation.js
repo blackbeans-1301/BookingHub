@@ -1,27 +1,28 @@
 import * as React from "react";
 import { Fragment } from "react";
 import { useState } from "react";
-
 import InfoIcon from "@material-ui/icons/Info";
-
+import CancelIcon from "@material-ui/icons/Cancel";
 import { useEffect } from "react";
 import { getLSItem, redirect, setLSItem } from "../../../utils";
 import { FormatDateToGB } from "../../Common/CommonFunc";
 import { getHistory, getReservations } from "../../../apis/userApi";
 import UserReservationModal from "../../Items/UserReservationModal";
+import VerifyModal from "../../Items/VerifyModal";
 
 export default function Reservation() {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [listReservation, setListReservation] = useState();
+  const [showVerifyModal, setShowVerifyModal] = useState(false)
+  const [modalData, setModalData] = useState()
 
-
-  const token = getLSItem("token")
+  const token = getLSItem("token");
 
   useEffect(() => {
-    getReservations(token, setListReservation)
-  }, [])
+    getReservations(token, setListReservation);
+  }, []);
 
-  console.log("reservations", listReservation)
+  console.log("reservations", listReservation);
 
   return (
     <Fragment>
@@ -136,10 +137,10 @@ export default function Reservation() {
                                   item.status === "waiting"
                                     ? "text-sky-400 "
                                     : item.status === "canceled"
-                                      ? "text-red-400"
-                                      : item.status === "completed"
-                                        ? "text-green-400"
-                                        : "text-amber-400"
+                                    ? "text-red-400"
+                                    : item.status === "completed"
+                                    ? "text-green-400"
+                                    : "text-amber-400"
                                 }
                               >
                                 {item.status.toUpperCase()}
@@ -148,11 +149,23 @@ export default function Reservation() {
                           </td>
 
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            {item.status.toUpperCase() === "WAITING" && (
+                              <button
+                                type="button"
+                                className="inline-block mx-px text-light-close hover:text-close-color"
+                                onClick={() => {
+                                  setShowVerifyModal(true);
+                                  setModalData(item);
+                                }}
+                              >
+                                <CancelIcon />
+                              </button>
+                            )}
                             <button
                               type="button"
                               className="inline-block mx-px text-green-300 hover:text-green-500"
                               onClick={() => {
-                                setShowInfoModal(true)
+                                setShowInfoModal(true);
                               }}
                             >
                               <InfoIcon />
@@ -168,8 +181,19 @@ export default function Reservation() {
                               type="reservation"
                             />
                           )}
+
+                          {showVerifyModal && (
+                            <VerifyModal
+                              isVisible={showVerifyModal}
+                              isClose={() => setShowVerifyModal(false)}
+                              detail="This reservation will be canceled. This action can't undo. Are you sure?"
+                              type="canceled"
+                              id={modalData.reservation_id}
+                              page="reservation"
+                            />
+                          )}
                         </tr>
-                      )
+                      );
                     })}
                   </tbody>
                 </table>
@@ -179,5 +203,5 @@ export default function Reservation() {
         </div>
       </div>
     </Fragment>
-  )
+  );
 }

@@ -167,7 +167,7 @@ export default function ListHotel() {
                               onClick={() => {
                                 setLSItem("hotelID", hotel.hotel_id)
                                 redirect(
-                                  `${process.env.API_URL}/owner/ListReservation`
+                                  `${process.env.API_URL}/owner/HotelListReservationPage`
                                 )
                               }}
                             >
