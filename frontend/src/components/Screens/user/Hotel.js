@@ -194,7 +194,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
       let roomStatusTemp = roomStatus
       roomStatusTemp[listRoomId.indexOf(roomId)] = "reserve"
 
-      setRoomStatus(['reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve'])
+      setRoomStatus(['reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve', 'reserve'])
       setListRoomToReserve(listRoomTemp)
       setLSItem("roomsToReserve", listRoomTemp)
     } else {
@@ -306,7 +306,7 @@ export default function Hotel({ id, dateIn, dateOut }) {
 
         <div className="w-full">
           <div className="">
-            <h1 className="">{hotel.description}</h1>
+            <h1 className="">{hotel.description.substring(0, 20)}</h1>
           </div>
         </div>
 

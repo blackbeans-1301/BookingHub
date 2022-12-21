@@ -1,24 +1,21 @@
-import * as React from "react";
-import * as yup from "yup";
-import { useState } from "react";
-import { useEffect } from "react";
-import RestaurantIcon from "@material-ui/icons/Restaurant";
-import RoomServiceIcon from "@material-ui/icons/RoomService";
-import WifiIcon from "@material-ui/icons/Wifi";
-import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
-import CancelIcon from "@material-ui/icons/Cancel";
+import * as React from "react"
+import * as yup from "yup"
+import { useState } from "react"
+import { useEffect } from "react"
+import RestaurantIcon from "@material-ui/icons/Restaurant"
+import RoomServiceIcon from "@material-ui/icons/RoomService"
+import WifiIcon from "@material-ui/icons/Wifi"
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService"
+import CancelIcon from "@material-ui/icons/Cancel"
+import _ from "lodash"
+import { getAllProvinces } from "../../apis/hotelApi"
+import { useFormik } from "formik"
+import { toast } from "react-toastify"
+import { IMAGE_CLOUD_API } from "../../configs/api"
+import ToastMessage from "./ToastMessage"
 
-import _ from "lodash";
-import { getAllProvinces } from "../../apis/hotelApi";
-import { useFormik } from "formik";
-
-import { toast } from "react-toastify";
-
-import { IMAGE_CLOUD_API } from "../../configs/api";
-import ToastMessage from "./ToastMessage";
-
-import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi";
-import { redirect, getLSItem, setLSItem } from "../../utils";
+import { updateRoomInfor, updateHotelInfor } from "../../apis/roomApi"
+import { redirect, getLSItem, setLSItem } from "../../utils"
 
 const validationSchema = yup.object({
   room_name: yup.string().required("Enter your room's name"),
@@ -30,39 +27,39 @@ const validationSchema = yup.object({
   // type_of_room: yup.string().required("This field is required"),
   price: yup.string().required("Price is required"),
   number_of_bed: yup.string().required("Number of bed is required"),
-});
+})
 
 export default function ReservationInforModal({ isVisible, isClose, detail }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [criterias, setCriterias] = useState([]);
-  const [all, setAll] = useState();
+  const [isLoading, setIsLoading] = useState(false)
+  const [criterias, setCriterias] = useState([])
+  const [all, setAll] = useState()
 
   useEffect(() => {
-    getAllProvinces(setAll);
-  }, []);
+    getAllProvinces(setAll)
+  }, [])
 
   const redirectFunc = () => {
-    redirect(`${process.env.API_URL}/owner/ListHotelPage`);
-  };
+    redirect(`${process.env.API_URL}/owner/ListHotelPage`)
+  }
 
   const handleGetHotelInfor = (values) => {
-    const token = getLSItem("ownerToken");
-    console.log("token", token);
+    const token = getLSItem("ownerToken")
+    console.log("token", token)
     const signUp = async (postData) => {
-      const response = await updateHotelInfor(postData, token);
-      console.log("response", response);
-      console.log("type", typeof response);
-      const type = typeof response;
+      const response = await updateHotelInfor(postData, token)
+      console.log("response", response)
+      console.log("type", typeof response)
+      const type = typeof response
       if (type === "object") {
-        toast.success("Update room details successfully");
-        setTimeout(redirectFunc, 1000);
+        toast.success("Update room details successfully")
+        setTimeout(redirectFunc, 1000)
       } else {
-        console.log("Update room details failed");
-        toast.error(response);
+        console.log("Update room details failed")
+        toast.error(response)
       }
-      setIsLoading(false);
-    };
-    formik.values.criteria = criterias.toString();
+      setIsLoading(false)
+    }
+    formik.values.criteria = criterias.toString()
     const data = {
       hotel: {
         // hotel_id: detail.Hotel.hotel_id,
@@ -74,10 +71,10 @@ export default function ReservationInforModal({ isVisible, isClose, detail }) {
       description: values.description,
 
       imgURL: values.imgURL,
-    };
-    setIsLoading(true);
-    signUp(data);
-  };
+    }
+    setIsLoading(true)
+    signUp(data)
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -85,14 +82,14 @@ export default function ReservationInforModal({ isVisible, isClose, detail }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("value", values);
-      handleGetHotelInfor(values);
+      console.log("value", values)
+      handleGetHotelInfor(values)
     },
-  });
+  })
 
-  console.log("detail", detail);
+  console.log("detail", detail)
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20 ">
       <div className="w-11/12 flex flex-col z-20 h-5/6 rounded-2xl">
@@ -180,10 +177,10 @@ export default function ReservationInforModal({ isVisible, isClose, detail }) {
                             detail.status === "waiting"
                               ? "text-sky-400 "
                               : detail.status === "canceled"
-                              ? "text-red-400"
-                              : detail.status === "completed"
-                              ? "text-green-400"
-                              : "text-amber-400"
+                                ? "text-red-400"
+                                : detail.status === "completed"
+                                  ? "text-green-400"
+                                  : "text-amber-400"
                           }
                         >
                           {detail.status.toUpperCase()}
@@ -216,5 +213,5 @@ export default function ReservationInforModal({ isVisible, isClose, detail }) {
         </div>
       </div>
     </div>
-  );
+  )
 }

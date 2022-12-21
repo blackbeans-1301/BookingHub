@@ -61,6 +61,8 @@ export default function UserReservationModal({
 
       if (type === "object") {
         toast.success("Give a review successfully")
+        setTimeout(() =>
+          redirect(`${process.env.API_URL}/user/HistoryPage`), 1200)
       } else {
         toast.error("Something went wrong")
       }
