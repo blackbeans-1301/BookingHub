@@ -46,6 +46,7 @@ const registerValidationSchema = yup.object({
     .email("Let enter a valid email")
     .required("Enter your email"),
   password: yup.string().required("Enter your password"),
+  repeatPassword: yup.string().required("Enter your password"),
   firstName: yup.string().required("Enter your firstName"),
   lastName: yup.string().required("Enter your lastName"),
   dob: date()
@@ -156,6 +157,7 @@ export default function Login({ isVisible, isClose, isOwner }) {
     initialValues: {
       email: "",
       password: "",
+      repeatPassword: "",
       firstName: "",
       lastName: "",
       dob: "",
@@ -165,6 +167,11 @@ export default function Login({ isVisible, isClose, isOwner }) {
     },
     validationSchema: registerValidationSchema,
     onSubmit: (values) => {
+      if (values.password != values.repeatPassword) {
+        toast.error("password not match!")
+        return
+      }
+
       handleRegister(values)
     },
   })
@@ -526,16 +533,16 @@ export default function Login({ isVisible, isClose, isOwner }) {
                   }}
                   type="password"
                   placeholder="Enter your password..."
-                  name="password"
-                  value={registerFormik.values.password}
+                  name="repeatPassword"
+                  value={registerFormik.values.repeatPassword}
                   error={
-                    registerFormik.touched.password &&
-                    Boolean(registerFormik.errors.password)
+                    registerFormik.touched.repeatPassword &&
+                    Boolean(registerFormik.errors.repeatPassword)
                   }
                   onChange={registerFormik.handleChange}
                   helperText={
-                    registerFormik.touched.password &&
-                    registerFormik.errors.password
+                    registerFormik.touched.repeatPassword &&
+                    registerFormik.errors.repeatPassword
                   }
                 />
               </FormControl>

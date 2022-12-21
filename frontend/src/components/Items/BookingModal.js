@@ -1,24 +1,24 @@
-import React, { Fragment, useEffect } from "react";
-import { useState } from "react";
-import CancelIcon from "@material-ui/icons/Cancel";
-import ToastMessage from "./ToastMessage";
-import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
-import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined";
+import React, { Fragment, useEffect } from "react"
+import { useState } from "react"
+import CancelIcon from "@material-ui/icons/Cancel"
+import ToastMessage from "./ToastMessage"
+import Flatpickr from "react-flatpickr"
+import "flatpickr/dist/themes/material_blue.css"
+import EventAvailableOutlinedIcon from "@material-ui/icons/EventAvailableOutlined"
 import {
   getTotalPriceReservation,
   createReservation,
-} from "../../apis/userApi";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Hotel from "../Screens/user/Hotel";
+} from "../../apis/userApi"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import Hotel from "../Screens/user/Hotel"
 import {
   FormatDateToGB,
   FormatDate,
   FormatDateTime,
   FormatDateToGBShort,
-} from "../Common/CommonFunc";
-import { toast } from "react-toastify";
-import { getLSItem, redirect } from "../../utils";
+} from "../Common/CommonFunc"
+import { toast } from "react-toastify"
+import { getLSItem, redirect } from "../../utils"
 
 export default function BookingModal({
   isVisible,
@@ -27,69 +27,69 @@ export default function BookingModal({
   availableRooms,
   hotel,
 }) {
-  const [arriveDay, setArriveDay] = useState(new Date());
-  const [leaveDay, setLeaveDay] = useState(new Date());
-  const [totalPrice, setTotalPrice] = useState();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [description, setDescription] = useState("");
+  const [arriveDay, setArriveDay] = useState(new Date())
+  const [leaveDay, setLeaveDay] = useState(new Date())
+  const [totalPrice, setTotalPrice] = useState()
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [description, setDescription] = useState("")
 
-  const { arrive } = arriveDay;
-  const { leave } = leaveDay;
+  const { arrive } = arriveDay
+  const { leave } = leaveDay
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
 
   const listRoomToBook = availableRooms.filter((room) =>
     roomList.includes(room.room_id)
-  );
+  )
 
-  console.log(listRoomToBook);
+  console.log(listRoomToBook)
 
   const calculateTimePricePerRoom = (price) => {
     if (leave && arrive) {
-      return 0;
+      return 0
     } else {
-      return price;
+      return price
     }
-  };
+  }
 
   const getTotalPrice = () => {
     if (leave && arrive) {
-      const dateLeave = new Date(leave);
-      const dateIn = new Date(arrive);
+      const dateLeave = new Date(leave)
+      const dateIn = new Date(arrive)
 
-      const numberOfDays = dateLeave.getDate() - dateIn.getDate();
-      let totalPrice = 0;
+      const numberOfDays = dateLeave.getDate() - dateIn.getDate()
+      let totalPrice = 0
       listRoomToBook.forEach((item) => {
-        totalPrice += item.price * numberOfDays;
-      });
-      return Math.round(totalPrice * 10) / 10;
+        totalPrice += item.price * numberOfDays
+      })
+      return Math.round(totalPrice * 10) / 10
     } else {
-      return "Pick your date first!";
+      return "Pick your date first!"
     }
-  };
+  }
 
   const validateEmail = (email) => {
     return String(email)
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
+      )
+  }
   const submitData = async () => {
-    const dateIn = new Date(arrive);
-    const dateOut = new Date(leave);
+    const dateIn = new Date(arrive)
+    const dateOut = new Date(leave)
     if (!validateEmail(email)) {
-      toast.error("Email invalid!");
-      return;
+      toast.error("Email invalid!")
+      return
     }
 
-    let room_id = [];
+    let room_id = []
 
     listRoomToBook.forEach((item, index) => {
-      room_id.push(item.room_id);
-    });
+      room_id.push(item.room_id)
+    })
 
     let data = {
       name,
@@ -99,20 +99,20 @@ export default function BookingModal({
       date_out: FormatDate(dateOut),
       description,
       room_id,
-    };
-
-    console.log(data);
-
-    const response = await createReservation(data, getLSItem("token"));
-
-    console.log(response);
-    if (typeof response === "object") {
-      toast.success("Create reservation successfully!");
-      redirect(`${process.env.API_URL}/user/ReservationPage`);
-    } else {
-      toast.error("Error Create reservation! try again later.");
     }
-  };
+
+    console.log(data)
+
+    const response = await createReservation(data, getLSItem("token"))
+
+    console.log(response)
+    if (typeof response === "object") {
+      toast.success("Create reservation successfully!")
+      redirect(`${process.env.API_URL}/user/ReservationPage`)
+    } else {
+      toast.error("Error Create reservation! try again later.")
+    }
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center z-20">
@@ -137,6 +137,18 @@ export default function BookingModal({
               <h1>
                 <LocationOnIcon /> {hotel.address}
               </h1>
+              <div className="m-4 bg-white z-10 md:w-auto">
+                <h1 className="font-bold text-2xl mb-3">Explore location</h1>
+
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d953718.736782537!2d105.09079113216902!3d20.974037036735588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135008e13800a29%3A0x2987e416210b90d!2sHanoi%2C%20Vietnam!5e0!3m2!1sen!2s!4v1671537828233!5m2!1sen!2s"
+                  width="500"
+                  height="350"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
 
             <div className="flex-1 overflow-scroll modal-width overflow-y-scroll">
@@ -189,7 +201,7 @@ export default function BookingModal({
                       className="w-full pr-3 pl-10 py-2 font-semibold placeholder-sky-500 text-sky-500 rounded border-2 border-sky-200"
                       value={arrive}
                       onChange={(arrive) => {
-                        setArriveDay({ arrive });
+                        setArriveDay({ arrive })
                       }}
                       options={{
                         altFormat: "d/m/Y",
@@ -205,7 +217,7 @@ export default function BookingModal({
                       className="w-full pr-3 pl-10 py-2 font-semibold placeholder-sky-500 text-sky-500 rounded border-2 border-sky-200"
                       value={leave}
                       onChange={(leave) => {
-                        setLeaveDay({ leave });
+                        setLeaveDay({ leave })
                       }}
                       options={{
                         altFormat: "d/m/Y",
@@ -233,7 +245,7 @@ export default function BookingModal({
                           ${room.price} per night
                         </div>
                       </div>
-                    );
+                    )
                   })}
                 </div>
                 <div className="my-4">
@@ -291,8 +303,8 @@ export default function BookingModal({
                     value="Submit"
                     className="w-full bg-sky-200 hover:bg-sky-500 rounded hover:text-white p-1 mt-4"
                     onClick={(event) => {
-                      event.preventDefault();
-                      submitData();
+                      event.preventDefault()
+                      submitData()
                     }}
                   >
                     Complete booking
@@ -304,5 +316,5 @@ export default function BookingModal({
         </div>
       </div>
     </div>
-  );
+  )
 }

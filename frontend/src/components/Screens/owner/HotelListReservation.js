@@ -30,13 +30,13 @@ const HotelListReservation = () => {
     const getAllReservation = async () => {
       const response = await getReservationOfHotel(hotelID, token, setReservation)
       console.log(response)
-    //   setReservation(response)
+      //   setReservation(response)
     }
 
     getAllReservation()
   }, [])
 
-  console.log('reservation', reservation);
+  console.log('reservation', reservation)
   function directToUpdatePage(id) {
     setLSItem("hotelID", id)
     redirect(`${process.env.API_URL}/owner/UpdateHotelPage`)
@@ -100,8 +100,11 @@ const HotelListReservation = () => {
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                  <th className="px-3 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                     Actions
+                  </th>
+                  <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                    Total price
                   </th>
                   <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                 </tr>
@@ -183,6 +186,17 @@ const HotelListReservation = () => {
                                 }}
                               >
                                 <InfoIcon />
+                              </button>
+                            </span>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                            <span className="flex">
+                              <button
+                                type="button"
+                                className="inline-block mx-px text-black font-bold"
+
+                              >
+                                {item.Bill.total_price}$
                               </button>
                             </span>
                           </td>
