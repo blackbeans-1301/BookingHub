@@ -208,7 +208,7 @@ export default function UserReservationModal({
                       </span>
                     </div>
 
-                    <div className="flex flex-col bg-white h-max p-2 items-center rounded-xl">
+                    {/* <div className="flex flex-col bg-white h-max p-2 items-center rounded-xl">
                       <span className="text-sm">Add to favorites</span>
                       <button
                         className="text-red-400 cursor-pointer text-lg m-auto"
@@ -233,7 +233,7 @@ export default function UserReservationModal({
                           <FavoriteIcon />
                         )}
                       </button>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="flex flex-col m-2">
@@ -270,7 +270,7 @@ export default function UserReservationModal({
               </div>
 
               <div className="">
-                {type === "reservation" ? (
+                {(type === "reservation" || detail.status.toUpperCase() !== "COMPLETED") ? (
                   <div></div>
                 ) : (
                   <div className="">

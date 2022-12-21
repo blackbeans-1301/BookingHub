@@ -1,7 +1,7 @@
 import * as React from "react"
 import ToastMessage from "./ToastMessage"
 import CancelIcon from "@material-ui/icons/Cancel"
-import { checkIn, checkOut } from "../../apis/reservationApi"
+import { cancelReservation, checkIn, checkOut } from "../../apis/reservationApi"
 import { getLSItem, redirect } from "../../utils"
 import { toast } from "react-toastify"
 import { deleteHotelApi } from "../../apis/hotelApi"
@@ -17,6 +17,7 @@ export default function VerifyModal({
   page,
 }) {
   const token = getLSItem("ownerToken")
+  const userToken = getLSItem("token")
   console.log("token", token)
   console.log("_id", id)
 
@@ -101,6 +102,22 @@ export default function VerifyModal({
         }
         callApi(token, roomData)
       }
+    } else if (type === "canceled") {
+      const callApi = async (userToken, data) => {
+        const response = await cancelReservation(userToken, data)
+        console.log(response)
+
+        if (response.message === "Canceled!") {
+          toast.success("Cancel reservation successfully!")
+          setTimeout(
+            () => redirect(`${process.env.API_URL}/user/ReservationPage`),
+            1500
+          )
+        } else if (response.status === 400) {
+          toast.error(response.data.message)
+        }
+      }
+      callApi(userToken, data)
     }
   }
 

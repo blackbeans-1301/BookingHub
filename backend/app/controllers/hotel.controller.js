@@ -46,6 +46,7 @@ exports.HotelReservations = (Reservation, Room, Bill, Comment, condition) => {
     return Reservation.findAll({
         include: [{
             model: Room,
+            required: true,
             where: condition
         }, {
             model: Comment
